@@ -3,6 +3,9 @@ uuid = "f0413319-3358-4bb0-8e7c-0c83523a93bd"
 authors = ["Karandeep Singh"]
 version = "0.1.0"
 
+[deps]
+MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+
 [compat]
 julia = "1"
 
