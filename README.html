@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style type="text/css">
+@font-face {
+font-family: octicons-link;
+src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+body {
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+color: #333;
+font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 16px;
+line-height: 1.6;
+word-wrap: break-word;
+}
+a {
+background-color: transparent;
+}
+a:active,
+a:hover {
+outline: 0;
+}
+strong {
+font-weight: bold;
+}
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+img {
+border: 0;
+}
+hr {
+box-sizing: content-box;
+height: 0;
+}
+pre {
+overflow: auto;
+}
+code,
+kbd,
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+input {
+color: inherit;
+font: inherit;
+margin: 0;
+}
+html input[disabled] {
+cursor: default;
+}
+input {
+line-height: normal;
+}
+input[type="checkbox"] {
+box-sizing: border-box;
+padding: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+td,
+th {
+padding: 0;
+}
+* {
+box-sizing: border-box;
+}
+input {
+font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+color: #4078c0;
+text-decoration: none;
+}
+a:hover,
+a:active {
+text-decoration: underline;
+}
+hr {
+height: 0;
+margin: 15px 0;
+overflow: hidden;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+hr:before {
+display: table;
+content: "";
+}
+hr:after {
+display: table;
+clear: both;
+content: "";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+line-height: 1.1;
+}
+h1 {
+font-size: 30px;
+}
+h2 {
+font-size: 21px;
+}
+h3 {
+font-size: 16px;
+}
+h4 {
+font-size: 14px;
+}
+h5 {
+font-size: 12px;
+}
+h6 {
+font-size: 11px;
+}
+blockquote {
+margin: 0;
+}
+ul,
+ol {
+padding: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
+ol ol,
+ul ol {
+list-style-type: lower-roman;
+}
+ul ul ol,
+ul ol ol,
+ol ul ol,
+ol ol ol {
+list-style-type: lower-alpha;
+}
+dd {
+margin-left: 0;
+}
+code {
+font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+font-size: 12px;
+}
+pre {
+margin-top: 0;
+margin-bottom: 0;
+font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.select::-ms-expand {
+opacity: 0;
+}
+.octicon {
+font: normal normal normal 16px/1 octicons-link;
+display: inline-block;
+text-decoration: none;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.octicon-link:before {
+content: '\f05c';
+}
+.markdown-body:before {
+display: table;
+content: "";
+}
+.markdown-body:after {
+display: table;
+clear: both;
+content: "";
+}
+.markdown-body>*:first-child {
+margin-top: 0 !important;
+}
+.markdown-body>*:last-child {
+margin-bottom: 0 !important;
+}
+a:not([href]) {
+color: inherit;
+text-decoration: none;
+}
+.anchor {
+display: inline-block;
+padding-right: 2px;
+margin-left: -18px;
+}
+.anchor:focus {
+outline: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1em;
+margin-bottom: 16px;
+font-weight: bold;
+line-height: 1.4;
+}
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+color: #000;
+vertical-align: middle;
+visibility: hidden;
+}
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+text-decoration: none;
+}
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+visibility: visible;
+}
+h1 {
+padding-bottom: 0.3em;
+font-size: 2.25em;
+line-height: 1.2;
+border-bottom: 1px solid #eee;
+}
+h1 .anchor {
+line-height: 1;
+}
+h2 {
+padding-bottom: 0.3em;
+font-size: 1.75em;
+line-height: 1.225;
+border-bottom: 1px solid #eee;
+}
+h2 .anchor {
+line-height: 1;
+}
+h3 {
+font-size: 1.5em;
+line-height: 1.43;
+}
+h3 .anchor {
+line-height: 1.2;
+}
+h4 {
+font-size: 1.25em;
+}
+h4 .anchor {
+line-height: 1.2;
+}
+h5 {
+font-size: 1em;
+}
+h5 .anchor {
+line-height: 1.1;
+}
+h6 {
+font-size: 1em;
+color: #777;
+}
+h6 .anchor {
+line-height: 1.1;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+margin-top: 0;
+margin-bottom: 16px;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 16px 0;
+background-color: #e7e7e7;
+border: 0 none;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin-top: 0;
+margin-bottom: 0;
+}
+li>p {
+margin-top: 16px;
+}
+dl {
+padding: 0;
+}
+dl dt {
+padding: 0;
+margin-top: 16px;
+font-size: 1em;
+font-style: italic;
+font-weight: bold;
+}
+dl dd {
+padding: 0 16px;
+margin-bottom: 16px;
+}
+blockquote {
+padding: 0 15px;
+color: #777;
+border-left: 4px solid #ddd;
+}
+blockquote>:first-child {
+margin-top: 0;
+}
+blockquote>:last-child {
+margin-bottom: 0;
+}
+table {
+display: block;
+width: 100%;
+overflow: auto;
+word-break: normal;
+word-break: keep-all;
+}
+table th {
+font-weight: bold;
+}
+table th,
+table td {
+padding: 6px 13px;
+border: 1px solid #ddd;
+}
+table tr {
+background-color: #fff;
+border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+background-color: #f8f8f8;
+}
+img {
+max-width: 100%;
+box-sizing: content-box;
+background-color: #fff;
+}
+code {
+padding: 0;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+margin: 0;
+font-size: 85%;
+background-color: rgba(0,0,0,0.04);
+border-radius: 3px;
+}
+code:before,
+code:after {
+letter-spacing: -0.2em;
+content: "\00a0";
+}
+pre>code {
+padding: 0;
+margin: 0;
+font-size: 100%;
+word-break: normal;
+white-space: pre;
+background: transparent;
+border: 0;
+}
+.highlight {
+margin-bottom: 16px;
+}
+.highlight pre,
+pre {
+padding: 16px;
+overflow: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f7f7f7;
+border-radius: 3px;
+}
+.highlight pre {
+margin-bottom: 0;
+word-break: normal;
+}
+pre {
+word-wrap: normal;
+}
+pre code {
+display: inline;
+max-width: initial;
+padding: 0;
+margin: 0;
+overflow: initial;
+line-height: inherit;
+word-wrap: normal;
+background-color: transparent;
+border: 0;
+}
+pre code:before,
+pre code:after {
+content: normal;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font-size: 11px;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.pl-c {
+color: #969896;
+}
+.pl-c1,
+.pl-s .pl-v {
+color: #0086b3;
+}
+.pl-e,
+.pl-en {
+color: #795da3;
+}
+.pl-s .pl-s1,
+.pl-smi {
+color: #333;
+}
+.pl-ent {
+color: #63a35c;
+}
+.pl-k {
+color: #a71d5d;
+}
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+color: #183691;
+}
+.pl-v {
+color: #ed6a43;
+}
+.pl-id {
+color: #b52a1d;
+}
+.pl-ii {
+background-color: #b52a1d;
+color: #f8f8f8;
+}
+.pl-sr .pl-cce {
+color: #63a35c;
+font-weight: bold;
+}
+.pl-ml {
+color: #693a17;
+}
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+color: #1d3e81;
+font-weight: bold;
+}
+.pl-mq {
+color: #008080;
+}
+.pl-mi {
+color: #333;
+font-style: italic;
+}
+.pl-mb {
+color: #333;
+font-weight: bold;
+}
+.pl-md {
+background-color: #ffecec;
+color: #bd2c00;
+}
+.pl-mi1 {
+background-color: #eaffea;
+color: #55a532;
+}
+.pl-mdr {
+color: #795da3;
+font-weight: bold;
+}
+.pl-mo {
+color: #1d3e81;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.task-list-item {
+list-style-type: none;
+}
+.task-list-item+.task-list-item {
+margin-top: 3px;
+}
+.task-list-item input {
+margin: 0 0.35em 0.25em -1.6em;
+vertical-align: middle;
+}
+:checked+.radio-label {
+z-index: 1;
+position: relative;
+border-color: #4078c0;
+}
+.sourceLine {
+display: inline-block;
+}
+code .kw { color: #000000; }
+code .dt { color: #ed6a43; }
+code .dv { color: #009999; }
+code .bn { color: #009999; }
+code .fl { color: #009999; }
+code .ch { color: #009999; }
+code .st { color: #183691; }
+code .co { color: #969896; }
+code .ot { color: #0086b3; }
+code .al { color: #a61717; }
+code .fu { color: #63a35c; }
+code .er { color: #a61717; background-color: #e3d2d2; }
+code .wa { color: #000000; }
+code .cn { color: #008080; }
+code .sc { color: #008080; }
+code .vs { color: #183691; }
+code .ss { color: #183691; }
+code .im { color: #000000; }
+code .va {color: #008080; }
+code .cf { color: #000000; }
+code .op { color: #000000; }
+code .bu { color: #000000; }
+code .ex { color: #000000; }
+code .pp { color: #999999; }
+code .at { color: #008080; }
+code .do { color: #969896; }
+code .an { color: #008080; }
+code .cv { color: #008080; }
+code .in { color: #008080; }
+</style>
+<style>
+body {
+box-sizing: border-box;
+min-width: 200px;
+max-width: 980px;
+margin: 0 auto;
+padding: 45px;
+padding-top: 0px;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h1 id="tidierjl">Tidier.jl</h1>
+<p><a href="https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain"><img src="data:image/svg+xml; charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MyIgaGVpZ2h0PSIyMCI+CiAgPHRpdGxlPkNJIC0gZmFpbGluZzwvdGl0bGU+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9IndvcmtmbG93LWZpbGwiIHgxPSI1MCUiIHkxPSIwJSIgeDI9IjUwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjNDQ0RDU2IiBvZmZzZXQ9IjAlIj48L3N0b3A+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMyNDI5MkUiIG9mZnNldD0iMTAwJSI+PC9zdG9wPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic3RhdGUtZmlsbCIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNENzNBNDkiIG9mZnNldD0iMCUiPjwvc3RvcD4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iI0NCMjQzMSIgb2Zmc2V0PSIxMDAlIj48L3N0b3A+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgPGcgZm9udC1mYW1pbHk9IiYjMzk7RGVqYVZ1IFNhbnMmIzM5OyxWZXJkYW5hLEdlbmV2YSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIj4KICAgICAgPHBhdGggaWQ9IndvcmtmbG93LWJnIiBkPSJNMCwzIEMwLDEuMzQzMSAxLjM1NTIsMCAzLjAyNzAyNzAzLDAgTDQwLDAgTDQwLDIwIEwzLjAyNzAyNzAzLDIwIEMxLjM1NTIsMjAgMCwxOC42NTY5IDAsMTcgTDAsMyBaIiBmaWxsPSJ1cmwoI3dvcmtmbG93LWZpbGwpIiBmaWxsLXJ1bGU9Im5vbnplcm8iPjwvcGF0aD4KICAgICAgPHRleHQgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyI+CiAgICAgICAgPHRzcGFuIHg9IjIyLjE5ODE5ODIiIHk9IjE1IiBhcmlhLWhpZGRlbj0idHJ1ZSI+Q0k8L3RzcGFuPgogICAgICA8L3RleHQ+CiAgICAgIDx0ZXh0IGZpbGw9IiNGRkZGRkYiPgogICAgICAgIDx0c3BhbiB4PSIyMi4xOTgxOTgyIiB5PSIxNCI+Q0k8L3RzcGFuPgogICAgICA8L3RleHQ+CiAgICA8L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MCkiIGZvbnQtZmFtaWx5PSImIzM5O0RlamFWdSBTYW5zJiMzOTssVmVyZGFuYSxHZW5ldmEsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSI+CiAgICAgIDxwYXRoIGQ9Ik0wIDBoNDAuNDdDNDEuODY5IDAgNDMgMS4zNDMgNDMgM3YxNGMwIDEuNjU3LTEuMTMyIDMtMi41MyAzSDBWMHoiIGlkPSJzdGF0ZS1iZyIgZmlsbD0idXJsKCNzdGF0ZS1maWxsKSIgZmlsbC1ydWxlPSJub256ZXJvIj48L3BhdGg+CiAgICAgIDx0ZXh0IGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiIGFyaWEtaGlkZGVuPSJ0cnVlIj4KICAgICAgICA8dHNwYW4geD0iNSIgeT0iMTUiPmZhaWxpbmc8L3RzcGFuPgogICAgICA8L3RleHQ+CiAgICAgIDx0ZXh0IGZpbGw9IiNGRkZGRkYiPgogICAgICAgIDx0c3BhbiB4PSI1IiB5PSIxNCI+ZmFpbGluZzwvdHNwYW4+CiAgICAgIDwvdGV4dD4KICAgIDwvZz4KICAgIDxwYXRoIGZpbGw9IiM5NTlEQTUiIGQ9Ik0xMSAzYy0zLjg2OCAwLTcgMy4xMzItNyA3YTYuOTk2IDYuOTk2IDAgMCAwIDQuNzg2IDYuNjQxYy4zNS4wNjIuNDgyLS4xNDguNDgyLS4zMzIgMC0uMTY2LS4wMS0uNzE4LS4wMS0xLjMwNC0xLjc1OC4zMjQtMi4yMTMtLjQyOS0yLjM1My0uODIyLS4wNzktLjIwMi0uNDItLjgyMy0uNzE3LS45OS0uMjQ1LS4xMy0uNTk1LS40NTQtLjAxLS40NjMuNTUyLS4wMDkuOTQ2LjUwOCAxLjA3Ny43MTguNjMgMS4wNTggMS42MzYuNzYgMi4wMzkuNTc3LjA2MS0uNDU1LjI0NS0uNzYxLjQ0Ni0uOTM2LTEuNTU3LS4xNzUtMy4xODUtLjc3OS0zLjE4NS0zLjQ1NiAwLS43NjIuMjcxLTEuMzkyLjcxOC0xLjg4Mi0uMDctLjE3NS0uMzE1LS44OTIuMDctMS44NTUgMCAwIC41ODYtLjE4MyAxLjkyNS43MThhNi41IDYuNSAwIDAgMSAxLjc1LS4yMzYgNi41IDYuNSAwIDAgMSAxLjc1LjIzNmMxLjMzOC0uOTEgMS45MjUtLjcxOCAxLjkyNS0uNzE4LjM4NS45NjMuMTQgMS42OC4wNyAxLjg1NS40NDYuNDkuNzE3IDEuMTEyLjcxNyAxLjg4MiAwIDIuNjg2LTEuNjM2IDMuMjgtMy4xOTQgMy40NTYuMjU0LjIxOS40NzMuNjM5LjQ3MyAxLjI5NSAwIC45MzYtLjAwOSAxLjY4OS0uMDA5IDEuOTI1IDAgLjE4NC4xMzEuNDAyLjQ4MS4zMzJBNy4wMTEgNy4wMTEgMCAwIDAgMTggMTBjMC0zLjg2Ny0zLjEzMy03LTctN3oiPjwvcGF0aD4KICA8L2c+Cjwvc3ZnPgoK" alt="Build Status" /></a></p>
+<h2 id="what-is-tidierjl">What is Tidier.jl?</h2>
+<p>Tidier.jl is a 100% Julia implementation of the R tidyverse
+mini-language in Julia. Powered by the DataFrames.jl package and Julia’s
+extensive meta-programming capabilities, Tidier.jl is an R user’s love
+letter to data analysis in Julia.</p>
+<p>Tidier.jl has two goals, which differentiate it from other data
+analysis meta-packages:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Stick as closely to tidyverse syntax as
+possible:</strong> Whereas other meta-packages introduce Julia-centric
+idioms for working with DataFrames, this package’s goal is to
+reimplement parts of tidyverse in Julia.</p></li>
+<li><p><strong>Make broadcasting mostly invisible:</strong> Broadcasting
+trips up many R users switching to Julia because R users are used to
+most functions being vectorized. Tidier.jl currently uses a lookup table
+to decide which functions not to vectorize; all other functions are
+automatically vectorized. The following functions are treated as
+non-vectorized: <code>mean()</code>, <code>median()</code>,
+<code>first()</code>, <code>last()</code>, <code>minimum()</code>,
+<code>maximum()</code>, <code>sum()</code>, and <code>length()</code>.
+Support for <code>nrow()</code> and <code>proprow()</code> will be
+coming soon, and users may eventually be given the option to override
+these defaults.</p></li>
+</ol>
+<h2 id="what-functions-does-tidierjl-support">What functions does
+Tidier.jl support?</h2>
+<p>To support R-style programming, Tidier.jl is implemented using
+macros.</p>
+<p>Tidier.jl currently supports the following macros:</p>
+<ul>
+<li><code>@select()</code></li>
+<li><code>@transmute()</code> (which is just an alias for
+<code>@select()</code> because they share the backend implementation in
+DataFrames.jl)</li>
+<li><code>@rename()</code></li>
+<li><code>@mutate()</code></li>
+<li><code>@summarize()</code> and <code>@summarise()</code></li>
+<li><code>@filter()</code></li>
+<li><code>@group_by()</code></li>
+</ul>
+<h2 id="whats-missing">What’s missing?</h2>
+<p>Helper selector functions like <code>starts_with()</code> aren’t
+implemented yet. The <code>across()</code> function isn’t implemented
+yet but will be relatively straightforward to implement.</p>
+<p>Until the docs are built, this README will document the common
+functionality.</p>
+<h2 id="overview-of-the-package">Overview of the package</h2>
+<p>First, we need to install the package.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Pkg</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">add</span>(url <span class="op">=</span> <span class="st">&quot;https://github.com/kdpsingh/Tidier.jl&quot;</span>)</span></code></pre></div>
+<pre><code>##     Fetching: [&gt;                                        ]  0.0 %</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Tidier</span></span></code></pre></div>
+<p>Next, let’s load the <code>movies</code> dataset.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Chain</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Statistics</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">RDatasets</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>movies <span class="op">=</span> <span class="fu">dataset</span>(<span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;movies&quot;</span>)</span></code></pre></div>
+<pre><code>## 58788×24 DataFrame
+##    Row │ Title                     Year   Length  Budget    Rating   Votes  R1 ⋯
+##        │ String                    Int32  Int32   Int32?    Float64  Int32  Fl ⋯
+## ───────┼────────────────────────────────────────────────────────────────────────
+##      1 │ $                          1971     121   missing      6.4    348     ⋯
+##      2 │ $1000 a Touchdown          1939      71   missing      6.0     20
+##      3 │ $21 a Day Once a Month     1941       7   missing      8.2      5
+##      4 │ $40,000                    1996      70   missing      8.2      6
+##      5 │ $50,000 Climax Show, The   1975      71   missing      3.4     17     ⋯
+##      6 │ $pent                      2000      91   missing      4.3     45
+##      7 │ $windle                    2002      93   missing      5.3    200
+##      8 │ &#39;15&#39;                       2002      25   missing      6.7     24
+##    ⋮   │            ⋮                ⋮      ⋮        ⋮         ⋮       ⋮       ⋱
+##  58782 │ pURe kILLjoy               1998      87   missing      5.2      6     ⋯
+##  58783 │ sIDney                     2002      15   missing      7.0      8
+##  58784 │ tom thumb                  1958      98   missing      6.5    274
+##  58785 │ www.XXX.com                2003     105   missing      1.1     12
+##  58786 │ www.hellssoapopera.com     1999     100   missing      6.6      5     ⋯
+##  58787 │ xXx                        2002     132  85000000      5.5  18514
+##  58788 │ xXx: State of the Union    2005     101  87000000      3.9   1584
+##                                                18 columns and 58773 rows omitted</code></pre>
+<h2 id="describing-the-dataset">Describing the dataset</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(movies)</span></code></pre></div>
+<pre><code>## 24×7 DataFrame
+##  Row │ variable     mean       min   median  max                      nmissing ⋯
+##      │ Symbol       Union…     Any   Union…  Any                      Int64    ⋯
+## ─────┼──────────────────────────────────────────────────────────────────────────
+##    1 │ Title                   $             xXx: State of the Union         0 ⋯
+##    2 │ Year         1976.13    1893  1983.0  2005                            0
+##    3 │ Length       82.3379    1     90.0    5220                            0
+##    4 │ Budget       1.34125e7  0     3.0e6   200000000                   53573
+##    5 │ Rating       5.93285    1.0   6.1     10.0                            0 ⋯
+##    6 │ Votes        632.13     5     30.0    157608                          0
+##    7 │ R1           7.01438    0.0   4.5     100.0                           0
+##    8 │ R2           4.02238    0.0   4.5     84.5                            0
+##   ⋮  │      ⋮           ⋮       ⋮      ⋮                ⋮                ⋮     ⋱
+##   18 │ Action       0.0797442  0     0.0     1                               0 ⋯
+##   19 │ Animation    0.0627679  0     0.0     1                               0
+##   20 │ Comedy       0.293784   0     0.0     1                               0
+##   21 │ Drama        0.371011   0     0.0     1                               0
+##   22 │ Documentary  0.0590597  0     0.0     1                               0 ⋯
+##   23 │ Romance      0.0806967  0     0.0     1                               0
+##   24 │ Short        0.160883   0     0.0     1                               0
+##                                                      1 column and 9 rows omitted</code></pre>
+<h2 id="selecting-columns">Selecting columns</h2>
+<h3 id="select-the-first-5-columns-individually-by-name">Select the
+first 5 columns individually by name</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title, Year, Length, Budget, Rating)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 58788×5 DataFrame
+##    Row │ Title                     Year   Length  Budget    Rating
+##        │ String                    Int32  Int32   Int32?    Float64
+## ───────┼────────────────────────────────────────────────────────────
+##      1 │ $                          1971     121   missing      6.4
+##      2 │ $1000 a Touchdown          1939      71   missing      6.0
+##      3 │ $21 a Day Once a Month     1941       7   missing      8.2
+##      4 │ $40,000                    1996      70   missing      8.2
+##      5 │ $50,000 Climax Show, The   1975      71   missing      3.4
+##      6 │ $pent                      2000      91   missing      4.3
+##      7 │ $windle                    2002      93   missing      5.3
+##      8 │ &#39;15&#39;                       2002      25   missing      6.7
+##    ⋮   │            ⋮                ⋮      ⋮        ⋮         ⋮
+##  58782 │ pURe kILLjoy               1998      87   missing      5.2
+##  58783 │ sIDney                     2002      15   missing      7.0
+##  58784 │ tom thumb                  1958      98   missing      6.5
+##  58785 │ www.XXX.com                2003     105   missing      1.1
+##  58786 │ www.hellssoapopera.com     1999     100   missing      6.6
+##  58787 │ xXx                        2002     132  85000000      5.5
+##  58788 │ xXx: State of the Union    2005     101  87000000      3.9
+##                                                   58773 rows omitted</code></pre>
+<h3 id="select-the-first-5-columns-by-name">Select the first 5 columns
+by name</h3>
+<p>The multicolumn select is a wrapper around the <code>Between()</code>
+function in DataFrames.jl.</p>
+<p>Note: Indexing columns by number is not supported yet.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title<span class="op">:</span>Rating)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 58788×5 DataFrame
+##    Row │ Title                     Year   Length  Budget    Rating
+##        │ String                    Int32  Int32   Int32?    Float64
+## ───────┼────────────────────────────────────────────────────────────
+##      1 │ $                          1971     121   missing      6.4
+##      2 │ $1000 a Touchdown          1939      71   missing      6.0
+##      3 │ $21 a Day Once a Month     1941       7   missing      8.2
+##      4 │ $40,000                    1996      70   missing      8.2
+##      5 │ $50,000 Climax Show, The   1975      71   missing      3.4
+##      6 │ $pent                      2000      91   missing      4.3
+##      7 │ $windle                    2002      93   missing      5.3
+##      8 │ &#39;15&#39;                       2002      25   missing      6.7
+##    ⋮   │            ⋮                ⋮      ⋮        ⋮         ⋮
+##  58782 │ pURe kILLjoy               1998      87   missing      5.2
+##  58783 │ sIDney                     2002      15   missing      7.0
+##  58784 │ tom thumb                  1958      98   missing      6.5
+##  58785 │ www.XXX.com                2003     105   missing      1.1
+##  58786 │ www.hellssoapopera.com     1999     100   missing      6.6
+##  58787 │ xXx                        2002     132  85000000      5.5
+##  58788 │ xXx: State of the Union    2005     101  87000000      3.9
+##                                                   58773 rows omitted</code></pre>
+<h3 id="select-all-but-the-first-5-columns-by-name">Select all but the
+first 5 columns by name</h3>
+<p>Note: Currently, the <code>-start</code> or
+<code>-(start:finish)</code> notation is recommended. The negation is a
+wrapper around the <code>Not()</code> function in DataFrames.jl.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(<span class="fu">-</span>(Title<span class="op">:</span>Rating))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 58788×19 DataFrame
+##    Row │ Votes  R1       R2       R3       R4       R5       R6       R7       ⋯
+##        │ Int32  Float64  Float64  Float64  Float64  Float64  Float64  Float64  ⋯
+## ───────┼────────────────────────────────────────────────────────────────────────
+##      1 │   348      4.5      4.5      4.5      4.5     14.5     24.5     24.5  ⋯
+##      2 │    20      0.0     14.5      4.5     24.5     14.5     14.5     14.5
+##      3 │     5      0.0      0.0      0.0      0.0      0.0     24.5      0.0
+##      4 │     6     14.5      0.0      0.0      0.0      0.0      0.0      0.0
+##      5 │    17     24.5      4.5      0.0     14.5     14.5      4.5      0.0  ⋯
+##      6 │    45      4.5      4.5      4.5     14.5     14.5     14.5      4.5
+##      7 │   200      4.5      0.0      4.5      4.5     24.5     24.5     14.5
+##      8 │    24      4.5      4.5      4.5      4.5      4.5     14.5     14.5
+##    ⋮   │   ⋮       ⋮        ⋮        ⋮        ⋮        ⋮        ⋮        ⋮     ⋱
+##  58782 │     6      0.0     14.5     14.5     14.5      0.0     34.5      0.0  ⋯
+##  58783 │     8     14.5      0.0      0.0     14.5      0.0      0.0     24.5
+##  58784 │   274      4.5      4.5      4.5      4.5     14.5     14.5     24.5
+##  58785 │    12     45.5      0.0      0.0      0.0      0.0      0.0     24.5
+##  58786 │     5     24.5      0.0     24.5      0.0      0.0      0.0      0.0  ⋯
+##  58787 │ 18514      4.5      4.5      4.5      4.5     14.5     14.5     14.5
+##  58788 │  1584     24.5      4.5      4.5      4.5      4.5     14.5      4.5
+##                                                11 columns and 58773 rows omitted</code></pre>
+<h3 id="mix-and-match-selection">Mix and match selection</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title, Budget<span class="op">:</span>Rating)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 58788×3 DataFrame
+##    Row │ Title                     Budget    Rating
+##        │ String                    Int32?    Float64
+## ───────┼─────────────────────────────────────────────
+##      1 │ $                          missing      6.4
+##      2 │ $1000 a Touchdown          missing      6.0
+##      3 │ $21 a Day Once a Month     missing      8.2
+##      4 │ $40,000                    missing      8.2
+##      5 │ $50,000 Climax Show, The   missing      3.4
+##      6 │ $pent                      missing      4.3
+##      7 │ $windle                    missing      5.3
+##      8 │ &#39;15&#39;                       missing      6.7
+##    ⋮   │            ⋮                 ⋮         ⋮
+##  58782 │ pURe kILLjoy               missing      5.2
+##  58783 │ sIDney                     missing      7.0
+##  58784 │ tom thumb                  missing      6.5
+##  58785 │ www.XXX.com                missing      1.1
+##  58786 │ www.hellssoapopera.com     missing      6.6
+##  58787 │ xXx                       85000000      5.5
+##  58788 │ xXx: State of the Union   87000000      3.9
+##                                    58773 rows omitted</code></pre>
+<h2 id="rename-columns">Rename columns</h2>
+<h3 id="rename-using-select">Rename using <code>@select()</code></h3>
+<p>You can use the <code>@select()</code> function to rename and select
+columns.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(title <span class="op">=</span> Title, money <span class="op">=</span> Budget)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 58788×2 DataFrame
+##    Row │ title                     money
+##        │ String                    Int32?
+## ───────┼────────────────────────────────────
+##      1 │ $                          missing
+##      2 │ $1000 a Touchdown          missing
+##      3 │ $21 a Day Once a Month     missing
+##      4 │ $40,000                    missing
+##      5 │ $50,000 Climax Show, The   missing
+##      6 │ $pent                      missing
+##      7 │ $windle                    missing
+##      8 │ &#39;15&#39;                       missing
+##    ⋮   │            ⋮                 ⋮
+##  58782 │ pURe kILLjoy               missing
+##  58783 │ sIDney                     missing
+##  58784 │ tom thumb                  missing
+##  58785 │ www.XXX.com                missing
+##  58786 │ www.hellssoapopera.com     missing
+##  58787 │ xXx                       85000000
+##  58788 │ xXx: State of the Union   87000000
+##                           58773 rows omitted</code></pre>
+<h3 id="rename-using-rename">Rename using <code>@rename()</code></h3>
+<p>You can also use the <code>@rename()</code> function to directly
+rename columns without performing selection.</p>
+<p>Note: There is currently a bug such that only one column name can be
+renamed at a time.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@rename</span>(title <span class="op">=</span> Title)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@rename</span>(money <span class="op">=</span> Budget)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(title, money)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 58788×2 DataFrame
+##    Row │ title                     money
+##        │ String                    Int32?
+## ───────┼────────────────────────────────────
+##      1 │ $                          missing
+##      2 │ $1000 a Touchdown          missing
+##      3 │ $21 a Day Once a Month     missing
+##      4 │ $40,000                    missing
+##      5 │ $50,000 Climax Show, The   missing
+##      6 │ $pent                      missing
+##      7 │ $windle                    missing
+##      8 │ &#39;15&#39;                       missing
+##    ⋮   │            ⋮                 ⋮
+##  58782 │ pURe kILLjoy               missing
+##  58783 │ sIDney                     missing
+##  58784 │ tom thumb                  missing
+##  58785 │ www.XXX.com                missing
+##  58786 │ www.hellssoapopera.com     missing
+##  58787 │ xXx                       85000000
+##  58788 │ xXx: State of the Union   87000000
+##                           58773 rows omitted</code></pre>
+<h2 id="mutate-columns">Mutate columns</h2>
+<h3 id="update-an-existing-column">Update an existing column</h3>
+<p>We will scale the <code>Budget</code> down to millions of dollars.
+Since there are many missing values for <code>Budget</code>, we will
+first remove the missing values.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@filter</span>(!<span class="fu">ismissing</span>(Budget))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Budget <span class="op">=</span> Budget<span class="op">/</span><span class="fl">1_000_000</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title, Budget)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 5215×2 DataFrame
+##   Row │ Title                        Budget
+##       │ String                       Float64
+## ──────┼────────────────────────────────────────
+##     1 │ &#39;G&#39; Men                       0.45
+##     2 │ &#39;Manos&#39; the Hands of Fate     0.019
+##     3 │ &#39;Til There Was You           23.0
+##     4 │ .com for Murder               5.0
+##     5 │ 10 Things I Hate About You   16.0
+##     6 │ 100 Mile Rule                 1.1
+##     7 │ 100 Proof                     0.14
+##     8 │ 101                           0.2
+##   ⋮   │              ⋮                   ⋮
+##  5209 │ Zoo Radio                     0.1
+##  5210 │ Zookeeper, The                6.0
+##  5211 │ Zoolander                    28.0
+##  5212 │ Zvezda                        1.3
+##  5213 │ Zzyzx                         1.0
+##  5214 │ xXx                          85.0
+##  5215 │ xXx: State of the Union      87.0
+##                               5200 rows omitted</code></pre>
+<h3 id="update-an-existing-column-1">Update an existing column</h3>
+<p>If we knew we wanted to select only the <code>Title</code> and
+<code>Budget</code> columns, we could have also used the
+<code>@transmute()</code> macro, which is just an alias for
+<code>@select()</code> since the two macros both use the
+<code>select()</code> function from DataFrames.jl.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@filter</span>(!<span class="fu">ismissing</span>(Budget))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@transmute</span>(Title <span class="op">=</span> Title, Budget <span class="op">=</span> Budget<span class="op">/</span><span class="fl">1_000_000</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 5215×2 DataFrame
+##   Row │ Title                        Budget
+##       │ String                       Float64
+## ──────┼────────────────────────────────────────
+##     1 │ &#39;G&#39; Men                       0.45
+##     2 │ &#39;Manos&#39; the Hands of Fate     0.019
+##     3 │ &#39;Til There Was You           23.0
+##     4 │ .com for Murder               5.0
+##     5 │ 10 Things I Hate About You   16.0
+##     6 │ 100 Mile Rule                 1.1
+##     7 │ 100 Proof                     0.14
+##     8 │ 101                           0.2
+##   ⋮   │              ⋮                   ⋮
+##  5209 │ Zoo Radio                     0.1
+##  5210 │ Zookeeper, The                6.0
+##  5211 │ Zoolander                    28.0
+##  5212 │ Zvezda                        1.3
+##  5213 │ Zzyzx                         1.0
+##  5214 │ xXx                          85.0
+##  5215 │ xXx: State of the Union      87.0
+##                               5200 rows omitted</code></pre>
+<h3 id="add-a-new-column">Add a new column</h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@filter</span>(!<span class="fu">ismissing</span>(Budget))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Budget_Millions <span class="op">=</span> Budget<span class="op">/</span><span class="fl">1_000_000</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title, Budget, Budget_Millions)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 5215×3 DataFrame
+##   Row │ Title                        Budget    Budget_Millions
+##       │ String                       Int32?    Float64
+## ──────┼────────────────────────────────────────────────────────
+##     1 │ &#39;G&#39; Men                        450000         0.45
+##     2 │ &#39;Manos&#39; the Hands of Fate       19000         0.019
+##     3 │ &#39;Til There Was You           23000000        23.0
+##     4 │ .com for Murder               5000000         5.0
+##     5 │ 10 Things I Hate About You   16000000        16.0
+##     6 │ 100 Mile Rule                 1100000         1.1
+##     7 │ 100 Proof                      140000         0.14
+##     8 │ 101                            200000         0.2
+##   ⋮   │              ⋮                  ⋮             ⋮
+##  5209 │ Zoo Radio                      100000         0.1
+##  5210 │ Zookeeper, The                6000000         6.0
+##  5211 │ Zoolander                    28000000        28.0
+##  5212 │ Zvezda                        1300000         1.3
+##  5213 │ Zzyzx                         1000000         1.0
+##  5214 │ xXx                          85000000        85.0
+##  5215 │ xXx: State of the Union      87000000        87.0
+##                                               5200 rows omitted</code></pre>
+<h2 id="summarizing-data">Summarizing data</h2>
+<p>Both <code>@summarize</code> and <code>@summarise</code> can be
+used.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@filter</span>(!<span class="fu">ismissing</span>(Budget))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@summarize</span>(nrow <span class="op">=</span> <span class="fu">length</span>(Title))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 1×1 DataFrame
+##  Row │ nrow
+##      │ Int64
+## ─────┼───────
+##    1 │  5215</code></pre>
+<h2 id="filtering-data">Filtering data</h2>
+<p>Let’s take a look at the movies whose budget was more than average.
+While it’s easy in R to do this all wthin a single
+<code>@filter()</code> statement, there are still some bugs I am ironing
+out. In the meantime, splitting it up as follows works perfectly
+fine.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Budget <span class="op">=</span> Budget <span class="op">/</span> <span class="fl">1_000_000</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Mean_Budget <span class="op">=</span> <span class="fu">mean</span>(<span class="fu">skipmissing</span>(Budget)))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@filter</span>(!<span class="fu">ismissing</span>(Budget))</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@filter</span>(Budget <span class="op">&gt;=</span> Mean_Budget)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title, Budget, Mean_Budget)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 1438×3 DataFrame
+##   Row │ Title                       Budget    Mean_Budget
+##       │ String                      Float64?  Float64
+## ──────┼───────────────────────────────────────────────────
+##     1 │ &#39;Til There Was You              23.0      13.4125
+##     2 │ 10 Things I Hate About You      16.0      13.4125
+##     3 │ 102 Dalmatians                  85.0      13.4125
+##     4 │ 13 Going On 30                  37.0      13.4125
+##     5 │ 13th Warrior, The               85.0      13.4125
+##     6 │ 1492: Conquest of Paradise      47.0      13.4125
+##     7 │ 15 Minutes                      42.0      13.4125
+##     8 │ 1941                            35.0      13.4125
+##   ⋮   │             ⋮                  ⋮           ⋮
+##  1432 │ Yes, Giorgio                    19.0      13.4125
+##  1433 │ Ying xiong                      30.0      13.4125
+##  1434 │ You&#39;ve Got Mail                 65.0      13.4125
+##  1435 │ Young Sherlock Holmes           18.0      13.4125
+##  1436 │ Zoolander                       28.0      13.4125
+##  1437 │ xXx                             85.0      13.4125
+##  1438 │ xXx: State of the Union         87.0      13.4125
+##                                          1423 rows omitted</code></pre>
+<h2 id="slicing">Slicing</h2>
+<p>Slicing has not been implemented yet. Here is a workaround for
+now.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(row_number <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(Title))</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@filter</span>(row_number <span class="op">&lt;=</span> <span class="fl">5</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 5×25 DataFrame
+##  Row │ Title                     Year   Length  Budget   Rating   Votes  R1    ⋯
+##      │ String                    Int32  Int32   Int32?   Float64  Int32  Float ⋯
+## ─────┼──────────────────────────────────────────────────────────────────────────
+##    1 │ $                          1971     121  missing      6.4    348      4 ⋯
+##    2 │ $1000 a Touchdown          1939      71  missing      6.0     20      0
+##    3 │ $21 a Day Once a Month     1941       7  missing      8.2      5      0
+##    4 │ $40,000                    1996      70  missing      8.2      6     14
+##    5 │ $50,000 Climax Show, The   1975      71  missing      3.4     17     24 ⋯
+##                                                               19 columns omitted</code></pre>
+<h2 id="grouping">Grouping</h2>
+<h3 id="combining-group_by-with-mutate">Combining
+<code>@group_by()</code> with <code>@mutate()</code></h3>
+<div class="sourceCode" id="cb32"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@group_by</span>(Year)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Mean_Yearly_Rating <span class="op">=</span> <span class="fu">mean</span>(<span class="fu">skipmissing</span>(Rating)))</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Year, Rating, Mean_Yearly_Rating)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 58788×3 DataFrame
+##    Row │ Year   Rating   Mean_Yearly_Rating
+##        │ Int32  Float64  Float64
+## ───────┼────────────────────────────────────
+##      1 │  1971      6.4             5.66517
+##      2 │  1939      6.0             6.35041
+##      3 │  1941      8.2             6.34107
+##      4 │  1996      8.2             5.74712
+##      5 │  1975      3.4             5.62908
+##      6 │  2000      4.3             5.93442
+##      7 │  2002      5.3             6.28432
+##      8 │  2002      6.7             6.28432
+##    ⋮   │   ⋮       ⋮             ⋮
+##  58782 │  1998      5.2             5.85818
+##  58783 │  2002      7.0             6.28432
+##  58784 │  1958      6.5             5.90152
+##  58785 │  2003      1.1             6.34796
+##  58786 │  1999      6.6             5.6371
+##  58787 │  2002      5.5             6.28432
+##  58788 │  2005      3.9             6.51261
+##                           58773 rows omitted</code></pre>
+<h3 id="combining-group_by-with-summarize">Combining
+<code>@group_by()</code> with <code>@summarize()</code></h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@group_by</span>(Year)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@summarize</span>(Mean_Yearly_Rating <span class="op">=</span> <span class="fu">mean</span>(<span class="fu">skipmissing</span>(Rating)))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<pre><code>## 113×2 DataFrame
+##  Row │ Year   Mean_Yearly_Rating
+##      │ Int32  Float64
+## ─────┼───────────────────────────
+##    1 │  1893             7.0
+##    2 │  1894             4.88889
+##    3 │  1895             5.5
+##    4 │  1896             5.26923
+##    5 │  1897             4.67778
+##    6 │  1898             5.04
+##    7 │  1899             4.27778
+##    8 │  1900             4.73125
+##   ⋮  │   ⋮            ⋮
+##  107 │  1999             5.6371
+##  108 │  2000             5.93442
+##  109 │  2001             6.10104
+##  110 │  2002             6.28432
+##  111 │  2003             6.34796
+##  112 │  2004             6.66201
+##  113 │  2005             6.51261
+##                   98 rows omitted</code></pre>
+
+</body>
+</html>
