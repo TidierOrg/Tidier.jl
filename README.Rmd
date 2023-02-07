@@ -39,16 +39,12 @@ Until the docs are built, this README will document the common functionality.
 
 First, we need to install the package.
 
-```julia
+
+```{julia}
 import Pkg
 Pkg.add(url = "https://github.com/kdpsingh/Tidier.jl")
 using Tidier
 ```
-
-```{julia, include = FALSE}
-using Tidier
-```
-
 
 Next, let's load the `movies` dataset.
 
