@@ -1,0 +1,227 @@
+---
+output: github_document
+---
+# Tidier.jl
+
+[![Build Status](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
+
+## What is Tidier.jl?
+
+Tidier.jl is a 100% Julia implementation of the R tidyverse mini-language in Julia. Powered by the DataFrames.jl package and Julia's extensive meta-programming capabilities, Tidier.jl is an R user's love letter to data analysis in Julia.
+
+Tidier.jl has two goals, which differentiate it from other data analysis meta-packages:
+
+1. **Stick as closely to tidyverse syntax as possible:** Whereas other meta-packages introduce Julia-centric idioms for working with DataFrames, this package's goal is to reimplement parts of tidyverse in Julia.
+
+2. **Make broadcasting mostly invisible:** Broadcasting trips up many R users switching to Julia because R users are used to most functions being vectorized. Tidier.jl currently uses a lookup table to decide which functions not to vectorize; all other functions are automatically vectorized. The following functions are treated as non-vectorized: `mean()`, `median()`, `first()`, `last()`, `minimum()`, `maximum()`, `sum()`, and `length()`. Support for `nrow()` and `proprow()` will be coming soon, and users may eventually be given the option to override these defaults.
+
+## What functions does Tidier.jl support?
+
+To support R-style programming, Tidier.jl is implemented using macros.
+
+Tidier.jl currently supports the following macros:
+
+- `@select()`
+- `@transmute()` (which is just an alias for `@select()` because they share the backend implementation in DataFrames.jl)
+- `@rename()`
+- `@mutate()`
+- `@summarize()` and `@summarise()`
+- `@filter()`
+- `@group_by()`
+
+## What's missing?
+
+Helper selector functions like `starts_with()` aren't implemented yet. The `across()` function isn't implemented yet but will be relatively straightforward to implement.
+
+Until the docs are built, this README will document the common functionality.
+
+## Overview of the package
+
+First, we need to install the package.
+
+```julia
+import Pkg
+Pkg.add(url = "https://github.com/kdpsingh/Tidier.jl")
+using Tidier
+```
+
+```{julia, include = FALSE}
+using Tidier
+```
+
+
+Next, let's load the `movies` dataset.
+
+```{julia}
+using DataFrames
+using Chain
+using Statistics
+using RDatasets
+
+movies = dataset("ggplot2", "movies")
+```
+
+## Describing the dataset
+
+```{julia}
+describe(movies)
+```
+
+## Selecting columns
+
+### Select the first 5 columns individually by name
+
+```{julia}
+@chain movies begin
+  @select(Title, Year, Length, Budget, Rating)
+end
+```
+
+
+### Select the first 5 columns by name
+
+The multicolumn select is a wrapper around the `Between()` function in DataFrames.jl.
+
+Note: Indexing columns by number is not supported yet.
+
+```{julia}
+@chain movies begin
+  @select(Title:Rating)
+end
+```
+
+### Select all but the first 5 columns by name
+
+Note: Currently, the `-start` or `-(start:finish)` notation is recommended. The negation is a wrapper around the `Not()` function in DataFrames.jl.
+
+```{julia}
+@chain movies begin
+  @select(-(Title:Rating))
+end
+```
+
+### Mix and match selection
+
+```{julia}
+@chain movies begin
+  @select(Title, Budget:Rating)
+end
+```
+
+## Rename columns
+
+### Rename using `@select()`
+
+You can use the `@select()` function to rename and select columns.
+
+```{julia}
+@chain movies begin
+  @select(title = Title, money = Budget)
+end
+```
+
+### Rename using `@rename()`
+
+You can also use the `@rename()` function to directly rename columns without performing selection.
+
+Note: There is currently a bug such that only one column name can be renamed at a time. 
+
+```{julia}
+@chain movies begin
+  @rename(title = Title)
+  @rename(money = Budget)
+  @select(title, money)
+end
+```
+
+## Mutate columns
+
+### Update an existing column
+
+We will scale the `Budget` down to millions of dollars. Since there are many missing values for `Budget`, we will first remove the missing values.
+
+```{julia}
+@chain movies begin
+  @filter(!ismissing(Budget))
+  @mutate(Budget = Budget/1_000_000)
+  @select(Title, Budget)
+end
+```
+
+### Update an existing column
+
+If we knew we wanted to select only the `Title` and `Budget` columns, we could have also used the `@transmute()` macro, which is just an alias for `@select()` since the two macros both use the `select()` function from DataFrames.jl.
+
+```{julia}
+@chain movies begin
+  @filter(!ismissing(Budget))
+  @transmute(Title = Title, Budget = Budget/1_000_000)
+end
+```
+
+### Add a new column
+
+```{julia}
+@chain movies begin
+  @filter(!ismissing(Budget))
+  @mutate(Budget_Millions = Budget/1_000_000)
+  @select(Title, Budget, Budget_Millions)
+end
+```
+
+## Summarizing data
+
+Both `@summarize` and `@summarise` can be used.
+
+```{julia}
+@chain movies begin
+  @filter(!ismissing(Budget))
+  @summarize(nrow = length(Title))
+end
+```
+
+## Filtering data
+
+Let's take a look at the movies whose budget was more than average. While it's easy in R to do this all wthin a single `@filter()` statement, there are still some bugs I am ironing out. In the meantime, splitting it up as follows works perfectly fine.
+
+```{julia}
+@chain movies begin
+  @mutate(Budget = Budget / 1_000_000)
+  @mutate(Mean_Budget = mean(skipmissing(Budget)))
+  @filter(!ismissing(Budget))
+  @filter(Budget >= Mean_Budget)
+  @select(Title, Budget, Mean_Budget)
+end
+```
+
+## Slicing
+
+Slicing has not been implemented yet. Here is a workaround for now.
+
+```{julia}
+@chain movies begin
+  @mutate(row_number = 1:length(Title))
+  @filter(row_number <= 5)
+end
+```
+
+## Grouping
+
+### Combining `@group_by()` with `@mutate()`
+
+```{julia}
+@chain movies begin
+  @group_by(Year)
+  @mutate(Mean_Yearly_Rating = mean(skipmissing(Rating)))
+  @select(Year, Rating, Mean_Yearly_Rating)
+end
+```
+
+### Combining `@group_by()` with `@summarize()`
+
+```{julia}
+@chain movies begin
+  @group_by(Year)
+  @summarize(Mean_Yearly_Rating = mean(skipmissing(Rating)))
+end
+```

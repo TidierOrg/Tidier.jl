@@ -4,7 +4,10 @@ authors = ["Karandeep Singh"]
 version = "0.1.0"
 
 [deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+Pipe = "b98c9c47-44ae-5843-9183-064241ee97a0"
+Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 
 [compat]
 julia = "1"
