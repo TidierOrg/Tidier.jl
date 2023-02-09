@@ -61,8 +61,6 @@ Next, let's load the `movies` dataset.
 
 ```{julia}
 using DataFrames
-using Chain
-using Statistics
 using RDatasets
 
 movies = dataset("ggplot2", "movies")

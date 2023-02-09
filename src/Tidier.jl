@@ -242,25 +242,25 @@ end
 
 macro slice(df, exprs...)
   quote
-    indices = [$(exprs...)]
+    local indices = [$(exprs...)]
     try
       # @info indices
       if (all(indices .< 0))
         # return_string = "$df[Not(" * string(-indices) * "), :]"
-        return_value = $(esc(df))[Not(-indices), :]
+        return_value = $(esc(df))[Not(-copy(indices)), :]
       else
         # return_string = "$df[" * string(indices) * ", :]"
-        return_value = $(esc(df))[indices, :]
+        return_value = $(esc(df))[copy(indices), :]
       end
     catch e
       # @info indices
-      local indices = reduce(vcat, collect.(indices))  
-      if (all(indices .< 0))
+      local indices2 = reduce(vcat, collect.(indices))  
+      if (all(indices2 .< 0))
         # return_string = "$df[Not(" * string(-indices) * "), :]"
-        return_value = $(esc(df))[Not(-indices), :]
+        return_value = $(esc(df))[Not(-copy(indices2)), :]
       else
         # return_string = "$df[" * string(indices) * ", :]"
-        return_value = $(esc(df))[indices, :]
+        return_value = $(esc(df))[copy(indices2), :]
       end
 
       # @info return_string
