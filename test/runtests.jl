@@ -17,6 +17,17 @@ using Statistics
 
 end
 
+@testset "mutate" begin
+  test_df = DataFrame(a = 1:10, b = 11:20)
+
+  dataframes = transform(test_df, :a => (x -> (x .+ 1)) => :c)
+
+  tidier = @mutate(test_df, c = a + 1)
+
+  @test isequal(tidier, dataframes)
+
+end
+
 #
 #@chain df2 begin
 #  @autovec("select", a, b = b + 1)
