@@ -254,7 +254,7 @@ macro slice(df, exprs...)
       end
     catch e
       # @info indices
-      global indices = reduce(vcat, collect.(indices))  
+      local indices = reduce(vcat, collect.(indices))  
       if (all(indices .< 0))
         # return_string = "$df[Not(" * string(-indices) * "), :]"
         return_value = $(esc(df))[Not(-indices), :]
