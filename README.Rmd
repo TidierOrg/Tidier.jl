@@ -268,7 +268,7 @@ end
 
 ```{julia}
 @chain movies begin
-  @arrange(Title, Year)
+  @arrange(Year, Rating)
 end
 ```
 
@@ -276,7 +276,7 @@ end
 
 ```{julia}
 @chain movies begin
-  @arrange(desc(Title), Year)
+  @arrange(Year, desc(Rating))
 end
 ```
 

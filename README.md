@@ -33,7 +33,7 @@ meta-packages:
 
 To support R-style programming, Tidier.jl is implemented using macros.
 
-Tidier.jl currently supports the following macros:
+Tidier.jl currently supports the following macros and functions:
 
 - `@select()`
 - `@transmute()` (which is just an alias for `@select()` because they
@@ -43,12 +43,25 @@ Tidier.jl currently supports the following macros:
 - `@summarize()` and `@summarise()`
 - `@filter()`
 - `@group_by()`
+- `@slice()`
+- `@arrange()`
+- `across()`
 
 ## What’s missing?
 
-Helper selector functions like `starts_with()` aren’t implemented yet.
-The `across()` function isn’t implemented yet but will be relatively
-straightforward to implement.
+- Selection helpers like `startswith()` are not supported yet
+
+## What’s new in version 0.2.0
+
+- Fixed bug with `@rename()` so that it supports multiple arguments
+- Added support for numerical selection (both positive and negative) to
+  `@select()`
+- Added support for `@slice()`, including positive and negative indexing
+- Added support for `@arrange()`, including the use of `desc()` to
+  specify descending order
+- Added support for `across()`, which has been confirmed to work with
+  both `@mutate()`, `@summarize()`, and `@summarise()`.
+- Re-export `Statistics` and `Chain.jl`
 
 Until the docs are built, this README will document the common
 functionality.
@@ -60,11 +73,6 @@ First, we need to install the package.
 ``` julia
 import Pkg
 Pkg.add(url = "https://github.com/kdpsingh/Tidier.jl")
-```
-
-    ##     Fetching: [>                                        ]  0.0 %
-
-``` julia
 using Tidier
 ```
 
@@ -72,8 +80,6 @@ Next, let’s load the `movies` dataset.
 
 ``` julia
 using DataFrames
-using Chain
-using Statistics
 using RDatasets
 
 movies = dataset("ggplot2", "movies")
@@ -161,12 +167,37 @@ end
     ##  58788 │ xXx: State of the Union    2005     101  87000000      3.9
     ##                                                   58773 rows omitted
 
+### Select the first 5 columns individually by number
+
+``` julia
+@chain movies begin
+  @select(1, 2, 3, 4, 5)
+end
+```
+
+    ## 58788×5 DataFrame
+    ##    Row │ Title                     Year   Length  Budget    Rating
+    ##        │ String                    Int32  Int32   Int32?    Float64
+    ## ───────┼────────────────────────────────────────────────────────────
+    ##      1 │ $                          1971     121   missing      6.4
+    ##      2 │ $1000 a Touchdown          1939      71   missing      6.0
+    ##      3 │ $21 a Day Once a Month     1941       7   missing      8.2
+    ##      4 │ $40,000                    1996      70   missing      8.2
+    ##      5 │ $50,000 Climax Show, The   1975      71   missing      3.4
+    ##      6 │ $pent                      2000      91   missing      4.3
+    ##      7 │ $windle                    2002      93   missing      5.3
+    ##      8 │ '15'                       2002      25   missing      6.7
+    ##    ⋮   │            ⋮                ⋮      ⋮        ⋮         ⋮
+    ##  58782 │ pURe kILLjoy               1998      87   missing      5.2
+    ##  58783 │ sIDney                     2002      15   missing      7.0
+    ##  58784 │ tom thumb                  1958      98   missing      6.5
+    ##  58785 │ www.XXX.com                2003     105   missing      1.1
+    ##  58786 │ www.hellssoapopera.com     1999     100   missing      6.6
+    ##  58787 │ xXx                        2002     132  85000000      5.5
+    ##  58788 │ xXx: State of the Union    2005     101  87000000      3.9
+    ##                                                   58773 rows omitted
+
 ### Select the first 5 columns by name
-
-The multicolumn select is a wrapper around the `Between()` function in
-DataFrames.jl.
-
-Note: Indexing columns by number is not supported yet.
 
 ``` julia
 @chain movies begin
@@ -196,11 +227,37 @@ end
     ##  58788 │ xXx: State of the Union    2005     101  87000000      3.9
     ##                                                   58773 rows omitted
 
-### Select all but the first 5 columns by name
+### Select the first 5 columns by number
 
-Note: Currently, the `-start` or `-(start:finish)` notation is
-recommended. The negation is a wrapper around the `Not()` function in
-DataFrames.jl.
+``` julia
+@chain movies begin
+  @select(1:5)
+end
+```
+
+    ## 58788×5 DataFrame
+    ##    Row │ Title                     Year   Length  Budget    Rating
+    ##        │ String                    Int32  Int32   Int32?    Float64
+    ## ───────┼────────────────────────────────────────────────────────────
+    ##      1 │ $                          1971     121   missing      6.4
+    ##      2 │ $1000 a Touchdown          1939      71   missing      6.0
+    ##      3 │ $21 a Day Once a Month     1941       7   missing      8.2
+    ##      4 │ $40,000                    1996      70   missing      8.2
+    ##      5 │ $50,000 Climax Show, The   1975      71   missing      3.4
+    ##      6 │ $pent                      2000      91   missing      4.3
+    ##      7 │ $windle                    2002      93   missing      5.3
+    ##      8 │ '15'                       2002      25   missing      6.7
+    ##    ⋮   │            ⋮                ⋮      ⋮        ⋮         ⋮
+    ##  58782 │ pURe kILLjoy               1998      87   missing      5.2
+    ##  58783 │ sIDney                     2002      15   missing      7.0
+    ##  58784 │ tom thumb                  1958      98   missing      6.5
+    ##  58785 │ www.XXX.com                2003     105   missing      1.1
+    ##  58786 │ www.hellssoapopera.com     1999     100   missing      6.6
+    ##  58787 │ xXx                        2002     132  85000000      5.5
+    ##  58788 │ xXx: State of the Union    2005     101  87000000      3.9
+    ##                                                   58773 rows omitted
+
+### Select all but the first 5 columns by name
 
 ``` julia
 @chain movies begin
@@ -230,11 +287,41 @@ end
     ##  58788 │  1584     24.5      4.5      4.5      4.5      4.5     14.5      4.5
     ##                                                11 columns and 58773 rows omitted
 
+### Select all but the first 5 columns by number
+
+``` julia
+@chain movies begin
+  @select(-(1:5))
+end
+```
+
+    ## 58788×19 DataFrame
+    ##    Row │ Votes  R1       R2       R3       R4       R5       R6       R7       ⋯
+    ##        │ Int32  Float64  Float64  Float64  Float64  Float64  Float64  Float64  ⋯
+    ## ───────┼────────────────────────────────────────────────────────────────────────
+    ##      1 │   348      4.5      4.5      4.5      4.5     14.5     24.5     24.5  ⋯
+    ##      2 │    20      0.0     14.5      4.5     24.5     14.5     14.5     14.5
+    ##      3 │     5      0.0      0.0      0.0      0.0      0.0     24.5      0.0
+    ##      4 │     6     14.5      0.0      0.0      0.0      0.0      0.0      0.0
+    ##      5 │    17     24.5      4.5      0.0     14.5     14.5      4.5      0.0  ⋯
+    ##      6 │    45      4.5      4.5      4.5     14.5     14.5     14.5      4.5
+    ##      7 │   200      4.5      0.0      4.5      4.5     24.5     24.5     14.5
+    ##      8 │    24      4.5      4.5      4.5      4.5      4.5     14.5     14.5
+    ##    ⋮   │   ⋮       ⋮        ⋮        ⋮        ⋮        ⋮        ⋮        ⋮     ⋱
+    ##  58782 │     6      0.0     14.5     14.5     14.5      0.0     34.5      0.0  ⋯
+    ##  58783 │     8     14.5      0.0      0.0     14.5      0.0      0.0     24.5
+    ##  58784 │   274      4.5      4.5      4.5      4.5     14.5     14.5     24.5
+    ##  58785 │    12     45.5      0.0      0.0      0.0      0.0      0.0     24.5
+    ##  58786 │     5     24.5      0.0     24.5      0.0      0.0      0.0      0.0  ⋯
+    ##  58787 │ 18514      4.5      4.5      4.5      4.5     14.5     14.5     14.5
+    ##  58788 │  1584     24.5      4.5      4.5      4.5      4.5     14.5      4.5
+    ##                                                11 columns and 58773 rows omitted
+
 ### Mix and match selection
 
 ``` julia
 @chain movies begin
-  @select(Title, Budget:Rating)
+  @select(1, Budget:Rating)
 end
 ```
 
@@ -299,38 +386,33 @@ end
 You can also use the `@rename()` function to directly rename columns
 without performing selection.
 
-Note: There is currently a bug such that only one column name can be
-renamed at a time.
-
 ``` julia
 @chain movies begin
-  @rename(title = Title)
-  @rename(money = Budget)
-  @select(title, money)
+  @rename(title = Title, money = Budget)
 end
 ```
 
-    ## 58788×2 DataFrame
-    ##    Row │ title                     money
-    ##        │ String                    Int32?
-    ## ───────┼────────────────────────────────────
-    ##      1 │ $                          missing
-    ##      2 │ $1000 a Touchdown          missing
-    ##      3 │ $21 a Day Once a Month     missing
-    ##      4 │ $40,000                    missing
-    ##      5 │ $50,000 Climax Show, The   missing
-    ##      6 │ $pent                      missing
-    ##      7 │ $windle                    missing
-    ##      8 │ '15'                       missing
-    ##    ⋮   │            ⋮                 ⋮
-    ##  58782 │ pURe kILLjoy               missing
-    ##  58783 │ sIDney                     missing
-    ##  58784 │ tom thumb                  missing
-    ##  58785 │ www.XXX.com                missing
-    ##  58786 │ www.hellssoapopera.com     missing
-    ##  58787 │ xXx                       85000000
-    ##  58788 │ xXx: State of the Union   87000000
-    ##                           58773 rows omitted
+    ## 58788×24 DataFrame
+    ##    Row │ title                     Year   Length  money     Rating   Votes  R1 ⋯
+    ##        │ String                    Int32  Int32   Int32?    Float64  Int32  Fl ⋯
+    ## ───────┼────────────────────────────────────────────────────────────────────────
+    ##      1 │ $                          1971     121   missing      6.4    348     ⋯
+    ##      2 │ $1000 a Touchdown          1939      71   missing      6.0     20
+    ##      3 │ $21 a Day Once a Month     1941       7   missing      8.2      5
+    ##      4 │ $40,000                    1996      70   missing      8.2      6
+    ##      5 │ $50,000 Climax Show, The   1975      71   missing      3.4     17     ⋯
+    ##      6 │ $pent                      2000      91   missing      4.3     45
+    ##      7 │ $windle                    2002      93   missing      5.3    200
+    ##      8 │ '15'                       2002      25   missing      6.7     24
+    ##    ⋮   │            ⋮                ⋮      ⋮        ⋮         ⋮       ⋮       ⋱
+    ##  58782 │ pURe kILLjoy               1998      87   missing      5.2      6     ⋯
+    ##  58783 │ sIDney                     2002      15   missing      7.0      8
+    ##  58784 │ tom thumb                  1958      98   missing      6.5    274
+    ##  58785 │ www.XXX.com                2003     105   missing      1.1     12
+    ##  58786 │ www.hellssoapopera.com     1999     100   missing      6.6      5     ⋯
+    ##  58787 │ xXx                        2002     132  85000000      5.5  18514
+    ##  58788 │ xXx: State of the Union    2005     101  87000000      3.9   1584
+    ##                                                18 columns and 58773 rows omitted
 
 ## Mutate columns
 
@@ -459,8 +541,9 @@ end
 
 Let’s take a look at the movies whose budget was more than average.
 While it’s easy in R to do this all wthin a single `@filter()`
-statement, there are still some bugs I am ironing out. In the meantime,
-splitting it up as follows works perfectly fine.
+statement, this requires a bit more work in Julia because the `>=`
+operator generates an error when it receives missing values. I am
+considering possible workarounds.
 
 ``` julia
 @chain movies begin
@@ -496,16 +579,15 @@ end
 
 ## Slicing
 
-Slicing has not been implemented yet. Here is a workaround for now.
+### Slicing using a range of numbers
 
 ``` julia
 @chain movies begin
-  @mutate(row_number = 1:length(Title))
-  @filter(row_number <= 5)
+  @slice(1:5)
 end
 ```
 
-    ## 5×25 DataFrame
+    ## 5×24 DataFrame
     ##  Row │ Title                     Year   Length  Budget   Rating   Votes  R1    ⋯
     ##      │ String                    Int32  Int32   Int32?   Float64  Int32  Float ⋯
     ## ─────┼──────────────────────────────────────────────────────────────────────────
@@ -514,7 +596,59 @@ end
     ##    3 │ $21 a Day Once a Month     1941       7  missing      8.2      5      0
     ##    4 │ $40,000                    1996      70  missing      8.2      6     14
     ##    5 │ $50,000 Climax Show, The   1975      71  missing      3.4     17     24 ⋯
-    ##                                                               19 columns omitted
+    ##                                                               18 columns omitted
+
+### You can separate multiple selections with commas
+
+``` julia
+@chain movies begin
+  @slice(1:5, 10)
+end
+```
+
+    ## 6×24 DataFrame
+    ##  Row │ Title                     Year   Length  Budget   Rating   Votes  R1    ⋯
+    ##      │ String                    Int32  Int32   Int32?   Float64  Int32  Float ⋯
+    ## ─────┼──────────────────────────────────────────────────────────────────────────
+    ##    1 │ $                          1971     121  missing      6.4    348      4 ⋯
+    ##    2 │ $1000 a Touchdown          1939      71  missing      6.0     20      0
+    ##    3 │ $21 a Day Once a Month     1941       7  missing      8.2      5      0
+    ##    4 │ $40,000                    1996      70  missing      8.2      6     14
+    ##    5 │ $50,000 Climax Show, The   1975      71  missing      3.4     17     24 ⋯
+    ##    6 │ '49-'17                    1917      61  missing      6.0     51      4
+    ##                                                               18 columns omitted
+
+### Inverted selection is also supported using negative numbers
+
+This line selects all rows *except* the first 5 rows.
+
+``` julia
+@chain movies begin
+  @slice(-(1:5))
+end
+```
+
+    ## 58783×24 DataFrame
+    ##    Row │ Title                    Year   Length  Budget    Rating   Votes  R1  ⋯
+    ##        │ String                   Int32  Int32   Int32?    Float64  Int32  Flo ⋯
+    ## ───────┼────────────────────────────────────────────────────────────────────────
+    ##      1 │ $pent                     2000      91   missing      4.3     45      ⋯
+    ##      2 │ $windle                   2002      93   missing      5.3    200
+    ##      3 │ '15'                      2002      25   missing      6.7     24
+    ##      4 │ '38                       1987      97   missing      6.6     18
+    ##      5 │ '49-'17                   1917      61   missing      6.0     51      ⋯
+    ##      6 │ '68                       1988      99   missing      5.4     23
+    ##      7 │ '94 du bi dao zhi qing    1994      96   missing      5.9     53
+    ##      8 │ '?' Motorist, The         1906      10   missing      7.0     44
+    ##    ⋮   │            ⋮               ⋮      ⋮        ⋮         ⋮       ⋮        ⋱
+    ##  58777 │ pURe kILLjoy              1998      87   missing      5.2      6      ⋯
+    ##  58778 │ sIDney                    2002      15   missing      7.0      8
+    ##  58779 │ tom thumb                 1958      98   missing      6.5    274
+    ##  58780 │ www.XXX.com               2003     105   missing      1.1     12
+    ##  58781 │ www.hellssoapopera.com    1999     100   missing      6.6      5      ⋯
+    ##  58782 │ xXx                       2002     132  85000000      5.5  18514
+    ##  58783 │ xXx: State of the Union   2005     101  87000000      3.9   1584
+    ##                                                18 columns and 58768 rows omitted
 
 ## Grouping
 
@@ -555,28 +689,142 @@ end
 ``` julia
 @chain movies begin
   @group_by(Year)
-  @summarize(Mean_Yearly_Rating = mean(skipmissing(Rating)))
+  @summarize(Mean_Yearly_Rating = mean(skipmissing(Rating)),
+             Median_Yearly_Rating = median(skipmissing(Rating)))
 end
 ```
 
-    ## 113×2 DataFrame
-    ##  Row │ Year   Mean_Yearly_Rating
-    ##      │ Int32  Float64
-    ## ─────┼───────────────────────────
-    ##    1 │  1893             7.0
-    ##    2 │  1894             4.88889
-    ##    3 │  1895             5.5
-    ##    4 │  1896             5.26923
-    ##    5 │  1897             4.67778
-    ##    6 │  1898             5.04
-    ##    7 │  1899             4.27778
-    ##    8 │  1900             4.73125
-    ##   ⋮  │   ⋮            ⋮
-    ##  107 │  1999             5.6371
-    ##  108 │  2000             5.93442
-    ##  109 │  2001             6.10104
-    ##  110 │  2002             6.28432
-    ##  111 │  2003             6.34796
-    ##  112 │  2004             6.66201
-    ##  113 │  2005             6.51261
-    ##                   98 rows omitted
+    ## 113×3 DataFrame
+    ##  Row │ Year   Mean_Yearly_Rating  Median_Yearly_Rating
+    ##      │ Int32  Float64             Float64
+    ## ─────┼─────────────────────────────────────────────────
+    ##    1 │  1893             7.0                      7.0
+    ##    2 │  1894             4.88889                  4.6
+    ##    3 │  1895             5.5                      5.7
+    ##    4 │  1896             5.26923                  5.3
+    ##    5 │  1897             4.67778                  4.6
+    ##    6 │  1898             5.04                     5.5
+    ##    7 │  1899             4.27778                  4.1
+    ##    8 │  1900             4.73125                  4.65
+    ##   ⋮  │   ⋮            ⋮                    ⋮
+    ##  107 │  1999             5.6371                   5.7
+    ##  108 │  2000             5.93442                  6.1
+    ##  109 │  2001             6.10104                  6.3
+    ##  110 │  2002             6.28432                  6.4
+    ##  111 │  2003             6.34796                  6.5
+    ##  112 │  2004             6.66201                  6.8
+    ##  113 │  2005             6.51261                  6.6
+    ##                                         98 rows omitted
+
+## Arrange
+
+### Sort both in ascending order
+
+``` julia
+@chain movies begin
+  @arrange(Year, Rating)
+end
+```
+
+    ## 58788×24 DataFrame
+    ##    Row │ Title                            Year   Length  Budget   Rating   Vot ⋯
+    ##        │ String                           Int32  Int32   Int32?   Float64  Int ⋯
+    ## ───────┼────────────────────────────────────────────────────────────────────────
+    ##      1 │ Blacksmith Scene                  1893       1  missing      7.0      ⋯
+    ##      2 │ Hadj Cheriff                      1894       1  missing      4.1
+    ##      3 │ Glenroy Bros., No. 2              1894       1  missing      4.2
+    ##      4 │ Leonard-Cushing Fight             1894       1  missing      4.4
+    ##      5 │ Sioux Ghost Dance                 1894       1  missing      4.4      ⋯
+    ##      6 │ Bucking Broncho                   1894       1  missing      4.6
+    ##      7 │ Buffalo Dance                     1894       1  missing      5.0
+    ##      8 │ Glenroy Brothers (Comic Boxing)   1894       1  missing      5.4
+    ##    ⋮   │                ⋮                   ⋮      ⋮        ⋮        ⋮       ⋮ ⋱
+    ##  58782 │ Wild Girls Gone                   2005      93  missing      9.6      ⋯
+    ##  58783 │ Morphin(e)                        2005      20     8000      9.7
+    ##  58784 │ Goodnite Charlie                  2005     119   100000      9.8
+    ##  58785 │ Nun Fu                            2005       5     5000      9.8
+    ##  58786 │ Oath, The                         2005      23  missing      9.8      ⋯
+    ##  58787 │ Weg ist das Spiel, Der            2005       3  missing      9.8
+    ##  58788 │ Keeper of the Past                2005      18    30000      9.9
+    ##                                                19 columns and 58773 rows omitted
+
+### Sort in a mix of ascending and descending order
+
+``` julia
+@chain movies begin
+  @arrange(Year, desc(Rating))
+end
+```
+
+    ## 58788×24 DataFrame
+    ##    Row │ Title                            Year   Length  Budget    Rating   Vo ⋯
+    ##        │ String                           Int32  Int32   Int32?    Float64  In ⋯
+    ## ───────┼────────────────────────────────────────────────────────────────────────
+    ##      1 │ Blacksmith Scene                  1893       1   missing      7.0     ⋯
+    ##      2 │ Luis Martinetti, Contortionist    1894       1   missing      6.1
+    ##      3 │ Caicedo (with Pole)               1894       1   missing      5.8
+    ##      4 │ Glenroy Brothers (Comic Boxing)   1894       1   missing      5.4
+    ##      5 │ Buffalo Dance                     1894       1   missing      5.0     ⋯
+    ##      6 │ Bucking Broncho                   1894       1   missing      4.6
+    ##      7 │ Leonard-Cushing Fight             1894       1   missing      4.4
+    ##      8 │ Sioux Ghost Dance                 1894       1   missing      4.4
+    ##    ⋮   │                ⋮                   ⋮      ⋮        ⋮         ⋮        ⋱
+    ##  58782 │ Alone in the Dark                 2005      96  20000000      2.1   2 ⋯
+    ##  58783 │ King's Ransom                     2005      95   missing      2.0
+    ##  58784 │ Who Killed Cock Robin?            2005      88   missing      2.0
+    ##  58785 │ Alien Abduction                   2005      90    600000      1.9
+    ##  58786 │ Between                           2005      90   missing      1.9     ⋯
+    ##  58787 │ Son of the Mask                   2005      94  74000000      1.9   1
+    ##  58788 │ Lethal                            2005      90   missing      1.8
+    ##                                                19 columns and 58773 rows omitted
+
+## Using `across()`
+
+`across()` can be used with either `@mutate` or `@summarize` to operate
+on multiple columns and/or multiple functions
+
+### One variable, one function
+
+``` julia
+@chain movies begin
+  @mutate(Budget = Budget / 1_000_000)
+  @summarize(across(Budget, mean∘skipmissing))
+end
+```
+
+    ## 1×1 DataFrame
+    ##  Row │ Budget_mean_skipmissing
+    ##      │ Float64
+    ## ─────┼─────────────────────────
+    ##    1 │                 13.4125
+
+### One variable, one anonymous function
+
+``` julia
+@chain movies begin
+  @mutate(Budget = Budget / 1_000_000)
+  @summarize(across(Budget, (x -> mean(skipmissing(x)))))
+end
+```
+
+    ## 1×1 DataFrame
+    ##  Row │ Budget_function
+    ##      │ Float64
+    ## ─────┼─────────────────
+    ##    1 │         13.4125
+
+### Multiple variables, multiple functions
+
+``` julia
+@chain movies begin
+  @mutate(Budget = Budget / 1_000_000)
+  @summarize(across((Rating, Budget), (mean∘skipmissing, median∘skipmissing)))
+end
+```
+
+    ## 1×4 DataFrame
+    ##  Row │ Rating_mean_skipmissing  Budget_mean_skipmissing  Rating_median_skipmis ⋯
+    ##      │ Float64                  Float64                  Float64               ⋯
+    ## ─────┼──────────────────────────────────────────────────────────────────────────
+    ##    1 │                 5.93285                  13.4125                        ⋯
+    ##                                                                2 columns omitted
