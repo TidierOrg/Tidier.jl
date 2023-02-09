@@ -36,23 +36,26 @@ Tidier.jl currently supports the following macros and functions:
 
 - Selection helpers like `startswith()` are not supported yet
 
+## What's new in version 0.2.0
+
+- Fixed bug with `@rename()` so that it supports multiple arguments
+- Added support for numerical selection (both positive and negative) to `@select()`
+- Added support for `@slice()`, including positive and negative indexing
+- Added support for `@arrange()`, including the use of `desc()` to specify descending order
+- Added support for `across()`, which has been confirmed to work with both `@mutate()`, `@summarize()`, and `@summarise()`.
+- Re-export `Statistics` and `Chain.jl`
+
 Until the docs are built, this README will document the common functionality.
 
 ## Overview of the package
 
 First, we need to install the package.
 
-```julia
+```{julia}
 import Pkg
 Pkg.add(url = "https://github.com/kdpsingh/Tidier.jl")
 using Tidier
 ```
-
-```{julia}
-#| include: false
-using Main.Tidier
-```
-
 
 Next, let's load the `movies` dataset.
 
@@ -81,17 +84,15 @@ describe(movies)
 end
 ```
 
-### Select the first 5 columns by number
+### Select the first 5 columns individually by number
 
 ```{julia}
 @chain movies begin
-  @select(1:5)
+  @select(1, 2, 3, 4, 5)
 end
 ```
 
 ### Select the first 5 columns by name
-
-The multicolumn select is a wrapper around the `Between()` function in DataFrames.jl.
 
 ```{julia}
 @chain movies begin
@@ -99,11 +100,11 @@ The multicolumn select is a wrapper around the `Between()` function in DataFrame
 end
 ```
 
-### Select all but the first 5 columns by number
+### Select the first 5 columns by number
 
 ```{julia}
 @chain movies begin
-  @select(-(1:5))
+  @select(1:5)
 end
 ```
 
@@ -115,11 +116,19 @@ end
 end
 ```
 
+### Select all but the first 5 columns by number
+
+```{julia}
+@chain movies begin
+  @select(-(1:5))
+end
+```
+
 ### Mix and match selection
 
 ```{julia}
 @chain movies begin
-  @select(Title, Budget:Rating)
+  @select(1, Budget:Rating)
 end
 ```
 
@@ -142,7 +151,6 @@ You can also use the `@rename()` function to directly rename columns without per
 ```{julia}
 @chain movies begin
   @rename(title = Title, money = Budget)
-  @select(title, money)
 end
 ```
 
@@ -194,7 +202,7 @@ end
 
 ## Filtering data
 
-Let's take a look at the movies whose budget was more than average. While it's easy in R to do this all wthin a single `@filter()` statement, there are still some bugs I am ironing out. In the meantime, splitting it up as follows works perfectly fine.
+Let's take a look at the movies whose budget was more than average. While it's easy in R to do this all wthin a single `@filter()` statement, this requires a bit more work in Julia because the `>=` operator generates an error when it receives missing values. I am considering possible workarounds.
 
 ```{julia}
 @chain movies begin
@@ -208,21 +216,31 @@ end
 
 ## Slicing
 
-Slicing has not been implemented yet. Here is a workaround for now.
+### Slicing using a range of numbers
 
 ```{julia}
 @chain movies begin
-  @mutate(row_number = 1:length(Title))
-  @filter(row_number <= 5)
+  @slice(1:5)
 end
 ```
+
+### You can separate multiple selections with commas
 
 ```{julia}
 @chain movies begin
-  @slice(1)
+  @slice(1:5, 10)
 end
 ```
 
+### Inverted selection is also supported using negative numbers
+
+This line selects all rows *except* the first 5 rows.
+
+```{julia}
+@chain movies begin
+  @slice(-(1:5))
+end
+```
 
 ## Grouping
 
@@ -241,13 +259,14 @@ end
 ```{julia}
 @chain movies begin
   @group_by(Year)
-  @summarize(Mean_Yearly_Rating = mean(skipmissing(Rating)))
+  @summarize(Mean_Yearly_Rating = mean(skipmissing(Rating)),
+             Median_Yearly_Rating = median(skipmissing(Rating)))
 end
 ```
 
 ## Arrange
 
-### Both in ascending order
+### Sort both in ascending order
 
 ```{julia}
 @chain movies begin
@@ -255,7 +274,7 @@ end
 end
 ```
 
-### In a mix of ascending and descending order
+### Sort in a mix of ascending and descending order
 
 ```{julia}
 @chain movies begin
@@ -265,7 +284,7 @@ end
 
 ## Using `across()`
 
-`across()` can be used with either `@mutate` or `@summarize`
+`across()` can be used with either `@mutate` or `@summarize` to operate on multiple columns and/or multiple functions
 
 ### One variable, one function
 

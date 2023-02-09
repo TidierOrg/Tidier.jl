@@ -19,7 +19,7 @@ Tidier.jl has two goals, which differentiate it from other data analysis meta-pa
 
 To support R-style programming, Tidier.jl is implemented using macros.
 
-Tidier.jl currently supports the following macros:
+Tidier.jl currently supports the following macros and functions:
 
 - `@select()`
 - `@transmute()` (which is just an alias for `@select()` because they share the backend implementation in DataFrames.jl)
@@ -28,17 +28,28 @@ Tidier.jl currently supports the following macros:
 - `@summarize()` and `@summarise()`
 - `@filter()`
 - `@group_by()`
+- `@slice()`
+- `@arrange()`
+- `across()`
 
 ## What's missing?
 
-Helper selector functions like `starts_with()` aren't implemented yet. The `across()` function isn't implemented yet but will be relatively straightforward to implement.
+- Selection helpers like `startswith()` are not supported yet
+
+## What's new in version 0.2.0
+
+- Fixed bug with `@rename()` so that it supports multiple arguments
+- Added support for numerical selection (both positive and negative) to `@select()`
+- Added support for `@slice()`, including positive and negative indexing
+- Added support for `@arrange()`, including the use of `desc()` to specify descending order
+- Added support for `across()`, which has been confirmed to work with both `@mutate()`, `@summarize()`, and `@summarise()`.
+- Re-export `Statistics` and `Chain.jl`
 
 Until the docs are built, this README will document the common functionality.
 
 ## Overview of the package
 
 First, we need to install the package.
-
 
 ```{julia}
 import Pkg
@@ -73,12 +84,15 @@ describe(movies)
 end
 ```
 
+### Select the first 5 columns individually by number
+
+```{julia}
+@chain movies begin
+  @select(1, 2, 3, 4, 5)
+end
+```
 
 ### Select the first 5 columns by name
-
-The multicolumn select is a wrapper around the `Between()` function in DataFrames.jl.
-
-Note: Indexing columns by number is not supported yet.
 
 ```{julia}
 @chain movies begin
@@ -86,9 +100,15 @@ Note: Indexing columns by number is not supported yet.
 end
 ```
 
-### Select all but the first 5 columns by name
+### Select the first 5 columns by number
 
-Note: Currently, the `-start` or `-(start:finish)` notation is recommended. The negation is a wrapper around the `Not()` function in DataFrames.jl.
+```{julia}
+@chain movies begin
+  @select(1:5)
+end
+```
+
+### Select all but the first 5 columns by name
 
 ```{julia}
 @chain movies begin
@@ -96,11 +116,19 @@ Note: Currently, the `-start` or `-(start:finish)` notation is recommended. The 
 end
 ```
 
+### Select all but the first 5 columns by number
+
+```{julia}
+@chain movies begin
+  @select(-(1:5))
+end
+```
+
 ### Mix and match selection
 
 ```{julia}
 @chain movies begin
-  @select(Title, Budget:Rating)
+  @select(1, Budget:Rating)
 end
 ```
 
@@ -120,13 +148,9 @@ end
 
 You can also use the `@rename()` function to directly rename columns without performing selection.
 
-Note: There is currently a bug such that only one column name can be renamed at a time. 
-
 ```{julia}
 @chain movies begin
-  @rename(title = Title)
-  @rename(money = Budget)
-  @select(title, money)
+  @rename(title = Title, money = Budget)
 end
 ```
 
@@ -178,7 +202,7 @@ end
 
 ## Filtering data
 
-Let's take a look at the movies whose budget was more than average. While it's easy in R to do this all wthin a single `@filter()` statement, there are still some bugs I am ironing out. In the meantime, splitting it up as follows works perfectly fine.
+Let's take a look at the movies whose budget was more than average. While it's easy in R to do this all wthin a single `@filter()` statement, this requires a bit more work in Julia because the `>=` operator generates an error when it receives missing values. I am considering possible workarounds.
 
 ```{julia}
 @chain movies begin
@@ -192,12 +216,29 @@ end
 
 ## Slicing
 
-Slicing has not been implemented yet. Here is a workaround for now.
+### Slicing using a range of numbers
 
 ```{julia}
 @chain movies begin
-  @mutate(row_number = 1:length(Title))
-  @filter(row_number <= 5)
+  @slice(1:5)
+end
+```
+
+### You can separate multiple selections with commas
+
+```{julia}
+@chain movies begin
+  @slice(1:5, 10)
+end
+```
+
+### Inverted selection is also supported using negative numbers
+
+This line selects all rows *except* the first 5 rows.
+
+```{julia}
+@chain movies begin
+  @slice(-(1:5))
 end
 ```
 
@@ -218,6 +259,56 @@ end
 ```{julia}
 @chain movies begin
   @group_by(Year)
-  @summarize(Mean_Yearly_Rating = mean(skipmissing(Rating)))
+  @summarize(Mean_Yearly_Rating = mean(skipmissing(Rating)),
+             Median_Yearly_Rating = median(skipmissing(Rating)))
+end
+```
+
+## Arrange
+
+### Sort both in ascending order
+
+```{julia}
+@chain movies begin
+  @arrange(Title, Year)
+end
+```
+
+### Sort in a mix of ascending and descending order
+
+```{julia}
+@chain movies begin
+  @arrange(desc(Title), Year)
+end
+```
+
+## Using `across()`
+
+`across()` can be used with either `@mutate` or `@summarize` to operate on multiple columns and/or multiple functions
+
+### One variable, one function
+
+```{julia}
+@chain movies begin
+  @mutate(Budget = Budget / 1_000_000)
+  @summarize(across(Budget, mean∘skipmissing))
+end
+```
+
+### One variable, one anonymous function
+
+```{julia}
+@chain movies begin
+  @mutate(Budget = Budget / 1_000_000)
+  @summarize(across(Budget, (x -> mean(skipmissing(x)))))
+end
+```
+
+### Multiple variables, multiple functions
+
+```{julia}
+@chain movies begin
+  @mutate(Budget = Budget / 1_000_000)
+  @summarize(across((Rating, Budget), (mean∘skipmissing, median∘skipmissing)))
 end
 ```
