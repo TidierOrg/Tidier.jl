@@ -7,6 +7,7 @@
 - Added support for `@slice()`, including positive and negative indexing
 - Added support for `@arrange()`, including the use of `desc()` to specify descending order
 - Added support for `across()`, which has been confirmed to work with both `@mutate()`, `@summarize()`, and `@summarise()`.
+- Re-export `Statistics` and `Chain.jl`
 
 ## 2023-02-07
 
