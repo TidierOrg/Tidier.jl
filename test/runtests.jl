@@ -1,3 +1,4 @@
+push!(LOAD_PATH, "./src/Tidier.jl")
 using .Tidier
 using Test
 
@@ -6,6 +7,7 @@ using Chain
 using Statistics
 
 df2 = DataFrame(a = 1:10, b = 11:20)
+df3 = DataFrame(a = 1:5, c = 11:15) 
 
 @autovec(df2, "select", a = b + 1)
 
@@ -42,6 +44,10 @@ end
 
 @macroexpand @chain df2 begin
   @select(a)
+end
+
+@chain df2 begin
+  @left_join(df3, on = :a)
 end
 
 

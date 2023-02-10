@@ -8,7 +8,8 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange
+export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, 
+       @innerjoin, @leftjoin, @rightjoin, @outerjoin
 
 # Non-exported helper functions
 # across(), desc()
@@ -237,6 +238,30 @@ end
 macro group_by(df, exprs...)
   quote
     @autovec($(esc(df)), "groupby", $(exprs...))
+  end
+end
+
+macro inner_join(df, exprs...)
+  quote
+    @autovec($(esc(df)), "innerjoin", $(exprs...))
+  end
+end
+
+macro left_join(df, exprs...)
+  quote
+    @autovec($(esc(df)), "leftjoin", $(exprs...))
+  end
+end
+
+macro right_join(df, exprs...)
+  quote
+    @autovec($(esc(df)), "rightjoin", $(exprs...))
+  end
+end
+
+macro outer_join(df, exprs...)
+  quote
+    @autovec($(esc(df)), "outerjoin", $(exprs...))
   end
 end
 
