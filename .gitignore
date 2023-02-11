@@ -1,1 +1,14 @@
 /Manifest.toml
+
+tmp
+generated
+build
+.vscode
+.DS_Store
+
+docs/docs
+docs/site
+docs/build
+docs/var
+deps/build.jl
+Manifest.toml
