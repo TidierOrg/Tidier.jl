@@ -178,6 +178,7 @@ macro autovec(df, fn_name, exprs...)
 
   fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+)\)(.+)$" => s"\1\2\3")
   fn_call = replace(fn_call, r"\)+, " => s"), ")
+  fn_call = replace(fn_call, r"Symbol\((.+?)\)" => s"var\1")
 
   println(fn_call)
 
@@ -304,14 +305,8 @@ macro arrange(df, exprs...)
   end
 
   fn_call = "sort($df, " *  join(arr_calls, ",") * ")"
+  fn_call = replace(fn_call, r"(##\d+)" => s"var\"\1\"")
   
-  # After :escape, there is either a symbol containing name of data frame
-  # as in :movies, or if using @chain, then may say Symbol("##123"), so
-  # colon is optional.
-
-  fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+)\)(.+)$" => s"\1\2\3")
-  fn_call = replace(fn_call, r"\)+, " => s"), ")
-
   println(fn_call)
 
   return_val = quote

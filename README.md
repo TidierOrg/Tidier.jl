@@ -145,6 +145,8 @@ describe(movies)
 end
 ```
 
+    ## select(Symbol("##312"), :Title,:Year,:Length,:Budget,:Rating)
+
     ## 58788×5 DataFrame
     ##    Row │ Title                     Year   Length  Budget    Rating
     ##        │ String                    Int32  Int32   Int32?    Float64
@@ -174,6 +176,8 @@ end
   @select(1, 2, 3, 4, 5)
 end
 ```
+
+    ## select(Symbol("##314"), :1,:2,:3,:4,:5)
 
     ## 58788×5 DataFrame
     ##    Row │ Title                     Year   Length  Budget    Rating
@@ -205,6 +209,8 @@ end
 end
 ```
 
+    ## select(Symbol("##316"), Between( :Title,:Rating)
+
     ## 58788×5 DataFrame
     ##    Row │ Title                     Year   Length  Budget    Rating
     ##        │ String                    Int32  Int32   Int32?    Float64
@@ -234,6 +240,8 @@ end
   @select(1:5)
 end
 ```
+
+    ## select(Symbol("##318"), Between( :1,:5)
 
     ## 58788×5 DataFrame
     ##    Row │ Title                     Year   Length  Budget    Rating
@@ -265,6 +273,8 @@ end
 end
 ```
 
+    ## select(Symbol("##320"), Not(Between( :Title,:Rating))
+
     ## 58788×19 DataFrame
     ##    Row │ Votes  R1       R2       R3       R4       R5       R6       R7       ⋯
     ##        │ Int32  Float64  Float64  Float64  Float64  Float64  Float64  Float64  ⋯
@@ -295,6 +305,8 @@ end
 end
 ```
 
+    ## select(Symbol("##322"), Not(Between( :1,:5))
+
     ## 58788×19 DataFrame
     ##    Row │ Votes  R1       R2       R3       R4       R5       R6       R7       ⋯
     ##        │ Int32  Float64  Float64  Float64  Float64  Float64  Float64  Float64  ⋯
@@ -324,6 +336,8 @@ end
   @select(1, Budget:Rating)
 end
 ```
+
+    ## select(Symbol("##324"), :1,Between( :Budget,:Rating)
 
     ## 58788×3 DataFrame
     ##    Row │ Title                     Budget    Rating
@@ -359,6 +373,8 @@ You can use the `@select()` function to rename and select columns.
 end
 ```
 
+    ## select(Symbol("##326"), [:Title] => ((Title) -> Title) => :title,[:Budget] => ((Budget) -> Budget => :money)
+
     ## 58788×2 DataFrame
     ##    Row │ title                     money
     ##        │ String                    Int32?
@@ -391,6 +407,8 @@ without performing selection.
   @rename(title = Title, money = Budget)
 end
 ```
+
+    ## rename(Symbol("##328"), :Title => :title,:Budget => :money)
 
     ## 58788×24 DataFrame
     ##    Row │ title                     Year   Length  money     Rating   Votes  R1 ⋯
@@ -430,6 +448,10 @@ values.
 end
 ```
 
+    ## subset(Symbol("##330"), [:Budget] => ((Budget) -> .!(ismissing.(Budget)))
+    ## transform(Symbol("##331"), [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+    ## select(Symbol("##332"), :Title,:Budget)
+
     ## 5215×2 DataFrame
     ##   Row │ Title                        Budget
     ##       │ String                       Float64
@@ -466,6 +488,9 @@ from DataFrames.jl.
 end
 ```
 
+    ## subset(Symbol("##334"), [:Budget] => ((Budget) -> .!(ismissing.(Budget)))
+    ## select(Symbol("##335"), [:Title] => ((Title) -> Title) => :Title,[:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+
     ## 5215×2 DataFrame
     ##   Row │ Title                        Budget
     ##       │ String                       Float64
@@ -497,6 +522,10 @@ end
   @select(Title, Budget, Budget_Millions)
 end
 ```
+
+    ## subset(Symbol("##337"), [:Budget] => ((Budget) -> .!(ismissing.(Budget)))
+    ## transform(Symbol("##338"), [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget_Millions)
+    ## select(Symbol("##339"), :Title,:Budget,:Budget_Millions)
 
     ## 5215×3 DataFrame
     ##   Row │ Title                        Budget    Budget_Millions
@@ -531,6 +560,9 @@ Both `@summarize` and `@summarise` can be used.
 end
 ```
 
+    ## subset(Symbol("##341"), [:Budget] => ((Budget) -> .!(ismissing.(Budget)))
+    ## combine(Symbol("##342"), [:Title] => ((Title) -> length(Title) => :nrow)
+
     ## 1×1 DataFrame
     ##  Row │ nrow
     ##      │ Int64
@@ -553,6 +585,11 @@ considering possible workarounds.
   @select(Title, Budget)
 end
 ```
+
+    ## transform(Symbol("##344"), [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+    ## subset(Symbol("##345"), [:Budget] => ((Budget) -> .!(ismissing.(Budget)))
+    ## subset(Symbol("##346"), [:Budget] => ((Budget) -> Budget .>=mean(skipmissing(Budget)))
+    ## select(Symbol("##347"), :Title,:Budget)
 
     ## 1438×2 DataFrame
     ##   Row │ Title                       Budget
@@ -586,6 +623,8 @@ end
 end
 ```
 
+    ## var"##349"[[1, 2, 3, 4, 5], :]
+
     ## 5×24 DataFrame
     ##  Row │ Title                     Year   Length  Budget   Rating   Votes  R1    ⋯
     ##      │ String                    Int32  Int32   Int32?   Float64  Int32  Float ⋯
@@ -604,6 +643,8 @@ end
   @slice(1:5, 10)
 end
 ```
+
+    ## var"##351"[[1, 2, 3, 4, 5, 10], :]
 
     ## 6×24 DataFrame
     ##  Row │ Title                     Year   Length  Budget   Rating   Votes  R1    ⋯
@@ -626,6 +667,8 @@ This line selects all rows *except* the first 5 rows.
   @slice(-(1:5))
 end
 ```
+
+    ## var"##353"[Not([1, 2, 3, 4, 5]), :]
 
     ## 58783×24 DataFrame
     ##    Row │ Title                    Year   Length  Budget    Rating   Votes  R1  ⋯
@@ -661,6 +704,9 @@ end
 end
 ```
 
+    ## transform(Symbol("##356"), [:Rating] => ((Rating) -> mean(skipmissing(Rating)) => :Mean_Yearly_Rating)
+    ## select(Symbol("##357"), :Year,:Rating,:Mean_Yearly_Rating)
+
     ## 58788×3 DataFrame
     ##    Row │ Year   Rating   Mean_Yearly_Rating
     ##        │ Int32  Float64  Float64
@@ -692,6 +738,8 @@ end
              Median_Yearly_Rating = median(skipmissing(Rating)))
 end
 ```
+
+    ## combine(Symbol("##360"), [:Rating] => ((Rating) -> mean(skipmissing(Rating))) => :Mean_Yearly_Rating,[:Rating] => ((Rating) -> median(skipmissing(Rating)) => :Median_Yearly_Rating)
 
     ## 113×3 DataFrame
     ##  Row │ Year   Mean_Yearly_Rating  Median_Yearly_Rating
@@ -725,6 +773,8 @@ end
 end
 ```
 
+    ## sort(##362, :Year,:Rating)
+
     ## 58788×24 DataFrame
     ##    Row │ Title                            Year   Length  Budget   Rating   Vot ⋯
     ##        │ String                           Int32  Int32   Int32?   Float64  Int ⋯
@@ -754,6 +804,8 @@ end
   @arrange(Year, desc(Rating))
 end
 ```
+
+    ## sort(##364, :Year,order(:Rating, rev=true))
 
     ## 58788×24 DataFrame
     ##    Row │ Title                            Year   Length  Budget    Rating   Vo ⋯
@@ -791,6 +843,9 @@ on multiple columns and/or multiple functions
 end
 ```
 
+    ## transform(Symbol("##366"), [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+    ## combine(Symbol("##367"), [:Budget] .=> [mean ∘ skipmissing])
+
     ## 1×1 DataFrame
     ##  Row │ Budget_mean_skipmissing
     ##      │ Float64
@@ -806,6 +861,13 @@ end
 end
 ```
 
+    ## transform(Symbol("##369"), [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+    ## combine($(Expr(:escape, Symbol("##370"), [:Budget] .=> [x->begin
+    ##         #= none:7 =#
+    ##         #= none:9 =#
+    ##         mean(skipmissing(x))
+    ##     end])
+
     ## 1×1 DataFrame
     ##  Row │ Budget_function
     ##      │ Float64
@@ -820,6 +882,9 @@ end
   @summarize(across((Rating, Budget), (mean∘skipmissing, median∘skipmissing)))
 end
 ```
+
+    ## transform(Symbol("##372"), [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+    ## combine(Symbol("##373"), [:Rating :Budget] .=> [mean ∘ skipmissing, median ∘ skipmissing])
 
     ## 1×4 DataFrame
     ##  Row │ Rating_mean_skipmissing  Rating_median_skipmissing  Budget_mean_skipmis ⋯
