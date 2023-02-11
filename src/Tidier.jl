@@ -176,9 +176,8 @@ macro autovec(df, fn_name, exprs...)
   # as in :movies, or if using @chain, then may say Symbol("##123"), so
   # colon is optional.
 
-  fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+)\)(.+)$" => s"\1\2\3")
-  fn_call = replace(fn_call, r"\)+, " => s"), ")
-  fn_call = replace(fn_call, r"Symbol\((.+?)\)" => s"var\1")
+  fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+?)\)(.+)$" => s"\1\2\3")
+  fn_call = replace(fn_call, r"Symbol\((\".+?\")\)+," => s"var\1,")
 
   println(fn_call)
 
