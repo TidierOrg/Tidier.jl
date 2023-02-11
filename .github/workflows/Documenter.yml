@@ -23,7 +23,6 @@ jobs:
         with:
           cache-registries: "true"
       - name: Install documentation dependencies
-      - name: Install pkgs dependencies
         run: julia --project=docs -e 'using Pkg; Pkg.instantiate()'
       - name: Build and deploy
         env:
