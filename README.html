@@ -736,7 +736,7 @@ first 5 columns individually by name</h3>
 <div class="sourceCode" id="cb6"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title, Year, Length, Budget, Rating)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## select(var&quot;##375&quot;, :Title,:Year,:Length,:Budget,:Rating)
+<pre><code>## select(var&quot;##312&quot;, :Title,:Year,:Length,:Budget,:Rating)
 
 ## 58788×5 DataFrame
 ##    Row │ Title                     Year   Length  Budget    Rating
@@ -764,7 +764,7 @@ first 5 columns individually by number</h3>
 <div class="sourceCode" id="cb8"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## select(var&quot;##377&quot;, :1,:2,:3,:4,:5)
+<pre><code>## select(var&quot;##314&quot;, :1,:2,:3,:4,:5)
 
 ## 58788×5 DataFrame
 ##    Row │ Title                     Year   Length  Budget    Rating
@@ -792,7 +792,7 @@ by name</h3>
 <div class="sourceCode" id="cb10"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title<span class="op">:</span>Rating)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## select(var&quot;##379&quot;, Between( :Title,:Rating))
+<pre><code>## select(var&quot;##316&quot;, Between( :Title,:Rating))
 
 ## 58788×5 DataFrame
 ##    Row │ Title                     Year   Length  Budget    Rating
@@ -820,7 +820,7 @@ by number</h3>
 <div class="sourceCode" id="cb12"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## select(var&quot;##381&quot;, Between( :1,:5))
+<pre><code>## select(var&quot;##318&quot;, Between( :1,:5))
 
 ## 58788×5 DataFrame
 ##    Row │ Title                     Year   Length  Budget    Rating
@@ -848,7 +848,7 @@ first 5 columns by name</h3>
 <div class="sourceCode" id="cb14"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(<span class="fu">-</span>(Title<span class="op">:</span>Rating))</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## select(var&quot;##383&quot;, Not(Between( :Title,:Rating)))
+<pre><code>## select(var&quot;##320&quot;, Not(Between( :Title,:Rating)))
 
 ## 58788×19 DataFrame
 ##    Row │ Votes  R1       R2       R3       R4       R5       R6       R7       ⋯
@@ -876,7 +876,7 @@ first 5 columns by number</h3>
 <div class="sourceCode" id="cb16"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(<span class="fu">-</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## select(var&quot;##385&quot;, Not(Between( :1,:5)))
+<pre><code>## select(var&quot;##322&quot;, Not(Between( :1,:5)))
 
 ## 58788×19 DataFrame
 ##    Row │ Votes  R1       R2       R3       R4       R5       R6       R7       ⋯
@@ -903,7 +903,7 @@ first 5 columns by number</h3>
 <div class="sourceCode" id="cb18"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(<span class="fl">1</span>, Budget<span class="op">:</span>Rating)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## select(var&quot;##387&quot;, :1,Between( :Budget,:Rating))
+<pre><code>## select(var&quot;##324&quot;, :1,Between( :Budget,:Rating))
 
 ## 58788×3 DataFrame
 ##    Row │ Title                     Budget    Rating
@@ -933,7 +933,7 @@ columns.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(title <span class="op">=</span> Title, money <span class="op">=</span> Budget)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## select(var&quot;##389&quot;, [:Title] =&gt; ((Title) -&gt; Title) =&gt; :title,[:Budget] =&gt; ((Budget) -&gt; Budget) =&gt; :money)
+<pre><code>## select(var&quot;##326&quot;, [:Title] =&gt; ((Title) -&gt; Title) =&gt; :title,[:Budget] =&gt; ((Budget) -&gt; Budget) =&gt; :money)
 
 ## 58788×2 DataFrame
 ##    Row │ title                     money
@@ -962,7 +962,7 @@ rename columns without performing selection.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@rename</span>(title <span class="op">=</span> Title, money <span class="op">=</span> Budget)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## rename(var&quot;##391&quot;, :Title =&gt; :title,:Budget =&gt; :money)
+<pre><code>## rename(var&quot;##328&quot;, :Title =&gt; :title,:Budget =&gt; :money)
 
 ## 58788×24 DataFrame
 ##    Row │ title                     Year   Length  money     Rating   Votes  R1 ⋯
@@ -995,9 +995,9 @@ first remove the missing values.</p>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Budget <span class="op">=</span> Budget<span class="op">/</span><span class="fl">1_000_000</span>)</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title, Budget)</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## subset(var&quot;##393&quot;, [:Budget] =&gt; ((Budget) -&gt; .!(ismissing.(Budget))))
-## transform(var&quot;##394&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
-## select(var&quot;##395&quot;, :Title,:Budget)
+<pre><code>## subset(var&quot;##330&quot;, [:Budget] =&gt; ((Budget) -&gt; .!(ismissing.(Budget))))
+## transform(var&quot;##331&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
+## select(var&quot;##332&quot;, :Title,:Budget)
 
 ## 5215×2 DataFrame
 ##   Row │ Title                        Budget
@@ -1030,8 +1030,8 @@ first remove the missing values.</p>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@filter</span>(!<span class="fu">ismissing</span>(Budget))</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@transmute</span>(Title <span class="op">=</span> Title, Budget <span class="op">=</span> Budget<span class="op">/</span><span class="fl">1_000_000</span>)</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## subset(var&quot;##397&quot;, [:Budget] =&gt; ((Budget) -&gt; .!(ismissing.(Budget))))
-## select(var&quot;##398&quot;, [:Title] =&gt; ((Title) -&gt; Title) =&gt; :Title,[:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
+<pre><code>## subset(var&quot;##334&quot;, [:Budget] =&gt; ((Budget) -&gt; .!(ismissing.(Budget))))
+## select(var&quot;##335&quot;, [:Title] =&gt; ((Title) -&gt; Title) =&gt; :Title,[:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
 
 ## 5215×2 DataFrame
 ##   Row │ Title                        Budget
@@ -1060,9 +1060,9 @@ first remove the missing values.</p>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Budget_Millions <span class="op">=</span> Budget<span class="op">/</span><span class="fl">1_000_000</span>)</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title, Budget, Budget_Millions)</span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## subset(var&quot;##400&quot;, [:Budget] =&gt; ((Budget) -&gt; .!(ismissing.(Budget))))
-## transform(var&quot;##401&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget_Millions)
-## select(var&quot;##402&quot;, :Title,:Budget,:Budget_Millions)
+<pre><code>## subset(var&quot;##337&quot;, [:Budget] =&gt; ((Budget) -&gt; .!(ismissing.(Budget))))
+## transform(var&quot;##338&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget_Millions)
+## select(var&quot;##339&quot;, :Title,:Budget,:Budget_Millions)
 
 ## 5215×3 DataFrame
 ##   Row │ Title                        Budget    Budget_Millions
@@ -1092,8 +1092,8 @@ used.</p>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@filter</span>(!<span class="fu">ismissing</span>(Budget))</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@summarize</span>(nrow <span class="op">=</span> <span class="fu">length</span>(Title))</span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## subset(var&quot;##404&quot;, [:Budget] =&gt; ((Budget) -&gt; .!(ismissing.(Budget))))
-## combine(var&quot;##405&quot;, [:Title] =&gt; ((Title) -&gt; length(Title)) =&gt; :nrow)
+<pre><code>## subset(var&quot;##341&quot;, [:Budget] =&gt; ((Budget) -&gt; .!(ismissing.(Budget))))
+## combine(var&quot;##342&quot;, [:Title] =&gt; ((Title) -&gt; length(Title)) =&gt; :nrow)
 
 ## 1×1 DataFrame
 ##  Row │ nrow
@@ -1112,10 +1112,10 @@ receives missing values. I am considering possible workarounds.</p>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@filter</span>(Budget <span class="op">&gt;=</span> <span class="fu">mean</span>(<span class="fu">skipmissing</span>(Budget)))</span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Title, Budget)</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## transform(var&quot;##407&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
-## subset(var&quot;##408&quot;, [:Budget] =&gt; ((Budget) -&gt; .!(ismissing.(Budget))))
-## subset(var&quot;##409&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget .&gt;=mean(skipmissing(Budget))))
-## select(var&quot;##410&quot;, :Title,:Budget)
+<pre><code>## transform(var&quot;##344&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
+## subset(var&quot;##345&quot;, [:Budget] =&gt; ((Budget) -&gt; .!(ismissing.(Budget))))
+## subset(var&quot;##346&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget .&gt;=mean(skipmissing(Budget))))
+## select(var&quot;##347&quot;, :Title,:Budget)
 
 ## 1438×2 DataFrame
 ##   Row │ Title                       Budget
@@ -1144,7 +1144,7 @@ numbers</h3>
 <div class="sourceCode" id="cb34"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@slice</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## var&quot;##412&quot;[[1, 2, 3, 4, 5], :]
+<pre><code>## var&quot;##349&quot;[[1, 2, 3, 4, 5], :]
 
 ## 5×24 DataFrame
 ##  Row │ Title                     Year   Length  Budget   Rating   Votes  R1    ⋯
@@ -1161,7 +1161,7 @@ separate multiple selections with commas</h3>
 <div class="sourceCode" id="cb36"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@slice</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">10</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## var&quot;##414&quot;[[1, 2, 3, 4, 5, 10], :]
+<pre><code>## var&quot;##351&quot;[[1, 2, 3, 4, 5, 10], :]
 
 ## 6×24 DataFrame
 ##  Row │ Title                     Year   Length  Budget   Rating   Votes  R1    ⋯
@@ -1180,7 +1180,7 @@ selection is also supported using negative numbers</h3>
 <div class="sourceCode" id="cb38"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@slice</span>(<span class="fu">-</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>))</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## var&quot;##416&quot;[Not([1, 2, 3, 4, 5]), :]
+<pre><code>## var&quot;##353&quot;[Not([1, 2, 3, 4, 5]), :]
 
 ## 58783×24 DataFrame
 ##    Row │ Title                    Year   Length  Budget    Rating   Votes  R1  ⋯
@@ -1211,8 +1211,9 @@ selection is also supported using negative numbers</h3>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Mean_Yearly_Rating <span class="op">=</span> <span class="fu">mean</span>(<span class="fu">skipmissing</span>(Rating)))</span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@select</span>(Year, Rating, Mean_Yearly_Rating)</span>
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## transform(var&quot;##419&quot;, [:Rating] =&gt; ((Rating) -&gt; mean(skipmissing(Rating))) =&gt; :Mean_Yearly_Rating)
-## select(var&quot;##420&quot;, :Year,:Rating,:Mean_Yearly_Rating)
+<pre><code>## groupby(var&quot;##355&quot;, :Year)
+## transform(var&quot;##356&quot;, [:Rating] =&gt; ((Rating) -&gt; mean(skipmissing(Rating))) =&gt; :Mean_Yearly_Rating)
+## select(var&quot;##357&quot;, :Year,:Rating,:Mean_Yearly_Rating)
 
 ## 58788×3 DataFrame
 ##    Row │ Year   Rating   Mean_Yearly_Rating
@@ -1242,7 +1243,8 @@ selection is also supported using negative numbers</h3>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@summarize</span>(Mean_Yearly_Rating <span class="op">=</span> <span class="fu">mean</span>(<span class="fu">skipmissing</span>(Rating)),</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>             Median_Yearly_Rating <span class="op">=</span> <span class="fu">median</span>(<span class="fu">skipmissing</span>(Rating)))</span>
 <span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## combine(var&quot;##423&quot;, [:Rating] =&gt; ((Rating) -&gt; mean(skipmissing(Rating))) =&gt; :Mean_Yearly_Rating,[:Rating] =&gt; ((Rating) -&gt; median(skipmissing(Rating))) =&gt; :Median_Yearly_Rating)
+<pre><code>## groupby(var&quot;##359&quot;, :Year)
+## combine(var&quot;##360&quot;, [:Rating] =&gt; ((Rating) -&gt; mean(skipmissing(Rating))) =&gt; :Mean_Yearly_Rating,[:Rating] =&gt; ((Rating) -&gt; median(skipmissing(Rating))) =&gt; :Median_Yearly_Rating)
 
 ## 113×3 DataFrame
 ##  Row │ Year   Mean_Yearly_Rating  Median_Yearly_Rating
@@ -1270,7 +1272,7 @@ selection is also supported using negative numbers</h3>
 <div class="sourceCode" id="cb44"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@arrange</span>(Year, Rating)</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## sort(var&quot;##425&quot;, :Year,:Rating)
+<pre><code>## sort(var&quot;##362&quot;, :Year,:Rating)
 
 ## 58788×24 DataFrame
 ##    Row │ Title                            Year   Length  Budget   Rating   Vot ⋯
@@ -1298,7 +1300,7 @@ of ascending and descending order</h3>
 <div class="sourceCode" id="cb46"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@chain</span> movies <span class="cf">begin</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@arrange</span>(Year, <span class="fu">desc</span>(Rating))</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## sort(var&quot;##427&quot;, :Year,order(:Rating, rev=true))
+<pre><code>## sort(var&quot;##364&quot;, :Year,order(:Rating, rev=true))
 
 ## 58788×24 DataFrame
 ##    Row │ Title                            Year   Length  Budget    Rating   Vo ⋯
@@ -1330,8 +1332,8 @@ functions</p>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Budget <span class="op">=</span> Budget <span class="op">/</span> <span class="fl">1_000_000</span>)</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@summarize</span>(<span class="fu">across</span>(Budget, mean<span class="op">∘</span>skipmissing))</span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## transform(var&quot;##429&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
-## combine(var&quot;##430&quot;, [:Budget] .=&gt; [mean ∘ skipmissing])
+<pre><code>## transform(var&quot;##366&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
+## combine(var&quot;##367&quot;, [:Budget] .=&gt; [mean ∘ skipmissing])
 
 ## 1×1 DataFrame
 ##  Row │ Budget_mean_skipmissing
@@ -1344,8 +1346,8 @@ function</h3>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Budget <span class="op">=</span> Budget <span class="op">/</span> <span class="fl">1_000_000</span>)</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@summarize</span>(<span class="fu">across</span>(Budget, (x <span class="op">-&gt;</span> <span class="fu">mean</span>(<span class="fu">skipmissing</span>(x)))))</span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## transform(var&quot;##432&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
-## combine($(Expr(:escape, var&quot;##433&quot;, [:Budget] .=&gt; [x-&gt;begin
+<pre><code>## transform(var&quot;##369&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
+## combine($(Expr(:escape, var&quot;##370&quot;, [:Budget] .=&gt; [x-&gt;begin
 ##         #= none:7 =#
 ##         #= none:9 =#
 ##         mean(skipmissing(x))
@@ -1362,8 +1364,8 @@ multiple functions</h3>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@mutate</span>(Budget <span class="op">=</span> Budget <span class="op">/</span> <span class="fl">1_000_000</span>)</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="pp">@summarize</span>(<span class="fu">across</span>((Rating, Budget), (mean<span class="op">∘</span>skipmissing, median<span class="op">∘</span>skipmissing)))</span>
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
-<pre><code>## transform(var&quot;##435&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
-## combine(var&quot;##436&quot;, [:Rating :Budget] .=&gt; [mean ∘ skipmissing, median ∘ skipmissing])
+<pre><code>## transform(var&quot;##372&quot;, [:Budget] =&gt; ((Budget) -&gt; Budget ./ 1000000) =&gt; :Budget)
+## combine(var&quot;##373&quot;, [:Rating :Budget] .=&gt; [mean ∘ skipmissing, median ∘ skipmissing])
 
 ## 1×4 DataFrame
 ##  Row │ Rating_mean_skipmissing  Rating_median_skipmissing  Budget_mean_skipmis ⋯
