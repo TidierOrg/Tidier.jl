@@ -1,3 +1,5 @@
+module TestTidier
+
 using Tidier
 using Test
 using DataFrames
@@ -25,6 +27,8 @@ end
   tidier = @mutate(test_df, c = a + 1)
 
   @test isequal(tidier, dataframes)
+
+end
 
 end
 
