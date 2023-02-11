@@ -58,7 +58,7 @@ using Tidier
 ```
 
 ```{julia, include = FALSE}
-Pkg.add(url = '/")
+Pkg.add(url = "Z:/kdpsingh/github/Tidier")
 using Tidier
 ```
 

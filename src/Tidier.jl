@@ -179,7 +179,7 @@ macro autovec(df, fn_name, exprs...)
   fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+)\)(.+)$" => s"\1\2\3")
   fn_call = replace(fn_call, r"\)+, " => s"), ")
 
-  @info fn_call
+  println(fn_call)
 
   # Meta.parse(fn_call)
 
@@ -265,7 +265,6 @@ macro slice(df, exprs...)
 
     local indices = [$(exprs...)]
     try
-      # @info indices
       if (all(indices .< 0))
         return_string = df_name * "[Not(" * string(-indices) * "), :]"
         return_value = $(esc(df))[Not(-copy(indices)), :]
@@ -274,7 +273,6 @@ macro slice(df, exprs...)
         return_value = $(esc(df))[copy(indices), :]
       end
     catch e
-      # @info indices
       local indices2 = reduce(vcat, collect.(indices))  
       if (all(indices2 .< 0))
         return_string = df_name * "[Not(" * string(-indices2) * "), :]"
@@ -284,7 +282,7 @@ macro slice(df, exprs...)
         return_value = $(esc(df))[copy(indices2), :]
       end
 
-      @info return_string
+      println(return_string)
       return return_value
     end
   end
@@ -314,7 +312,7 @@ macro arrange(df, exprs...)
   fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+)\)(.+)$" => s"\1\2\3")
   fn_call = replace(fn_call, r"\)+, " => s"), ")
 
-  @info fn_call
+  println(fn_call)
 
   return_val = quote
     arr_eval_calls = eval.(Meta.parse.($arr_calls))

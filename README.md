@@ -548,34 +548,33 @@ considering possible workarounds.
 ``` julia
 @chain movies begin
   @mutate(Budget = Budget / 1_000_000)
-  @mutate(Mean_Budget = mean(skipmissing(Budget)))
   @filter(!ismissing(Budget))
-  @filter(Budget >= Mean_Budget)
-  @select(Title, Budget, Mean_Budget)
+  @filter(Budget >= mean(skipmissing(Budget)))
+  @select(Title, Budget)
 end
 ```
 
-    ## 1438×3 DataFrame
-    ##   Row │ Title                       Budget    Mean_Budget
-    ##       │ String                      Float64?  Float64
-    ## ──────┼───────────────────────────────────────────────────
-    ##     1 │ 'Til There Was You              23.0      13.4125
-    ##     2 │ 10 Things I Hate About You      16.0      13.4125
-    ##     3 │ 102 Dalmatians                  85.0      13.4125
-    ##     4 │ 13 Going On 30                  37.0      13.4125
-    ##     5 │ 13th Warrior, The               85.0      13.4125
-    ##     6 │ 1492: Conquest of Paradise      47.0      13.4125
-    ##     7 │ 15 Minutes                      42.0      13.4125
-    ##     8 │ 1941                            35.0      13.4125
-    ##   ⋮   │             ⋮                  ⋮           ⋮
-    ##  1432 │ Yes, Giorgio                    19.0      13.4125
-    ##  1433 │ Ying xiong                      30.0      13.4125
-    ##  1434 │ You've Got Mail                 65.0      13.4125
-    ##  1435 │ Young Sherlock Holmes           18.0      13.4125
-    ##  1436 │ Zoolander                       28.0      13.4125
-    ##  1437 │ xXx                             85.0      13.4125
-    ##  1438 │ xXx: State of the Union         87.0      13.4125
-    ##                                          1423 rows omitted
+    ## 1438×2 DataFrame
+    ##   Row │ Title                       Budget
+    ##       │ String                      Float64?
+    ## ──────┼──────────────────────────────────────
+    ##     1 │ 'Til There Was You              23.0
+    ##     2 │ 10 Things I Hate About You      16.0
+    ##     3 │ 102 Dalmatians                  85.0
+    ##     4 │ 13 Going On 30                  37.0
+    ##     5 │ 13th Warrior, The               85.0
+    ##     6 │ 1492: Conquest of Paradise      47.0
+    ##     7 │ 15 Minutes                      42.0
+    ##     8 │ 1941                            35.0
+    ##   ⋮   │             ⋮                  ⋮
+    ##  1432 │ Yes, Giorgio                    19.0
+    ##  1433 │ Ying xiong                      30.0
+    ##  1434 │ You've Got Mail                 65.0
+    ##  1435 │ Young Sherlock Holmes           18.0
+    ##  1436 │ Zoolander                       28.0
+    ##  1437 │ xXx                             85.0
+    ##  1438 │ xXx: State of the Union         87.0
+    ##                             1423 rows omitted
 
 ## Slicing
 
@@ -823,8 +822,8 @@ end
 ```
 
     ## 1×4 DataFrame
-    ##  Row │ Rating_mean_skipmissing  Budget_mean_skipmissing  Rating_median_skipmis ⋯
-    ##      │ Float64                  Float64                  Float64               ⋯
+    ##  Row │ Rating_mean_skipmissing  Rating_median_skipmissing  Budget_mean_skipmis ⋯
+    ##      │ Float64                  Float64                    Float64             ⋯
     ## ─────┼──────────────────────────────────────────────────────────────────────────
-    ##    1 │                 5.93285                  13.4125                        ⋯
+    ##    1 │                 5.93285                        6.1                  13. ⋯
     ##                                                                2 columns omitted
