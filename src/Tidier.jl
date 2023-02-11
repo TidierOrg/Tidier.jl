@@ -8,10 +8,18 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange
+export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, across, desc
 
 # Non-exported helper functions
 # across(), desc()
+
+function across(args...)
+  throw("This function should only be called inside of @mutate(), @summarize, or @summarise.")
+end
+
+function desc(args...)
+  throw("This function should only be called inside of @arrange().")
+end
 
 macro autovec(df, fn_name, exprs...)
 
@@ -56,7 +64,7 @@ macro autovec(df, fn_name, exprs...)
             end
           end
           
-          vars_clean = "[" * join(vars_clean, ", ") * "]"
+          vars_clean = "[" * join(vars_clean, " ") * "]"
 
           fns_clean = string(ex[2])
           fns_clean = split(fns_clean, ", ")
@@ -66,14 +74,17 @@ macro autovec(df, fn_name, exprs...)
               fns_clean[i] = replace(fns_clean[i], r"\)$" => s"")
             end
           end
-          fns_clean = "[" * join(fns_clean, " ") * "]"
+          fns_clean = "[" * join(fns_clean, ", ") * "]"
 
           push!(arr_calls, vars_clean * " .=> " * fns_clean)
           check_if_across = true
         elseif fn_name == "combine" || (fn in [:mean :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith])
           return x
-        else
+        elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
           return :($fn.($(ex...)))
+        else # operator
+          fn_new = Symbol("." * string(fn))
+          return :($fn_new($(ex...)))
         end
       end
 
@@ -161,13 +172,20 @@ macro autovec(df, fn_name, exprs...)
 
   fn_call = "$fn_name($df, " *  join(arr_calls, ",") * ")"
   
-  # @info fn_call
+  # After :escape, there is either a symbol containing name of data frame
+  # as in :movies, or if using @chain, then may say Symbol("##123"), so
+  # colon is optional.
+
+  fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+)\)(.+)$" => s"\1\2\3")
+  fn_call = replace(fn_call, r"\)+, " => s"), ")
+
+  @info fn_call
 
   # Meta.parse(fn_call)
 
   return_val = quote
 
-    # Ultimately we need to remove this eval() because this limits the use of functions
+    # Ultimately we need to remove this eval() because this may limit the use of functions
     # to those re-exported by Tidier.jl
 
     arr_eval_calls = eval.(Meta.parse.($arr_calls))
@@ -242,28 +260,31 @@ end
 
 macro slice(df, exprs...)
   quote
+    df_name = $(string(df))
+    df_name = replace(df_name, r"^(##\d+)$" => s"var\"\1\"")
+
     local indices = [$(exprs...)]
     try
       # @info indices
       if (all(indices .< 0))
-        # return_string = "$df[Not(" * string(-indices) * "), :]"
+        return_string = df_name * "[Not(" * string(-indices) * "), :]"
         return_value = $(esc(df))[Not(-copy(indices)), :]
       else
-        # return_string = "$df[" * string(indices) * ", :]"
+        return_string = df_name * "[" * string(indices) * ", :]"
         return_value = $(esc(df))[copy(indices), :]
       end
     catch e
       # @info indices
       local indices2 = reduce(vcat, collect.(indices))  
       if (all(indices2 .< 0))
-        # return_string = "$df[Not(" * string(-indices) * "), :]"
+        return_string = df_name * "[Not(" * string(-indices2) * "), :]"
         return_value = $(esc(df))[Not(-copy(indices2)), :]
       else
-        # return_string = "$df[" * string(indices) * ", :]"
+        return_string = df_name * "[" * string(indices2) * ", :]"
         return_value = $(esc(df))[copy(indices2), :]
       end
 
-      # @info return_string
+      @info return_string
       return return_value
     end
   end
@@ -283,6 +304,17 @@ macro arrange(df, exprs...)
  
     push!(arr_calls, expr_string)
   end
+
+  fn_call = "sort($df, " *  join(arr_calls, ",") * ")"
+  
+  # After :escape, there is either a symbol containing name of data frame
+  # as in :movies, or if using @chain, then may say Symbol("##123"), so
+  # colon is optional.
+
+  fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+)\)(.+)$" => s"\1\2\3")
+  fn_call = replace(fn_call, r"\)+, " => s"), ")
+
+  @info fn_call
 
   return_val = quote
     arr_eval_calls = eval.(Meta.parse.($arr_calls))

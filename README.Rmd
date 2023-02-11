@@ -51,9 +51,14 @@ Until the docs are built, this README will document the common functionality.
 
 First, we need to install the package.
 
-```{julia}
+```{julia, eval = FALSE}
 import Pkg
 Pkg.add(url = "https://github.com/kdpsingh/Tidier.jl")
+using Tidier
+```
+
+```{julia, include = FALSE}
+Pkg.add(url = '/")
 using Tidier
 ```
 
@@ -205,10 +210,9 @@ Let's take a look at the movies whose budget was more than average. While it's e
 ```{julia}
 @chain movies begin
   @mutate(Budget = Budget / 1_000_000)
-  @mutate(Mean_Budget = mean(skipmissing(Budget)))
   @filter(!ismissing(Budget))
-  @filter(Budget >= Mean_Budget)
-  @select(Title, Budget, Mean_Budget)
+  @filter(Budget >= mean(skipmissing(Budget)))
+  @select(Title, Budget)
 end
 ```
 
