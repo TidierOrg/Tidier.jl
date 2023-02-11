@@ -209,7 +209,7 @@ end
 end
 ```
 
-    ## select(var"##316", Between( :Title,:Rating)
+    ## select(var"##316", Between( :Title,:Rating))
 
     ## 58788×5 DataFrame
     ##    Row │ Title                     Year   Length  Budget    Rating
@@ -241,7 +241,7 @@ end
 end
 ```
 
-    ## select(var"##318", Between( :1,:5)
+    ## select(var"##318", Between( :1,:5))
 
     ## 58788×5 DataFrame
     ##    Row │ Title                     Year   Length  Budget    Rating
@@ -273,7 +273,7 @@ end
 end
 ```
 
-    ## select(var"##320", Not(Between( :Title,:Rating))
+    ## select(var"##320", Not(Between( :Title,:Rating)))
 
     ## 58788×19 DataFrame
     ##    Row │ Votes  R1       R2       R3       R4       R5       R6       R7       ⋯
@@ -305,7 +305,7 @@ end
 end
 ```
 
-    ## select(var"##322", Not(Between( :1,:5))
+    ## select(var"##322", Not(Between( :1,:5)))
 
     ## 58788×19 DataFrame
     ##    Row │ Votes  R1       R2       R3       R4       R5       R6       R7       ⋯
@@ -337,7 +337,7 @@ end
 end
 ```
 
-    ## select(var"##324", :1,Between( :Budget,:Rating)
+    ## select(var"##324", :1,Between( :Budget,:Rating))
 
     ## 58788×3 DataFrame
     ##    Row │ Title                     Budget    Rating
@@ -373,7 +373,7 @@ You can use the `@select()` function to rename and select columns.
 end
 ```
 
-    ## select(var"##326", [:Title] => ((Title) -> Title) => :title,[:Budget] => ((Budget) -> Budget => :money)
+    ## select(var"##326", [:Title] => ((Title) -> Title) => :title,[:Budget] => ((Budget) -> Budget) => :money)
 
     ## 58788×2 DataFrame
     ##    Row │ title                     money
@@ -448,8 +448,8 @@ values.
 end
 ```
 
-    ## subset(var"##330", [:Budget] => ((Budget) -> .!(ismissing.(Budget)))
-    ## transform(var"##331", [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+    ## subset(var"##330", [:Budget] => ((Budget) -> .!(ismissing.(Budget))))
+    ## transform(var"##331", [:Budget] => ((Budget) -> Budget ./ 1000000) => :Budget)
     ## select(var"##332", :Title,:Budget)
 
     ## 5215×2 DataFrame
@@ -488,8 +488,8 @@ from DataFrames.jl.
 end
 ```
 
-    ## subset(var"##334", [:Budget] => ((Budget) -> .!(ismissing.(Budget)))
-    ## select(var"##335", [:Title] => ((Title) -> Title) => :Title,[:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+    ## subset(var"##334", [:Budget] => ((Budget) -> .!(ismissing.(Budget))))
+    ## select(var"##335", [:Title] => ((Title) -> Title) => :Title,[:Budget] => ((Budget) -> Budget ./ 1000000) => :Budget)
 
     ## 5215×2 DataFrame
     ##   Row │ Title                        Budget
@@ -523,8 +523,8 @@ end
 end
 ```
 
-    ## subset(var"##337", [:Budget] => ((Budget) -> .!(ismissing.(Budget)))
-    ## transform(var"##338", [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget_Millions)
+    ## subset(var"##337", [:Budget] => ((Budget) -> .!(ismissing.(Budget))))
+    ## transform(var"##338", [:Budget] => ((Budget) -> Budget ./ 1000000) => :Budget_Millions)
     ## select(var"##339", :Title,:Budget,:Budget_Millions)
 
     ## 5215×3 DataFrame
@@ -560,8 +560,8 @@ Both `@summarize` and `@summarise` can be used.
 end
 ```
 
-    ## subset(var"##341", [:Budget] => ((Budget) -> .!(ismissing.(Budget)))
-    ## combine(var"##342", [:Title] => ((Title) -> length(Title) => :nrow)
+    ## subset(var"##341", [:Budget] => ((Budget) -> .!(ismissing.(Budget))))
+    ## combine(var"##342", [:Title] => ((Title) -> length(Title)) => :nrow)
 
     ## 1×1 DataFrame
     ##  Row │ nrow
@@ -586,9 +586,9 @@ considering possible workarounds.
 end
 ```
 
-    ## transform(var"##344", [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
-    ## subset(var"##345", [:Budget] => ((Budget) -> .!(ismissing.(Budget)))
-    ## subset(var"##346", [:Budget] => ((Budget) -> Budget .>=mean(skipmissing(Budget)))
+    ## transform(var"##344", [:Budget] => ((Budget) -> Budget ./ 1000000) => :Budget)
+    ## subset(var"##345", [:Budget] => ((Budget) -> .!(ismissing.(Budget))))
+    ## subset(var"##346", [:Budget] => ((Budget) -> Budget .>=mean(skipmissing(Budget))))
     ## select(var"##347", :Title,:Budget)
 
     ## 1438×2 DataFrame
@@ -704,7 +704,7 @@ end
 end
 ```
 
-    ## transform(var"##356", [:Rating] => ((Rating) -> mean(skipmissing(Rating)) => :Mean_Yearly_Rating)
+    ## transform(var"##356", [:Rating] => ((Rating) -> mean(skipmissing(Rating))) => :Mean_Yearly_Rating)
     ## select(var"##357", :Year,:Rating,:Mean_Yearly_Rating)
 
     ## 58788×3 DataFrame
@@ -739,7 +739,7 @@ end
 end
 ```
 
-    ## combine(var"##360", [:Rating] => ((Rating) -> mean(skipmissing(Rating))) => :Mean_Yearly_Rating,[:Rating] => ((Rating) -> median(skipmissing(Rating)) => :Median_Yearly_Rating)
+    ## combine(var"##360", [:Rating] => ((Rating) -> mean(skipmissing(Rating))) => :Mean_Yearly_Rating,[:Rating] => ((Rating) -> median(skipmissing(Rating))) => :Median_Yearly_Rating)
 
     ## 113×3 DataFrame
     ##  Row │ Year   Mean_Yearly_Rating  Median_Yearly_Rating
@@ -843,7 +843,7 @@ on multiple columns and/or multiple functions
 end
 ```
 
-    ## transform(var"##366", [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+    ## transform(var"##366", [:Budget] => ((Budget) -> Budget ./ 1000000) => :Budget)
     ## combine(var"##367", [:Budget] .=> [mean ∘ skipmissing])
 
     ## 1×1 DataFrame
@@ -861,7 +861,7 @@ end
 end
 ```
 
-    ## transform(var"##369", [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+    ## transform(var"##369", [:Budget] => ((Budget) -> Budget ./ 1000000) => :Budget)
     ## combine($(Expr(:escape, var"##370", [:Budget] .=> [x->begin
     ##         #= none:7 =#
     ##         #= none:9 =#
@@ -883,7 +883,7 @@ end
 end
 ```
 
-    ## transform(var"##372", [:Budget] => ((Budget) -> Budget ./ 1000000 => :Budget)
+    ## transform(var"##372", [:Budget] => ((Budget) -> Budget ./ 1000000) => :Budget)
     ## combine(var"##373", [:Rating :Budget] .=> [mean ∘ skipmissing, median ∘ skipmissing])
 
     ## 1×4 DataFrame
