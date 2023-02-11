@@ -3,6 +3,7 @@ module Tidier
 using DataFrames
 using MacroTools
 using Chain
+using Statistics
 using Reexport
 
 @reexport using Chain
@@ -24,6 +25,16 @@ end
 macro autovec(df, fn_name, exprs...)
 
   if fn_name == "groupby"
+    fn_call = "groupby($df, :" *  join(exprs, ", :") * ")"  
+    
+    # After :escape, there is either a symbol containing name of data frame
+    # as in :movies, or if using @chain, then may say Symbol("##123"), so
+    # colon is optional.
+  
+    fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+?)\)(.+)$" => s"\1\2\3")
+    fn_call = replace(fn_call, r"Symbol\((\".+?\")\)+," => s"var\1,")
+    println(fn_call)
+
     return :(groupby($(esc(df)), Symbol.($[exprs...])))
   end
 
