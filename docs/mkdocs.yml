@@ -1,6 +1,6 @@
 theme:
   name: material
-  logo: assets/Tidier_jl_logo.png
+  logo: Tidier_jl_logo.png
   features:
     # - announce.dismiss
     #- content.code.annotate
