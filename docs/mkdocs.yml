@@ -1,6 +1,6 @@
 theme:
   name: material
-  #logo: assets/your_logo.png
+  logo: assets/Tidier_jl_logo.png
   features:
     # - announce.dismiss
     #- content.code.annotate
@@ -24,16 +24,19 @@ theme:
     #- toc.integrate # Table of contents is integrated on the left; does not appear separately on the right.
     - header.autohide # header disappears as you scroll
   palette:
-    # Light mode / dark mode
-    # We deliberately don't automatically use `media` to check a user's preferences. We default to light mode as
-    # (a) it looks more professional, and (b) is more obvious about the fact that it offers a (dark mode) toggle.
-    - scheme: default
+
+    # Light mode 
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
       primary: grey
       accent: amber
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
-    - scheme: slate
+
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
       primary: blue grey
       accent: amber
       toggle:
@@ -50,13 +53,13 @@ theme:
   # These additions are my own custom ones, having overridden a partial.
   #twitter_name: ""
   #twitter_url: ""
-site_name: Tidier
-site_description: Tidier
-site_author: Lazaro Alonso
+site_name: Tidier.jl
+site_description: Tidier.jl
+site_author: Lazaro Alonso and Karandeep Singh
 site_url: ""
 
 repo_url: https://github.com/kdpsingh/Tidier.jl
-repo_name: Tidier
+repo_name: Tidier.jl
 edit_uri: "" # No edit button, as some of our pages are in /docs and some in /examples via symlink, so it's impossible for them all to be accurate
 
 strict: true # Don't allow warnings during the build process
