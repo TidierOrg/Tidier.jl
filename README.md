@@ -1,6 +1,6 @@
 
 # Tidier.jl
-[![Latest Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/kdpsingh/Tidier.jl/dev/)
+[![Latest Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://kdpsingh.github.io/Tidier.jl/)
 
 [![Build
 Status](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
