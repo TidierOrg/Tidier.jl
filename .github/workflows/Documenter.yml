@@ -13,9 +13,9 @@ concurrency:
   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 jobs:
   build:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
-    env:
-      DISPLAY: ':0'
     steps:
       - uses: actions/checkout@v3
       - uses: julia-actions/setup-julia@v1
