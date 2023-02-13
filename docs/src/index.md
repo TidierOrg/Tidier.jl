@@ -1,5 +1,7 @@
 # Tidier.jl
 
+<img src="Tidier_jl_logo.png" width="300"></img>
+
 ## What is Tidier.jl?
 
 `Tidier.jl` is a 100% Julia implementation of the R tidyverse
