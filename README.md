@@ -1,9 +1,9 @@
 
 # Tidier.jl
-[![Latest Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://kdpsingh.github.io/Tidier.jl/)
-
-[![Build
+[![Latest Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://kdpsingh.github.io/Tidier.jl/) [![Build
 Status](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
+
+<img src="/docs/src/Tidier\_jl\_logo.png" width="300"></img>
 
 ## What is Tidier.jl?
 
