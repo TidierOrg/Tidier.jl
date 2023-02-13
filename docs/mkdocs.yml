@@ -28,8 +28,8 @@ theme:
     # Light mode 
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: grey
-      accent: amber
+      primary: white
+      accent: light blue
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
@@ -37,8 +37,8 @@ theme:
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: blue grey
-      accent: amber
+      primary: black
+      accent: light blue
       toggle:
         icon: material/weather-night
         name: Switch to light mode
