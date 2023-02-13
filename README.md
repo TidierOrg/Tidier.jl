@@ -65,7 +65,7 @@ Tidier.jl currently supports the following macros and functions:
 - `@arrange()`
 - `across()`
 
-See the [Documentation](https://github.com/kdpsingh/Tidier.jl/dev/) to learn how to use them.
+See the [Documentation](https://kdpsingh.github.io/Tidier.jl/) to learn how to use them.
 
 ## What’s missing?
 
