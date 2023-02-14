@@ -11,15 +11,64 @@ using Reexport
 
 export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, across, desc
 
+"""
+    across(variable[s], function[s])
 
+Apply functions to multiple variables. If specifiying multiple variables or functions, surround them with a parentheses so that they are recognized as a tuple.
+
+This function should only be called inside of `@mutate()`, `@summarize`, or `@summarise`.
+
+# Arguments
+- `variable[s]`: An unquoted variable, or if multiple, an unquoted tuple of variables.
+- `function[s]`: A function, or if multiple, a tuple of functions.
+
+# Examples
+```julia-repl
+julia> using DataFrames
+
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+
+julia> @chain df begin
+  @summarize(across(b, minimum))
+  end
+
+julia> @chain df begin
+  @summarize(across((b,c), (minimum, maximum)))
+  end
+
+julia> @chain df begin
+  @mutate(across((b,c), (minimum, maximum)))
+  end
+```
+"""
 function across(args...)
   throw("This function should only be called inside of @mutate(), @summarize, or @summarise.")
 end
 
+"""
+    desc(col)
+
+Orders the rows of a DataFrame column in descending order when used inside of `@arrange()`. This function should only be called inside of `@arrange()``.
+
+# Arguments
+- `col`: An unquoted column name.
+
+# Examples
+```julia-repl
+julia> using DataFrames
+
+julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20)
+  
+julia> @chain df begin
+  @arrange(a, desc(b))
+  end
+```
+"""
 function desc(args...)
   throw("This function should only be called inside of @arrange().")
 end
 
+# Not exported
 macro autovec(df, fn_name, exprs...)
 
   if fn_name == "groupby"
@@ -87,7 +136,7 @@ macro autovec(df, fn_name, exprs...)
 
         push!(arr_calls, vars_clean * " .=> " * fns_clean)
         check_if_across = true
-      elseif fn_name == "combine" || (fn in [:mean :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith])
+      elseif fn_name == "combine" || (fn in [:mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith])
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
         return :($fn.($(ex...)))
@@ -231,14 +280,37 @@ Select variables in a DataFrame.
 
 # Examples
 ```julia-repl
-Julia> using RDatasets
-Julia> movies = dataset("ggplot2", "movies")
-Julia> @chain movies begin
-  @select(Title, Year, Length, Budget, Rating)
-end
-Julia> @chain movies begin
-  @select(Title:Rating)
-end
+julia> using DataFrames
+
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+
+julia> @chain df begin
+  @select(a,b,c)
+  end
+
+julia> @chain df begin
+  @select(a:b)
+  end
+
+julia> @chain df begin
+  @select(1:2)
+  end
+
+julia> @chain df begin
+  @select(-(a:b))
+  end
+
+@chain df begin
+  @select(across(contains("b"), (sum, mean)))
+  end
+
+julia> @chain df begin
+  @select(-(1:2))
+  end
+
+julia> @chain df begin
+  @select(-c)
+  end
 ```
 """
 macro select(df, exprs...)
@@ -259,11 +331,14 @@ Create a new DataFrame with only computed columns.
 
 # Examples
 ```julia-repl
-Julia> using RDatasets
-Julia> movies = dataset("ggplot2", "movies")
-Julia> @chain movies begin
-  @mutate(Budget = Budget/1_000_000)
-end
+julia> using DataFrames
+
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+
+julia> @chain df begin
+  @transmute(d = b + c)
+  end
+```
 """
 macro transmute(df, exprs...)
   quote
@@ -283,11 +358,14 @@ to rename and select columns.
 
 # Examples
 ```julia-repl
-julia> using RDatasets
-julia> movies = dataset("ggplot2", "movies")
-julia> @chain movies begin
-  @mutate(Budget = Budget/1_000_000)
-end
+julia> using DataFrames
+
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+
+julia> @chain df begin
+  @rename(d = b, e = c)
+  end
+```
 """
 macro rename(df, exprs...)
   quote
@@ -306,6 +384,20 @@ rows as `df`.
 - `exprs...`: add new columns or replace values of existed columns using
          `new_variable = values` syntax.
 
+# Examples
+```julia-repl
+julia> using DataFrames
+
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+
+julia> @chain df begin
+  @mutate(d = b + c, b_minus_mean_b = b - mean(b))
+  end
+
+julia> @chain df begin
+  @mutate(across((b, c), mean))
+  end
+```
 """
 macro mutate(df, exprs...)
   quote
@@ -313,28 +405,40 @@ macro mutate(df, exprs...)
   end
 end
 
-"""
+SUMMARIZE_DOCS = """
     @summarize(df, exprs...)
-    @summarize(gd, exprs...)
     @summarise(df, exprs...)
-    @summarise(gd, exprs...)
 
-Create a new DataFrame with one row that summarizing all observations from the input DataFrame, 
-or the input GroupedDataFrame. 
+Create a new DataFrame with one row that aggregating all observations from the input DataFrame or GroupedDataFrame. 
 
 # Arguments
 - `df`: A DataFrame.
-- `gd`: A GroupedDataFrame.
-- `exprs...`: a `new_variable = function(old_variable)` pair. `function()` should be an agregate 
-         function that returns a vector of lenght 1. 
+- `exprs...`: a `new_variable = function(old_variable)` pair. `function()` should be an aggregate function that returns a single value. 
 
+# Examples
+```julia-repl
+julia> using DataFrames
+
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+  
+julia> @chain df begin
+  @summarize(mean_b = mean(b), median_b = median(b))
+  end
+  
+julia> @chain df begin
+  @summarize(across((b,c), (minimum, maximum)))
+  end
+```
 """
+
+SUMMARIZE_DOCS
 macro summarize(df, exprs...)
   quote
     @autovec($(esc(df)), "combine", $(exprs...))
   end
 end
 
+SUMMARIZE_DOCS
 macro summarise(df, exprs...)
   quote
     @autovec($(esc(df)), "combine", $(exprs...))
@@ -342,7 +446,7 @@ macro summarise(df, exprs...)
 end
 
 """
-    @filter(df::AbstractDataFrame, exprs...)
+    @filter(df, exprs...)
 
 Subset a DataFrame and return a copy of DataFrame where specified conditions are satisfied.
 
@@ -350,6 +454,16 @@ Subset a DataFrame and return a copy of DataFrame where specified conditions are
 - `df`: A DataFrame.
 - `exprs...`: transformation(s) that produce vectors containing `true` or `false`.
 
+# Examples
+```julia-repl
+  julia> using DataFrames
+
+  julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+  
+  julia> @chain df begin
+    @filter(b >= mean(b))
+    end
+```
 """
 macro filter(df, exprs...)
   quote
@@ -365,7 +479,19 @@ sets of `cols`.
 
 # Arguments
 - `df`: A DataFrame.
-- `cols...`: DataFrame columns to group by. Can be a single column name or a vector of column names. 
+- `cols...`: DataFrame columns to group by. Can be a single column name or multiple column names separated by commas.
+
+# Examples
+```julia-repl
+  julia> using DataFrames
+
+  julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20)
+  
+  julia> @chain df begin
+    @group_by(a)
+    @summarize(b = mean(b))
+    end
+```
 """
 macro group_by(df, exprs...)
   quote
@@ -380,9 +506,22 @@ Select, remove or duplicate rows by indexing their integer positions.
 
 # Arguments
 - `df`: A DataFrame.
-- `exprs...`: integer row values. Use positive values to keep the rows, or negative values to drop.
-         Values provided must be either all positive or all negative, and they must be within the
-         range of DataFrames' row number.
+- `exprs...`: integer row values. Use positive values to keep the rows, or negative values to drop. Values provided must be either all positive or all negative, and they must be within the range of DataFrames' row numbers.
+
+# Examples
+```julia-repl
+julia> using DataFrames
+
+julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20)
+  
+julia> @chain df begin
+    @slice(1:5)
+    end
+
+julia> @chain df begin
+  @slice(-(1:5))
+  end
+```         
 """
 macro slice(df, exprs...)
   quote
@@ -421,8 +560,22 @@ Orders the rows of a DataFrame by the values of specified columns.
 
 # Arguments
 - `df`: A DataFrame.
-- `exprs...`: Variables, or functions of variables from the input DataFrame. Use `desc()` to sort
-         in descending order.
+- `exprs...`: Variables from the input DataFrame. Use `desc()` to sort in descending order. Multiple variables can be specified, separated by commas.
+
+# Examples
+```julia-repl
+julia> using DataFrames
+
+julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20)
+  
+julia> @chain df begin
+    @arrange(a)
+    end
+
+julia> @chain df begin
+  @arrange(a, desc(b))
+  end
+```
 """
 macro arrange(df, exprs...)
   tp = tuple(exprs...)
