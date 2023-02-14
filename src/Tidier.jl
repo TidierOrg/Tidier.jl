@@ -405,7 +405,7 @@ macro mutate(df, exprs...)
   end
 end
 
-SUMMARIZE_DOCS = """
+"""
     @summarize(df, exprs...)
     @summarise(df, exprs...)
 
@@ -430,15 +430,37 @@ julia> @chain df begin
   end
 ```
 """
-
-SUMMARIZE_DOCS
 macro summarize(df, exprs...)
   quote
     @autovec($(esc(df)), "combine", $(exprs...))
   end
 end
 
-SUMMARIZE_DOCS
+"""
+    @summarize(df, exprs...)
+    @summarise(df, exprs...)
+
+Create a new DataFrame with one row that aggregating all observations from the input DataFrame or GroupedDataFrame. 
+
+# Arguments
+- `df`: A DataFrame.
+- `exprs...`: a `new_variable = function(old_variable)` pair. `function()` should be an aggregate function that returns a single value. 
+
+# Examples
+```julia-repl
+julia> using DataFrames
+
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+  
+julia> @chain df begin
+  @summarise(mean_b = mean(b), median_b = median(b))
+  end
+  
+julia> @chain df begin
+  @summarise(across((b,c), (minimum, maximum)))
+  end
+```
+"""
 macro summarise(df, exprs...)
   quote
     @autovec($(esc(df)), "combine", $(exprs...))
