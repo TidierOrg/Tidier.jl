@@ -11,8 +11,6 @@ using Reexport
 
 export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, across, desc
 
-# Non-exported helper functions
-# across(), desc()
 
 function across(args...)
   throw("This function should only be called inside of @mutate(), @summarize, or @summarise.")
@@ -33,7 +31,7 @@ macro autovec(df, fn_name, exprs...)
 
     fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+?)\)(.+)$" => s"\1\2\3")
     fn_call = replace(fn_call, r"Symbol\((\".+?\")\)+," => s"var\1,")
-    println(fn_call)
+    @info fn_call
 
     return :(groupby($(esc(df)), Symbol.($[exprs...])))
   end
@@ -190,7 +188,7 @@ macro autovec(df, fn_name, exprs...)
   fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+?)\)(.+)$" => s"\1\2\3")
   fn_call = replace(fn_call, r"Symbol\((\".+?\")\)+," => s"var\1,")
 
-  println(fn_call)
+  @info fn_call
 
   # Meta.parse(fn_call)
 
@@ -221,13 +219,13 @@ macro autovec(df, fn_name, exprs...)
 end
 
 """
-    @select(df, esprs...)
+    @select(df, exprs...)
 
 Select variables in a DataFrame.
 
 # Arguments
 - `df`: A DataFrame.
-- `esprs...`: One or more unquoted variable names separated by commas. Variable names 
+- `exprs...`: One or more unquoted variable names separated by commas. Variable names 
          can also be used as their positions in the data, like `x:y`, to select 
          a range of variables.
 
@@ -248,15 +246,15 @@ macro select(df, exprs...)
     @autovec($(esc(df)), "select", $(exprs...))
   end
 end
-esprsesprs
+
 """
-    @transmute(df, esprs...)
+    @transmute(df, exprs...)
 
 Create a new DataFrame with only computed columns.
 
 # Arguments
 - `df`: A DataFrame.
-- `esprs...`: add new columns or replace values of existed columns using
+- `exprs...`: add new columns or replace values of existed columns using
          `new_variable = values` syntax.
 
 # Examples
@@ -274,14 +272,14 @@ macro transmute(df, exprs...)
 end
 
 """
-    @rename(df, esprs...)
+    @rename(df, exprs...)
 
-Change the names of individual column names in a DataFrame. Users can also use @select()
+Change the names of individual column names in a DataFrame. Users can also use `@select()`
 to rename and select columns.
 
 # Arguments
 - `df`: A DataFrame.
-- `esprs...`: Use `new_name = old_name` syntax to rename selected columns.
+- `exprs...`: Use `new_name = old_name` syntax to rename selected columns.
 
 # Examples
 ```julia-repl
@@ -298,14 +296,14 @@ macro rename(df, exprs...)
 end
 
 """
-    @mutate(df, esprs...)
+    @mutate(df, exprs...)
   
 Create new columns as functions of existing columns. The results have the same number of
 rows as `df`.
 
 # Arguments
 - `df`: A DataFrame.
-- `esprs...`: add new columns or replace values of existed columns using
+- `exprs...`: add new columns or replace values of existed columns using
          `new_variable = values` syntax.
 
 """
@@ -316,10 +314,10 @@ macro mutate(df, exprs...)
 end
 
 """
-    @summarize(df, esprs...)
-    @summarize(gd, esprs...)
-    @summarise(df, esprs...)
-    @summarise(gd, esprs...)
+    @summarize(df, exprs...)
+    @summarize(gd, exprs...)
+    @summarise(df, exprs...)
+    @summarise(gd, exprs...)
 
 Create a new DataFrame with one row that summarizing all observations from the input DataFrame, 
 or the input GroupedDataFrame. 
@@ -350,7 +348,7 @@ Subset a DataFrame and return a copy of DataFrame where specified conditions are
 
 # Arguments
 - `df`: A DataFrame.
-- `esprs...`: transformation(s) that produce vectors containing `true` or `false`.
+- `exprs...`: transformation(s) that produce vectors containing `true` or `false`.
 
 """
 macro filter(df, exprs...)
@@ -360,14 +358,14 @@ macro filter(df, exprs...)
 end
 
 """
-    @group_by(df, cols)
+    @group_by(df, cols...)
 
 Return a `GroupedDataFrame` where operations are performed by groups specified by unique 
 sets of `cols`.
 
 # Arguments
 - `df`: A DataFrame.
-- `cols`: DataFrame columns to group by. Can be a single column name or a vector of column names. 
+- `cols...`: DataFrame columns to group by. Can be a single column name or a vector of column names. 
 """
 macro group_by(df, exprs...)
   quote
@@ -376,13 +374,13 @@ macro group_by(df, exprs...)
 end
 
 """
-    @slice(df, esprs...)
+    @slice(df, exprs...)
 
 Select, remove or duplicate rows by indexing their integer positions.
 
 # Arguments
 - `df`: A DataFrame.
-- `esprs...`: integer row values. Use positive values to keep the rows, or negative values to drop.
+- `exprs...`: integer row values. Use positive values to keep the rows, or negative values to drop.
          Values provided must be either all positive or all negative, and they must be within the
          range of DataFrames' row number.
 """
@@ -410,20 +408,20 @@ macro slice(df, exprs...)
         return_value = $(esc(df))[copy(indices2), :]
       end
 
-      println(return_string)
+      @info return_string
       return return_value
     end
   end
 end
 
 """
-    @arrange(df, esprs...)
+    @arrange(df, exprs...)
 
 Orders the rows of a DataFrame by the values of specified columns.
 
 # Arguments
 - `df`: A DataFrame.
-- `esprs...`: Variables, or functions of variables from the input DataFrame. Use `desc()` to sort
+- `exprs...`: Variables, or functions of variables from the input DataFrame. Use `desc()` to sort
          in descending order.
 """
 macro arrange(df, exprs...)
@@ -444,7 +442,7 @@ macro arrange(df, exprs...)
   fn_call = "sort($df, " * join(arr_calls, ",") * ")"
   fn_call = replace(fn_call, r"(##\d+)" => s"var\"\1\"")
 
-  println(fn_call)
+  @info fn_call
 
   return_val = quote
     arr_eval_calls = eval.(Meta.parse.($arr_calls))
