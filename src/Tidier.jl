@@ -9,7 +9,7 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, across, desc
+export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, across, desc, left_join
 
 """
     across(variable[s], function[s])
@@ -626,4 +626,38 @@ macro arrange(df, exprs...)
   return_val
 end
 
+function left_join(df1, df2; by=nothing)
+  # left join two DataFrames
+  # This function takes a string or a vector of strings for `on` argument
+  # First step, join two data frames using one column
+  # Second step, consider when on is not specified, how to autojoin
+  if isnothing(by)
+    common_cols = in.(names(df1), Ref(names(df2)))
+
+    if sum(common_cols) == 0
+      error("No common columns found between the two DataFrames")
+    else
+      by = names(df1)[common_cols]
+    end
+  else
+    if typeof(by) == String
+      by = push!([], by)
+    end
+  end
+
+  join_cols = [Symbol(x) for x in by]
+
+  return DataFrames.leftjoin(df1, df2, on=join_cols)
 end
+
+end
+
+using DataFrames
+using .Tidier
+df1 = DataFrame(id=[1, 2, 3], pid=[10, 11, 12], x=[4, 5, 6])
+df2 = DataFrame(id=[2, 3, 4], pid=[11, 12, 13], y=[7, 8, 9])
+df3 = DataFrame(id=[2, 3, 4], z=[4, 5, 6])
+
+left_join(df1, df2)
+left_join(df1, df3, by="id")
+left_join(df1, df2, by=["id", "pid"])
