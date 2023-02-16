@@ -36,10 +36,18 @@ end
   df3 = DataFrame(employee_id = [1,2,3], val3 = ["G", "H", "I"])  
 
   @test isequal(@left_join(df1, df2, "id"), leftjoin(df1, df2, on = :id))
+  @test isequal(@left_join(df1, df2, id), leftjoin(df1, df2, on = :id))
+
   @test isequal(@left_join(df1, df2), leftjoin(df1, df2, on = :id))
+
   @test isequal(@left_join(df1, df2, @join_by("id")), leftjoin(df1, df2, on = :id))
+  @test isequal(@left_join(df1, df2, @join_by(id)), leftjoin(df1, df2, on = :id))
+
   @test isequal(leftjoin(df1, df3, on = :id => :employee_id),
                 @left_join(df1, df3, @join_by("id" == "employee_id")))
+  @test isequal(leftjoin(df1, df3, on = :id => :employee_id),
+                @left_join(df1, df3, @join_by(id == employee_id)))
+
 end
 
 end

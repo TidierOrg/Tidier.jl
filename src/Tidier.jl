@@ -646,11 +646,17 @@ julia> df3 = DataFrame(employee_id = [1,2,3], val3 = ["G", "H", "I"])
 
 julia> @left_join(df1, df2, "id")
 
+julia> @left_join(df1, df2, id)
+
 julia> @left_join(df1, df2)
 
 julia> @left_join(df1, df2, @join_by("id"))
 
+julia> @left_join(df1, df2, @join_by(id))
+
 julia> @left_join(df1, df3, @join_by("id" == "employee_id"))
+
+julia> @left_join(df1, df3, @join_by(id == employee_id))
 ```
 """
 
@@ -662,7 +668,7 @@ end
 
 macro left_join(df1, df2, by::Symbol)
   quote  
-    leftjoin($(esc(df1)), $(esc(df2)), on = $(esc(by)))
+    leftjoin($(esc(df1)), $(esc(df2)), on = Symbol($(string(by))))
   end
 end
 
@@ -688,15 +694,21 @@ macro left_join(df1, df2)
   end
 end
 
+function str_to_pair(by::String)
+  expr = Meta.parse(by)
+  return(Symbol(expr.args[2]) => Symbol(expr.args[3]))
+end
+
 macro join_by(by::String)
   quote
     Symbol.($(esc(by)))
   end
 end
 
-function str_to_pair(by::String)
-  expr = Meta.parse(by)
-  return(Symbol(expr.args[2]) => Symbol(expr.args[3]))
+macro join_by(by::Symbol)
+  quote
+    Symbol($(string(by)))
+  end
 end
 
 macro join_by(by::Expr)
