@@ -9,7 +9,7 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, @left_join, across, desc
+export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, @left_join, @join_by, across, desc
 
 """
     across(variable[s], function[s])
@@ -643,8 +643,8 @@ julia> using DataFrames
 julia> df1 = DataFrame(id = [1,2,3], val1 = ["A", "B", "C"])
 julia> df2 = DataFrame(id = [1,2,3], val2 = ["D", "E", "F"])
 julia> df3 = DataFrame(employee_id = [1,2,3], val3 = ["G", "H", "I"])
-  
-julia> @left_join(df1, df2, :id)
+
+julia> @left_join(df1, df2, "id")
 
 julia> @left_join(df1, df2)
 
