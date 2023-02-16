@@ -626,4 +626,82 @@ macro arrange(df, exprs...)
   return_val
 end
 
+"""
+    @left_join(df1, df2, exprs...)
+
+Left joins two data frames based on a shared key column
+
+# Arguments
+- `df1`: A DataFrame.
+- `df2`: A DataFrame.
+- `exprs...`: Variable(s) from the input DataFrames to use as the join key.
+
+# Examples
+```julia-repl
+julia> using DataFrames
+
+julia> df1 = DataFrame(id = [1,2,3], val1 = ["A", "B", "C"])
+julia> df2 = DataFrame(id = [1,2,3], val2 = ["D", "E", "F"])
+julia> df3 = DataFrame(employee_id = [1,2,3], val3 = ["G", "H", "I"])
+  
+julia> @left_join(df1, df2, :id)
+
+julia> @left_join(df1, df2)
+
+julia> @left_join(df1, df2, @join_by("id"))
+
+julia> @left_join(df1, df3, @join_by("id" == "employee_id"))
+```
+"""
+
+macro left_join(df1, df2, by::String)
+  quote  
+    leftjoin($(esc(df1)), $(esc(df2)), on = Symbol($(esc(by))))
+  end
 end
+
+macro left_join(df1, df2, by::Symbol)
+  quote  
+    leftjoin($(esc(df1)), $(esc(df2)), on = $(esc(by)))
+  end
+end
+
+macro left_join(df1, df2, by::Expr)
+  quote  
+    leftjoin($(esc(df1)), $(esc(df2)), on = $(esc(by)))
+  end
+end
+
+macro left_join(df1, df2)
+  quote
+    shared_columns = intersect(
+        names($(esc(df1))),
+        names($(esc(df2)))
+    )
+
+    println("Joining by ", shared_columns, "\n")
+
+    leftjoin($(esc(df1)),
+             $(esc(df2)),
+             on = Symbol.(shared_columns)
+    )
+  end
+end
+
+macro join_by(by::String)
+  quote
+    Symbol.($(esc(by)))
+  end
+end
+
+function str_to_pair(by::String)
+  expr = Meta.parse(by)
+  return(Symbol(expr.args[2]) => Symbol(expr.args[3]))
+end
+
+macro join_by(by::Expr)
+  quote
+    str_to_pair($(string(by)))
+  end
+end
+
