@@ -660,22 +660,35 @@ julia> @left_join(df1, df3, @join_by(id == employee_id))
 ```
 """
 
-macro left_join(df1, df2, by::String)
-  quote  
-    leftjoin($(esc(df1)), $(esc(df2)), on = Symbol($(esc(by))))
-  end
+function join_by(args...)
+  throw("This function should only be called inside a join.")
 end
 
-macro left_join(df1, df2, by::Symbol)
-  quote  
-    leftjoin($(esc(df1)), $(esc(df2)), on = Symbol($(string(by))))
-  end
+function str_to_pair(by::String)
+  expr = Meta.parse(by)
+  return(Symbol(expr.args[2]) => Symbol(expr.args[3]))
 end
 
-macro left_join(df1, df2, by::Expr)
-  quote  
-    leftjoin($(esc(df1)), $(esc(df2)), on = $(esc(by)))
+macro left_join(df1, df2, expr...)
+  tp = tuple(expr...)
+  @capture(tp[1], fn_(ex__)) 
+  
+  if (isnothing(ex))
+      return_val = quote
+          leftjoin($(esc(df1)), $(esc(df2)), on = $(string((tp[1]))))
+      end
+  elseif (typeof(ex[1]) == Expr)
+      ex = str_to_pair(join([ex...]))
+      return_val = quote
+          leftjoin($(esc(df1)), $(esc(df2)), on = $(ex))
+      end
+  else
+      return_val = quote
+          leftjoin($(esc(df1)), $(esc(df2)), on = $(string((ex[1]))))
+      end 
   end
+
+  return_val
 end
 
 macro left_join(df1, df2)
@@ -691,29 +704,6 @@ macro left_join(df1, df2)
              $(esc(df2)),
              on = Symbol.(shared_columns)
     )
-  end
-end
-
-function str_to_pair(by::String)
-  expr = Meta.parse(by)
-  return(Symbol(expr.args[2]) => Symbol(expr.args[3]))
-end
-
-macro join_by(by::String)
-  quote
-    Symbol.($(esc(by)))
-  end
-end
-
-macro join_by(by::Symbol)
-  quote
-    Symbol($(string(by)))
-  end
-end
-
-macro join_by(by::Expr)
-  quote
-    str_to_pair($(string(by)))
   end
 end
 

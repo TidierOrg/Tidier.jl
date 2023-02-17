@@ -40,13 +40,13 @@ end
 
   @test isequal(@left_join(df1, df2), leftjoin(df1, df2, on = :id))
 
-  @test isequal(@left_join(df1, df2, @join_by("id")), leftjoin(df1, df2, on = :id))
-  @test isequal(@left_join(df1, df2, @join_by(id)), leftjoin(df1, df2, on = :id))
+  @test isequal(@left_join(df1, df2, join_by("id")), leftjoin(df1, df2, on = :id))
+  @test isequal(@left_join(df1, df2, join_by(id)), leftjoin(df1, df2, on = :id))
 
   @test isequal(leftjoin(df1, df3, on = :id => :employee_id),
-                @left_join(df1, df3, @join_by("id" == "employee_id")))
+                @left_join(df1, df3, join_by("id" == "employee_id")))
   @test isequal(leftjoin(df1, df3, on = :id => :employee_id),
-                @left_join(df1, df3, @join_by(id == employee_id)))
+                @left_join(df1, df3, join_by(id == employee_id)))
 
 end
 
