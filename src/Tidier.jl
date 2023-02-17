@@ -650,13 +650,13 @@ julia> @left_join(df1, df2, id)
 
 julia> @left_join(df1, df2)
 
-julia> @left_join(df1, df2, @join_by("id"))
+julia> @left_join(df1, df2, join_by("id"))
 
-julia> @left_join(df1, df2, @join_by(id))
+julia> @left_join(df1, df2, join_by(id))
 
-julia> @left_join(df1, df3, @join_by("id" == "employee_id"))
+julia> @left_join(df1, df3, join_by("id" == "employee_id"))
 
-julia> @left_join(df1, df3, @join_by(id == employee_id))
+julia> @left_join(df1, df3, join_by(id == employee_id))
 ```
 """
 
