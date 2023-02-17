@@ -626,6 +626,12 @@ macro arrange(df, exprs...)
   return_val
 end
 
+function extract_expr(expr::Expr)
+  @capture(expr, [l_Symbol_ = r_Symbol_])
+
+
+end
+
 function left_join(df1::AbstractDataFrame, df2::AbstractDataFrame; by=nothing)
   # left join two DataFrames
   # This function takes a string or a vector of strings for `on` argument
@@ -633,15 +639,10 @@ function left_join(df1::AbstractDataFrame, df2::AbstractDataFrame; by=nothing)
   # Second step, consider when on is not specified, how to autojoin
   # Third step, take an expression
   if by isa Expr
-    str_by = replace(string(by), r"[\[\]]" => "")
-    str_by_vec = split(str_by, ",")
-
     vec_call = []
-    for expr in str_by_vec
-      expr_symbol = Symbol.(strip.(split(expr, "=")))
-      expr_pair = Pair(expr_symbol[1], expr_symbol[2])
-
-      push!(vec_call, expr_pair)
+    MacroTools.postwalk(by) do x
+      @capture(x, l_Symbol_ = r_Symbol_) || return (x)
+      push!(vec_call, Pair(l_Symbol, r_Symbol))
     end
   else
     if isnothing(by)
