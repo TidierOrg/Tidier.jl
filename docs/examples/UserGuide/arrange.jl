@@ -7,15 +7,17 @@ movies = dataset("ggplot2", "movies");
 
 @chain movies begin
   @arrange(Year, Rating)
+  @select(1:5)
+  @slice(1:5)
 end
-first(ans, 5)
 
 # ## Sort in a mix of ascending and descending order
 # ### `desc`
 @chain movies begin
   @arrange(Year, desc(Rating))
+  @select(1:5)
+  @slice(1:5)
 end
-first(ans, 5)
 
 # ### `across`
 
