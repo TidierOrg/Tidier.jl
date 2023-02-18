@@ -39,6 +39,10 @@ julia> @chain df begin
 julia> @chain df begin
   @mutate(across((b,c), (minimum, maximum)))
   end
+
+julia> @chain df begin
+  @mutate(across((b, startswith("c")), (minimum, maximum)))
+  end
 ```
 """
 function across(args...)
@@ -105,8 +109,8 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol}; autovec::Bool = true, subset
     lhs = QuoteNode(lhs)
     rhs = QuoteNode(rhs)
     return :($rhs => $lhs)
-  elseif @capture(tidy_expr, fn_(args__)) # selection helpers
-    return :(Cols($tidy_expr))
+  elseif !subset & @capture(tidy_expr, fn_(args__)) # selection helpers
+    :(Cols($tidy_expr))
   elseif @capture(tidy_expr, var_Symbol)
     return QuoteNode(var)
   # elseif @capture(tidy_expr, df_expr)
@@ -257,7 +261,7 @@ julia> @chain df begin
   end
 
 julia> @chain df begin
-  @select(across(contains("b"), (sum, mean)))
+  @select(contains("b"), startswith("c"))
   end
 
 julia> @chain df begin
@@ -471,14 +475,14 @@ macro filter(df, exprs...)
 end
 
 """
-    @group_by(df, cols...)
+    @group_by(df, exprs...)
 
 Return a `GroupedDataFrame` where operations are performed by groups specified by unique 
 sets of `cols`.
 
 # Arguments
 - `df`: A DataFrame.
-- `cols...`: DataFrame columns to group by. Can be a single column name or multiple column names separated by commas.
+- `exprs...`: DataFrame columns to group by or tidy expressions. Can be a single tidy expression or multiple expressions separated by commas.
 
 # Examples
 ```julia-repl
@@ -488,6 +492,11 @@ sets of `cols`.
   
   julia> @chain df begin
     @group_by(a)
+    @summarize(b = mean(b))
+    end
+
+  julia> @chain df begin
+    @group_by(d = uppercase(a))
     @summarize(b = mean(b))
     end
 ```
@@ -524,6 +533,11 @@ julia> @chain df begin
 
 julia> @chain df begin
   @slice(-(1:5))
+  end
+
+julia> @chain df begin
+  @group_by(a)
+  @slice(1)
   end
 ```         
 """
