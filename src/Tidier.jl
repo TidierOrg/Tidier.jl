@@ -105,6 +105,8 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol}; autovec::Bool = true, subset
     lhs = QuoteNode(lhs)
     rhs = QuoteNode(rhs)
     return :($rhs => $lhs)
+  elseif @capture(tidy_expr, fn_(args__)) # selection helpers
+    return :(Cols($tidy_expr))
   elseif @capture(tidy_expr, var_Symbol)
     return QuoteNode(var)
   # elseif @capture(tidy_expr, df_expr)
@@ -150,11 +152,15 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
 
   if vars isa Symbol
     src = push!(src, QuoteNode(vars))
+  elseif @capture(vars, fn_(args__)) # selection helpers
+    push!(src, vars)
   else
     @capture(vars, (args__,))
     for arg in args
       if arg isa Symbol
         push!(src, QuoteNode(arg))
+      elseif @capture(arg, fn_(args__)) # selection helpers
+        push!(src, arg)
       else
         push!(src, parse_tidy(arg))
       end
@@ -250,7 +256,7 @@ julia> @chain df begin
   @select(-(a:b))
   end
 
-@chain df begin
+julia> @chain df begin
   @select(across(contains("b"), (sum, mean)))
   end
 
