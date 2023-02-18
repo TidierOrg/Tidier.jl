@@ -146,7 +146,7 @@ end
 # Not exported
 function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
   
-  src = Union{Expr, Symbol}[] # type can be either a Symbol or a expression containing a selection helper function
+  src = Union{Expr, QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
 
   if vars isa Symbol
     src = push!(src, QuoteNode(vars))
@@ -174,9 +174,11 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
         push!(func_array, parse_tidy(arg))
       end
     end
-  end 
+  end
 
-  return :(Cols($(src...)) .=> hcat([$(func_array...)]))
+  num_funcs = length(func_array)
+
+  return :(Cols($(src...)) .=> reshape([$(func_array...)], 1, $num_funcs))
 end
 
 # Not exported
