@@ -69,203 +69,151 @@ function desc(args...)
 end
 
 # Not exported
-macro autovec(df, fn_name, exprs...)
-
-  if fn_name == "groupby"
-    fn_call = "groupby($df, :" * join(exprs, ", :") * ")"
-
-    # After :escape, there is either a symbol containing name of data frame
-    # as in :movies, or if using @chain, then may say Symbol("##123"), so
-    # colon is optional.
-
-    fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+?)\)(.+)$" => s"\1\2\3")
-    fn_call = replace(fn_call, r"Symbol\((\".+?\")\)+," => s"var\1,")
-    @info fn_call
-
-    return :(groupby($(esc(df)), Symbol.($[exprs...])))
-  end
-
-  tp = tuple(exprs...)
-
-  arr_calls = String[]
-
-  for expr in tp
-
-    # This creates :column => (x -> subset criteria) => :ignore,
-    # and then the "=> :ignore" portion is removed later on.
-    # Eventually may handle this more directly.
-    if (fn_name == "subset")
-      expr = :(ignore = $expr)
+function parse_tidy(tidy_expr::Union{Expr, Symbol}; autovec::Bool = true, subset::Bool = false) # Can be symbol or expression
+  if @capture(tidy_expr, across(vars_, funcs_))
+    return parse_across(vars, funcs)
+  elseif @capture(tidy_expr, -(start_index_:end_index_))
+    if start_index isa Symbol
+      start_index = QuoteNode(start_index)
     end
-
-    arr_rhs = String[]
-
-    check_if_across = false
-
-    # Only auto-vectorize code outside of summarize/summarise,
-    # which have an fn_name of "combine"
-    # Auto-vectorize means that any of the functions *not*
-    # included in the array below are vectorized automatically.
-    new_expr = MacroTools.postwalk(expr) do x
-      @capture(x, fn_(ex__)) || return x
-      push!(arr_rhs, join([ex...], ";"))
-      if fn == :across
-        vars_clean = string(ex[1])
-        vars_clean = split(vars_clean, ", ")
-        vars_clean = replace.(vars_clean, r"^\(" => s"")
-        for i in eachindex(vars_clean)
-          if !occursin(r"[()]", vars_clean[i])
-            vars_clean[i] = ":" * vars_clean[i]
-          elseif occursin(r"\)$", vars_clean[i]) && !occursin(r"\(", vars_clean[i])
-            vars_clean[i] = ":" * vars_clean[i]
-            vars_clean[i] = replace(vars_clean[i], r"\)$" => s"")
-          end
-        end
-
-        vars_clean = "[" * join(vars_clean, " ") * "]"
-
-        fns_clean = string(ex[2])
-        fns_clean = split(fns_clean, ", ")
-        fns_clean = replace.(fns_clean, r"^\(" => s"")
-        for i in eachindex(fns_clean)
-          if occursin(r"\)$", fns_clean[i]) && !occursin(r"\(", fns_clean[i])
-            fns_clean[i] = replace(fns_clean[i], r"\)$" => s"")
-          end
-        end
-        fns_clean = "[" * join(fns_clean, ", ") * "]"
-
-        push!(arr_calls, vars_clean * " .=> " * fns_clean)
-        check_if_across = true
-      elseif fn_name == "combine" || (fn in [:mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith])
-        return x
-      elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
-        return :($fn.($(ex...)))
-      else # operator
-        fn_new = Symbol("." * string(fn))
-        return :($fn_new($(ex...)))
-      end
+    if end_index isa Symbol
+    end_index = QuoteNode(end_index)
     end
-
-    if check_if_across
-      continue
+    return :(Not(Between($start_index, $end_index)))
+  elseif @capture(tidy_expr, -start_index_)
+    if start_index isa Symbol
+      start_index = QuoteNode(start_index)
     end
-
-    # If there is no right-sided expression, then look for patterns of a = b,
-    # and push the b to the right side.
-    if length(arr_rhs) == 0
-      MacroTools.postwalk(expr) do x
-        @capture(x, a_ = b_) || return x
-        push!(arr_rhs, string(b))
-      end
+    return :(Not($start_index))
+  elseif @capture(tidy_expr, start_index_:end_index_)
+    if start_index isa Symbol
+      start_index = QuoteNode(start_index)
     end
-
-    arr_lhs = String[]
-
-    # Push any symbols (variables) on the left side of the `=` sign
-    # to the arr_lhs array, which contains the left-hand side arguments
-    # expr_lhs is currently ignored, so the returned values don't matter
-    expr_lhs = MacroTools.postwalk(new_expr) do x
-      @capture(x, s_Symbol = body_) || return x
-      if !(s in [:+ :- :* :/ :\])
-        push!(arr_lhs, string(s))
-        return QuoteNode(s)
-      else
-        return (x)
-      end
+    if end_index isa Symbol
+    end_index = QuoteNode(end_index)
     end
-
-    # println(arr_lhs)
-    # println(arr_rhs)
-
-    if length(arr_lhs) > 0
-      arr_lhs = last(arr_lhs)
-
-      arr_rhs = strip.(reduce(vcat, split.(arr_rhs, ";")))
-      arr_rhs = arr_rhs[isnothing.(match.(r"[()]", arr_rhs))]
-      arr_rhs_match = match.(r"(-?)\(?([^\W0-9]\w*?)(:?)([^\W0-9]\w*)?\)?", arr_rhs)
-      arr_rhs = arr_rhs[.!isnothing.(arr_rhs_match)]
-      arr_rhs = unique(arr_rhs)
-
-      arr_rhs_symbols = string(Symbol.(arr_rhs))
-      # arr_rhs = length(arr_rhs) > 1 ? reduce(vcat, arr_rhs) : arr_rhs
-
-      fn_body = string(new_expr)
-      fn_body = join(strip.(split(fn_body, "=")[2:end]), "=")
-
-      if (fn_name == "rename")
-        push!(arr_calls, SubString(arr_rhs_symbols, 2, lastindex(arr_rhs_symbols) - 1) * " => :" * arr_lhs)
-      elseif (fn_name == "subset")
-        push!(arr_calls, arr_rhs_symbols * " => ((" * join(arr_rhs, ",") * ") -> " * fn_body * ")")
-      else
-        push!(arr_calls, arr_rhs_symbols * " => ((" * join(arr_rhs, ",") * ") -> " * fn_body * ") => :" * arr_lhs)
-      end
+    return :(Between($start_index, $end_index))
+  elseif @capture(tidy_expr, (lhs_ = fn_(args__)) | (lhs_ = fn_.(args__)))
+    if length(args) == 0
+      lhs = QuoteNode(lhs)
+      return :($fn => $lhs)
     else
-
-      # selection_match = match.(r"(-?)\(?\(?([^\W0-9]\w*)(:?)([^\W0-9]\w*)?\)?\)?", string(expr))
-
-      # Selection actually can be a number and doesn't have to be a valid variable name      
-      selection_match = match.(r"(-?)\(?\(?(\w+)(:?)(\w+)?\)?\)?", string(expr))
-
-      # arr_rhs = arr_rhs[.!isnothing.(arr_rhs_match)]
-
-      # println(string(expr))
-
-      arr_call = ""
-      if selection_match[3] == ":"
-        arr_call = "Between( :" * selection_match[2] * ",:" * selection_match[4] * ")"
-      else
-        arr_call = ":" * selection_match[2]
-      end
-
-      if selection_match[1] == "-"
-        arr_call = "Not(" * arr_call * ")"
-      end
-      # println(arr_call)
-      push!(arr_calls, arr_call)
+      @capture(tidy_expr, lhs_ = rhs_)
+      return parse_function(lhs, rhs; autovec, subset)
     end
-    # println(arr_lhs)
-    # println(arr_rhs)
-    # println(expr_symbols)
+  elseif @capture(tidy_expr, lhs_ = rhs_)
+    lhs = QuoteNode(lhs)
+    rhs = QuoteNode(rhs)
+    return :($rhs => $lhs)
+  elseif @capture(tidy_expr, var_Symbol)
+    return QuoteNode(var)
+  # elseif @capture(tidy_expr, df_expr)
+  #  return df_expr
+  else
+    return parse_function(:ignore, tidy_expr; autovec, subset)
+   # throw("Expression not recognized by parse_tidy()")
   end
-
-  fn_call = "$fn_name($df, " * join(arr_calls, ",") * ")"
-
-  # After :escape, there is either a symbol containing name of data frame
-  # as in :movies, or if using @chain, then may say Symbol("##123"), so
-  # colon is optional.
-
-  fn_call = replace(fn_call, r"^(.+)\$\(Expr\(:escape, :?(.+?)\)(.+)$" => s"\1\2\3")
-  fn_call = replace(fn_call, r"Symbol\((\".+?\")\)+," => s"var\1,")
-
-  @info fn_call
-
-  # Meta.parse(fn_call)
-
-  return_val = quote
-
-    # Ultimately we need to remove this eval() because this may limit the use of functions
-    # to those re-exported by Tidier.jl
-
-    arr_eval_calls = eval.(Meta.parse.($arr_calls))
-
-    if $fn_name == "select"
-      select($(esc(df)), arr_eval_calls...)
-    elseif $fn_name == "rename"
-      rename($(esc(df)), arr_eval_calls...)
-    elseif $fn_name == "transform"
-      transform($(esc(df)), arr_eval_calls...)
-    elseif $fn_name == "combine"
-      combine($(esc(df)), arr_eval_calls...)
-    elseif $fn_name == "subset"
-      subset($(esc(df)), arr_eval_calls...)
-    else
-      error("Function not supported in Tidier.jl.")
-      # no need to support groupby bc it is handled up top
-    end
-  end
-
-  return_val
 end
+
+# Not exported
+function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool = true, subset::Bool = false)
+  
+  lhs = QuoteNode(lhs)
+  
+  src = Symbol[]
+  MacroTools.postwalk(rhs) do x
+    if @capture(x, (fn_(args__)) | (fn_.(args__)))
+      args = args[isa.(args, Symbol)]
+      push!(src, args...)
+    end
+    return x
+  end
+  
+  src = unique(src)
+  func_left = :($(src...),)
+
+  if autovec
+    rhs = parse_autovec(rhs)
+  end
+
+  if subset
+    return :($src => ($func_left -> $rhs))
+  else
+    return :($src => ($func_left -> $rhs) => $lhs)
+  end
+end
+
+# Not exported
+function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
+  
+  src = Union{Expr, Symbol}[] # type can be either a Symbol or a expression containing a selection helper function
+
+  if vars isa Symbol
+    src = push!(src, QuoteNode(vars))
+  else
+    @capture(vars, (args__,))
+    for arg in args
+      if arg isa Symbol
+        push!(src, QuoteNode(arg))
+      else
+        push!(src, parse_tidy(arg))
+      end
+    end
+  end
+
+  func_array = Union{Expr, Symbol}[] # expression containing functions
+  
+  if funcs isa Symbol
+    push!(func_array, funcs)
+  else
+    @capture(funcs, (args__,))
+    for arg in args
+      if arg isa Symbol
+        push!(func_array, arg)
+      else
+        push!(func_array, parse_tidy(arg))
+      end
+    end
+  end 
+
+  return :(Cols($(src...)) .=> hcat([$(func_array...)]))
+end
+
+# Not exported
+function parse_desc(tidy_expr::Union{Expr, Symbol})
+  if @capture(tidy_expr, desc(var_))
+    var = QuoteNode(var)
+    return :(order($var, rev = true))
+  else
+    return tidy_expr
+  end
+end
+
+# Not exported
+function parse_group_by(tidy_expr::Union{Expr, Symbol})
+  if @capture(tidy_expr, lhs_ = rhs_)
+    return QuoteNode(lhs)
+  else
+    return QuoteNode(tidy_expr)
+  end
+end
+
+# Not exported
+function parse_autovec(tidy_expr::Union{Expr, Symbol})
+  autovec_expr = MacroTools.postwalk(tidy_expr) do x
+    @capture(x, fn_(args__)) || return x
+    if fn in [:(:) :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+      return x
+    elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
+      return :($fn.($(args...)))
+    else # operator
+      fn_new = Symbol("." * string(fn))
+      return :($fn_new($(args...)))
+    end
+  end
+  return autovec_expr
+end
+
 
 """
     @select(df, exprs...)
@@ -314,9 +262,12 @@ julia> @chain df begin
 ```
 """
 macro select(df, exprs...)
-  quote
-    @autovec($(esc(df)), "select", $(exprs...))
+  tidy_exprs = parse_tidy.(exprs)
+  df_expr = quote   
+    select($(esc(df)), $(tidy_exprs...))
   end
+  @info MacroTools.prettify(df_expr)
+  return df_expr
 end
 
 """
@@ -341,9 +292,12 @@ julia> @chain df begin
 ```
 """
 macro transmute(df, exprs...)
-  quote
-    @autovec($(esc(df)), "select", $(exprs...))
+  tidy_exprs = parse_tidy.(exprs)
+  df_expr = quote   
+    select($(esc(df)), $(tidy_exprs...))
   end
+  @info MacroTools.prettify(df_expr)
+  return df_expr
 end
 
 """
@@ -368,9 +322,12 @@ julia> @chain df begin
 ```
 """
 macro rename(df, exprs...)
-  quote
-    @autovec($(esc(df)), "rename", $(exprs...))
+  tidy_exprs = parse_tidy.(exprs)
+  df_expr = quote   
+    rename($(esc(df)), $(tidy_exprs...))
   end
+  @info MacroTools.prettify(df_expr)
+  return df_expr
 end
 
 """
@@ -400,9 +357,12 @@ julia> @chain df begin
 ```
 """
 macro mutate(df, exprs...)
-  quote
-    @autovec($(esc(df)), "transform", $(exprs...))
+  tidy_exprs = parse_tidy.(exprs)
+  df_expr = quote   
+    transform($(esc(df)), $(tidy_exprs...))
   end
+  @info MacroTools.prettify(df_expr)
+  return df_expr
 end
 
 """
@@ -431,9 +391,12 @@ julia> @chain df begin
 ```
 """
 macro summarize(df, exprs...)
-  quote
-    @autovec($(esc(df)), "combine", $(exprs...))
+  tidy_exprs = parse_tidy.(exprs; autovec = false)
+  df_expr = quote   
+    combine($(esc(df)), $(tidy_exprs...))
   end
+  @info MacroTools.prettify(df_expr)
+  return df_expr
 end
 
 """
@@ -462,9 +425,12 @@ julia> @chain df begin
 ```
 """
 macro summarise(df, exprs...)
-  quote
-    @autovec($(esc(df)), "combine", $(exprs...))
+  tidy_exprs = parse_tidy.(exprs; autovec = false)
+  df_expr = quote   
+    combine($(esc(df)), $(tidy_exprs...))
   end
+  @info MacroTools.prettify(df_expr)
+  return df_expr
 end
 
 """
@@ -488,9 +454,12 @@ Subset a DataFrame and return a copy of DataFrame where specified conditions are
 ```
 """
 macro filter(df, exprs...)
-  quote
-    @autovec($(esc(df)), "subset", $(exprs...))
+  tidy_exprs = parse_tidy.(exprs; subset = true)
+  df_expr = quote   
+    subset($(esc(df)), $(tidy_exprs...))
   end
+  @info MacroTools.prettify(df_expr)
+  return df_expr
 end
 
 """
@@ -516,9 +485,14 @@ sets of `cols`.
 ```
 """
 macro group_by(df, exprs...)
-  quote
-    @autovec($(esc(df)), "groupby", $(exprs...))
+  tidy_exprs = parse_tidy.(exprs)
+  grouping_exprs = parse_group_by.(exprs)  
+  
+  df_expr = quote   
+    groupby(transform($(esc(df)), $(tidy_exprs...)), [$(grouping_exprs...)])
   end
+  @info MacroTools.prettify(df_expr)
+  return df_expr
 end
 
 """
