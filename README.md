@@ -69,23 +69,13 @@ See the [Documentation](https://kdpsingh.github.io/Tidier.jl/) to learn how to u
 
 ## What’s missing?
 
-- Selection helpers like `startswith()` are not supported yet
 - Joins are not yet supported
 - Pivoting is not yet implemented
 
-## What’s new in version 0.3.0
+## What’s new in version 0.4.0-beta-1
 
-- Updated auto-vectorization so that operators are vectorized
-  differently from other types of functions. This leads to nicer
-  printing of the generaed DataFrames.jl code. For example, 1 .+ 1
-  instead of (+).(1,1)
-- The generated DataFrames.jl code now prints to the screen
-- Updated the ordering of columns when using `across()` so that each
-  column is summarized in consecutive columns (e.g., `Rating_mean`,
-  `Rating_median`, `Budget_mean`, `Budget_median`) instead of being
-  organized by function (e.g. of prior ordering: `Rating_mean`,
-  `Budget_mean`, `Rating_median`, `Budget_median`)
-- Added exported functions for `across()` and `desc()` as a placeholder
-  for documentation, though these functions will throw an error if
-  called because they should only be called inside of Tidier macros
-- Corrected GitHub actions and added tests (contributed by @rdboyes)
+- Rewrote the parsing engine to remove all regular expression and string parsing
+- Selection helpers should now work within `@select()` and `across()`
+- `@group_by()` now supports tidy expressions, for example `@group_by(df, d = b + c)`
+- `@slice()` now supports grouped data frames, for example, `@slice(gdf, 1:2)` will slice the first 2 rows from each group assuming that `gdf` is a grouped data frame.
+- Fixed a bug where functions were evaluated inside the module, which meant that user-provided functions would not work
