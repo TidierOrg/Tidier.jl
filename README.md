@@ -32,7 +32,14 @@ meta-packages:
 
 ## Installation
 
-In the Julia REPL type:
+For the stable version:
+
+```julia
+using Pkg
+Pkg.add("Tidier")
+```
+
+For the newest version:
 
 ```julia
 using Pkg
@@ -45,7 +52,7 @@ or
 ] add https://github.com/kdpsingh/Tidier.jl
 ```
 
-The `]` character starts the Julia [package manager](https://docs.julialang.org/en/v1/stdlib/Pkg/). Hit backspace key to return to Julia prompt.
+The `]` character starts the Julia [package manager](https://docs.julialang.org/en/v1/stdlib/Pkg/). Hit backspace key to return to the Julia prompt.
 
 ## What functions does Tidier.jl support?
 
