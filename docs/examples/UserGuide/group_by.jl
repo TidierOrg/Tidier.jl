@@ -9,13 +9,13 @@ movies = dataset("ggplot2", "movies");
     @group_by(Year)
     @mutate(Mean_Yearly_Rating = mean(skipmissing(Rating)))
     @select(Year, Rating, Mean_Yearly_Rating)
+    @slice(1:5)
 end
-first(ans, 5)
 
 # ## Combining @group_by() with @summarize()
 @chain movies begin
     @group_by(Year)
     @summarize(Mean_Yearly_Rating = mean(skipmissing(Rating)),
         Median_Yearly_Rating = median(skipmissing(Rating)))
+    @slice(1:5)
 end
-first(ans, 5)

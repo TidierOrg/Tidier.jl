@@ -9,12 +9,12 @@ movies = dataset("ggplot2", "movies");
 # We will scale the Budget down to millions of dollars. Since there are many
 # missing values for Budget, we will first remove the missing values.
 
-df_mutate = @chain movies begin
+@chain movies begin
     @filter(!ismissing(Budget))
     @mutate(Budget = Budget/1_000_000)
     @select(Title, Budget)
+    @slice(1:5)
 end
-first(df_mutate, 5)
 
 # ## @transmute()
 
@@ -23,16 +23,16 @@ first(df_mutate, 5)
 # for `@select()` since the two macros both use the `select()` function
 # from `DataFrames.jl`.
 
-df_t = @chain movies begin
+@chain movies begin
     @filter(!ismissing(Budget))
     @transmute(Title = Title, Budget = Budget/1_000_000)
+    @slice(1:5)
 end
-first(df_t, 5)
 
 # # Add new column
-df_new = @chain movies begin
+@chain movies begin
     @filter(!ismissing(Budget))
     @mutate(Budget_Millions = Budget/1_000_000)
     @select(Title, Budget, Budget_Millions)
+    @slice(1:5)
 end
-first(df_new, 5)

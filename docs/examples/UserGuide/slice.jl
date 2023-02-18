@@ -8,11 +8,13 @@ movies = dataset("ggplot2", "movies");
 
 @chain movies begin
     @slice(1:5)
+    @select(1:5)
 end
 
 # ## Separate multiple selections with commas
 @chain movies begin
     @slice(1:5, 10)
+    @select(1:5)
 end
 
 # ## Inverted selection using negative numbers
@@ -20,5 +22,6 @@ end
 
 @chain movies begin
     @slice(-(1:5))
-end; # possible bug due to macro
-first(ans, 5)
+    @select(1:5)
+    @slice(1:5)
+end

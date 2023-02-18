@@ -73,7 +73,7 @@ function desc(args...)
 end
 
 # Not exported
-function parse_tidy(tidy_expr::Union{Expr, Symbol}; autovec::Bool = true, subset::Bool = false) # Can be symbol or expression
+function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true, subset::Bool = false, from_across::Bool = false) # Can be symbol or expression
   if @capture(tidy_expr, across(vars_, funcs_))
     return parse_across(vars, funcs)
   elseif @capture(tidy_expr, -(start_index_:end_index_))
@@ -110,14 +110,21 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol}; autovec::Bool = true, subset
     rhs = QuoteNode(rhs)
     return :($rhs => $lhs)
   elseif !subset & @capture(tidy_expr, fn_(args__)) # selection helpers
-    :(Cols($tidy_expr))
+    if from_across
+      return tidy_expr
+    else
+      return :(Cols($tidy_expr))
+    end
   elseif @capture(tidy_expr, var_Symbol)
     return QuoteNode(var)
   # elseif @capture(tidy_expr, df_expr)
   #  return df_expr
-  else
+  elseif subset
     return parse_function(:ignore, tidy_expr; autovec, subset)
-   # throw("Expression not recognized by parse_tidy()")
+  else
+    return tidy_expr
+    # Do not throw error because multiple functions within across() where some are anonymous require this condition
+    # throw("Expression not recognized by parse_tidy()")
   end
 end
 
@@ -172,18 +179,19 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
   end
 
   func_array = Union{Expr, Symbol}[] # expression containing functions
-  
+
   if funcs isa Symbol
     push!(func_array, funcs)
-  else
-    @capture(funcs, (args__,))
+  elseif @capture(funcs, (args__,))
     for arg in args
       if arg isa Symbol
         push!(func_array, arg)
       else
-        push!(func_array, parse_tidy(arg))
+        push!(func_array, parse_tidy(arg; from_across = true)) # fixes bug with compound and anonymous functions getting wrapped in Cols()
       end
     end
+  else # for compound functions like mean or anonymous functions
+    push!(func_array, funcs)
   end
 
   num_funcs = length(func_array)
@@ -214,7 +222,7 @@ end
 function parse_autovec(tidy_expr::Union{Expr, Symbol})
   autovec_expr = MacroTools.postwalk(tidy_expr) do x
     @capture(x, fn_(args__)) || return x
-    if fn in [:(:) :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+    if fn in [:(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
       return x
     elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
       return :($fn.($(args...)))

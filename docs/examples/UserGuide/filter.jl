@@ -9,10 +9,10 @@ movies = dataset("ggplot2", "movies");
 # this requires a bit more work in Julia because the `>=` operator generates
 # an error when it receives missing values. I am considering possible workarounds.
 
-df_filter = @chain movies begin
+@chain movies begin
     @mutate(Budget = Budget / 1_000_000)
     @filter(!ismissing(Budget))
     @filter(Budget >= mean(skipmissing(Budget)))
     @select(Title, Budget)
+    @slice(1:5)
 end
-first(df_filter, 5)
