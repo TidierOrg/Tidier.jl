@@ -185,7 +185,7 @@ function parse_desc(tidy_expr::Union{Expr, Symbol})
     var = QuoteNode(var)
     return :(order($var, rev = true))
   else
-    return tidy_expr
+    return QuoteNode(tidy_expr)
   end
 end
 
@@ -520,33 +520,36 @@ julia> @chain df begin
 ```         
 """
 macro slice(df, exprs...)
-  quote
-    df_name = $(string(df))
-    df_name = replace(df_name, r"^(##\d+)$" => s"var\"\1\"")
-
-    local indices = [$(exprs...)]
-    try
-      if (all(indices .< 0))
-        return_string = df_name * "[Not(" * string(-indices) * "), :]"
-        return_value = $(esc(df))[Not(-copy(indices)), :]
-      else
-        return_string = df_name * "[" * string(indices) * ", :]"
-        return_value = $(esc(df))[copy(indices), :]
-      end
-    catch e
-      local indices2 = reduce(vcat, collect.(indices))
-      if (all(indices2 .< 0))
-        return_string = df_name * "[Not(" * string(-indices2) * "), :]"
-        return_value = $(esc(df))[Not(-copy(indices2)), :]
-      else
-        return_string = df_name * "[" * string(indices2) * ", :]"
-        return_value = $(esc(df))[copy(indices2), :]
-      end
-
-      @info return_string
-      return return_value
+  original_indices = [eval.(exprs)...]
+  clean_indices = Int64[]
+  for index in original_indices
+    if index isa Number
+      push!(clean_indices, index)
+    else
+      append!(clean_indices, collect(index))
     end
   end
+  clean_indices = unique(clean_indices)
+
+  if all(clean_indices .> 0)
+    df_expr = quote   
+      select(subset(transform($(esc(df)), eachindex => :Tidier_row_number), 
+      :Tidier_row_number => x -> (in.(x, Ref($clean_indices)))),
+      Not(:Tidier_row_number))
+    end
+  elseif all(clean_indices .< 0)
+    clean_indices = -clean_indices
+    df_expr = quote 
+    select(subset(transform($(esc(df)), eachindex => :Tidier_row_number), 
+    :Tidier_row_number => x -> (.!in.(x, Ref($clean_indices)))),
+    Not(:Tidier_row_number))
+    end
+  else
+    throw("@slice() indices must either be all positive or all negative.")
+  end
+
+  @info MacroTools.prettify(df_expr)
+  return df_expr  
 end
 
 """
@@ -574,30 +577,12 @@ julia> @chain df begin
 ```
 """
 macro arrange(df, exprs...)
-  tp = tuple(exprs...)
-  arr_calls = String[]
-
-  for expr in tp
-    expr_string = string(expr)
-    expr_string = replace(expr_string, r"^desc\((.+)\)$" => s"order(:\1, rev=true)")
-
-    if !occursin(r"[()]", expr_string)
-      expr_string = ":" * expr_string
-    end
-
-    push!(arr_calls, expr_string)
+  arrange_exprs = parse_desc.(exprs)
+  df_expr = quote   
+    sort($(esc(df)), [$(arrange_exprs...)])
   end
-
-  fn_call = "sort($df, " * join(arr_calls, ",") * ")"
-  fn_call = replace(fn_call, r"(##\d+)" => s"var\"\1\"")
-
-  @info fn_call
-
-  return_val = quote
-    arr_eval_calls = eval.(Meta.parse.($arr_calls))
-    sort($(esc(df)), [arr_eval_calls...])
-  end
-  return_val
+  @info MacroTools.prettify(df_expr)
+  return df_expr
 end
 
 end
