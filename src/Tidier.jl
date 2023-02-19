@@ -9,7 +9,7 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, across, desc, left_join
+export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, @left_join, across, desc
 
 """
     across(variable[s], function[s])
