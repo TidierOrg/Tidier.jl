@@ -73,7 +73,7 @@ function desc(args...)
 end
 
 # Not exported
-function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true, subset::Bool = false, from_across::Bool = false) # Can be symbol or expression
+function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, subset::Bool=false, from_across::Bool=false) # Can be symbol or expression
   if @capture(tidy_expr, across(vars_, funcs_))
     return parse_across(vars, funcs)
   elseif @capture(tidy_expr, -(start_index_:end_index_))
@@ -81,7 +81,7 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
       start_index = QuoteNode(start_index)
     end
     if end_index isa Symbol
-    end_index = QuoteNode(end_index)
+      end_index = QuoteNode(end_index)
     end
     return :(Not(Between($start_index, $end_index)))
   elseif @capture(tidy_expr, -start_index_)
@@ -94,7 +94,7 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
       start_index = QuoteNode(start_index)
     end
     if end_index isa Symbol
-    end_index = QuoteNode(end_index)
+      end_index = QuoteNode(end_index)
     end
     return :(Between($start_index, $end_index))
   elseif @capture(tidy_expr, (lhs_ = fn_(args__)) | (lhs_ = fn_.(args__)))
@@ -117,8 +117,8 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
     end
   elseif @capture(tidy_expr, var_Symbol)
     return QuoteNode(var)
-  # elseif @capture(tidy_expr, df_expr)
-  #  return df_expr
+    # elseif @capture(tidy_expr, df_expr)
+    #  return df_expr
   elseif subset
     return parse_function(:ignore, tidy_expr; autovec, subset)
   else
@@ -129,10 +129,10 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
 end
 
 # Not exported
-function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool = true, subset::Bool = false)
-  
+function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool=true, subset::Bool=false)
+
   lhs = QuoteNode(lhs)
-  
+
   src = Symbol[]
   MacroTools.postwalk(rhs) do x
     if @capture(x, (fn_(args__)) | (fn_.(args__)))
@@ -141,7 +141,7 @@ function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool = true, subset::Bo
     end
     return x
   end
-  
+
   src = unique(src)
   func_left = :($(src...),)
 
@@ -157,9 +157,9 @@ function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool = true, subset::Bo
 end
 
 # Not exported
-function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
-  
-  src = Union{Expr, QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
+function parse_across(vars::Union{Expr,Symbol}, funcs::Union{Expr,Symbol})
+
+  src = Union{Expr,QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
 
   if vars isa Symbol
     src = push!(src, QuoteNode(vars))
@@ -178,7 +178,7 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
     end
   end
 
-  func_array = Union{Expr, Symbol}[] # expression containing functions
+  func_array = Union{Expr,Symbol}[] # expression containing functions
 
   if funcs isa Symbol
     push!(func_array, funcs)
@@ -187,7 +187,7 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
       if arg isa Symbol
         push!(func_array, arg)
       else
-        push!(func_array, parse_tidy(arg; from_across = true)) # fixes bug with compound and anonymous functions getting wrapped in Cols()
+        push!(func_array, parse_tidy(arg; from_across=true)) # fixes bug with compound and anonymous functions getting wrapped in Cols()
       end
     end
   else # for compound functions like mean or anonymous functions
@@ -200,17 +200,17 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
 end
 
 # Not exported
-function parse_desc(tidy_expr::Union{Expr, Symbol})
+function parse_desc(tidy_expr::Union{Expr,Symbol})
   if @capture(tidy_expr, desc(var_))
     var = QuoteNode(var)
-    return :(order($var, rev = true))
+    return :(order($var, rev=true))
   else
     return QuoteNode(tidy_expr)
   end
 end
 
 # Not exported
-function parse_group_by(tidy_expr::Union{Expr, Symbol})
+function parse_group_by(tidy_expr::Union{Expr,Symbol})
   if @capture(tidy_expr, lhs_ = rhs_)
     return QuoteNode(lhs)
   else
@@ -219,7 +219,23 @@ function parse_group_by(tidy_expr::Union{Expr, Symbol})
 end
 
 # Not exported
-function parse_autovec(tidy_expr::Union{Expr, Symbol})
+function parse_join(tidy_expr::Union{Expr,Vector{Expr}})
+  vec_call = Pair[]
+  MacroTools.postwalk(tidy_expr) do x
+    @capture(x, l_Symbol_ = r_Symbol_) || return (x)
+    push!(vec_call, Pair(l_Symbol, r_Symbol))
+  end
+  return vec_call
+end
+
+# Not exported
+function parse_join(tidy_expr::Union{String,Vector{String}})
+  vec_call = Meta.parse.(tidy_expr)
+  return vec_call
+end
+
+# Not exported
+function parse_autovec(tidy_expr::Union{Expr,Symbol})
   autovec_expr = MacroTools.postwalk(tidy_expr) do x
     @capture(x, fn_(args__)) || return x
     if fn in [:(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
@@ -283,7 +299,7 @@ julia> @chain df begin
 """
 macro select(df, exprs...)
   tidy_exprs = parse_tidy.(exprs)
-  df_expr = quote   
+  df_expr = quote
     select($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -313,7 +329,7 @@ julia> @chain df begin
 """
 macro transmute(df, exprs...)
   tidy_exprs = parse_tidy.(exprs)
-  df_expr = quote   
+  df_expr = quote
     select($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -343,7 +359,7 @@ julia> @chain df begin
 """
 macro rename(df, exprs...)
   tidy_exprs = parse_tidy.(exprs)
-  df_expr = quote   
+  df_expr = quote
     rename($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -378,7 +394,7 @@ julia> @chain df begin
 """
 macro mutate(df, exprs...)
   tidy_exprs = parse_tidy.(exprs)
-  df_expr = quote   
+  df_expr = quote
     transform($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -411,8 +427,8 @@ julia> @chain df begin
 ```
 """
 macro summarize(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs; autovec = false)
-  df_expr = quote   
+  tidy_exprs = parse_tidy.(exprs; autovec=false)
+  df_expr = quote
     combine($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -445,8 +461,8 @@ julia> @chain df begin
 ```
 """
 macro summarise(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs; autovec = false)
-  df_expr = quote   
+  tidy_exprs = parse_tidy.(exprs; autovec=false)
+  df_expr = quote
     combine($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -474,8 +490,8 @@ Subset a DataFrame and return a copy of DataFrame where specified conditions are
 ```
 """
 macro filter(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs; subset = true)
-  df_expr = quote   
+  tidy_exprs = parse_tidy.(exprs; subset=true)
+  df_expr = quote
     subset($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -511,9 +527,9 @@ sets of `cols`.
 """
 macro group_by(df, exprs...)
   tidy_exprs = parse_tidy.(exprs)
-  grouping_exprs = parse_group_by.(exprs)  
-  
-  df_expr = quote   
+  grouping_exprs = parse_group_by.(exprs)
+
+  df_expr = quote
     groupby(transform($(esc(df)), $(tidy_exprs...)), [$(grouping_exprs...)])
   end
   @info MacroTools.prettify(df_expr)
@@ -562,24 +578,24 @@ macro slice(df, exprs...)
   clean_indices = unique(clean_indices)
 
   if all(clean_indices .> 0)
-    df_expr = quote   
-      select(subset(transform($(esc(df)), eachindex => :Tidier_row_number), 
-      :Tidier_row_number => x -> (in.(x, Ref($clean_indices)))),
-      Not(:Tidier_row_number))
+    df_expr = quote
+      select(subset(transform($(esc(df)), eachindex => :Tidier_row_number),
+          :Tidier_row_number => x -> (in.(x, Ref($clean_indices)))),
+        Not(:Tidier_row_number))
     end
   elseif all(clean_indices .< 0)
     clean_indices = -clean_indices
-    df_expr = quote 
-    select(subset(transform($(esc(df)), eachindex => :Tidier_row_number), 
-    :Tidier_row_number => x -> (.!in.(x, Ref($clean_indices)))),
-    Not(:Tidier_row_number))
+    df_expr = quote
+      select(subset(transform($(esc(df)), eachindex => :Tidier_row_number),
+          :Tidier_row_number => x -> (.!in.(x, Ref($clean_indices)))),
+        Not(:Tidier_row_number))
     end
   else
     throw("@slice() indices must either be all positive or all negative.")
   end
 
   @info MacroTools.prettify(df_expr)
-  return df_expr  
+  return df_expr
 end
 
 """
@@ -608,17 +624,11 @@ julia> @chain df begin
 """
 macro arrange(df, exprs...)
   arrange_exprs = parse_desc.(exprs)
-  df_expr = quote   
+  df_expr = quote
     sort($(esc(df)), [$(arrange_exprs...)])
   end
   @info MacroTools.prettify(df_expr)
   return df_expr
-end
-
-function extract_expr(expr::Expr)
-  @capture(expr, [l_Symbol_ = r_Symbol_])
-
-
 end
 
 function left_join(df1::AbstractDataFrame, df2::AbstractDataFrame; by=nothing)
