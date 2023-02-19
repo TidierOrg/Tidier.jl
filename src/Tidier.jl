@@ -223,7 +223,7 @@ function parse_join_by(tidy_expr::Union{Expr,Vector{Expr}})
   vec_call = []
 
   MacroTools.postwalk(tidy_expr) do x
-    if @capture(x, l_Symbol_ = r_Symbol_)
+    if @capture(x, l_Symbol_ == r_Symbol_)
       push!(vec_call, Pair(l_Symbol, r_Symbol))
     elseif x isa String
       push!(vec_call, Meta.parse(x))
@@ -656,6 +656,6 @@ df4 = DataFrame(zid=[2, 3, 4], z=[4, 5, 6])
 df5 = DataFrame(zid=[1, 2, 4], fid=[10, 11, 12], z=[4, 5, 6])
 
 @left_join(df1, df3, "id")
-@left_join(df1, df2, ["id", "pid"])
-@left_join(df1, df4, id = zid)
-@left_join(df1, df5, [id = zid, pid = fid])
+@left_join(df1, df2, ("id", "pid"))
+@left_join(df1, df4, id == zid)
+@left_join(df1, df5, (id == zid, pid == fid))
