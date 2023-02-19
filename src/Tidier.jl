@@ -219,19 +219,24 @@ function parse_group_by(tidy_expr::Union{Expr,Symbol})
 end
 
 # Not exported
-function parse_join(tidy_expr::Union{Expr,Vector{Expr}})
-  vec_call = Pair[]
+function parse_join_by(tidy_expr::Union{Expr,Vector{Expr}})
+  vec_call = []
+
   MacroTools.postwalk(tidy_expr) do x
-    @capture(x, l_Symbol_ = r_Symbol_) || return (x)
-    push!(vec_call, Pair(l_Symbol, r_Symbol))
+    if @capture(x, l_Symbol_ = r_Symbol_)
+      push!(vec_call, Pair(l_Symbol, r_Symbol))
+    elseif x isa String
+      push!(vec_call, Meta.parse(x))
+    else
+      return x
+    end
   end
-  return vec_call
+  return QuoteNode(vec_call)
 end
 
 # Not exported
-function parse_join(tidy_expr::Union{String,Vector{String}})
-  vec_call = Meta.parse.(tidy_expr)
-  return vec_call
+function parse_join_by(tidy_expr::String)
+  return QuoteNode(Meta.parse(tidy_expr))
 end
 
 # Not exported
@@ -631,38 +636,13 @@ macro arrange(df, exprs...)
   return df_expr
 end
 
-function left_join(df1::AbstractDataFrame, df2::AbstractDataFrame; by=nothing)
-  # left join two DataFrames
-  # This function takes a string or a vector of strings for `on` argument
-  # First step, join two data frames using one column
-  # Second step, consider when on is not specified, how to autojoin
-  # Third step, take an expression
-  if by isa Expr
-    vec_call = []
-    MacroTools.postwalk(by) do x
-      @capture(x, l_Symbol_ = r_Symbol_) || return (x)
-      push!(vec_call, Pair(l_Symbol, r_Symbol))
-    end
-  else
-    if isnothing(by)
-      common_cols = in.(names(df1), Ref(names(df2)))
-
-      if sum(common_cols) == 0
-        error("No common columns found between the two DataFrames")
-      else
-        by = names(df1)[common_cols]
-      end
-    else
-      if by isa String
-        by = push!([], by)
-      end
-    end
-
-    vec_call = [Symbol(x) for x in by]
-
+macro left_join(df1, df2, by)
+  join_exprs = parse_join_by(by)
+  df_expr = quote
+    leftjoin($(esc(df1)), $(esc(df2)), on=$(join_exprs))
   end
-
-  return DataFrames.leftjoin(df1, df2, on=vec_call)
+  @info MacroTools.prettify(df_expr)
+  return df_expr
 end
 
 end
@@ -673,10 +653,9 @@ df1 = DataFrame(id=[1, 2, 3], pid=[10, 11, 12], x=[4, 5, 6])
 df2 = DataFrame(id=[2, 3, 4], pid=[11, 12, 13], y=[7, 8, 9])
 df3 = DataFrame(id=[2, 3, 4], z=[4, 5, 6])
 df4 = DataFrame(zid=[2, 3, 4], z=[4, 5, 6])
-df5 = DataFrame(zid=[2, 3, 4], fid=[10, 11, 12], z=[4, 5, 6])
+df5 = DataFrame(zid=[1, 2, 4], fid=[10, 11, 12], z=[4, 5, 6])
 
-left_join(df1, df2)
-left_join(df1, df3, by="id")
-left_join(df1, df2, by=["id", "pid"])
-left_join(df1, df4, by=:([id = zid]))
-left_join(df1, df5, by=:([id = zid, pid = fid]))
+@left_join(df1, df3, "id")
+@left_join(df1, df2, ["id", "pid"])
+@left_join(df1, df4, id = zid)
+@left_join(df1, df5, [id = zid, pid = fid])
