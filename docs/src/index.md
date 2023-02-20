@@ -1,10 +1,6 @@
 # Tidier.jl
 
-<<<<<<< HEAD
-<img src="assets/Tidier\_jl\_logo.png" width="300"></img>
-=======
 <img src="/assets/Tidier\_jl\_logo.png" width="25%"></img>
->>>>>>> 055e7cc98be8fd992b94cf30ce75339ee539f60e
 
 ## What is Tidier.jl?
 
