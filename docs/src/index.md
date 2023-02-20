@@ -1,6 +1,6 @@
 # Tidier.jl
 
-<img src="Tidier\_jl\_logo.png" width="300"></img>
+<img src="assets/Tidier\_jl\_logo.png" width="300"></img>
 
 ## What is Tidier.jl?
 
