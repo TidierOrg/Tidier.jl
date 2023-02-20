@@ -9,13 +9,13 @@ Modules = [Tidier]
 Private = false
 ```
 
-## Public API
+## Reference - Exported functions
 ```@autodocs
 Modules = [Tidier]
 Private = false
 ```
 
-## Internal API
+## Reference - Internal functions
 ```@autodocs
 Modules = [Tidier]
 Public = false
