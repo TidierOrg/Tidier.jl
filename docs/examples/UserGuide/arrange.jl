@@ -18,27 +18,3 @@ end
   @select(1:5)
   @slice(1:5)
 end
-
-# ### `across`
-
-# `across()` can be used with either `@mutate` or `@summarize` to operate on multiple
-# columns and/or multiple functions.
-
-# #### One variable, one function
-@chain movies begin
-  @mutate(Budget = Budget / 1_000_000)
-  @summarize(across(Budget, mean∘skipmissing))
-end
-
-# #### One variable, one anonymous function
-@chain movies begin
-  @mutate(Budget = Budget / 1_000_000)
-  @summarize(across(Budget, (x -> mean(skipmissing(x)))))
-end
-
-# #### Multiple variables, multiple functions
-
-@chain movies begin
-    @mutate(Budget = Budget / 1_000_000)
-    @summarize(across((Rating, Budget), (mean∘skipmissing, median∘skipmissing)))
-end
