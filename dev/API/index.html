@@ -650,7 +650,7 @@
 <span class="go">  @mutate(across((b, startswith(&quot;c&quot;)), (minimum, maximum)))</span>
 <span class="go">  end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L14-L47' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L14-L47' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.desc-Tuple' href='#Tidier.desc-Tuple'>#</a>
 <strong><code>Tidier.desc</code></strong> &mdash; <em>Method</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">desc</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
@@ -669,7 +669,7 @@
 <span class="go">  @arrange(a, desc(b))</span>
 <span class="go">  end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L52-L70' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L52-L70' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@arrange-Tuple{Any, Vararg{Any}}' href='#Tidier.@arrange-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@arrange</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@arrange</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -693,7 +693,7 @@
 <span class="go">  @arrange(a, desc(b))</span>
 <span class="go">  end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L585-L608' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L611-L634' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@filter-Tuple{Any, Vararg{Any}}' href='#Tidier.@filter-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@filter</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@filter</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -713,7 +713,7 @@
 <span class="go">    @filter(b &gt;= mean(b))</span>
 <span class="go">    end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L456-L475' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L482-L501' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@group_by-Tuple{Any, Vararg{Any}}' href='#Tidier.@group_by-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@group_by</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@group_by</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -739,7 +739,7 @@
 <span class="go">    @summarize(b = mean(b))</span>
 <span class="go">    end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L485-L511' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L511-L537' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@mutate-Tuple{Any, Vararg{Any}}' href='#Tidier.@mutate-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@mutate</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@mutate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -763,7 +763,7 @@
 <span class="go">  @mutate(across((b, c), mean))</span>
 <span class="go">  end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L353-L378' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L379-L404' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@rename-Tuple{Any, Vararg{Any}}' href='#Tidier.@rename-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@rename</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@rename</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -783,7 +783,7 @@
 <span class="go">  @rename(d = b, e = c)</span>
 <span class="go">  end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L323-L343' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L349-L369' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@select-Tuple{Any, Vararg{Any}}' href='#Tidier.@select-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@select</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@select</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -827,7 +827,7 @@
 <span class="go">  @select(-c)</span>
 <span class="go">  end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L238-L283' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L264-L309' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@slice-Tuple{Any, Vararg{Any}}' href='#Tidier.@slice-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@slice</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@slice</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -856,7 +856,7 @@
 <span class="go">  @slice(1)</span>
 <span class="go">  end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L523-L551' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L549-L577' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@summarise-Tuple{Any, Vararg{Any}}' href='#Tidier.@summarise-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@summarise</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@summarize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -881,7 +881,7 @@
 <span class="go">  @summarise(across((b,c), (minimum, maximum)))</span>
 <span class="go">  end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L422-L446' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L448-L472' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@summarize-Tuple{Any, Vararg{Any}}' href='#Tidier.@summarize-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@summarize</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@summarize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -906,7 +906,7 @@
 <span class="go">  @summarize(across((b,c), (minimum, maximum)))</span>
 <span class="go">  end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L388-L412' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L414-L438' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@transmute-Tuple{Any, Vararg{Any}}' href='#Tidier.@transmute-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@transmute</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@transmute</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -926,7 +926,7 @@
 <span class="go">  @transmute(d = b + c)</span>
 <span class="go">  end</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e20228d06c4c42cb16ca00ad80f479814047806c/src/Tidier.jl#L293-L313' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/e8081ac28cee0d4c690da6393a6b820215287b0a/src/Tidier.jl#L319-L339' class='documenter-source'>source</a><br></p>
 <p><a id='Internal-API'></a></p>
 <p><a id='Internal-API-1'></a></p>
 <h2 id="internal-api">Internal API<a class="headerlink" href="#internal-api" title="Permanent link">¤</a></h2>
