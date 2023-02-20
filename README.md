@@ -3,7 +3,7 @@
 [![Latest Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://kdpsingh.github.io/Tidier.jl/dev/) [![Stable Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://kdpsingh.github.io/Tidier.jl/stable/) [![Build
 Status](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
-<img src="/docs/src/Tidier_jl_logo.png" align="right" style="padding-left:10px;" width="150"/>
+<img src="/docs/src/assets/Tidier_jl_logo.png" align="right" style="padding-left:10px;" width="150"/>
 
 ## What is Tidier.jl?
 
