@@ -113,7 +113,7 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
     if from_across
       return tidy_expr
     else
-      return :(Cols($tidy_expr))
+      return :(Cols($(esc(tidy_expr))))
     end
   elseif @capture(tidy_expr, var_Symbol)
     return QuoteNode(var)
@@ -122,7 +122,7 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
   elseif subset
     return parse_function(:ignore, tidy_expr; autovec, subset)
   else
-    return tidy_expr
+    return :($(esc(tidy_expr)))
     # Do not throw error because multiple functions within across() where some are anonymous require this condition
     # throw("Expression not recognized by parse_tidy()")
   end
@@ -196,7 +196,7 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
 
   num_funcs = length(func_array)
 
-  return :(Cols($(src...)) .=> reshape([$(func_array...)], 1, $num_funcs))
+  return :(Cols($(esc(src...))) .=> reshape([$(esc(func_array...))], 1, $num_funcs))
 end
 
 # Not exported
