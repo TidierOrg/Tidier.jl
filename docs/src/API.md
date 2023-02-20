@@ -1,10 +1,15 @@
-## Public API
 ```@meta
 DocTestSetup= quote
 using Tidier
 end
 ```
+## Index
+```@index
+Modules = [Tidier]
+Private = false
+```
 
+## Public API
 ```@autodocs
 Modules = [Tidier]
 Private = false
