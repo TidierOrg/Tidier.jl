@@ -1,6 +1,6 @@
 theme:
   name: material
-  logo: Tidier_jl_logo.png
+  logo: assets/Tidier_jl_logo.png
   features:
     # - announce.dismiss
     #- content.code.annotate
@@ -69,6 +69,13 @@ extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/kdpsingh
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/kdpsinghlab
+
 extra_css:
   - stylesheets/custom.css
   - assets/Documenter.css
@@ -118,6 +125,7 @@ nav:
     - "@slice" : "examples/generated/UserGuide/slice.md"
     - "@group_by" : "examples/generated/UserGuide/group_by.md"
     - "@arrange, desc & across" : "examples/generated/UserGuide/arrange.md"
-    
+    - "API Reference" : "API.md"
+
   - "Contributors":
     - "Contribute to Documentation" : "examples/generated/Contributors/Howto.md"

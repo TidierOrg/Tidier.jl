@@ -1,6 +1,10 @@
 # Tidier.jl
 
+<<<<<<< HEAD
 <img src="assets/Tidier\_jl\_logo.png" width="300"></img>
+=======
+<img src="/assets/Tidier\_jl\_logo.png" width="25%"></img>
+>>>>>>> 055e7cc98be8fd992b94cf30ce75339ee539f60e
 
 ## What is Tidier.jl?
 
@@ -21,11 +25,7 @@ meta-packages:
     users switching to Julia because R users are used to most functions
     being vectorized. Tidier.jl currently uses a lookup table to decide
     which functions not to vectorize; all other functions are
-    automatically vectorized. The following functions are treated as
-    non-vectorized: `mean()`, `median()`, `first()`, `last()`,
-    `minimum()`, `maximum()`, `sum()`, and `length()`. Support for
-    `nrow()` and `proprow()` will be coming soon, and users may
-    eventually be given the option to override these defaults.
+    automatically vectorized.
 
 
 ## Installation
