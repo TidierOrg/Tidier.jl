@@ -1,9 +1,9 @@
 
 # Tidier.jl
-[![Latest Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://kdpsingh.github.io/Tidier.jl/) [![Build
+[![Latest Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://kdpsingh.github.io/Tidier.jl/dev/) [![Stable Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://kdpsingh.github.io/Tidier.jl/stable/) [![Build
 Status](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
-<img src="/docs/src/Tidier_jl_logo.png" width="300"></img>
+<img src="/docs/src/Tidier_jl_logo.png" align="right" style="padding-left:10px;" width="150"/>
 
 ## What is Tidier.jl?
 
@@ -72,7 +72,7 @@ Tidier.jl currently supports the following macros and functions:
 - `@arrange()`
 - `across()`
 
-See the [Documentation](https://kdpsingh.github.io/Tidier.jl/) to learn how to use them.
+See the [Documentation](https://kdpsingh.github.io/Tidier.jl/dev/) to learn how to use them.
 
 ## What’s missing?
 
