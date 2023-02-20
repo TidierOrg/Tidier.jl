@@ -9,7 +9,13 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, across, desc
+export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, across, desc, starts_with, ends_with, matches
+
+# Need to expand with docs
+# These are just aliases
+starts_with(args...) = startswith(args...)
+ends_with(args...) = endswith(args...)
+matches(pattern, flags...) = Regex(pattern, flags...)
 
 """
     across(variable[s], function[s])
