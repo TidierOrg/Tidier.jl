@@ -527,10 +527,9 @@
 
 <span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;ggplot2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;movies&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>Let’s take a look at the movies whose budget was more than average. While it’s easy in R to do this all wthin a single <code>@filter()</code> statement, this requires a bit more work in Julia because the <code>&gt;=</code> operator generates an error when it receives missing values. I am considering possible workarounds.</p>
+<p>Let’s take a look at the movies whose budget was more than average.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
-<span class="w">    </span><span class="nd">@filter</span><span class="p">(</span><span class="o">!</span><span class="n">ismissing</span><span class="p">(</span><span class="n">Budget</span><span class="p">))</span>
 <span class="w">    </span><span class="nd">@filter</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">Budget</span><span class="p">)))</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="n">Title</span><span class="p">,</span><span class="w"> </span><span class="n">Budget</span><span class="p">)</span>
 <span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
