@@ -149,6 +149,8 @@ function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool = true, subset::Bo
     rhs = parse_autovec(rhs)
   end
 
+  rhs = parse_escape_function(rhs) # ensure that functions in user space are available
+
   if subset
     return :($src => ($func_left -> coalesce.($rhs, false))) # to ensure that missings are replace by false
   else
@@ -164,14 +166,14 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
   if vars isa Symbol
     src = push!(src, QuoteNode(vars))
   elseif @capture(vars, fn_(args__)) # selection helpers
-    push!(src, vars)
+    push!(src, esc(vars))
   else
     @capture(vars, (args__,))
     for arg in args
       if arg isa Symbol
         push!(src, QuoteNode(arg))
       elseif @capture(arg, fn_(args__)) # selection helpers
-        push!(src, arg)
+        push!(src, esc(arg))
       else
         push!(src, parse_tidy(arg))
       end
@@ -185,18 +187,18 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
   elseif @capture(funcs, (args__,))
     for arg in args
       if arg isa Symbol
-        push!(func_array, arg)
+        push!(func_array, esc(arg))
       else
-        push!(func_array, parse_tidy(arg; from_across = true)) # fixes bug with compound and anonymous functions getting wrapped in Cols()
+        push!(func_array, esc(parse_tidy(arg; from_across = true))) # fixes bug with compound and anonymous functions getting wrapped in Cols()
       end
     end
   else # for compound functions like mean or anonymous functions
-    push!(func_array, funcs)
+    push!(func_array, esc(funcs))
   end
 
   num_funcs = length(func_array)
 
-  return :(Cols($(esc(src...))) .=> reshape([$(esc(func_array...))], 1, $num_funcs))
+  return :(Cols($(src...)) .=> reshape([$(func_array...)], 1, $num_funcs))
 end
 
 # Not exported
@@ -234,6 +236,30 @@ function parse_autovec(tidy_expr::Union{Expr, Symbol})
   return autovec_expr
 end
 
+# Not exported
+function parse_escape_function(rhs_expr::Union{Expr, Symbol})
+  rhs_expr = MacroTools.postwalk(rhs_expr) do x
+    if @capture(x, fn_(args__))
+      if fn in [:(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+        return x
+      elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
+        return :($(esc(fn))($(args...)))
+      else
+        return x
+      end
+    elseif @capture(x, fn_.(args__))
+      if fn in [:(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+        return x
+      elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
+        return :($(esc(fn)).($(args...)))
+      else
+        return x
+      end
+    end
+    return x
+  end
+  return rhs_expr
+end
 
 """
     @select(df, exprs...)
