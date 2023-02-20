@@ -150,7 +150,7 @@ function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool = true, subset::Bo
   end
 
   if subset
-    return :($src => ($func_left -> $rhs))
+    return :($src => ($func_left -> coalesce.($rhs, false))) # to ensure that missings are replace by false
   else
     return :($src => ($func_left -> $rhs) => $lhs)
   end
