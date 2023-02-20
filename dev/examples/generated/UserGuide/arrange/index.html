@@ -16,14 +16,14 @@
         <link rel="prev" href="../group_by/">
       
       
-        <link rel="next" href="../../../../API/">
+        <link rel="next" href="../across/">
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.13">
     
     
       
-        <title>@arrange, desc & across - Tidier.jl</title>
+        <title>@arrange - Tidier.jl</title>
       
     
     
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              @arrange, desc & across
+              @arrange
             
           </span>
         </div>
@@ -416,12 +416,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          @arrange, desc & across
+          @arrange
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        @arrange, desc & across
+        @arrange
       </a>
       
         
@@ -459,40 +459,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#across" class="md-nav__link">
-    across
-  </a>
-  
-    <nav class="md-nav" aria-label="across">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#one-variable-one-function" class="md-nav__link">
-    One variable, one function
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#one-variable-one-anonymous-function" class="md-nav__link">
-    One variable, one anonymous function
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-variables-multiple-functions" class="md-nav__link">
-    Multiple variables, multiple functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -513,8 +479,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../API/" class="md-nav__link">
-        API Reference
+      <a href="../across/" class="md-nav__link">
+        across
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../reference/" class="md-nav__link">
+        Reference
       </a>
     </li>
   
@@ -622,40 +602,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#across" class="md-nav__link">
-    across
-  </a>
-  
-    <nav class="md-nav" aria-label="across">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#one-variable-one-function" class="md-nav__link">
-    One variable, one function
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#one-variable-one-anonymous-function" class="md-nav__link">
-    One variable, one anonymous function
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-variables-multiple-functions" class="md-nav__link">
-    Multiple variables, multiple functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -676,7 +622,7 @@
                   
 
 
-  <h1>@arrange, desc & across</h1>
+  <h1>@arrange</h1>
 
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
@@ -710,43 +656,6 @@
 </code></pre></div>
 <div><div style = "float: left;"><span>5×5 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Length</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">Blacksmith Scene</td><td style = "text-align: right;">1893</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">7.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">Luis Martinetti, Contortionist</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">Caicedo (with Pole)</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">5.8</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">Glenroy Brothers (Comic Boxing)</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">5.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">Buffalo Dance</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">5.0</td></tr></tbody></table></div>
-
-<p><a id='across'></a></p>
-<p><a id='across-1'></a></p>
-<h3 id="across"><code>across</code><a class="headerlink" href="#across" title="Permanent link">¤</a></h3>
-<p><code>across()</code> can be used with either <code>@mutate</code> or <code>@summarize</code> to operate on multiple columns and/or multiple functions.</p>
-<p><a id='One-variable,-one-function'></a></p>
-<p><a id='One-variable,-one-function-1'></a></p>
-<h4 id="one-variable-one-function">One variable, one function<a class="headerlink" href="#one-variable-one-function" title="Permanent link">¤</a></h4>
-<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
-<span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="n">Budget</span><span class="p">,</span><span class="w"> </span><span class="n">mean∘skipmissing</span><span class="p">))</span>
-<span class="k">end</span>
-</code></pre></div>
-<div><div style = "float: left;"><span>1×1 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Budget_mean_skipmissing</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">13.4125</td></tr></tbody></table></div>
-
-<p><a id='One-variable,-one-anonymous-function'></a></p>
-<p><a id='One-variable,-one-anonymous-function-1'></a></p>
-<h4 id="one-variable-one-anonymous-function">One variable, one anonymous function<a class="headerlink" href="#one-variable-one-anonymous-function" title="Permanent link">¤</a></h4>
-<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
-<span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="n">Budget</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">x</span><span class="p">)))))</span>
-<span class="k">end</span>
-</code></pre></div>
-<div><div style = "float: left;"><span>1×1 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Budget_function</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">13.4125</td></tr></tbody></table></div>
-
-<p><a id='Multiple-variables,-multiple-functions'></a></p>
-<p><a id='Multiple-variables,-multiple-functions-1'></a></p>
-<h4 id="multiple-variables-multiple-functions">Multiple variables, multiple functions<a class="headerlink" href="#multiple-variables-multiple-functions" title="Permanent link">¤</a></h4>
-<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">    </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
-<span class="w">    </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">across</span><span class="p">((</span><span class="n">Rating</span><span class="p">,</span><span class="w"> </span><span class="n">Budget</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">mean∘skipmissing</span><span class="p">,</span><span class="w"> </span><span class="n">median∘skipmissing</span><span class="p">)))</span>
-<span class="k">end</span>
-</code></pre></div>
-<div><div style = "float: left;"><span>1×4 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Rating_mean_skipmissing</th><th style = "text-align: left;">Budget_mean_skipmissing</th><th style = "text-align: left;">Rating_median_skipmissing</th><th style = "text-align: left;">Budget_median_skipmissing</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">5.93285</td><td style = "text-align: right;">13.4125</td><td style = "text-align: right;">6.1</td><td style = "text-align: right;">3.0</td></tr></tbody></table></div>
 
 <hr />
 <p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p>
@@ -792,13 +701,13 @@
         
         
           
-          <a href="../../../../API/" class="md-footer__link md-footer__link--next" aria-label="Next: API Reference" rel="next">
+          <a href="../across/" class="md-footer__link md-footer__link--next" aria-label="Next: across" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                API Reference
+                across
               </div>
             </div>
             <div class="md-footer__button md-icon">
