@@ -234,6 +234,8 @@ function parse_autovec(tidy_expr::Union{Expr, Symbol})
       return x
     elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
       return :($fn.($(args...)))
+    elseif startswith(string(fn), ".") # already vectorized operator
+      return x
     else # operator
       fn_new = Symbol("." * string(fn))
       return :($fn_new($(args...)))
@@ -265,6 +267,18 @@ function parse_escape_function(rhs_expr::Union{Expr, Symbol})
     return x
   end
   return rhs_expr
+end
+
+# Not exported
+function parse_interpolation(var_expr::Union{Expr, Symbol})
+  var_expr = MacroTools.postwalk(var_expr) do x
+    if @capture(x, !!variable_Symbol)
+      variable = Main.eval(variable)
+      return variable
+    end
+    return x
+  end
+  return var_expr
 end
 
 """
@@ -314,7 +328,8 @@ julia> @chain df begin
 ```
 """
 macro select(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs)
+  tidy_exprs = parse_interpolation.(exprs)
+  tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote   
     select($(esc(df)), $(tidy_exprs...))
   end
@@ -409,7 +424,8 @@ julia> @chain df begin
 ```
 """
 macro mutate(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs)
+  tidy_exprs = parse_interpolation.(exprs)
+  tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote   
     transform($(esc(df)), $(tidy_exprs...))
   end
