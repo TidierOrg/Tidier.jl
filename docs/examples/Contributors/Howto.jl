@@ -6,7 +6,7 @@
 #     - `your_new_file.jl` at `docs/examples/UserGuide/`
 
 # Once this is done you need to add a new entry [here](https://github.com/kdpsingh/Tidier.jl/blob/main/docs/mkdocs.yml)
-# at the bottom and the appropiate level.
+# at the bottom and the appropriate level.
 
 # !!! info
 #     Your new entry should look like:
