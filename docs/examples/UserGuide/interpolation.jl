@@ -7,11 +7,11 @@ df = DataFrame(a = repeat('a':'e', inner = 2), b = [1,1,1,2,2,2,3,3,3,4], c = 11
 
 # The `!!` ("bang bang") operator can be used to interpolate values of variables from the global environment into your code.
 
-myvar = :b
-myvar_string = "b"
-myvars_tuple = (:a, :b)
-myvars_vector = [:a, :b]
-myvars_string = ("a", "b")
+global myvar = :b
+global myvar_string = "b"
+global myvars_tuple = (:a, :b)
+global myvars_vector = [:a, :b]
+global myvars_string = ("a", "b")
 
 # ## Select one variable
 
@@ -51,7 +51,7 @@ end
 
 # ## Summarize across multiple variables
 
-myvars_tuple = (:b, :c)
+global myvars_tuple = (:b, :c)
 
 @chain df begin
   @summarize(across(!!myvars_tuple, (mean, minimum, maximum)))
@@ -59,7 +59,7 @@ end
 
 # ## Group by multiple interpolated variables
 
-myvars_tuple = (:a, :b)
+global myvars_tuple = (:a, :b)
 
 @chain df begin
   @group_by(!!myvars_tuple)
