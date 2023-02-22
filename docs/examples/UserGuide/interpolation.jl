@@ -7,11 +7,13 @@ df = DataFrame(a = repeat('a':'e', inner = 2), b = [1,1,1,2,2,2,3,3,3,4], c = 11
 
 # The `!!` ("bang bang") operator can be used to interpolate values of variables from the global environment into your code.
 
-global myvar = :b
-global myvar_string = "b"
-global myvars_tuple = (:a, :b)
-global myvars_vector = [:a, :b]
-global myvars_string = ("a", "b")
+# Since the `!!` operator can only access variables in the global environment, we will set these variables in a somewhat roundabout way for the purposes of documentation. However, in interactive use, you can simply write `myvar = :b` instead of wrapping it inside of an `@eval()` macro.
+
+@eval(Main, myvar = :b)
+@eval(Main, myvar_string = "b")
+@eval(Main, myvars_tuple = (:a, :b))
+@eval(Main, myvars_vector = [:a, :b])
+@eval(Main, myvars_string = ("a", "b"))
 
 # ## Select one variable
 
@@ -51,7 +53,7 @@ end
 
 # ## Summarize across multiple variables
 
-global myvars_tuple = (:b, :c)
+@eval(Main, myvars_tuple = (:b, :c))
 
 @chain df begin
   @summarize(across(!!myvars_tuple, (mean, minimum, maximum)))
@@ -59,7 +61,7 @@ end
 
 # ## Group by multiple interpolated variables
 
-global myvars_tuple = (:a, :b)
+@eval(Main, myvars_tuple = (:a, :b))
 
 @chain df begin
   @group_by(!!myvars_tuple)
