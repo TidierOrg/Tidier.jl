@@ -676,10 +676,9 @@ julia> @chain df begin
 ```
 """
 macro arrange(df, exprs...)
-  arrange_exprs = parse_interpolation.(exprs) # interpolation doesn't support desc() yet
-  arrange_exprs = parse_desc.(arrange_exprs)
+  arrange_exprs = parse_desc.(exprs)
   df_expr = quote   
-    sort($(esc(df)), Cols($(arrange_exprs...),))
+    sort($(esc(df)), [$(arrange_exprs...)]) # Must use [] instead of Cols() here
   end
   @info MacroTools.prettify(df_expr)
   return df_expr
