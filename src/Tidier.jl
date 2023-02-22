@@ -116,7 +116,7 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
     rhs = QuoteNode(rhs)
     return :($rhs => $lhs)
   elseif !subset & @capture(tidy_expr, fn_(args__)) # selection helpers
-    if from_across || fn == :Cols
+    if from_across || fn == :Cols # fn == :Cols is to deal with interpolated columns
       return tidy_expr
     else
       return :(Cols($(esc(tidy_expr))))
@@ -285,7 +285,7 @@ function parse_interpolation(var_expr::Union{Expr, Symbol})
         return Symbol(variable)
       elseif variable isa Symbol
         return variable
-      else
+      else # Tuple or Vector of columns
         variable = QuoteNode.(variable)
         return :(Cols($(variable...),))
       end
