@@ -116,7 +116,7 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
     rhs = QuoteNode(rhs)
     return :($rhs => $lhs)
   elseif !subset & @capture(tidy_expr, fn_(args__)) # selection helpers
-    if from_across
+    if from_across || fn == :Cols
       return tidy_expr
     else
       return :(Cols($(esc(tidy_expr))))
@@ -128,7 +128,8 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
   elseif subset
     return parse_function(:ignore, tidy_expr; autovec, subset)
   else
-    return :($(esc(tidy_expr)))
+    return tidy_expr
+    # return :($(esc(tidy_expr)))
     # Do not throw error because multiple functions within across() where some are anonymous require this condition
     # throw("Expression not recognized by parse_tidy()")
   end
@@ -209,7 +210,10 @@ end
 
 # Not exported
 function parse_desc(tidy_expr::Union{Expr, Symbol})
-  if @capture(tidy_expr, desc(var_))
+  tidy_expr = parse_interpolation(tidy_expr)
+  if @capture(tidy_expr, Cols(args__)) # from parse_interpolation
+    return :(Cols($(args...),))
+  elseif @capture(tidy_expr, desc(var_))
     var = QuoteNode(var)
     return :(order($var, rev = true))
   else
@@ -219,7 +223,10 @@ end
 
 # Not exported
 function parse_group_by(tidy_expr::Union{Expr, Symbol})
-  if @capture(tidy_expr, lhs_ = rhs_)
+  tidy_expr = parse_interpolation(tidy_expr)
+  if @capture(tidy_expr, Cols(args__)) # from parse_interpolation
+    return :(Cols($(args...),))
+  elseif @capture(tidy_expr, lhs_ = rhs_)
     return QuoteNode(lhs)
   else
     return QuoteNode(tidy_expr)
@@ -230,7 +237,7 @@ end
 function parse_autovec(tidy_expr::Union{Expr, Symbol})
   autovec_expr = MacroTools.postwalk(tidy_expr) do x
     @capture(x, fn_(args__)) || return x
-    if fn in [:(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+    if fn in [:Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
       return x
     elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
       return :($fn.($(args...)))
@@ -248,7 +255,7 @@ end
 function parse_escape_function(rhs_expr::Union{Expr, Symbol})
   rhs_expr = MacroTools.postwalk(rhs_expr) do x
     if @capture(x, fn_(args__))
-      if fn in [:(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+      if fn in [:Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
         return :($(esc(fn))($(args...)))
@@ -274,7 +281,14 @@ function parse_interpolation(var_expr::Union{Expr, Symbol})
   var_expr = MacroTools.postwalk(var_expr) do x
     if @capture(x, !!variable_Symbol)
       variable = Main.eval(variable)
-      return variable
+      if variable isa AbstractString
+        return Symbol(variable)
+      elseif variable isa Symbol
+        return variable
+      else
+        variable = QuoteNode.(variable)
+        return :(Cols($(variable...),))
+      end
     end
     return x
   end
@@ -359,7 +373,8 @@ julia> @chain df begin
 ```
 """
 macro transmute(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs)
+  tidy_exprs = parse_interpolation.(exprs)
+  tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote   
     select($(esc(df)), $(tidy_exprs...))
   end
@@ -389,7 +404,8 @@ julia> @chain df begin
 ```
 """
 macro rename(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs)
+  tidy_exprs = parse_interpolation.(exprs)
+  tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote   
     rename($(esc(df)), $(tidy_exprs...))
   end
@@ -459,7 +475,8 @@ julia> @chain df begin
 ```
 """
 macro summarize(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs; autovec = false)
+  tidy_exprs = parse_interpolation.(exprs)
+  tidy_exprs = parse_tidy.(tidy_exprs; autovec = false)
   df_expr = quote   
     combine($(esc(df)), $(tidy_exprs...))
   end
@@ -493,7 +510,8 @@ julia> @chain df begin
 ```
 """
 macro summarise(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs; autovec = false)
+  tidy_exprs = parse_interpolation.(exprs)
+  tidy_exprs = parse_tidy.(tidy_exprs; autovec = false)
   df_expr = quote   
     combine($(esc(df)), $(tidy_exprs...))
   end
@@ -522,7 +540,8 @@ Subset a DataFrame and return a copy of DataFrame where specified conditions are
 ```
 """
 macro filter(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs; subset = true)
+  tidy_exprs = parse_interpolation.(exprs)
+  tidy_exprs = parse_tidy.(tidy_exprs; subset = true)
   df_expr = quote   
     subset($(esc(df)), $(tidy_exprs...))
   end
@@ -558,11 +577,13 @@ sets of `cols`.
 ```
 """
 macro group_by(df, exprs...)
-  tidy_exprs = parse_tidy.(exprs)
+  # Group
+  tidy_exprs = parse_interpolation.(exprs)
+  tidy_exprs = parse_tidy.(tidy_exprs)
   grouping_exprs = parse_group_by.(exprs)  
   
   df_expr = quote   
-    groupby(transform($(esc(df)), $(tidy_exprs...)), [$(grouping_exprs...)])
+    groupby(transform($(esc(df)), $(tidy_exprs...)), Cols($(grouping_exprs...)))
   end
   @info MacroTools.prettify(df_expr)
   return df_expr
@@ -655,9 +676,10 @@ julia> @chain df begin
 ```
 """
 macro arrange(df, exprs...)
-  arrange_exprs = parse_desc.(exprs)
+  arrange_exprs = parse_interpolation.(exprs) # interpolation doesn't support desc() yet
+  arrange_exprs = parse_desc.(arrange_exprs)
   df_expr = quote   
-    sort($(esc(df)), [$(arrange_exprs...)])
+    sort($(esc(df)), Cols($(arrange_exprs...),))
   end
   @info MacroTools.prettify(df_expr)
   return df_expr
