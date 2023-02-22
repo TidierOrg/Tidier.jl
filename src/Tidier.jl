@@ -277,7 +277,7 @@ function parse_escape_function(rhs_expr::Union{Expr, Symbol})
 end
 
 # Not exported
-function parse_interpolation(var_expr::Union{Expr, Symbol})
+function parse_interpolation(var_expr::Union{Expr, Symbol, Number})
   var_expr = MacroTools.postwalk(var_expr) do x
     if @capture(x, !!variable_Symbol)
       variable = Main.eval(variable)
