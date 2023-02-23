@@ -13,17 +13,17 @@
       
       
       
-        <link rel="prev" href="../across/">
+        <link rel="prev" href="../interpolation/">
       
       
-        <link rel="next" href="../autovec/">
+        <link rel="next" href="../../../../reference/">
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
     
     
       
-        <title>Interpolation - Tidier.jl</title>
+        <title>Auto-vectorization - Tidier.jl</title>
       
     
     
@@ -78,11 +78,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#select-one-variable" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -111,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Interpolation
+              Auto-vectorization
             
           </span>
         </div>
@@ -434,83 +429,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Interpolation
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../interpolation/" class="md-nav__link">
         Interpolation
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#select-one-variable" class="md-nav__link">
-    Select one variable
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#select-multiple-variables" class="md-nav__link">
-    Select multiple variables
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#mutate-one-variable" class="md-nav__link">
-    Mutate one variable
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summarize-across-one-variable" class="md-nav__link">
-    Summarize across one variable
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summarize-across-multiple-variables" class="md-nav__link">
-    Summarize across multiple variables
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#group-by-multiple-interpolated-variables" class="md-nav__link">
-    Group by multiple interpolated variables
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -520,11 +443,19 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../autovec/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Auto-vectorization
       </a>
+      
     </li>
   
 
@@ -617,56 +548,6 @@
   
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#select-one-variable" class="md-nav__link">
-    Select one variable
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#select-multiple-variables" class="md-nav__link">
-    Select multiple variables
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#mutate-one-variable" class="md-nav__link">
-    Mutate one variable
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summarize-across-one-variable" class="md-nav__link">
-    Summarize across one variable
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summarize-across-multiple-variables" class="md-nav__link">
-    Summarize across multiple variables
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#group-by-multiple-interpolated-variables" class="md-nav__link">
-    Group by multiple interpolated variables
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -680,7 +561,7 @@
                   
 
 
-  <h1>Interpolation</h1>
+  <h1>Auto-vectorization</h1>
 
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
@@ -691,93 +572,53 @@
 <div><div style = "float: left;"><span>10×3 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">12</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td><td style = "text-align: right;">13</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">14</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">15</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">16</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">17</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">18</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20</td></tr></tbody></table></div>
 
-<p>The <code>!!</code> ("bang bang") operator can be used to interpolate values of variables from the global environment into your code.</p>
-<p>Since the <code>!!</code> operator can only access variables in the global environment, we will set these variables in a somewhat roundabout way for the purposes of documentation. However, in interactive use, you can simply write <code>myvar = :b</code> instead of wrapping it inside of an <code>@eval()</code> macro.</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:b</span><span class="p">)</span>
-<span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvar_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">)</span>
-<span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_tuple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">))</span>
-<span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">])</span>
-<span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">))</span>
+<p>By default, Tidier.jl uses a lookup table to decide which functions <em>not</em> to vectorize. For example, <code>mean()</code> is listed as a function that should never be vectorized. Also, any function used inside of <code>@summarize()</code> is also never automatically vectorized. Any function that is not included in this list <em>and</em> is used in a context other than <code>@summarize()</code> is automatically vectorized.</p>
+<p>This "auto-vectorization" makes working with Tidier.jl more R-like and convenient. However, if you ever define your own function and try to use it, Tidier.jl may unintentionally vectorize it for you. To prevent auto-vectorization, you can prefix your function with a <code>~</code>. For example, let's define a function <code>new_mean()</code> that calculates a mean.</p>
+<div class="highlight"><pre><span></span><code><span class="n">new_mean</span><span class="p">(</span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>(&quot;a&quot;, &quot;b&quot;)
+<div class="highlight"><pre><span></span><code>new_mean (generic function with 1 method)
 </code></pre></div>
-<p><a id='Select-one-variable'></a></p>
-<p><a id='Select-one-variable-1'></a></p>
-<h2 id="select-one-variable">Select one variable<a class="headerlink" href="#select-one-variable" title="Permanent link">¤</a></h2>
+<p>If we try to use <code>new_mean()</code> inside of <code>@mutate()</code>, it will give us the wrong result. This is because <code>new_mean()</code> is vectorized, which results in the mean being calculated element-wise, which is almost never what we actually want.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="o">!!</span><span class="n">myvar</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="o">!!</span><span class="n">myvar_string</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">new_mean</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
 <span class="k">end</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>10×1 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">b</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
+<div><div style = "float: left;"><span>10×4 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th><th style = "text-align: left;">d</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">12</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td><td style = "text-align: right;">13</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">14</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">15</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">16</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">17</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">18</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20</td><td style = "text-align: right;">0.0</td></tr></tbody></table></div>
 
-<p><a id='Select-multiple-variables'></a></p>
-<p><a id='Select-multiple-variables-1'></a></p>
-<h2 id="select-multiple-variables">Select multiple variables<a class="headerlink" href="#select-multiple-variables" title="Permanent link">¤</a></h2>
+<p>To prevent <code>new_mean()</code> from being vectorized, we need to prefix it with a <code>~</code> like this:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="o">!!</span><span class="n">myvars_tuple</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="o">!!</span><span class="n">myvars_vector</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="o">!!</span><span class="n">myvars_string</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">~</span><span class="n">new_mean</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
 <span class="k">end</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>10×2 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
+<div><div style = "float: left;"><span>10×4 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th><th style = "text-align: left;">d</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11</td><td style = "text-align: right;">-4.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">12</td><td style = "text-align: right;">-3.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td><td style = "text-align: right;">13</td><td style = "text-align: right;">-2.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">14</td><td style = "text-align: right;">-1.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">15</td><td style = "text-align: right;">-0.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">16</td><td style = "text-align: right;">0.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">17</td><td style = "text-align: right;">1.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">18</td><td style = "text-align: right;">2.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19</td><td style = "text-align: right;">3.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20</td><td style = "text-align: right;">4.5</td></tr></tbody></table></div>
 
-<p><a id='Mutate-one-variable'></a></p>
-<p><a id='Mutate-one-variable-1'></a></p>
-<h2 id="mutate-one-variable">Mutate one variable<a class="headerlink" href="#mutate-one-variable" title="Permanent link">¤</a></h2>
+<p>This gives us the correct answer. Notice that adding a <code>~</code> is not needed with <code>mean()</code> because <code>mean()</code> is already included on our look-up table of functions not requiring vectorization.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@mutate</span><span class="p">(</span><span class="o">!!</span><span class="n">myvar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!!</span><span class="n">myvar</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
 <span class="k">end</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>10×3 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">2</td><td style = "text-align: right;">11</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">a</td><td style = "text-align: right;">2</td><td style = "text-align: right;">12</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">13</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">b</td><td style = "text-align: right;">3</td><td style = "text-align: right;">14</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">c</td><td style = "text-align: right;">3</td><td style = "text-align: right;">15</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">c</td><td style = "text-align: right;">3</td><td style = "text-align: right;">16</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">d</td><td style = "text-align: right;">4</td><td style = "text-align: right;">17</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">d</td><td style = "text-align: right;">4</td><td style = "text-align: right;">18</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">19</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">e</td><td style = "text-align: right;">5</td><td style = "text-align: right;">20</td></tr></tbody></table></div>
+<div><div style = "float: left;"><span>10×4 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th><th style = "text-align: left;">d</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11</td><td style = "text-align: right;">-4.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">12</td><td style = "text-align: right;">-3.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td><td style = "text-align: right;">13</td><td style = "text-align: right;">-2.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">14</td><td style = "text-align: right;">-1.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">15</td><td style = "text-align: right;">-0.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">16</td><td style = "text-align: right;">0.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">17</td><td style = "text-align: right;">1.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">18</td><td style = "text-align: right;">2.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19</td><td style = "text-align: right;">3.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20</td><td style = "text-align: right;">4.5</td></tr></tbody></table></div>
 
-<p><a id='Summarize-across-one-variable'></a></p>
-<p><a id='Summarize-across-one-variable-1'></a></p>
-<h2 id="summarize-across-one-variable">Summarize across one variable<a class="headerlink" href="#summarize-across-one-variable" title="Permanent link">¤</a></h2>
+<p>If you're not sure if a function is vectorized and want to prevent it from being vectorized, you can always prefix it with a ~ to prevent vectorization. Even though <code>mean()</code> is not vectorized anyway, prefixing it with a ~ will not cause any harm.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="o">!!</span><span class="n">myvar</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">))</span>
+<span class="w">    </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">~</span><span class="n">mean</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
 <span class="k">end</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>1×1 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">b_mean</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">2.2</td></tr></tbody></table></div>
+<div><div style = "float: left;"><span>10×4 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th><th style = "text-align: left;">d</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11</td><td style = "text-align: right;">-4.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">12</td><td style = "text-align: right;">-3.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td><td style = "text-align: right;">13</td><td style = "text-align: right;">-2.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">14</td><td style = "text-align: right;">-1.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">15</td><td style = "text-align: right;">-0.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">16</td><td style = "text-align: right;">0.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">17</td><td style = "text-align: right;">1.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">18</td><td style = "text-align: right;">2.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19</td><td style = "text-align: right;">3.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20</td><td style = "text-align: right;">4.5</td></tr></tbody></table></div>
 
-<p><a id='Summarize-across-multiple-variables'></a></p>
-<p><a id='Summarize-across-multiple-variables-1'></a></p>
-<h2 id="summarize-across-multiple-variables">Summarize across multiple variables<a class="headerlink" href="#summarize-across-multiple-variables" title="Permanent link">¤</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_tuple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">))</span>
-
-<span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="o">!!</span><span class="n">myvars_tuple</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">mean</span><span class="p">,</span><span class="w"> </span><span class="n">minimum</span><span class="p">,</span><span class="w"> </span><span class="n">maximum</span><span class="p">)))</span>
+<p>If for some crazy reason, you <em>did</em> want to vectorize <code>mean()</code>, you are always allowed to vectorize it, and Tidier.jl won't un-vectorize it.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">    </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean</span><span class="o">.</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
 <span class="k">end</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>1×6 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">b_mean</th><th style = "text-align: left;">c_mean</th><th style = "text-align: left;">b_minimum</th><th style = "text-align: left;">c_minimum</th><th style = "text-align: left;">b_maximum</th><th style = "text-align: left;">c_maximum</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">2.2</td><td style = "text-align: right;">15.5</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20</td></tr></tbody></table></div>
+<div><div style = "float: left;"><span>10×4 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th><th style = "text-align: left;">d</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">12</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td><td style = "text-align: right;">13</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">14</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">15</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">16</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">17</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">18</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19</td><td style = "text-align: right;">0.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20</td><td style = "text-align: right;">0.0</td></tr></tbody></table></div>
 
-<p><a id='Group-by-multiple-interpolated-variables'></a></p>
-<p><a id='Group-by-multiple-interpolated-variables-1'></a></p>
-<h2 id="group-by-multiple-interpolated-variables">Group by multiple interpolated variables<a class="headerlink" href="#group-by-multiple-interpolated-variables" title="Permanent link">¤</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_tuple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">))</span>
-
-<span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="nd">@group_by</span><span class="p">(</span><span class="o">!!</span><span class="n">myvars_tuple</span><span class="p">)</span>
-<span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
-<span class="k">end</span>
-</code></pre></div>
-<div><div style = "float: left;"><span>7×3 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td><td style = "text-align: right;">13.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">14.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">15.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">17.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20.0</td></tr></tbody></table></div>
-
+<p>Note: <code>~</code> also works with operators, so if you want to <em>not</em> vectorize an operator, you can prefix it with <code>~</code>, for example, <code>a ~* b</code> will perform a matrix multiplication rather than element-wise multiplication. Remember that this is only needed outside of <code>@summarize()</code> because <code>@summarize()</code> never performs auto-vectorization.</p>
 <hr />
 <p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p>
 
@@ -806,7 +647,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../across/" class="md-footer__link md-footer__link--prev" aria-label="Previous: across" rel="prev">
+          <a href="../interpolation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Interpolation" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -815,20 +656,20 @@
                 <span class="md-footer__direction">
                   Previous
                 </span>
-                across
+                Interpolation
               </div>
             </div>
           </a>
         
         
           
-          <a href="../autovec/" class="md-footer__link md-footer__link--next" aria-label="Next: Auto-vectorization" rel="next">
+          <a href="../../../../reference/" class="md-footer__link md-footer__link--next" aria-label="Next: Reference" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                Auto-vectorization
+                Reference
               </div>
             </div>
             <div class="md-footer__button md-icon">
