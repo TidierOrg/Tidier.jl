@@ -190,7 +190,7 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
   func_array = Union{Expr, Symbol}[] # expression containing functions
 
   if funcs isa Symbol
-    push!(func_array, funcs)
+    push!(func_array, esc(funcs)) # fixes bug where single function is used inside across
   elseif @capture(funcs, (args__,))
     for arg in args
       if arg isa Symbol
