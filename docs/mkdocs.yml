@@ -127,6 +127,7 @@ nav:
     - "@arrange" : "examples/generated/UserGuide/arrange.md"
     - "across" : "examples/generated/UserGuide/across.md"
     - "Interpolation" : "examples/generated/UserGuide/interpolation.md"
+    - "Auto-vectorization" : "examples/generated/UserGuide/autovec.md"
     - "Reference" : "reference.md"
 
   - "Contributors":

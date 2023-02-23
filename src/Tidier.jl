@@ -190,7 +190,7 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
   func_array = Union{Expr, Symbol}[] # expression containing functions
 
   if funcs isa Symbol
-    push!(func_array, funcs)
+    push!(func_array, esc(funcs)) # fixes bug where single function is used inside across
   elseif @capture(funcs, (args__,))
     for arg in args
       if arg isa Symbol
@@ -235,18 +235,48 @@ end
 
 # Not exported
 function parse_autovec(tidy_expr::Union{Expr, Symbol})
-  autovec_expr = MacroTools.postwalk(tidy_expr) do x
-    @capture(x, fn_(args__)) || return x
-    if fn in [:Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
-      return x
-    elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
-      return :($fn.($(args...)))
-    elseif startswith(string(fn), ".") # already vectorized operator
-      return x
-    else # operator
-      fn_new = Symbol("." * string(fn))
-      return :($fn_new($(args...)))
+
+  # Use postwalk so that we capture smallest expressions first.
+  # In the future, may want to consider switching to prewalk() so that we can 
+  # capture the largest expression first and functions haven't already been vectorized first.
+  # Because prewalk() can result in infinite loops, would require lots of careful testing.
+  autovec_expr = MacroTools.postwalk(tidy_expr) do x 
+
+    # don't vectorize if starts with ~ (compound function)
+    # The reason we have a . is that bc this is postwalk, the function will first have been 
+    # vectorized, and we need to unvectorize it.
+    # Adding the non-vectorized condition in case a non-vectorized function like mean is accidentally
+    # prefixed with a ~.
+    if @capture(x, (~fn1_∘fn2_.(args__)) | (~fn1_∘fn2_(args__)))
+     return :($fn1∘$fn2($(args...)))
+
+    # Don't vectorize if starts with ~ (regular function)
+    # The reason we have a . is that bc this is postwalk, the function will first have been 
+    # vectorized, and we need to unvectorize it.
+    # Adding the non-vectorized condition in case a non-vectorized function like mean is accidentally
+    # prefixed with a ~.
+    elseif @capture(x, (~fn_.(args__)) | (~fn_(args__))) 
+      return :($fn($(args...)))
+    
+     # Don't vectorize if starts with ~ (operator) e.g., a ~+ b
+    elseif @capture(x, args1_ ~ fn_(args2_))
+      # We need to remove the . from the start bc was already vectorized and we need to 
+      # unvectorize it
+      fn_new = Symbol(string(fn)[2:end]) 
+      return :($fn_new($args1, $args2))
+    elseif @capture(x, fn_(args__)) 
+      if fn in [:Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+        return x
+      elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
+        return :($fn.($(args...)))
+      elseif startswith(string(fn), ".") # already vectorized operator
+        return x
+      else # operator
+        fn_new = Symbol("." * string(fn))
+        return :($fn_new($(args...)))
+      end
     end
+    return x
   end
   return autovec_expr
 end
