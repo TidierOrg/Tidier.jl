@@ -29,26 +29,57 @@ This function should only be called inside of `@mutate()`, `@summarize`, or `@su
 - `function[s]`: A function, or if multiple, a tuple of functions.
 
 # Examples
-```julia-repl
-julia> using DataFrames
+```jldoctest
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+julia> df2 = @chain df begin
+       @summarize(across(b, minimum))
+       end
+[ Info: combine(\$(Expr(:escape, :raccoon)), Cols(:b) .=> reshape([\$(Expr(:escape, :minimum))], 1, 1))
+1×1 DataFrame
+ Row │ b_minimum 
+     │ Int64     
+─────┼───────────
+   1 │         1
 
-julia> @chain df begin
-  @summarize(across(b, minimum))
-  end
+julia> df2 = @chain df begin
+       @summarize(across((b,c), (minimum, maximum)))
+       end
+[ Info: combine(\$(Expr(:escape, :raccoon)), Cols(:b, :c) .=> reshape([\$(Expr(:escape, :minimum)), \$(Expr(:escape, :maximum))], 1, 2))
+1×4 DataFrame
+ Row │ b_minimum  c_minimum  b_maximum  c_maximum 
+     │ Int64      Int64      Int64      Int64     
+─────┼────────────────────────────────────────────
+   1 │         1         11          5         15
 
-julia> @chain df begin
-  @summarize(across((b,c), (minimum, maximum)))
-  end
+julia> df2 = @chain df begin
+       @mutate(across((b,c), (minimum, maximum)))
+       end
+[ Info: transform(\$(Expr(:escape, :raccoon)), Cols(:b, :c) .=> reshape([\$(Expr(:escape, :minimum)), \$(Expr(:escape, :maximum))], 1, 2))
+5×7 DataFrame
+ Row │ a     b      c      b_minimum  c_minimum  b_maximum  c_maximum 
+     │ Char  Int64  Int64  Int64      Int64      Int64      Int64     
+─────┼────────────────────────────────────────────────────────────────
+   1 │ a         1     11          1         11          5         15
+   2 │ b         2     12          1         11          5         15
+   3 │ c         3     13          1         11          5         15
+   4 │ d         4     14          1         11          5         15
+   5 │ e         5     15          1         11          5         15
 
-julia> @chain df begin
-  @mutate(across((b,c), (minimum, maximum)))
-  end
+julia> df2 = @chain df begin
+       @mutate(across((b, startswith("c")), (minimum, maximum)))
+       end
+[ Info: transform(\$(Expr(:escape, :raccoon)), Cols(:b, \$(Expr(:escape, :(startswith("c"))))) .=> reshape([\$(Expr(:escape, :minimum)), \$(Expr(:escape, :maximum))], 1, 2))
+5×7 DataFrame
+ Row │ a     b      c      b_minimum  c_minimum  b_maximum  c_maximum 
+     │ Char  Int64  Int64  Int64      Int64      Int64      Int64     
+─────┼────────────────────────────────────────────────────────────────
+   1 │ a         1     11          1         11          5         15
+   2 │ b         2     12          1         11          5         15
+   3 │ c         3     13          1         11          5         15
+   4 │ d         4     14          1         11          5         15
+   5 │ e         5     15          1         11          5         15
 
-julia> @chain df begin
-  @mutate(across((b, startswith("c")), (minimum, maximum)))
-  end
 ```
 """
 function across(args...)
@@ -64,14 +95,27 @@ Orders the rows of a DataFrame column in descending order when used inside of `@
 - `col`: An unquoted column name.
 
 # Examples
-```julia-repl
-julia> using DataFrames
-
-julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20)
+```jldoctest
+julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20);
   
-julia> @chain df begin
-  @arrange(a, desc(b))
-  end
+julia> df2 = @chain df begin
+       @arrange(a, desc(b))
+       end
+[ Info: sort(\$(Expr(:escape, :raccoon)), [:a, order(:b, rev = true)])
+10×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         2     12
+   2 │ a         1     11
+   3 │ b         4     14
+   4 │ b         3     13
+   5 │ c         6     16
+   6 │ c         5     15
+   7 │ d         8     18
+   8 │ d         7     17
+   9 │ e        10     20
+  10 │ e         9     19
 ```
 """
 function desc(args...)
@@ -79,7 +123,7 @@ function desc(args...)
 end
 
 # Not exported
-function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true, subset::Bool = false, from_across::Bool = false) # Can be symbol or expression
+function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, subset::Bool=false, from_across::Bool=false) # Can be symbol or expression
   if @capture(tidy_expr, across(vars_, funcs_))
     return parse_across(vars, funcs)
   elseif @capture(tidy_expr, -(start_index_:end_index_))
@@ -87,7 +131,7 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
       start_index = QuoteNode(start_index)
     end
     if end_index isa Symbol
-    end_index = QuoteNode(end_index)
+      end_index = QuoteNode(end_index)
     end
     return :(Not(Between($start_index, $end_index)))
   elseif @capture(tidy_expr, -start_index_)
@@ -100,7 +144,7 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
       start_index = QuoteNode(start_index)
     end
     if end_index isa Symbol
-    end_index = QuoteNode(end_index)
+      end_index = QuoteNode(end_index)
     end
     return :(Between($start_index, $end_index))
   elseif @capture(tidy_expr, (lhs_ = fn_(args__)) | (lhs_ = fn_.(args__)))
@@ -123,8 +167,8 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
     end
   elseif @capture(tidy_expr, var_Symbol)
     return QuoteNode(var)
-  # elseif @capture(tidy_expr, df_expr)
-  #  return df_expr
+    # elseif @capture(tidy_expr, df_expr)
+    #  return df_expr
   elseif subset
     return parse_function(:ignore, tidy_expr; autovec, subset)
   else
@@ -136,10 +180,10 @@ function parse_tidy(tidy_expr::Union{Expr, Symbol, Number}; autovec::Bool = true
 end
 
 # Not exported
-function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool = true, subset::Bool = false)
-  
+function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool=true, subset::Bool=false)
+
   lhs = QuoteNode(lhs)
-  
+
   src = Symbol[]
   MacroTools.postwalk(rhs) do x
     if @capture(x, (fn_(args__)) | (fn_.(args__)))
@@ -148,7 +192,7 @@ function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool = true, subset::Bo
     end
     return x
   end
-  
+
   src = unique(src)
   func_left = :($(src...),)
 
@@ -166,9 +210,9 @@ function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool = true, subset::Bo
 end
 
 # Not exported
-function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
-  
-  src = Union{Expr, QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
+function parse_across(vars::Union{Expr,Symbol}, funcs::Union{Expr,Symbol})
+
+  src = Union{Expr,QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
 
   if vars isa Symbol
     src = push!(src, QuoteNode(vars))
@@ -187,7 +231,7 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
     end
   end
 
-  func_array = Union{Expr, Symbol}[] # expression containing functions
+  func_array = Union{Expr,Symbol}[] # expression containing functions
 
   if funcs isa Symbol
     push!(func_array, esc(funcs)) # fixes bug where single function is used inside across
@@ -196,7 +240,7 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
       if arg isa Symbol
         push!(func_array, esc(arg))
       else
-        push!(func_array, esc(parse_tidy(arg; from_across = true))) # fixes bug with compound and anonymous functions getting wrapped in Cols()
+        push!(func_array, esc(parse_tidy(arg; from_across=true))) # fixes bug with compound and anonymous functions getting wrapped in Cols()
       end
     end
   else # for compound functions like mean or anonymous functions
@@ -209,20 +253,20 @@ function parse_across(vars::Union{Expr, Symbol}, funcs::Union{Expr, Symbol})
 end
 
 # Not exported
-function parse_desc(tidy_expr::Union{Expr, Symbol})
+function parse_desc(tidy_expr::Union{Expr,Symbol})
   tidy_expr = parse_interpolation(tidy_expr)
   if @capture(tidy_expr, Cols(args__)) # from parse_interpolation
     return :(Cols($(args...),))
   elseif @capture(tidy_expr, desc(var_))
     var = QuoteNode(var)
-    return :(order($var, rev = true))
+    return :(order($var, rev=true))
   else
     return QuoteNode(tidy_expr)
   end
 end
 
 # Not exported
-function parse_group_by(tidy_expr::Union{Expr, Symbol})
+function parse_group_by(tidy_expr::Union{Expr,Symbol})
   tidy_expr = parse_interpolation(tidy_expr)
   if @capture(tidy_expr, Cols(args__)) # from parse_interpolation
     return :(Cols($(args...),))
@@ -234,37 +278,37 @@ function parse_group_by(tidy_expr::Union{Expr, Symbol})
 end
 
 # Not exported
-function parse_autovec(tidy_expr::Union{Expr, Symbol})
+function parse_autovec(tidy_expr::Union{Expr,Symbol})
 
   # Use postwalk so that we capture smallest expressions first.
   # In the future, may want to consider switching to prewalk() so that we can 
   # capture the largest expression first and functions haven't already been vectorized first.
   # Because prewalk() can result in infinite loops, would require lots of careful testing.
-  autovec_expr = MacroTools.postwalk(tidy_expr) do x 
+  autovec_expr = MacroTools.postwalk(tidy_expr) do x
 
     # don't vectorize if starts with ~ (compound function)
     # The reason we have a . is that bc this is postwalk, the function will first have been 
     # vectorized, and we need to unvectorize it.
     # Adding the non-vectorized condition in case a non-vectorized function like mean is accidentally
     # prefixed with a ~.
-    if @capture(x, (~fn1_∘fn2_.(args__)) | (~fn1_∘fn2_(args__)))
-     return :($fn1∘$fn2($(args...)))
+    if @capture(x, (~fn1_ ∘ fn2_.(args__)) | (~fn1_ ∘ fn2_(args__)))
+      return :($fn1 ∘ $fn2($(args...)))
 
-    # Don't vectorize if starts with ~ (regular function)
-    # The reason we have a . is that bc this is postwalk, the function will first have been 
-    # vectorized, and we need to unvectorize it.
-    # Adding the non-vectorized condition in case a non-vectorized function like mean is accidentally
-    # prefixed with a ~.
-    elseif @capture(x, (~fn_.(args__)) | (~fn_(args__))) 
+      # Don't vectorize if starts with ~ (regular function)
+      # The reason we have a . is that bc this is postwalk, the function will first have been 
+      # vectorized, and we need to unvectorize it.
+      # Adding the non-vectorized condition in case a non-vectorized function like mean is accidentally
+      # prefixed with a ~.
+    elseif @capture(x, (~fn_.(args__)) | (~fn_(args__)))
       return :($fn($(args...)))
-    
-     # Don't vectorize if starts with ~ (operator) e.g., a ~+ b
+
+      # Don't vectorize if starts with ~ (operator) e.g., a ~+ b
     elseif @capture(x, args1_ ~ fn_(args2_))
       # We need to remove the . from the start bc was already vectorized and we need to 
       # unvectorize it
-      fn_new = Symbol(string(fn)[2:end]) 
+      fn_new = Symbol(string(fn)[2:end])
       return :($fn_new($args1, $args2))
-    elseif @capture(x, fn_(args__)) 
+    elseif @capture(x, fn_(args__))
       if fn in [:Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
@@ -282,7 +326,7 @@ function parse_autovec(tidy_expr::Union{Expr, Symbol})
 end
 
 # Not exported
-function parse_escape_function(rhs_expr::Union{Expr, Symbol})
+function parse_escape_function(rhs_expr::Union{Expr,Symbol})
   rhs_expr = MacroTools.postwalk(rhs_expr) do x
     if @capture(x, fn_(args__))
       if fn in [:Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
@@ -307,7 +351,7 @@ function parse_escape_function(rhs_expr::Union{Expr, Symbol})
 end
 
 # Not exported
-function parse_interpolation(var_expr::Union{Expr, Symbol, Number})
+function parse_interpolation(var_expr::Union{Expr,Symbol,Number})
   var_expr = MacroTools.postwalk(var_expr) do x
     if @capture(x, !!variable_Symbol)
       variable = Main.eval(variable)
@@ -337,44 +381,112 @@ Select variables in a DataFrame.
          a range of variables.
 
 # Examples
-```julia-repl
-julia> using DataFrames
+```jldoctest 
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+julia> df2 = @chain df begin
+       @select(a,b,c)
+       end
+[ Info: select(\$(Expr(:escape, :raccoon)), :a, :b, :c)
+5×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         1     11
+   2 │ b         2     12
+   3 │ c         3     13
+   4 │ d         4     14
+   5 │ e         5     15
 
-julia> @chain df begin
-  @select(a,b,c)
-  end
+julia> df2 = @chain df begin
+       @select(a:b)
+       end
+[ Info: select(\$(Expr(:escape, :raccoon)), Between(:a, :b))
+5×2 DataFrame
+ Row │ a     b     
+     │ Char  Int64 
+─────┼─────────────
+   1 │ a         1
+   2 │ b         2
+   3 │ c         3
+   4 │ d         4
+   5 │ e         5
 
-julia> @chain df begin
-  @select(a:b)
-  end
+julia> df2 = @chain df begin
+       @select(1:2)
+       end
+[ Info: select(\$(Expr(:escape, :raccoon)), Between(1, 2))
+5×2 DataFrame
+ Row │ a     b     
+     │ Char  Int64 
+─────┼─────────────
+   1 │ a         1
+   2 │ b         2
+   3 │ c         3
+   4 │ d         4
+   5 │ e         5
 
-julia> @chain df begin
-  @select(1:2)
-  end
+julia> df2 = @chain df begin
+       @select(-(a:b))
+       end
+[ Info: select(\$(Expr(:escape, :raccoon)), Not(Between(:a, :b)))
+5×1 DataFrame
+ Row │ c     
+     │ Int64 
+─────┼───────
+   1 │    11
+   2 │    12
+   3 │    13
+   4 │    14
+   5 │    15
 
-julia> @chain df begin
-  @select(-(a:b))
-  end
+julia> df2 = @chain df begin
+       @select(contains("b"), startswith("c"))
+       end
+[ Info: select(\$(Expr(:escape, :raccoon)), Cols(\$(Expr(:escape, :(contains("b"))))), Cols(\$(Expr(:escape, :(startswith("c"))))))
+5×2 DataFrame
+ Row │ b      c     
+     │ Int64  Int64 
+─────┼──────────────
+   1 │     1     11
+   2 │     2     12
+   3 │     3     13
+   4 │     4     14
+   5 │     5     15
 
-julia> @chain df begin
-  @select(contains("b"), startswith("c"))
-  end
+julia> df2 = @chain df begin
+       @select(-(1:2))
+       end
+[ Info: select(\$(Expr(:escape, :raccoon)), Not(Between(1, 2)))
+5×1 DataFrame
+ Row │ c     
+     │ Int64 
+─────┼───────
+   1 │    11
+   2 │    12
+   3 │    13
+   4 │    14
+   5 │    15
 
-julia> @chain df begin
-  @select(-(1:2))
-  end
-
-julia> @chain df begin
-  @select(-c)
-  end
+julia> df2 = @chain df begin
+       @select(-c)
+       end
+[ Info: select(\$(Expr(:escape, :raccoon)), Not(:c))
+5×2 DataFrame
+ Row │ a     b     
+     │ Char  Int64 
+─────┼─────────────
+   1 │ a         1
+   2 │ b         2
+   3 │ c         3
+   4 │ d         4
+   5 │ e         5
 ```
 """
 macro select(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs)
-  df_expr = quote   
+  df_expr = quote
     select($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -392,20 +504,28 @@ Create a new DataFrame with only computed columns.
          `new_variable = values` syntax.
 
 # Examples
-```julia-repl
-julia> using DataFrames
+```jldoctest 
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
-
-julia> @chain df begin
-  @transmute(d = b + c)
-  end
+julia> df2 = @chain df begin
+       @transmute(d = b + c)
+       end
+[ Info: select(\$(Expr(:escape, :raccoon)), [:b, :c] => (((b, c)->b .+ c) => :d))
+5×1 DataFrame
+ Row │ d     
+     │ Int64 
+─────┼───────
+   1 │    12
+   2 │    14
+   3 │    16
+   4 │    18
+   5 │    20
 ```
 """
 macro transmute(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs)
-  df_expr = quote   
+  df_expr = quote
     select($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -423,20 +543,28 @@ to rename and select columns.
 - `exprs...`: Use `new_name = old_name` syntax to rename selected columns.
 
 # Examples
-```julia-repl
-julia> using DataFrames
+```jldoctest 
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
-
-julia> @chain df begin
-  @rename(d = b, e = c)
-  end
+julia> df2 = @chain df begin
+       @rename(d = b, e = c)
+       end
+[ Info: rename(\$(Expr(:escape, :raccoon)), :b => :d, :c => :e)
+5×3 DataFrame
+ Row │ a     d      e     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         1     11
+   2 │ b         2     12
+   3 │ c         3     13
+   4 │ d         4     14
+   5 │ e         5     15
 ```
 """
 macro rename(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs)
-  df_expr = quote   
+  df_expr = quote
     rename($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -455,24 +583,42 @@ rows as `df`.
          `new_variable = values` syntax.
 
 # Examples
-```julia-repl
-julia> using DataFrames
+```jldoctest 
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+julia> df2 = @chain df begin
+       @mutate(d = b + c, b_minus_mean_b = b - mean(b))
+       end
+[ Info: transform(\$(Expr(:escape, :raccoon)), [:b, :c] => (((b, c)->b .+ c) => :d), [:b] => (((b,)->b .- mean(b)) => :b_minus_mean_b))
+5×5 DataFrame
+ Row │ a     b      c      d      b_minus_mean_b 
+     │ Char  Int64  Int64  Int64  Float64        
+─────┼───────────────────────────────────────────
+   1 │ a         1     11     12            -2.0
+   2 │ b         2     12     14            -1.0
+   3 │ c         3     13     16             0.0
+   4 │ d         4     14     18             1.0
+   5 │ e         5     15     20             2.0
 
-julia> @chain df begin
-  @mutate(d = b + c, b_minus_mean_b = b - mean(b))
-  end
-
-julia> @chain df begin
-  @mutate(across((b, c), mean))
-  end
+julia> df2 = @chain df begin
+       @mutate(across((b, c), mean))
+       end
+[ Info: transform(\$(Expr(:escape, :raccoon)), Cols(:b, :c) .=> reshape([\$(Expr(:escape, :mean))], 1, 1))
+5×5 DataFrame
+ Row │ a     b      c      b_mean   c_mean  
+     │ Char  Int64  Int64  Float64  Float64 
+─────┼──────────────────────────────────────
+   1 │ a         1     11      3.0     13.0
+   2 │ b         2     12      3.0     13.0
+   3 │ c         3     13      3.0     13.0
+   4 │ d         4     14      3.0     13.0
+   5 │ e         5     15      3.0     13.0
 ```
 """
 macro mutate(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs)
-  df_expr = quote   
+  df_expr = quote
     transform($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -490,24 +636,34 @@ Create a new DataFrame with one row that aggregating all observations from the i
 - `exprs...`: a `new_variable = function(old_variable)` pair. `function()` should be an aggregate function that returns a single value. 
 
 # Examples
-```julia-repl
-julia> using DataFrames
+```jldoctest 
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+julia> df2 = @chain df begin
+       @summarize(mean_b = mean(b), median_b = median(b))
+       end
+[ Info: combine(\$(Expr(:escape, :raccoon)), [:b] => (((b,)->mean(b)) => :mean_b), [:b] => (((b,)->median(b)) => :median_b))
+1×2 DataFrame
+ Row │ mean_b   median_b 
+     │ Float64  Float64  
+─────┼───────────────────
+   1 │     3.0       3.0
   
-julia> @chain df begin
-  @summarize(mean_b = mean(b), median_b = median(b))
-  end
-  
-julia> @chain df begin
-  @summarize(across((b,c), (minimum, maximum)))
-  end
+julia> df2 = @chain df begin
+       @summarize(across((b,c), (minimum, maximum)))
+       end
+[ Info: combine(\$(Expr(:escape, :raccoon)), Cols(:b, :c) .=> reshape([\$(Expr(:escape, :minimum)), \$(Expr(:escape, :maximum))], 1, 2))
+1×4 DataFrame
+ Row │ b_minimum  c_minimum  b_maximum  c_maximum 
+     │ Int64      Int64      Int64      Int64     
+─────┼────────────────────────────────────────────
+   1 │         1         11          5         15
 ```
 """
 macro summarize(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
-  tidy_exprs = parse_tidy.(tidy_exprs; autovec = false)
-  df_expr = quote   
+  tidy_exprs = parse_tidy.(tidy_exprs; autovec=false)
+  df_expr = quote
     combine($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -525,24 +681,34 @@ Create a new DataFrame with one row that aggregating all observations from the i
 - `exprs...`: a `new_variable = function(old_variable)` pair. `function()` should be an aggregate function that returns a single value. 
 
 # Examples
-```julia-repl
-julia> using DataFrames
+```jldoctest 
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
+julia> df2 = @chain df begin
+       @summarise(mean_b = mean(b), median_b = median(b))
+       end
+[ Info: combine(\$(Expr(:escape, :raccoon)), [:b] => (((b,)->mean(b)) => :mean_b), [:b] => (((b,)->median(b)) => :median_b))
+1×2 DataFrame
+ Row │ mean_b   median_b 
+     │ Float64  Float64  
+─────┼───────────────────
+   1 │     3.0       3.0
   
-julia> @chain df begin
-  @summarise(mean_b = mean(b), median_b = median(b))
-  end
-  
-julia> @chain df begin
-  @summarise(across((b,c), (minimum, maximum)))
-  end
+julia> df2 = @chain df begin
+       @summarise(across((b,c), (minimum, maximum)))
+       end
+[ Info: combine(\$(Expr(:escape, :raccoon)), Cols(:b, :c) .=> reshape([\$(Expr(:escape, :minimum)), \$(Expr(:escape, :maximum))], 1, 2))
+1×4 DataFrame
+ Row │ b_minimum  c_minimum  b_maximum  c_maximum 
+     │ Int64      Int64      Int64      Int64     
+─────┼────────────────────────────────────────────
+   1 │         1         11          5         15
 ```
 """
 macro summarise(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
-  tidy_exprs = parse_tidy.(tidy_exprs; autovec = false)
-  df_expr = quote   
+  tidy_exprs = parse_tidy.(tidy_exprs; autovec=false)
+  df_expr = quote
     combine($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -559,20 +725,26 @@ Subset a DataFrame and return a copy of DataFrame where specified conditions are
 - `exprs...`: transformation(s) that produce vectors containing `true` or `false`.
 
 # Examples
-```julia-repl
-  julia> using DataFrames
+```jldoctest 
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-  julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15)
-  
-  julia> @chain df begin
-    @filter(b >= mean(b))
-    end
+julia> df2 = @chain df begin
+       @filter(b >= mean(b))
+       end
+[ Info: subset(\$(Expr(:escape, :raccoon)), [:b] => ((b,)->coalesce.(b .>= mean(b), false)))
+3×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ c         3     13
+   2 │ d         4     14
+   3 │ e         5     15
 ```
 """
 macro filter(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
-  tidy_exprs = parse_tidy.(tidy_exprs; subset = true)
-  df_expr = quote   
+  tidy_exprs = parse_tidy.(tidy_exprs; subset=true)
+  df_expr = quote
     subset($(esc(df)), $(tidy_exprs...))
   end
   @info MacroTools.prettify(df_expr)
@@ -590,29 +762,49 @@ sets of `cols`.
 - `exprs...`: DataFrame columns to group by or tidy expressions. Can be a single tidy expression or multiple expressions separated by commas.
 
 # Examples
-```julia-repl
-  julia> using DataFrames
+```jldoctest 
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-  julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20)
-  
-  julia> @chain df begin
-    @group_by(a)
-    @summarize(b = mean(b))
-    end
+julia> df2 = @chain df begin
+       @group_by(a)
+       @summarize(b = mean(b))
+       end
+[ Info: groupby(transform(\$(Expr(:escape, :raccoon)), :a), Cols(:a))
+[ Info: combine(\$(Expr(:escape, :raccoon)), [:b] => (((b,)->mean(b)) => :b))
+5×2 DataFrame
+ Row │ a     b       
+     │ Char  Float64 
+─────┼───────────────
+   1 │ a         1.0
+   2 │ b         2.0
+   3 │ c         3.0
+   4 │ d         4.0
+   5 │ e         5.0  
 
-  julia> @chain df begin
-    @group_by(d = uppercase(a))
-    @summarize(b = mean(b))
-    end
+julia> df2 = @chain df begin
+       @group_by(d = uppercase(a))
+       @summarize(b = mean(b))
+       end
+[ Info: groupby(transform(\$(Expr(:escape, :raccoon)), [:a] => (((a,)->(\$(Expr(:escape, :uppercase))).(a)) => :d)), Cols(:d))
+[ Info: combine(\$(Expr(:escape, :raccoon)), [:b] => (((b,)->mean(b)) => :b))
+5×2 DataFrame
+ Row │ d     b       
+     │ Char  Float64 
+─────┼───────────────
+   1 │ A         1.0
+   2 │ B         2.0
+   3 │ C         3.0
+   4 │ D         4.0
+   5 │ E         5.0
 ```
 """
 macro group_by(df, exprs...)
   # Group
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs)
-  grouping_exprs = parse_group_by.(exprs)  
-  
-  df_expr = quote   
+  grouping_exprs = parse_group_by.(exprs)
+
+  df_expr = quote
     groupby(transform($(esc(df)), $(tidy_exprs...)), Cols($(grouping_exprs...)))
   end
   @info MacroTools.prettify(df_expr)
@@ -629,23 +821,47 @@ Select, remove or duplicate rows by indexing their integer positions.
 - `exprs...`: integer row values. Use positive values to keep the rows, or negative values to drop. Values provided must be either all positive or all negative, and they must be within the range of DataFrames' row numbers.
 
 # Examples
-```julia-repl
-julia> using DataFrames
+```jldoctest 
+julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20)
-  
-julia> @chain df begin
-    @slice(1:5)
-    end
+julia> df2 = @chain df begin
+       @slice(1:5)
+       end
+[ Info: select(subset(transform(\$(Expr(:escape, :raccoon)), eachindex => :Tidier_row_number), :Tidier_row_number => (x->in.(x, Ref([1, 2, 3, 4, 5])))), Not(:Tidier_row_number))
+5×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         1     11
+   2 │ b         2     12
+   3 │ c         3     13
+   4 │ d         4     14
+   5 │ e         5     15
 
-julia> @chain df begin
-  @slice(-(1:5))
-  end
+julia> df2 = @chain df begin
+       @slice(-(1:5))
+       end
+[ Info: select(subset(transform(\$(Expr(:escape, :raccoon)), eachindex => :Tidier_row_number), :Tidier_row_number => (x->.!(in.(x, Ref([1, 2, 3, 4, 5]))))), Not(:Tidier_row_number))
+0×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┴──────────────────── 
 
-julia> @chain df begin
-  @group_by(a)
-  @slice(1)
-  end
+julia> df2 = @chain df begin
+       @group_by(a)
+       @slice(1)
+       end
+[ Info: groupby(transform(\$(Expr(:escape, :raccoon)), :a), Cols(:a))
+[ Info: select(subset(transform(\$(Expr(:escape, :raccoon)), eachindex => :Tidier_row_number), :Tidier_row_number => (x->in.(x, Ref([1])))), Not(:Tidier_row_number))
+5×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         1     11
+   2 │ b         2     12
+   3 │ c         3     13
+   4 │ d         4     14
+   5 │ e         5     15
 ```         
 """
 macro slice(df, exprs...)
@@ -661,24 +877,24 @@ macro slice(df, exprs...)
   clean_indices = unique(clean_indices)
 
   if all(clean_indices .> 0)
-    df_expr = quote   
-      select(subset(transform($(esc(df)), eachindex => :Tidier_row_number), 
-      :Tidier_row_number => x -> (in.(x, Ref($clean_indices)))),
-      Not(:Tidier_row_number))
+    df_expr = quote
+      select(subset(transform($(esc(df)), eachindex => :Tidier_row_number),
+          :Tidier_row_number => x -> (in.(x, Ref($clean_indices)))),
+        Not(:Tidier_row_number))
     end
   elseif all(clean_indices .< 0)
     clean_indices = -clean_indices
-    df_expr = quote 
-    select(subset(transform($(esc(df)), eachindex => :Tidier_row_number), 
-    :Tidier_row_number => x -> (.!in.(x, Ref($clean_indices)))),
-    Not(:Tidier_row_number))
+    df_expr = quote
+      select(subset(transform($(esc(df)), eachindex => :Tidier_row_number),
+          :Tidier_row_number => x -> (.!in.(x, Ref($clean_indices)))),
+        Not(:Tidier_row_number))
     end
   else
     throw("@slice() indices must either be all positive or all negative.")
   end
 
   @info MacroTools.prettify(df_expr)
-  return df_expr  
+  return df_expr
 end
 
 """
@@ -691,23 +907,51 @@ Orders the rows of a DataFrame by the values of specified columns.
 - `exprs...`: Variables from the input DataFrame. Use `desc()` to sort in descending order. Multiple variables can be specified, separated by commas.
 
 # Examples
-```julia-repl
-julia> using DataFrames
-
-julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20)
+```jldoctest
+julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20);
   
-julia> @chain df begin
-    @arrange(a)
-    end
+julia> df2 = @chain df begin
+       @arrange(a)
+       end
+[ Info: sort(\$(Expr(:escape, :raccoon)), [:a])
+10×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         1     11
+   2 │ a         2     12
+   3 │ b         3     13
+   4 │ b         4     14
+   5 │ c         5     15
+   6 │ c         6     16
+   7 │ d         7     17
+   8 │ d         8     18
+   9 │ e         9     19
+  10 │ e        10     20
 
-julia> @chain df begin
-  @arrange(a, desc(b))
-  end
+julia> df2 = @chain df begin
+             @arrange(a, desc(b))
+             end
+[ Info: sort(\$(Expr(:escape, :raccoon)), [:a, order(:b, rev = true)])
+10×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         2     12
+   2 │ a         1     11
+   3 │ b         4     14
+   4 │ b         3     13
+   5 │ c         6     16
+   6 │ c         5     15
+   7 │ d         8     18
+   8 │ d         7     17
+   9 │ e        10     20
+  10 │ e         9     19
 ```
 """
 macro arrange(df, exprs...)
   arrange_exprs = parse_desc.(exprs)
-  df_expr = quote   
+  df_expr = quote
     sort($(esc(df)), [$(arrange_exprs...)]) # Must use [] instead of Cols() here
   end
   @info MacroTools.prettify(df_expr)
