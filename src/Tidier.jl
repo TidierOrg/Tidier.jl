@@ -35,7 +35,6 @@ julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 julia> df2 = @chain df begin
        @summarize(across(b, minimum))
        end
-[ Info: combine(\$(Expr(:escape, :raccoon)), Cols(:b) .=> reshape([\$(Expr(:escape, :minimum))], 1, 1))
 1×1 DataFrame
  Row │ b_minimum 
      │ Int64     
@@ -45,7 +44,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @summarize(across((b,c), (minimum, maximum)))
        end
-[ Info: combine(\$(Expr(:escape, :raccoon)), Cols(:b, :c) .=> reshape([\$(Expr(:escape, :minimum)), \$(Expr(:escape, :maximum))], 1, 2))
 1×4 DataFrame
  Row │ b_minimum  c_minimum  b_maximum  c_maximum 
      │ Int64      Int64      Int64      Int64     
@@ -55,7 +53,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @mutate(across((b,c), (minimum, maximum)))
        end
-[ Info: transform(\$(Expr(:escape, :raccoon)), Cols(:b, :c) .=> reshape([\$(Expr(:escape, :minimum)), \$(Expr(:escape, :maximum))], 1, 2))
 5×7 DataFrame
  Row │ a     b      c      b_minimum  c_minimum  b_maximum  c_maximum 
      │ Char  Int64  Int64  Int64      Int64      Int64      Int64     
@@ -69,7 +66,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @mutate(across((b, startswith("c")), (minimum, maximum)))
        end
-[ Info: transform(\$(Expr(:escape, :raccoon)), Cols(:b, \$(Expr(:escape, :(startswith("c"))))) .=> reshape([\$(Expr(:escape, :minimum)), \$(Expr(:escape, :maximum))], 1, 2))
 5×7 DataFrame
  Row │ a     b      c      b_minimum  c_minimum  b_maximum  c_maximum 
      │ Char  Int64  Int64  Int64      Int64      Int64      Int64     
@@ -101,7 +97,6 @@ julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20);
 julia> df2 = @chain df begin
        @arrange(a, desc(b))
        end
-[ Info: sort(\$(Expr(:escape, :raccoon)), [:a, order(:b, rev = true)])
 10×3 DataFrame
  Row │ a     b      c     
      │ Char  Int64  Int64 
@@ -387,7 +382,6 @@ julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 julia> df2 = @chain df begin
        @select(a,b,c)
        end
-[ Info: select(\$(Expr(:escape, :raccoon)), :a, :b, :c)
 5×3 DataFrame
  Row │ a     b      c     
      │ Char  Int64  Int64 
@@ -401,7 +395,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @select(a:b)
        end
-[ Info: select(\$(Expr(:escape, :raccoon)), Between(:a, :b))
 5×2 DataFrame
  Row │ a     b     
      │ Char  Int64 
@@ -415,7 +408,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @select(1:2)
        end
-[ Info: select(\$(Expr(:escape, :raccoon)), Between(1, 2))
 5×2 DataFrame
  Row │ a     b     
      │ Char  Int64 
@@ -429,7 +421,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @select(-(a:b))
        end
-[ Info: select(\$(Expr(:escape, :raccoon)), Not(Between(:a, :b)))
 5×1 DataFrame
  Row │ c     
      │ Int64 
@@ -443,7 +434,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @select(contains("b"), startswith("c"))
        end
-[ Info: select(\$(Expr(:escape, :raccoon)), Cols(\$(Expr(:escape, :(contains("b"))))), Cols(\$(Expr(:escape, :(startswith("c"))))))
 5×2 DataFrame
  Row │ b      c     
      │ Int64  Int64 
@@ -457,7 +447,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @select(-(1:2))
        end
-[ Info: select(\$(Expr(:escape, :raccoon)), Not(Between(1, 2)))
 5×1 DataFrame
  Row │ c     
      │ Int64 
@@ -471,7 +460,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @select(-c)
        end
-[ Info: select(\$(Expr(:escape, :raccoon)), Not(:c))
 5×2 DataFrame
  Row │ a     b     
      │ Char  Int64 
@@ -489,7 +477,7 @@ macro select(df, exprs...)
   df_expr = quote
     select($(esc(df)), $(tidy_exprs...))
   end
-  @info MacroTools.prettify(df_expr)
+  #@info MacroTools.prettify(df_expr)
   return df_expr
 end
 
@@ -510,7 +498,6 @@ julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 julia> df2 = @chain df begin
        @transmute(d = b + c)
        end
-[ Info: select(\$(Expr(:escape, :raccoon)), [:b, :c] => (((b, c)->b .+ c) => :d))
 5×1 DataFrame
  Row │ d     
      │ Int64 
@@ -528,7 +515,7 @@ macro transmute(df, exprs...)
   df_expr = quote
     select($(esc(df)), $(tidy_exprs...))
   end
-  @info MacroTools.prettify(df_expr)
+  #@info MacroTools.prettify(df_expr)
   return df_expr
 end
 
@@ -549,7 +536,6 @@ julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 julia> df2 = @chain df begin
        @rename(d = b, e = c)
        end
-[ Info: rename(\$(Expr(:escape, :raccoon)), :b => :d, :c => :e)
 5×3 DataFrame
  Row │ a     d      e     
      │ Char  Int64  Int64 
@@ -567,7 +553,7 @@ macro rename(df, exprs...)
   df_expr = quote
     rename($(esc(df)), $(tidy_exprs...))
   end
-  @info MacroTools.prettify(df_expr)
+  #@info MacroTools.prettify(df_expr)
   return df_expr
 end
 
@@ -589,7 +575,6 @@ julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 julia> df2 = @chain df begin
        @mutate(d = b + c, b_minus_mean_b = b - mean(b))
        end
-[ Info: transform(\$(Expr(:escape, :raccoon)), [:b, :c] => (((b, c)->b .+ c) => :d), [:b] => (((b,)->b .- mean(b)) => :b_minus_mean_b))
 5×5 DataFrame
  Row │ a     b      c      d      b_minus_mean_b 
      │ Char  Int64  Int64  Int64  Float64        
@@ -603,7 +588,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @mutate(across((b, c), mean))
        end
-[ Info: transform(\$(Expr(:escape, :raccoon)), Cols(:b, :c) .=> reshape([\$(Expr(:escape, :mean))], 1, 1))
 5×5 DataFrame
  Row │ a     b      c      b_mean   c_mean  
      │ Char  Int64  Int64  Float64  Float64 
@@ -621,7 +605,7 @@ macro mutate(df, exprs...)
   df_expr = quote
     transform($(esc(df)), $(tidy_exprs...))
   end
-  @info MacroTools.prettify(df_expr)
+  #@info MacroTools.prettify(df_expr)
   return df_expr
 end
 
@@ -642,7 +626,6 @@ julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 julia> df2 = @chain df begin
        @summarize(mean_b = mean(b), median_b = median(b))
        end
-[ Info: combine(\$(Expr(:escape, :raccoon)), [:b] => (((b,)->mean(b)) => :mean_b), [:b] => (((b,)->median(b)) => :median_b))
 1×2 DataFrame
  Row │ mean_b   median_b 
      │ Float64  Float64  
@@ -652,7 +635,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @summarize(across((b,c), (minimum, maximum)))
        end
-[ Info: combine(\$(Expr(:escape, :raccoon)), Cols(:b, :c) .=> reshape([\$(Expr(:escape, :minimum)), \$(Expr(:escape, :maximum))], 1, 2))
 1×4 DataFrame
  Row │ b_minimum  c_minimum  b_maximum  c_maximum 
      │ Int64      Int64      Int64      Int64     
@@ -666,7 +648,7 @@ macro summarize(df, exprs...)
   df_expr = quote
     combine($(esc(df)), $(tidy_exprs...))
   end
-  @info MacroTools.prettify(df_expr)
+  #@info MacroTools.prettify(df_expr)
   return df_expr
 end
 
@@ -687,7 +669,6 @@ julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 julia> df2 = @chain df begin
        @summarise(mean_b = mean(b), median_b = median(b))
        end
-[ Info: combine(\$(Expr(:escape, :raccoon)), [:b] => (((b,)->mean(b)) => :mean_b), [:b] => (((b,)->median(b)) => :median_b))
 1×2 DataFrame
  Row │ mean_b   median_b 
      │ Float64  Float64  
@@ -697,7 +678,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @summarise(across((b,c), (minimum, maximum)))
        end
-[ Info: combine(\$(Expr(:escape, :raccoon)), Cols(:b, :c) .=> reshape([\$(Expr(:escape, :minimum)), \$(Expr(:escape, :maximum))], 1, 2))
 1×4 DataFrame
  Row │ b_minimum  c_minimum  b_maximum  c_maximum 
      │ Int64      Int64      Int64      Int64     
@@ -711,7 +691,7 @@ macro summarise(df, exprs...)
   df_expr = quote
     combine($(esc(df)), $(tidy_exprs...))
   end
-  @info MacroTools.prettify(df_expr)
+  #@info MacroTools.prettify(df_expr)
   return df_expr
 end
 
@@ -731,7 +711,6 @@ julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 julia> df2 = @chain df begin
        @filter(b >= mean(b))
        end
-[ Info: subset(\$(Expr(:escape, :raccoon)), [:b] => ((b,)->coalesce.(b .>= mean(b), false)))
 3×3 DataFrame
  Row │ a     b      c     
      │ Char  Int64  Int64 
@@ -747,7 +726,7 @@ macro filter(df, exprs...)
   df_expr = quote
     subset($(esc(df)), $(tidy_exprs...))
   end
-  @info MacroTools.prettify(df_expr)
+  #@info MacroTools.prettify(df_expr)
   return df_expr
 end
 
@@ -769,8 +748,6 @@ julia> df2 = @chain df begin
        @group_by(a)
        @summarize(b = mean(b))
        end
-[ Info: groupby(transform(\$(Expr(:escape, :raccoon)), :a), Cols(:a))
-[ Info: combine(\$(Expr(:escape, :raccoon)), [:b] => (((b,)->mean(b)) => :b))
 5×2 DataFrame
  Row │ a     b       
      │ Char  Float64 
@@ -785,8 +762,6 @@ julia> df2 = @chain df begin
        @group_by(d = uppercase(a))
        @summarize(b = mean(b))
        end
-[ Info: groupby(transform(\$(Expr(:escape, :raccoon)), [:a] => (((a,)->(\$(Expr(:escape, :uppercase))).(a)) => :d)), Cols(:d))
-[ Info: combine(\$(Expr(:escape, :raccoon)), [:b] => (((b,)->mean(b)) => :b))
 5×2 DataFrame
  Row │ d     b       
      │ Char  Float64 
@@ -807,7 +782,7 @@ macro group_by(df, exprs...)
   df_expr = quote
     groupby(transform($(esc(df)), $(tidy_exprs...)), Cols($(grouping_exprs...)))
   end
-  @info MacroTools.prettify(df_expr)
+  #@info MacroTools.prettify(df_expr)
   return df_expr
 end
 
@@ -827,7 +802,6 @@ julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 julia> df2 = @chain df begin
        @slice(1:5)
        end
-[ Info: select(subset(transform(\$(Expr(:escape, :raccoon)), eachindex => :Tidier_row_number), :Tidier_row_number => (x->in.(x, Ref([1, 2, 3, 4, 5])))), Not(:Tidier_row_number))
 5×3 DataFrame
  Row │ a     b      c     
      │ Char  Int64  Int64 
@@ -841,7 +815,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
        @slice(-(1:5))
        end
-[ Info: select(subset(transform(\$(Expr(:escape, :raccoon)), eachindex => :Tidier_row_number), :Tidier_row_number => (x->.!(in.(x, Ref([1, 2, 3, 4, 5]))))), Not(:Tidier_row_number))
 0×3 DataFrame
  Row │ a     b      c     
      │ Char  Int64  Int64 
@@ -851,8 +824,6 @@ julia> df2 = @chain df begin
        @group_by(a)
        @slice(1)
        end
-[ Info: groupby(transform(\$(Expr(:escape, :raccoon)), :a), Cols(:a))
-[ Info: select(subset(transform(\$(Expr(:escape, :raccoon)), eachindex => :Tidier_row_number), :Tidier_row_number => (x->in.(x, Ref([1])))), Not(:Tidier_row_number))
 5×3 DataFrame
  Row │ a     b      c     
      │ Char  Int64  Int64 
@@ -893,7 +864,7 @@ macro slice(df, exprs...)
     throw("@slice() indices must either be all positive or all negative.")
   end
 
-  @info MacroTools.prettify(df_expr)
+  #@info MacroTools.prettify(df_expr)
   return df_expr
 end
 
@@ -913,7 +884,6 @@ julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20);
 julia> df2 = @chain df begin
        @arrange(a)
        end
-[ Info: sort(\$(Expr(:escape, :raccoon)), [:a])
 10×3 DataFrame
  Row │ a     b      c     
      │ Char  Int64  Int64 
@@ -932,7 +902,6 @@ julia> df2 = @chain df begin
 julia> df2 = @chain df begin
              @arrange(a, desc(b))
              end
-[ Info: sort(\$(Expr(:escape, :raccoon)), [:a, order(:b, rev = true)])
 10×3 DataFrame
  Row │ a     b      c     
      │ Char  Int64  Int64 
@@ -954,7 +923,7 @@ macro arrange(df, exprs...)
   df_expr = quote
     sort($(esc(df)), [$(arrange_exprs...)]) # Must use [] instead of Cols() here
   end
-  @info MacroTools.prettify(df_expr)
+  #@info MacroTools.prettify(df_expr)
   return df_expr
 end
 
