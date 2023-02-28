@@ -9,10 +9,28 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange, across, desc, starts_with, ends_with, matches
+export Tidier_set, across, desc, starts_with, ends_with, matches, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange
 
 include("docstrings.jl")
 include("parsing.jl")
+
+# Package global variables
+const code = Ref{Bool}(false) # output DataFrames.jl code?
+const log = Ref{Bool}(false) # output tidylog output? (not yet implemented)
+
+# Functions to set global variables
+"""
+$docstring_Tidier_set
+"""
+function Tidier_set(option::AbstractString, value::Bool)
+  if option == "code"
+    code[] = value
+  elseif option == "log"
+    throw("Logging is not enabled yet")
+  else
+    throw("That is not a valid option.")
+  end
+end
 
 # Need to expand with docs
 # These are just aliases
@@ -43,7 +61,9 @@ macro select(df, exprs...)
   df_expr = quote
     select($(esc(df)), $(tidy_exprs...))
   end
-  #@info MacroTools.prettify(df_expr)
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
   return df_expr
 end
 
@@ -56,7 +76,9 @@ macro transmute(df, exprs...)
   df_expr = quote
     select($(esc(df)), $(tidy_exprs...))
   end
-  #@info MacroTools.prettify(df_expr)
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
   return df_expr
 end
 
@@ -69,7 +91,9 @@ macro rename(df, exprs...)
   df_expr = quote
     rename($(esc(df)), $(tidy_exprs...))
   end
-  #@info MacroTools.prettify(df_expr)
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
   return df_expr
 end
 
@@ -82,7 +106,9 @@ macro mutate(df, exprs...)
   df_expr = quote
     transform($(esc(df)), $(tidy_exprs...))
   end
-  #@info MacroTools.prettify(df_expr)
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
   return df_expr
 end
 
@@ -95,7 +121,9 @@ macro summarize(df, exprs...)
   df_expr = quote
     combine($(esc(df)), $(tidy_exprs...))
   end
-  #@info MacroTools.prettify(df_expr)
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
   return df_expr
 end
 
@@ -108,7 +136,9 @@ macro summarise(df, exprs...)
   df_expr = quote
     combine($(esc(df)), $(tidy_exprs...))
   end
-  #@info MacroTools.prettify(df_expr)
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
   return df_expr
 end
 
@@ -121,7 +151,9 @@ macro filter(df, exprs...)
   df_expr = quote
     subset($(esc(df)), $(tidy_exprs...))
   end
-  #@info MacroTools.prettify(df_expr)
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
   return df_expr
 end
 
@@ -137,7 +169,9 @@ macro group_by(df, exprs...)
   df_expr = quote
     groupby(transform($(esc(df)), $(tidy_exprs...)), Cols($(grouping_exprs...)))
   end
-  #@info MacroTools.prettify(df_expr)
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
   return df_expr
 end
 
@@ -173,7 +207,9 @@ macro slice(df, exprs...)
     throw("@slice() indices must either be all positive or all negative.")
   end
 
-  #@info MacroTools.prettify(df_expr)
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
   return df_expr
 end
 
@@ -185,7 +221,9 @@ macro arrange(df, exprs...)
   df_expr = quote
     sort($(esc(df)), [$(arrange_exprs...)]) # Must use [] instead of Cols() here
   end
-  #@info MacroTools.prettify(df_expr)
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
   return df_expr
 end
 
