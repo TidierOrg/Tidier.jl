@@ -30,7 +30,7 @@ This function should only be called inside of `@mutate()`, `@summarize`, or `@su
 ```jldoctest
 julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @summarize(across(b, minimum))
        end
 1×1 DataFrame
@@ -39,7 +39,7 @@ julia> df2 = @chain df begin
 ─────┼───────────
    1 │         1
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @summarize(across((b,c), (minimum, maximum)))
        end
 1×4 DataFrame
@@ -48,7 +48,7 @@ julia> df2 = @chain df begin
 ─────┼────────────────────────────────────────────
    1 │         1         11          5         15
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @mutate(across((b,c), (minimum, maximum)))
        end
 5×7 DataFrame
@@ -61,7 +61,7 @@ julia> df2 = @chain df begin
    4 │ d         4     14          1         11          5         15
    5 │ e         5     15          1         11          5         15
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @mutate(across((b, startswith("c")), (minimum, maximum)))
        end
 5×7 DataFrame
@@ -90,7 +90,7 @@ Orders the rows of a DataFrame column in descending order when used inside of `@
 ```jldoctest
 julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20);
   
-julia> df2 = @chain df begin
+julia> @chain df begin
        @arrange(a, desc(b))
        end
 10×3 DataFrame
@@ -126,7 +126,7 @@ Select variables in a DataFrame.
 ```jldoctest 
 julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @select(a,b,c)
        end
 5×3 DataFrame
@@ -139,7 +139,7 @@ julia> df2 = @chain df begin
    4 │ d         4     14
    5 │ e         5     15
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @select(a:b)
        end
 5×2 DataFrame
@@ -152,7 +152,7 @@ julia> df2 = @chain df begin
    4 │ d         4
    5 │ e         5
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @select(1:2)
        end
 5×2 DataFrame
@@ -165,7 +165,7 @@ julia> df2 = @chain df begin
    4 │ d         4
    5 │ e         5
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @select(-(a:b))
        end
 5×1 DataFrame
@@ -178,7 +178,7 @@ julia> df2 = @chain df begin
    4 │    14
    5 │    15
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @select(contains("b"), startswith("c"))
        end
 5×2 DataFrame
@@ -191,7 +191,7 @@ julia> df2 = @chain df begin
    4 │     4     14
    5 │     5     15
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @select(-(1:2))
        end
 5×1 DataFrame
@@ -204,7 +204,7 @@ julia> df2 = @chain df begin
    4 │    14
    5 │    15
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @select(-c)
        end
 5×2 DataFrame
@@ -234,7 +234,7 @@ Create a new DataFrame with only computed columns.
 ```jldoctest 
 julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @transmute(d = b + c)
        end
 5×1 DataFrame
@@ -264,7 +264,7 @@ to rename and select columns.
 ```jldoctest 
 julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @rename(d = b, e = c)
        end
 5×3 DataFrame
@@ -295,7 +295,7 @@ rows as `df`.
 ```jldoctest 
 julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @mutate(d = b + c, b_minus_mean_b = b - mean(b))
        end
 5×5 DataFrame
@@ -308,7 +308,7 @@ julia> df2 = @chain df begin
    4 │ d         4     14     18             1.0
    5 │ e         5     15     20             2.0
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @mutate(across((b, c), mean))
        end
 5×5 DataFrame
@@ -338,7 +338,7 @@ Create a new DataFrame with one row that aggregating all observations from the i
 ```jldoctest 
 julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @summarize(mean_b = mean(b), median_b = median(b))
        end
 1×2 DataFrame
@@ -347,7 +347,7 @@ julia> df2 = @chain df begin
 ─────┼───────────────────
    1 │     3.0       3.0
   
-julia> df2 = @chain df begin
+julia> @chain df begin
        @summarise(mean_b = mean(b), median_b = median(b))
        end
 1×2 DataFrame
@@ -356,7 +356,7 @@ julia> df2 = @chain df begin
 ─────┼───────────────────
    1 │     3.0       3.0
    
-julia> df2 = @chain df begin
+julia> @chain df begin
        @summarize(across((b,c), (minimum, maximum)))
        end
 1×4 DataFrame
@@ -381,7 +381,7 @@ Subset a DataFrame and return a copy of DataFrame where specified conditions are
 ```jldoctest 
 julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @filter(b >= mean(b))
        end
 3×3 DataFrame
@@ -409,7 +409,7 @@ sets of `cols`.
 ```jldoctest 
 julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @group_by(a)
        @summarize(b = mean(b))
        end
@@ -423,7 +423,7 @@ julia> df2 = @chain df begin
    4 │ d         4.0
    5 │ e         5.0  
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @group_by(d = uppercase(a))
        @summarize(b = mean(b))
        end
@@ -453,7 +453,7 @@ Select, remove or duplicate rows by indexing their integer positions.
 ```jldoctest 
 julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @slice(1:5)
        end
 5×3 DataFrame
@@ -466,7 +466,7 @@ julia> df2 = @chain df begin
    4 │ d         4     14
    5 │ e         5     15
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @slice(-(1:5))
        end
 0×3 DataFrame
@@ -474,7 +474,7 @@ julia> df2 = @chain df begin
      │ Char  Int64  Int64 
 ─────┴──────────────────── 
 
-julia> df2 = @chain df begin
+julia> @chain df begin
        @group_by(a)
        @slice(1)
        end
@@ -504,7 +504,7 @@ Orders the rows of a DataFrame by the values of specified columns.
 ```jldoctest
 julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20);
   
-julia> df2 = @chain df begin
+julia> @chain df begin
        @arrange(a)
        end
 10×3 DataFrame
@@ -522,7 +522,7 @@ julia> df2 = @chain df begin
    9 │ e         9     19
   10 │ e        10     20
 
-julia> df2 = @chain df begin
+julia> @chain df begin
              @arrange(a, desc(b))
              end
 10×3 DataFrame
