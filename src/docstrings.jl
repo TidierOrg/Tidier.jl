@@ -62,7 +62,7 @@ julia> @chain df begin
    5 │ e         5     15          1         11          5         15
 
 julia> @chain df begin
-       @mutate(across((b, startswith("c")), (minimum, maximum)))
+       @mutate(across((b, starts_with("c")), (minimum, maximum)))
        end
 5×7 DataFrame
  Row │ a     b      c      b_minimum  c_minimum  b_maximum  c_maximum 
@@ -127,7 +127,7 @@ Select variables in a DataFrame.
 julia> df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
 
 julia> @chain df begin
-       @select(a,b,c)
+       @select(a, b, c)
        end
 5×3 DataFrame
  Row │ a     b      c     
@@ -179,7 +179,7 @@ julia> @chain df begin
    5 │    15
 
 julia> @chain df begin
-       @select(contains("b"), startswith("c"))
+       @select(contains("b"), starts_with("c"))
        end
 5×2 DataFrame
  Row │ b      c     
@@ -513,16 +513,20 @@ julia> @chain df begin
    5 │ e         5     15
 
 julia> @chain df begin
-       @slice(-(1:5))
+       @slice(-(1:2))
        end
-0×3 DataFrame
+3×3 DataFrame
  Row │ a     b      c     
      │ Char  Int64  Int64 
-─────┴──────────────────── 
+─────┼────────────────────
+   1 │ c         3     13
+   2 │ d         4     14
+   3 │ e         5     15
 
 julia> @chain df begin
        @group_by(a)
        @slice(1)
+       @ungroup
        end
 5×3 DataFrame
  Row │ a     b      c     
@@ -569,8 +573,8 @@ julia> @chain df begin
   10 │ e        10     20
 
 julia> @chain df begin
-             @arrange(a, desc(b))
-             end
+       @arrange(a, desc(b))
+       end
 10×3 DataFrame
  Row │ a     b      c     
      │ Char  Int64  Int64 
