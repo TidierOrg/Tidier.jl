@@ -9,7 +9,7 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export Tidier_set, across, desc, starts_with, ends_with, matches, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @slice, @arrange
+export Tidier_set, across, desc, starts_with, ends_with, matches, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange
 
 include("docstrings.jl")
 include("parsing.jl")
@@ -59,7 +59,11 @@ macro select(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
-    select($(esc(df)), $(tidy_exprs...))
+    if $(esc(df)) isa GroupedDataFrame
+      select($(esc(df)), $(tidy_exprs...); ungroup = false)
+    else
+      select($(esc(df)), $(tidy_exprs...))
+    end
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -74,7 +78,11 @@ macro transmute(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
-    select($(esc(df)), $(tidy_exprs...))
+    if $(esc(df)) isa GroupedDataFrame
+      select($(esc(df)), $(tidy_exprs...); ungroup = false)
+    else
+      select($(esc(df)), $(tidy_exprs...))
+    end
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -89,7 +97,11 @@ macro rename(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
-    rename($(esc(df)), $(tidy_exprs...))
+    if $(esc(df)) isa GroupedDataFrame
+      rename($(esc(df)), $(tidy_exprs...); ungroup = false)
+    else
+      rename($(esc(df)), $(tidy_exprs...))
+    end
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -104,7 +116,11 @@ macro mutate(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
-    transform($(esc(df)), $(tidy_exprs...))
+    if $(esc(df)) isa GroupedDataFrame
+      transform($(esc(df)), $(tidy_exprs...); ungroup = false)
+    else
+      transform($(esc(df)), $(tidy_exprs...))
+    end
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -119,7 +135,16 @@ macro summarize(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs; autovec=false)
   df_expr = quote
-    combine($(esc(df)), $(tidy_exprs...))
+    if $(esc(df)) isa GroupedDataFrame
+      col_names = groupcols($(esc(df)))
+      if length(col_names) == 1
+        combine($(esc(df)), $(tidy_exprs...); ungroup = true)
+      else
+        groupby(combine($(esc(df)), $(tidy_exprs...); ungroup = true), col_names[1:end-1]; sort = true)
+      end
+    else
+      combine($(esc(df)), $(tidy_exprs...))
+    end
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -131,15 +156,7 @@ end
 $docstring_summarize
 """
 macro summarise(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
-  tidy_exprs = parse_tidy.(tidy_exprs; autovec=false)
-  df_expr = quote
-    combine($(esc(df)), $(tidy_exprs...))
-  end
-  if code[]
-    @info MacroTools.prettify(df_expr)
-  end
-  return df_expr
+  :(@summarize($(esc(df)), $(exprs...)))
 end
 
 """
@@ -149,7 +166,11 @@ macro filter(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
   tidy_exprs = parse_tidy.(tidy_exprs; subset=true)
   df_expr = quote
-    subset($(esc(df)), $(tidy_exprs...))
+    if $(esc(df)) isa GroupedDataFrame
+      subset($(esc(df)), $(tidy_exprs...); ungroup = false)
+    else
+      subset($(esc(df)), $(tidy_exprs...))
+    end
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -167,12 +188,19 @@ macro group_by(df, exprs...)
   grouping_exprs = parse_group_by.(exprs)
 
   df_expr = quote
-    groupby(transform($(esc(df)), $(tidy_exprs...)), Cols($(grouping_exprs...)))
+    groupby(transform($(esc(df)), $(tidy_exprs...)), Cols($(grouping_exprs...)); sort = true)
   end
   if code[]
     @info MacroTools.prettify(df_expr)
   end
   return df_expr
+end
+
+"""
+$docstring_ungroup
+"""
+macro ungroup(df)
+  :(DataFrame($(esc(df))))
 end
 
 """
@@ -192,16 +220,28 @@ macro slice(df, exprs...)
 
   if all(clean_indices .> 0)
     df_expr = quote
-      select(subset(transform($(esc(df)), eachindex => :Tidier_row_number),
+      if $(esc(df)) isa GroupedDataFrame
+        select(subset(transform($(esc(df)), eachindex => :Tidier_row_number; ungroup = false),
+          :Tidier_row_number => x -> (in.(x, Ref($clean_indices))); ungroup = false),
+        Not(:Tidier_row_number); ungroup = false)
+      else
+        select(subset(transform($(esc(df)), eachindex => :Tidier_row_number),
           :Tidier_row_number => x -> (in.(x, Ref($clean_indices)))),
         Not(:Tidier_row_number))
+      end
     end
   elseif all(clean_indices .< 0)
     clean_indices = -clean_indices
     df_expr = quote
-      select(subset(transform($(esc(df)), eachindex => :Tidier_row_number),
+      if $(esc(df)) isa GroupedDataFrame
+        select(subset(transform($(esc(df)), eachindex => :Tidier_row_number; ungroup = false),
+        :Tidier_row_number => x -> (.!in.(x, Ref($clean_indices))); ungroup = false),
+      Not(:Tidier_row_number); ungroup = false)
+      else
+        select(subset(transform($(esc(df)), eachindex => :Tidier_row_number),
           :Tidier_row_number => x -> (.!in.(x, Ref($clean_indices)))),
         Not(:Tidier_row_number))
+      end
     end
   else
     throw("@slice() indices must either be all positive or all negative.")
@@ -219,7 +259,12 @@ $docstring_arrange
 macro arrange(df, exprs...)
   arrange_exprs = parse_desc.(exprs)
   df_expr = quote
-    sort($(esc(df)), [$(arrange_exprs...)]) # Must use [] instead of Cols() here
+    if $(esc(df)) isa GroupedDataFrame
+      col_names = groupcols($(esc(df)))
+      groupby(sort(DataFrame($(esc(df))), [$(arrange_exprs...)]), col_names; sort = true) # Must use [] instead of Cols() here
+    else
+      sort($(esc(df)), [$(arrange_exprs...)]) # Must use [] instead of Cols() here
+    end
   end
   if code[]
     @info MacroTools.prettify(df_expr)
