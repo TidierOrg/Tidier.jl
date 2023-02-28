@@ -24,11 +24,8 @@ meta-packages:
     users switching to Julia because R users are used to most functions
     being vectorized. Tidier.jl currently uses a lookup table to decide
     which functions not to vectorize; all other functions are
-    automatically vectorized. The following functions are treated as
-    non-vectorized: `mean()`, `median()`, `first()`, `last()`,
-    `minimum()`, `maximum()`, `sum()`, and `length()`. Support for
-    `nrow()` and `proprow()` will be coming soon, and users may
-    eventually be given the option to override these defaults.
+    automatically vectorized. Read the documentation page on "Autovectorization"
+    to read about how this works, and how to override the defaults.
 
 ## Installation
 
@@ -58,19 +55,27 @@ The `]` character starts the Julia [package manager](https://docs.julialang.org/
 
 To support R-style programming, Tidier.jl is implemented using macros.
 
-Tidier.jl currently supports the following macros and functions:
+Tidier.jl currently supports the following top-level macros:
 
 - `@select()`
-- `@transmute()` (which is just an alias for `@select()` because they
-  share the backend implementation in DataFrames.jl)
+- `@transmute()` (which is an alias for `@select()` because they
+  share the same backend implementation in DataFrames.jl)
 - `@rename()`
 - `@mutate()`
 - `@summarize()` and `@summarise()`
 - `@filter()`
 - `@group_by()`
+- `@ungroup()`
 - `@slice()`
 - `@arrange()`
+
+Tidier.jl also supports the following helper functions:
+
+- `starts_with()`
+- `ends_with()`
+- `matches()`
 - `across()`
+- `desc()`
 
 See the [Documentation](https://kdpsingh.github.io/Tidier.jl/dev/) to learn how to use them.
 
@@ -85,4 +90,5 @@ See the [Documentation](https://kdpsingh.github.io/Tidier.jl/dev/) to learn how 
 - Selection helpers should now work within `@select()` and `across()`
 - `@group_by()` now supports tidy expressions, for example `@group_by(df, d = b + c)`
 - `@slice()` now supports grouped data frames, for example, `@slice(gdf, 1:2)` will slice the first 2 rows from each group assuming that `gdf` is a grouped data frame.
-- Fixed a bug where functions were evaluated inside the module, which meant that user-provided functions would not work
+- Fixed a bug where functions were evaluated inside the module, which meant that user-provided functions would not work.
+- Lots more... will update before release.

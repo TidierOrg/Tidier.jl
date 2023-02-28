@@ -9,7 +9,7 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export Tidier_set, across, desc, starts_with, ends_with, matches, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange
+export Tidier_set, across, desc, starts_with, ends_with, matches, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @pull
 
 include("docstrings.jl")
 include("parsing.jl")
@@ -270,6 +270,21 @@ macro arrange(df, exprs...)
     @info MacroTools.prettify(df_expr)
   end
   return df_expr
+end
+
+"""
+$docstring_pull
+"""
+macro pull(df, column)
+  column = parse_interpolation(column)
+  column = parse_tidy(column)
+  vec_expr = quote
+    $(esc(df))[:, $column]
+  end
+  if code[]
+    @info MacroTools.prettify(vec_expr)
+  end
+  return vec_expr
 end
 
 end
