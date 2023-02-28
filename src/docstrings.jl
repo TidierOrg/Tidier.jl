@@ -544,7 +544,7 @@ const docstring_arrange =
 """
     @arrange(df, exprs...)
 
-Orders the rows of a DataFrame by the values of specified columns.
+Order the rows of a DataFrame by the values of specified columns.
 
 # Arguments
 - `df`: A DataFrame.
@@ -590,4 +590,39 @@ julia> @chain df begin
    9 │ e        10     20
   10 │ e         9     19
 ```
+"""
+
+const docstring_pull =
+"""
+    @pull(df, column)
+
+Pull (or extract) a column as a vector.
+
+# Arguments
+- `df`: A DataFrame.
+- `column`: A single column, referred to either by its name or number.
+
+# Examples
+```jldoctest
+julia> df = DataFrame(a = 'a':'e', b = 1:5, c = 11:15);
+  
+julia> @chain df begin
+       @pull(a)
+       end
+5-element Vector{Char}:
+ 'a': ASCII/Unicode U+0061 (category Ll: Letter, lowercase)
+ 'b': ASCII/Unicode U+0062 (category Ll: Letter, lowercase)
+ 'c': ASCII/Unicode U+0063 (category Ll: Letter, lowercase)
+ 'd': ASCII/Unicode U+0064 (category Ll: Letter, lowercase)
+ 'e': ASCII/Unicode U+0065 (category Ll: Letter, lowercase)
+
+julia> @chain df begin
+       @pull(2)
+       end
+5-element Vector{Int64}:
+ 1
+ 2
+ 3
+ 4
+ 5
 """
