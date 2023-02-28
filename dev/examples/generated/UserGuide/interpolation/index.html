@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#select-one-variable" class="md-skip">
+        <a href="#select-one-variable-symbol" class="md-skip">
           Skip to content
         </a>
       
@@ -466,15 +466,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#select-one-variable" class="md-nav__link">
-    Select one variable
+  <a href="#select-one-variable-symbol" class="md-nav__link">
+    Select one variable (symbol)
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#select-multiple-variables" class="md-nav__link">
-    Select multiple variables
+  <a href="#select-one-variable-string" class="md-nav__link">
+    Select one variable (string)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#select-multiple-variables-tuple-of-symbols" class="md-nav__link">
+    Select multiple variables (tuple of symbols)
   </a>
   
 </li>
@@ -624,15 +631,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#select-one-variable" class="md-nav__link">
-    Select one variable
+  <a href="#select-one-variable-symbol" class="md-nav__link">
+    Select one variable (symbol)
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#select-multiple-variables" class="md-nav__link">
-    Select multiple variables
+  <a href="#select-one-variable-string" class="md-nav__link">
+    Select one variable (string)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#select-multiple-variables-tuple-of-symbols" class="md-nav__link">
+    Select multiple variables (tuple of symbols)
   </a>
   
 </li>
@@ -693,20 +707,22 @@
 
 <p>The <code>!!</code> ("bang bang") operator can be used to interpolate values of variables from the global environment into your code.</p>
 <p>Since the <code>!!</code> operator can only access variables in the global environment, we will set these variables in a somewhat roundabout way for the purposes of documentation. However, in interactive use, you can simply write <code>myvar = :b</code> instead of wrapping it inside of an <code>@eval()</code> macro.</p>
+<p><a id='Select-one-variable-(symbol)'></a></p>
+<p><a id='Select-one-variable-(symbol)-1'></a></p>
+<h2 id="select-one-variable-symbol">Select one variable (symbol)<a class="headerlink" href="#select-one-variable-symbol" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:b</span><span class="p">)</span>
-<span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvar_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">)</span>
-<span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_tuple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">))</span>
-<span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">])</span>
-<span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>(&quot;a&quot;, &quot;b&quot;)
-</code></pre></div>
-<p><a id='Select-one-variable'></a></p>
-<p><a id='Select-one-variable-1'></a></p>
-<h2 id="select-one-variable">Select one variable<a class="headerlink" href="#select-one-variable" title="Permanent link">¤</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+
+<span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="o">!!</span><span class="n">myvar</span><span class="p">)</span>
 <span class="k">end</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>10×1 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">b</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
+
+<p><a id='Select-one-variable-(string)'></a></p>
+<p><a id='Select-one-variable-(string)-1'></a></p>
+<h2 id="select-one-variable-string">Select one variable (string)<a class="headerlink" href="#select-one-variable-string" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvar_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">)</span>
 
 <span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="o">!!</span><span class="n">myvar_string</span><span class="p">)</span>
@@ -715,16 +731,26 @@
 <div><div style = "float: left;"><span>10×1 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">b</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
 
-<p><a id='Select-multiple-variables'></a></p>
-<p><a id='Select-multiple-variables-1'></a></p>
-<h2 id="select-multiple-variables">Select multiple variables<a class="headerlink" href="#select-multiple-variables" title="Permanent link">¤</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<p><a id='Select-multiple-variables-(tuple-of-symbols)'></a></p>
+<p><a id='Select-multiple-variables-(tuple-of-symbols)-1'></a></p>
+<h2 id="select-multiple-variables-tuple-of-symbols">Select multiple variables (tuple of symbols)<a class="headerlink" href="#select-multiple-variables-tuple-of-symbols" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_tuple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">))</span>
+
+<span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="o">!!</span><span class="n">myvars_tuple</span><span class="p">)</span>
 <span class="k">end</span>
+
+<span class="c"># Select multiple variables (vector of symbols)</span>
+
+<span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">])</span>
 
 <span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="o">!!</span><span class="n">myvars_vector</span><span class="p">)</span>
 <span class="k">end</span>
+
+<span class="c"># Select multiple variables (tuple of strings)</span>
+
+<span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvars_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">))</span>
 
 <span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="o">!!</span><span class="n">myvars_string</span><span class="p">)</span>
@@ -736,7 +762,9 @@
 <p><a id='Mutate-one-variable'></a></p>
 <p><a id='Mutate-one-variable-1'></a></p>
 <h2 id="mutate-one-variable">Mutate one variable<a class="headerlink" href="#mutate-one-variable" title="Permanent link">¤</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:b</span><span class="p">)</span>
+
+<span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@mutate</span><span class="p">(</span><span class="o">!!</span><span class="n">myvar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!!</span><span class="n">myvar</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
@@ -746,7 +774,9 @@
 <p><a id='Summarize-across-one-variable'></a></p>
 <p><a id='Summarize-across-one-variable-1'></a></p>
 <h2 id="summarize-across-one-variable">Summarize across one variable<a class="headerlink" href="#summarize-across-one-variable" title="Permanent link">¤</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:b</span><span class="p">)</span>
+
+<span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="o">!!</span><span class="n">myvar</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">))</span>
 <span class="k">end</span>
 </code></pre></div>
@@ -775,8 +805,12 @@
 <span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
 <span class="k">end</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>7×3 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td><td style = "text-align: right;">13.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">14.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">15.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">17.5</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20.0</td></tr></tbody></table></div>
+<p><b>GroupedDataFrame with 5 groups based on key: a</b></p>
+<div><div style = "float: left;"><span>First Group (1 row): a = &apos;a&apos;: ASCII/Unicode U+0061 (category Ll: Letter, lowercase)</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11.5</td></tr></tbody></table></div>
+<p>&vellip;</p>
+<div><div style = "float: left;"><span>Last Group (2 rows): a = &apos;e&apos;: ASCII/Unicode U+0065 (category Ll: Letter, lowercase)</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20.0</td></tr></tbody></table></div>
 
 <hr />
 <p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p>

@@ -437,6 +437,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#grouping-by-multiple-columns" class="md-nav__link">
+    Grouping by multiple columns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-group_by-with-filter" class="md-nav__link">
+    Combining @group_by() with @filter()
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -609,6 +623,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#grouping-by-multiple-columns" class="md-nav__link">
+    Grouping by multiple columns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-group_by-with-filter" class="md-nav__link">
+    Combining @group_by() with @filter()
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -639,11 +667,12 @@
 <span class="w">    </span><span class="nd">@group_by</span><span class="p">(</span><span class="n">Year</span><span class="p">)</span>
 <span class="w">    </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Mean_Yearly_Rating</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">Rating</span><span class="p">)))</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="n">Year</span><span class="p">,</span><span class="w"> </span><span class="n">Rating</span><span class="p">,</span><span class="w"> </span><span class="n">Mean_Yearly_Rating</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@ungroup</span>
 <span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
 <div><div style = "float: left;"><span>5×3 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Rating</th><th style = "text-align: left;">Mean_Yearly_Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1971</td><td style = "text-align: right;">6.4</td><td style = "text-align: right;">5.66517</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">1939</td><td style = "text-align: right;">6.0</td><td style = "text-align: right;">6.35041</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">1941</td><td style = "text-align: right;">8.2</td><td style = "text-align: right;">6.34107</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">1996</td><td style = "text-align: right;">8.2</td><td style = "text-align: right;">5.74712</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: right;">1975</td><td style = "text-align: right;">3.4</td><td style = "text-align: right;">5.62908</td></tr></tbody></table></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Rating</th><th style = "text-align: left;">Mean_Yearly_Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1893</td><td style = "text-align: right;">7.0</td><td style = "text-align: right;">7.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">4.6</td><td style = "text-align: right;">4.88889</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">5.0</td><td style = "text-align: right;">4.88889</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">5.8</td><td style = "text-align: right;">4.88889</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">4.2</td><td style = "text-align: right;">4.88889</td></tr></tbody></table></div>
 
 <p><a id='Combining-@group_by()-with-@summarize()'></a></p>
 <p><a id='Combining-@group_by()-with-@summarize()-1'></a></p>
@@ -657,6 +686,36 @@
 </code></pre></div>
 <div><div style = "float: left;"><span>5×3 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Mean_Yearly_Rating</th><th style = "text-align: left;">Median_Yearly_Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1893</td><td style = "text-align: right;">7.0</td><td style = "text-align: right;">7.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">4.88889</td><td style = "text-align: right;">4.6</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">1895</td><td style = "text-align: right;">5.5</td><td style = "text-align: right;">5.7</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">1896</td><td style = "text-align: right;">5.26923</td><td style = "text-align: right;">5.3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: right;">1897</td><td style = "text-align: right;">4.67778</td><td style = "text-align: right;">4.6</td></tr></tbody></table></div>
+
+<p><a id='Grouping-by-multiple-columns'></a></p>
+<p><a id='Grouping-by-multiple-columns-1'></a></p>
+<h2 id="grouping-by-multiple-columns">Grouping by multiple columns<a class="headerlink" href="#grouping-by-multiple-columns" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">  </span><span class="nd">@group_by</span><span class="p">(</span><span class="n">Year</span><span class="p">,</span><span class="w"> </span><span class="n">Comedy</span><span class="p">)</span>
+<span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">Mean_Yearly_Rating</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">Rating</span><span class="p">)),</span>
+<span class="w">      </span><span class="n">Median_Yearly_Rating</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">Rating</span><span class="p">)))</span>
+<span class="w">  </span><span class="nd">@ungroup</span><span class="w"> </span><span class="c"># Need to ungroup to peel off grouping by Year</span>
+<span class="w">  </span><span class="nd">@arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">Year</span><span class="p">),</span><span class="w"> </span><span class="n">Comedy</span><span class="p">)</span>
+<span class="w">  </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>5×4 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Comedy</th><th style = "text-align: left;">Mean_Yearly_Rating</th><th style = "text-align: left;">Median_Yearly_Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">2005</td><td style = "text-align: right;">0</td><td style = "text-align: right;">6.62788</td><td style = "text-align: right;">6.75</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">2005</td><td style = "text-align: right;">1</td><td style = "text-align: right;">6.30081</td><td style = "text-align: right;">6.1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">2004</td><td style = "text-align: right;">0</td><td style = "text-align: right;">6.76521</td><td style = "text-align: right;">6.9</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">2004</td><td style = "text-align: right;">1</td><td style = "text-align: right;">6.42898</td><td style = "text-align: right;">6.6</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: right;">2003</td><td style = "text-align: right;">0</td><td style = "text-align: right;">6.40409</td><td style = "text-align: right;">6.6</td></tr></tbody></table></div>
+
+<p><a id='Combining-@group_by()-with-@filter()'></a></p>
+<p><a id='Combining-@group_by()-with-@filter()-1'></a></p>
+<h2 id="combining-group_by-with-filter">Combining @group_by() with @filter()<a class="headerlink" href="#combining-group_by-with-filter" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">    </span><span class="nd">@group_by</span><span class="p">(</span><span class="n">Year</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@filter</span><span class="p">(</span><span class="n">Rating</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">minimum</span><span class="p">(</span><span class="n">Rating</span><span class="p">))</span>
+<span class="w">    </span><span class="nd">@ungroup</span>
+<span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="n">Year</span><span class="p">,</span><span class="w"> </span><span class="n">Rating</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">Year</span><span class="p">))</span>
+<span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>10×2 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">2005</td><td style = "text-align: right;">1.8</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">2004</td><td style = "text-align: right;">1.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">2004</td><td style = "text-align: right;">1.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">2004</td><td style = "text-align: right;">1.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: right;">2004</td><td style = "text-align: right;">1.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: right;">2004</td><td style = "text-align: right;">1.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: right;">2004</td><td style = "text-align: right;">1.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: right;">2004</td><td style = "text-align: right;">1.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: right;">2003</td><td style = "text-align: right;">1.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: right;">2003</td><td style = "text-align: right;">1.0</td></tr></tbody></table></div>
 
 <hr />
 <p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p>

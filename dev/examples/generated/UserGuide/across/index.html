@@ -675,6 +675,7 @@
 <p><a id='One-variable,-one-anonymous-function'></a></p>
 <p><a id='One-variable,-one-anonymous-function-1'></a></p>
 <h2 id="one-variable-one-anonymous-function">One variable, one anonymous function<a class="headerlink" href="#one-variable-one-anonymous-function" title="Permanent link">¤</a></h2>
+<p>Note: compound functions are not correctly supported inside of anonymous functions. As of right now, <code>(x -&gt; mean∘skipmissing(x))</code> does not work. This is a known bug and will be fixed in a future update.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
 <span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="n">Budget</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">x</span><span class="p">)))))</span>

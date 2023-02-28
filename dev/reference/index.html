@@ -657,6 +657,7 @@
 <li><a href="./#Tidier.@summarise-Tuple{Any, Vararg{Any}}"><code>Tidier.@summarise</code></a></li>
 <li><a href="./#Tidier.@summarize-Tuple{Any, Vararg{Any}}"><code>Tidier.@summarize</code></a></li>
 <li><a href="./#Tidier.@transmute-Tuple{Any, Vararg{Any}}"><code>Tidier.@transmute</code></a></li>
+<li><a href="./#Tidier.@ungroup-Tuple{Any}"><code>Tidier.@ungroup</code></a></li>
 </ul>
 <p><a id='Reference-Exported-functions'></a></p>
 <p><a id='Reference-Exported-functions-1'></a></p>
@@ -675,7 +676,7 @@
 <li><code>option</code>: "code"</li>
 <li><code>value</code>: <code>true</code> or <code>false</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L22-L34' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L22-L34' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.across-Tuple' href='#Tidier.across-Tuple'>#</a>
 <strong><code>Tidier.across</code></strong> &mdash; <em>Method</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">across</span><span class="p">(</span><span class="n">variable</span><span class="p">[</span><span class="n">s</span><span class="p">],</span><span class="w"> </span><span class="k">function</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
@@ -722,7 +723,7 @@
 <span class="go">   5 │ e         5     15          1         11          5         15</span>
 
 <span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">       </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">across</span><span class="p">((</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;c&quot;</span><span class="p">)),</span><span class="w"> </span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span><span class="w"> </span><span class="n">maximum</span><span class="p">)))</span>
+<span class="w">       </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">across</span><span class="p">((</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">starts_with</span><span class="p">(</span><span class="s">&quot;c&quot;</span><span class="p">)),</span><span class="w"> </span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span><span class="w"> </span><span class="n">maximum</span><span class="p">)))</span>
 <span class="w">       </span><span class="k">end</span>
 <span class="go">5×7 DataFrame</span>
 <span class="go"> Row │ a     b      c      b_minimum  c_minimum  b_maximum  c_maximum </span>
@@ -734,7 +735,7 @@
 <span class="go">   4 │ d         4     14          1         11          5         15</span>
 <span class="go">   5 │ e         5     15          1         11          5         15</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L41-L101' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L41-L101' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.desc-Tuple' href='#Tidier.desc-Tuple'>#</a>
 <strong><code>Tidier.desc</code></strong> &mdash; <em>Method</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">desc</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
@@ -765,7 +766,7 @@
 <span class="go">   9 │ e        10     20</span>
 <span class="go">  10 │ e         9     19</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L48-L78' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L48-L78' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@arrange-Tuple{Any, Vararg{Any}}' href='#Tidier.@arrange-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@arrange</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@arrange</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -798,8 +799,8 @@
 <span class="go">  10 │ e        10     20</span>
 
 <span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">             </span><span class="nd">@arrange</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
-<span class="w">             </span><span class="k">end</span>
+<span class="w">       </span><span class="nd">@arrange</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+<span class="w">       </span><span class="k">end</span>
 <span class="go">10×3 DataFrame</span>
 <span class="go"> Row │ a     b      c     </span>
 <span class="go">     │ Char  Int64  Int64 </span>
@@ -815,7 +816,7 @@
 <span class="go">   9 │ e        10     20</span>
 <span class="go">  10 │ e         9     19</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L216-L265' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L256-L305' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@filter-Tuple{Any, Vararg{Any}}' href='#Tidier.@filter-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@filter</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@filter</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -840,7 +841,7 @@
 <span class="go">   2 │ d         4     14</span>
 <span class="go">   3 │ e         5     15</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L145-L169' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L162-L186' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@group_by-Tuple{Any, Vararg{Any}}' href='#Tidier.@group_by-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@group_by</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@group_by</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -882,7 +883,7 @@
 <span class="go">   4 │ D         4.0</span>
 <span class="go">   5 │ E         5.0</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L160-L202' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L181-L223' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@mutate-Tuple{Any, Vararg{Any}}' href='#Tidier.@mutate-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@mutate</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@mutate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -922,7 +923,7 @@
 <span class="go">   4 │ d         4     14      3.0     13.0</span>
 <span class="go">   5 │ e         5     15      3.0     13.0</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L100-L141' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L112-L153' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@rename-Tuple{Any, Vararg{Any}}' href='#Tidier.@rename-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@rename</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@rename</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -949,7 +950,7 @@
 <span class="go">   4 │ d         4     14</span>
 <span class="go">   5 │ e         5     15</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L85-L112' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L93-L120' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@select-Tuple{Any, Vararg{Any}}' href='#Tidier.@select-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@select</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@select</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -964,7 +965,7 @@
 <div class="highlight"><pre><span></span><code><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repeat</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="o">:</span><span class="sc">&#39;e&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="o">:</span><span class="mi">15</span><span class="p">);</span>
 
 <span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">       </span><span class="nd">@select</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<span class="w">       </span><span class="nd">@select</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span>
 <span class="w">       </span><span class="k">end</span>
 <span class="go">5×3 DataFrame</span>
 <span class="go"> Row │ a     b      c     </span>
@@ -1016,7 +1017,7 @@
 <span class="go">   5 │    15</span>
 
 <span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">       </span><span class="nd">@select</span><span class="p">(</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;c&quot;</span><span class="p">))</span>
+<span class="w">       </span><span class="nd">@select</span><span class="p">(</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">starts_with</span><span class="p">(</span><span class="s">&quot;c&quot;</span><span class="p">))</span>
 <span class="w">       </span><span class="k">end</span>
 <span class="go">5×2 DataFrame</span>
 <span class="go"> Row │ b      c     </span>
@@ -1054,7 +1055,7 @@
 <span class="go">   4 │ d         4</span>
 <span class="go">   5 │ e         5</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L55-L161' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L55-L161' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@slice-Tuple{Any, Vararg{Any}}' href='#Tidier.@slice-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@slice</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@slice</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1082,16 +1083,20 @@
 <span class="go">   5 │ e         5     15</span>
 
 <span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">       </span><span class="nd">@slice</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">))</span>
+<span class="w">       </span><span class="nd">@slice</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">))</span>
 <span class="w">       </span><span class="k">end</span>
-<span class="go">0×3 DataFrame</span>
+<span class="go">3×3 DataFrame</span>
 <span class="go"> Row │ a     b      c     </span>
 <span class="go">     │ Char  Int64  Int64 </span>
-<span class="go">─────┴──────────────────── </span>
+<span class="go">─────┼────────────────────</span>
+<span class="go">   1 │ c         3     13</span>
+<span class="go">   2 │ d         4     14</span>
+<span class="go">   3 │ e         5     15</span>
 
 <span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">       </span><span class="nd">@group_by</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 <span class="w">       </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">       </span><span class="nd">@ungroup</span>
 <span class="w">       </span><span class="k">end</span>
 <span class="go">5×3 DataFrame</span>
 <span class="go"> Row │ a     b      c     </span>
@@ -1103,7 +1108,7 @@
 <span class="go">   4 │ d         4     14</span>
 <span class="go">   5 │ e         5     15</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L178-L226' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L206-L258' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@summarise-Tuple{Any, Vararg{Any}}' href='#Tidier.@summarise-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@summarise</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@summarize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1145,7 +1150,7 @@
 <span class="go">─────┼────────────────────────────────────────────</span>
 <span class="go">   1 │         1         11          5         15</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L130-L171' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L155-L196' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@summarize-Tuple{Any, Vararg{Any}}' href='#Tidier.@summarize-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@summarize</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@summarize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1187,7 +1192,7 @@
 <span class="go">─────┼────────────────────────────────────────────</span>
 <span class="go">   1 │         1         11          5         15</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L115-L156' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L131-L172' class='documenter-source'>source</a><br></p>
 <p><a id='Tidier.@transmute-Tuple{Any, Vararg{Any}}' href='#Tidier.@transmute-Tuple{Any, Vararg{Any}}'>#</a>
 <strong><code>Tidier.@transmute</code></strong> &mdash; <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@transmute</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1214,7 +1219,22 @@
 <span class="go">   4 │    18</span>
 <span class="go">   5 │    20</span>
 </code></pre></div>
-<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/37f54248fdf7503863d7d820573743923add0302/src/Tidier.jl#L70-L97' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L74-L101' class='documenter-source'>source</a><br></p>
+<p><a id='Tidier.@ungroup-Tuple{Any}' href='#Tidier.@ungroup-Tuple{Any}'>#</a>
+<strong><code>Tidier.@ungroup</code></strong> &mdash; <em>Macro</em>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@ungroup</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</code></pre></div>
+<p>Return a <code>DataFrame</code> with all groups removed.</p>
+<p>If this is applied to a <code>GroupedDataFrame</code>, then it removes the grouping. If this is applied to a <code>DataFrame</code> (without any groups), then it returns the <code>DataFrame</code> unchanged.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>df</code>: A <code>GroupedDataFrame</code> or `DataFrame``.</li>
+</ul>
+<p><strong>Examples</strong></p>
+<p>```jldoctest  julia&gt; df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);</p>
+<p>julia&gt; @chain df begin        @group_by(a)        end GroupedDataFrame with 5 groups based on key: a First Group (1 row): a = 'a': ASCII/Unicode U+0061 (category Ll: Letter, lowercase)  Row │ a     b      c           │ Char  Int64  Int64  ─────┼────────────────────    1 │ a         1     11 ⋮ Last Group (1 row): a = 'e': ASCII/Unicode U+0065 (category Ll: Letter, lowercase)  Row │ a     b      c           │ Char  Int64  Int64  ─────┼────────────────────    1 │ e         5     15</p>
+<p>julia&gt; @chain df begin        @group_by(a)        @ungroup        end 5×3 DataFrame  Row │ a     b      c           │ Char  Int64  Int64  ─────┼────────────────────    1 │ a         1     11    2 │ b         2     12    3 │ c         3     13    4 │ d         4     14    5 │ e         5     15</p>
+<p><a target='_blank' href='https://github.com/kdpsingh/Tidier.jl/blob/115aecbfe155bb912a7dfde5c70047eda89397c3/src/Tidier.jl#L199-L242' class='documenter-source'>source</a><br></p>
 <p><a id='Reference-Internal-functions'></a></p>
 <p><a id='Reference-Internal-functions-1'></a></p>
 <h2 id="reference-internal-functions">Reference - Internal functions<a class="headerlink" href="#reference-internal-functions" title="Permanent link">¤</a></h2>
