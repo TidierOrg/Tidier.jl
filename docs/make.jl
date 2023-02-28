@@ -1,6 +1,13 @@
 using Documenter, DocumenterMarkdown
 using Tidier, DataFrames, RDatasets
 
+DocTestMeta = quote
+    using Tidier, DataFrames, Chain, Statistics
+end
+DocMeta.setdocmeta!(Tidier,
+    :DocTestSetup,
+    DocTestMeta;
+    recursive=true)
 makedocs(
     modules=[Tidier],
     clean=true,
