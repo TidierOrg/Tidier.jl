@@ -1,13 +1,13 @@
+# The `!!` ("bang bang") operator can be used to interpolate values of variables from the global environment into your code. This operator is borrowed from the R `rlang` package. At some point, we may switch to using native Julia interpolation, but for a variety of reasons that introduce some complexity with native interpolation, we plan to continue to support `!!` interpolation.
+
+# To interpolate multiple variables, the `rlang` R package uses the `!!!` "triple bang" operator. However, in `Tidier.jl`, the `!!` "bang bang" operator can be used to interpolate either single or multiple values as shown in the examples below.
+
+# Since the `!!` operator can only access variables in the global environment, we will set these variables in a somewhat roundabout way for the purposes of documentation. However, in interactive use, you can simply write `myvar = :b` instead of wrapping this code inside of an `@eval()` macro as is done here.
+
 using Tidier
-using DataFrames
 using RDatasets
 
-df = DataFrame(a = repeat('a':'e', inner = 2), b = [1,1,1,2,2,2,3,3,3,4], c = 11:20)
-
-
-# The `!!` ("bang bang") operator can be used to interpolate values of variables from the global environment into your code.
-
-# Since the `!!` operator can only access variables in the global environment, we will set these variables in a somewhat roundabout way for the purposes of documentation. However, in interactive use, you can simply write `myvar = :b` instead of wrapping it inside of an `@eval()` macro.
+df = DataFrame(a = repeat('a':'e', inner = 2), b = [1,1,1,2,2,2,3,3,3,4], c = 11:20);
 
 # ## Select one variable (symbol)
 

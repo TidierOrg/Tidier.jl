@@ -1,13 +1,13 @@
+# In general, Tidier.jl uses a lookup table to decide which functions *not* to vectorize. For example, `mean()` is listed as a function that should never be vectorized. Also, any function used inside of `@summarize()` is also never automatically vectorized. Any function that is not included in this list *and* is used in a context other than `@summarize()` is automatically vectorized.
+
+# This "auto-vectorization" makes working with Tidier.jl more R-like and convenient. However, if you ever define your own function and try to use it, Tidier.jl may unintentionally vectorize it for you. To prevent auto-vectorization, you can prefix your function with a `~`.
+
 using Tidier
-using DataFrames
 using RDatasets
 
 df = DataFrame(a = repeat('a':'e', inner = 2), b = [1,1,1,2,2,2,3,3,3,4], c = 11:20)
 
-
-# By default, Tidier.jl uses a lookup table to decide which functions *not* to vectorize. For example, `mean()` is listed as a function that should never be vectorized. Also, any function used inside of `@summarize()` is also never automatically vectorized. Any function that is not included in this list *and* is used in a context other than `@summarize()` is automatically vectorized.
-
-# This "auto-vectorization" makes working with Tidier.jl more R-like and convenient. However, if you ever define your own function and try to use it, Tidier.jl may unintentionally vectorize it for you. To prevent auto-vectorization, you can prefix your function with a `~`. For example, let's define a function `new_mean()` that calculates a mean.
+# For example, let's define a function `new_mean()` that calculates a mean.
 
 new_mean(exprs...) = mean(exprs...)
 
