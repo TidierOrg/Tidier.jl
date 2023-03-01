@@ -56,7 +56,7 @@ meta-packages in Julia:
     functionality as `mean()` *would* normally get vectorized by `Tidier.jl`
     unless you write it as `~new_mean()`.
 
-3.  **Make scalars and vectors mostly interchangeable:** In Julia, the function
+3.  **Make scalars and tuples mostly interchangeable:** In Julia, the function
     `across(a, mean)` is dispatched differently than `across((a, b), mean)`.
     The first argument in the first instance above is treated as a scalar,
     whereas the second instance is treated as a tuple. This can be very confusing
