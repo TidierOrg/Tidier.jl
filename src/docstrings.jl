@@ -643,6 +643,7 @@ Perform a left join on `df1` and `df` with an optional `by`.
 # Examples
 ```jldoctest
 julia> df1 = DataFrame(a = ["a", "b"], b = 1:2);
+
 julia> df2 = DataFrame(a = ["a", "c"], c = 3:4);
   
 julia> @left_join(df1, df2)
@@ -701,6 +702,7 @@ Perform a right join on `df1` and `df` with an optional `by`.
 # Examples
 ```jldoctest
 julia> df1 = DataFrame(a = ["a", "b"], b = 1:2);
+
 julia> df2 = DataFrame(a = ["a", "c"], c = 3:4);
   
 julia> @right_join(df1, df2)
@@ -759,6 +761,7 @@ Perform a inner join on `df1` and `df` with an optional `by`.
 # Examples
 ```jldoctest
 julia> df1 = DataFrame(a = ["a", "b"], b = 1:2);
+
 julia> df2 = DataFrame(a = ["a", "c"], c = 3:4);
   
 julia> @inner_join(df1, df2)
@@ -812,6 +815,7 @@ Perform a full join on `df1` and `df` with an optional `by`.
 # Examples
 ```jldoctest
 julia> df1 = DataFrame(a = ["a", "b"], b = 1:2);
+
 julia> df2 = DataFrame(a = ["a", "c"], c = 3:4);
   
 julia> @full_join(df1, df2)
