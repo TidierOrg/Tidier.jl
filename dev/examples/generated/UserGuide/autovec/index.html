@@ -16,7 +16,7 @@
         <link rel="prev" href="../interpolation/">
       
       
-        <link rel="next" href="../../../../reference/">
+        <link rel="next" href="../../Contributors/Howto/">
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
@@ -260,35 +260,6 @@
 
   
   
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
-      
-      
-      
-        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-          User Guide
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_2">
-          <span class="md-nav__icon md-icon"></span>
-          User Guide
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
   
     <li class="md-nav__item">
       <a href="../dataset_movies/" class="md-nav__link">
@@ -297,10 +268,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -311,10 +283,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -325,38 +298,41 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
     <li class="md-nav__item">
       <a href="../mutate_transmute/" class="md-nav__link">
-        @mutate & @transmute
+        @mutate
       </a>
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
     <li class="md-nav__item">
       <a href="../summarize/" class="md-nav__link">
-        @summarize or @summarise
+        @summarize
       </a>
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -367,10 +343,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -381,10 +358,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -395,10 +373,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -409,10 +388,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -423,10 +403,26 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../joins/" class="md-nav__link">
+        Joins
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
   
   
   
@@ -437,10 +433,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
     
@@ -459,10 +456,26 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Contributors/Howto/" class="md-nav__link">
+        Contribute
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
   
   
   
@@ -470,62 +483,6 @@
       <a href="../../../../reference/" class="md-nav__link">
         Reference
       </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-          Contributors
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          Contributors
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../Contributors/Howto/" class="md-nav__link">
-        Contribute to Documentation
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -563,8 +520,9 @@
 
   <h1>Auto-vectorization</h1>
 
+<p>In general, Tidier.jl uses a lookup table to decide which functions <em>not</em> to vectorize. For example, <code>mean()</code> is listed as a function that should never be vectorized. Also, any function used inside of <code>@summarize()</code> is also never automatically vectorized. Any function that is not included in this list <em>and</em> is used in a context other than <code>@summarize()</code> is automatically vectorized.</p>
+<p>This "auto-vectorization" makes working with Tidier.jl more R-like and convenient. However, if you ever define your own function and try to use it, Tidier.jl may unintentionally vectorize it for you. To prevent auto-vectorization, you can prefix your function with a <code>~</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
-<span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
 <span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repeat</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="o">:</span><span class="sc">&#39;e&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="o">:</span><span class="mi">20</span><span class="p">)</span>
@@ -572,8 +530,7 @@
 <div><div style = "float: left;"><span>10×3 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">12</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td><td style = "text-align: right;">13</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">14</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">15</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">16</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">17</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">18</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20</td></tr></tbody></table></div>
 
-<p>By default, Tidier.jl uses a lookup table to decide which functions <em>not</em> to vectorize. For example, <code>mean()</code> is listed as a function that should never be vectorized. Also, any function used inside of <code>@summarize()</code> is also never automatically vectorized. Any function that is not included in this list <em>and</em> is used in a context other than <code>@summarize()</code> is automatically vectorized.</p>
-<p>This "auto-vectorization" makes working with Tidier.jl more R-like and convenient. However, if you ever define your own function and try to use it, Tidier.jl may unintentionally vectorize it for you. To prevent auto-vectorization, you can prefix your function with a <code>~</code>. For example, let's define a function <code>new_mean()</code> that calculates a mean.</p>
+<p>For example, let's define a function <code>new_mean()</code> that calculates a mean.</p>
 <div class="highlight"><pre><span></span><code><span class="n">new_mean</span><span class="p">(</span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>new_mean (generic function with 1 method)
@@ -663,13 +620,13 @@
         
         
           
-          <a href="../../../../reference/" class="md-footer__link md-footer__link--next" aria-label="Next: Reference" rel="next">
+          <a href="../../Contributors/Howto/" class="md-footer__link md-footer__link--next" aria-label="Next: Contribute" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                Reference
+                Contribute
               </div>
             </div>
             <div class="md-footer__button md-icon">

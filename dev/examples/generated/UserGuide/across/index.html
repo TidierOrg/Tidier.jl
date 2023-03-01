@@ -16,7 +16,7 @@
         <link rel="prev" href="../arrange/">
       
       
-        <link rel="next" href="../interpolation/">
+        <link rel="next" href="../joins/">
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
@@ -265,35 +265,6 @@
 
   
   
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
-      
-      
-      
-        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-          User Guide
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_2">
-          <span class="md-nav__icon md-icon"></span>
-          User Guide
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
   
     <li class="md-nav__item">
       <a href="../dataset_movies/" class="md-nav__link">
@@ -302,10 +273,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -316,10 +288,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -330,38 +303,41 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
     <li class="md-nav__item">
       <a href="../mutate_transmute/" class="md-nav__link">
-        @mutate & @transmute
+        @mutate
       </a>
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
     <li class="md-nav__item">
       <a href="../summarize/" class="md-nav__link">
-        @summarize or @summarise
+        @summarize
       </a>
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -372,10 +348,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -386,10 +363,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -400,10 +378,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -414,10 +393,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
     
@@ -486,10 +466,26 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../joins/" class="md-nav__link">
+        Joins
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
   
   
   
@@ -500,10 +496,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -514,10 +511,26 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Contributors/Howto/" class="md-nav__link">
+        Contribute
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
   
   
   
@@ -525,62 +538,6 @@
       <a href="../../../../reference/" class="md-nav__link">
         Reference
       </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-          Contributors
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          Contributors
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../Contributors/Howto/" class="md-nav__link">
-        Contribute to Documentation
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -654,13 +611,12 @@
 
   <h1>across</h1>
 
+<p><code>across()</code> is a helper function that is typically used inside <code>@mutate()</code> or <code>@summarize</code> to operate on multiple columns and/or multiple functions. Notice that <code>across()</code> accepts two arguments, a set of variables and a set of functions. If providing multiple variables or functions, these should be provided as a tuple – in other words, wrapped in parentheses and separated by commas. If you want to skip missing values, you can "fuse" the summary function (such as <code>mean()</code>) with the <code>skipmissing()</code> function by using the fuction fusion operator, which you can type out in Julia by typing <code>\circ</code> and then pressing <code>[Tab]</code> such that it reads <code>mean∘skipmissing</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
-<span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
 <span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;ggplot2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;movies&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p><code>across()</code> can be used with either <code>@mutate</code> or <code>@summarize</code> to operate on multiple columns and/or multiple functions.</p>
 <p><a id='One-variable,-one-function'></a></p>
 <p><a id='One-variable,-one-function-1'></a></p>
 <h2 id="one-variable-one-function">One variable, one function<a class="headerlink" href="#one-variable-one-function" title="Permanent link">¤</a></h2>
@@ -675,7 +631,6 @@
 <p><a id='One-variable,-one-anonymous-function'></a></p>
 <p><a id='One-variable,-one-anonymous-function-1'></a></p>
 <h2 id="one-variable-one-anonymous-function">One variable, one anonymous function<a class="headerlink" href="#one-variable-one-anonymous-function" title="Permanent link">¤</a></h2>
-<p>Note: compound functions are not correctly supported inside of anonymous functions. As of right now, <code>(x -&gt; mean∘skipmissing(x))</code> does not work. This is a known bug and will be fixed in a future update.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
 <span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="n">Budget</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">x</span><span class="p">)))))</span>
@@ -684,6 +639,7 @@
 <div><div style = "float: left;"><span>1×1 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Budget_function</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">13.4125</td></tr></tbody></table></div>
 
+<p>Note: compound functions are not correctly supported inside of anonymous functions. As of right now, the above function works, but <code>(x -&gt; mean∘skipmissing(x))</code> does not work. This is a known bug and will be fixed in a future update.</p>
 <p><a id='Multiple-variables,-multiple-functions'></a></p>
 <p><a id='Multiple-variables,-multiple-functions-1'></a></p>
 <h2 id="multiple-variables-multiple-functions">Multiple variables, multiple functions<a class="headerlink" href="#multiple-variables-multiple-functions" title="Permanent link">¤</a></h2>
@@ -750,13 +706,13 @@
         
         
           
-          <a href="../interpolation/" class="md-footer__link md-footer__link--next" aria-label="Next: Interpolation" rel="next">
+          <a href="../joins/" class="md-footer__link md-footer__link--next" aria-label="Next: Joins" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                Interpolation
+                Joins
               </div>
             </div>
             <div class="md-footer__button md-icon">

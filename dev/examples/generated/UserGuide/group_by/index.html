@@ -265,35 +265,6 @@
 
   
   
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
-      
-      
-      
-        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-          User Guide
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_2">
-          <span class="md-nav__icon md-icon"></span>
-          User Guide
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
   
     <li class="md-nav__item">
       <a href="../dataset_movies/" class="md-nav__link">
@@ -302,10 +273,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -316,10 +288,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -330,38 +303,41 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
     <li class="md-nav__item">
       <a href="../mutate_transmute/" class="md-nav__link">
-        @mutate & @transmute
+        @mutate
       </a>
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
     <li class="md-nav__item">
       <a href="../summarize/" class="md-nav__link">
-        @summarize or @summarise
+        @summarize
       </a>
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -372,10 +348,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -386,10 +363,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
     
@@ -458,10 +436,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -472,10 +451,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -486,10 +466,26 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../joins/" class="md-nav__link">
+        Joins
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
   
   
   
@@ -500,10 +496,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -514,10 +511,26 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Contributors/Howto/" class="md-nav__link">
+        Contribute
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
   
   
   
@@ -525,62 +538,6 @@
       <a href="../../../../reference/" class="md-nav__link">
         Reference
       </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-          Contributors
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          Contributors
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../Contributors/Howto/" class="md-nav__link">
-        Contribute to Documentation
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -654,8 +611,10 @@
 
   <h1>@group_by</h1>
 
+<p>Grouping and ungrouping behavior is one of the nicest parts of using R's tidyverse. Once a data frame is grouped, <em>all</em> verbs applied to that data frame respect the grouping, including but not limited to <code>@mutate()</code>, <code>@summarize()</code>, <code>@slice()</code> and <code>@filter</code>, which allows for really powerful abstractions. For example, with <code>@group_by()</code> followed by <code>@filter()</code>, you can limit the rows of a dataset to the maximum or minimum values for each group.</p>
+<p>Exactly as in R's <code>tidyverse</code>, once a data frame is grouped, it remains grouped until either <code>@summarize()</code> is called (which "peels off" one layer of grouping) or <code>@ungroup()</code> is called, which removes all layers of grouping. Also as in R's <code>tidyverse</code>, <code>@group_by()</code> sorts the groups in ascending order. Unlike in R, there is never any question about whether a data frame is currently grouped because GroupedDataFrames print out in a <em>very</em> different form than DataFrames, making them easy to tell apart.</p>
+<p>When using <code>@chain</code>, note that you can write either <code>@ungroup</code> or <code>@ungroup()</code>. Both are considered valid.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
-<span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
 <span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;ggplot2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;movies&quot;</span><span class="p">);</span>

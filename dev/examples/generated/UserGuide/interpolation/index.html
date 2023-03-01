@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../across/">
+        <link rel="prev" href="../joins/">
       
       
         <link rel="next" href="../autovec/">
@@ -265,35 +265,6 @@
 
   
   
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
-      
-      
-      
-        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-          User Guide
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_2">
-          <span class="md-nav__icon md-icon"></span>
-          User Guide
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
   
     <li class="md-nav__item">
       <a href="../dataset_movies/" class="md-nav__link">
@@ -302,10 +273,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -316,10 +288,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -330,38 +303,41 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
     <li class="md-nav__item">
       <a href="../mutate_transmute/" class="md-nav__link">
-        @mutate & @transmute
+        @mutate
       </a>
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
     <li class="md-nav__item">
       <a href="../summarize/" class="md-nav__link">
-        @summarize or @summarise
+        @summarize
       </a>
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -372,10 +348,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -386,10 +363,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -400,10 +378,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -414,10 +393,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -428,10 +408,26 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../joins/" class="md-nav__link">
+        Joins
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
   
   
     
@@ -521,10 +517,11 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
   
   
   
@@ -535,10 +532,26 @@
     </li>
   
 
-            
-          
-            
-              
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Contributors/Howto/" class="md-nav__link">
+        Contribute
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
   
   
   
@@ -546,62 +559,6 @@
       <a href="../../../../reference/" class="md-nav__link">
         Reference
       </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-          Contributors
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          Contributors
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../Contributors/Howto/" class="md-nav__link">
-        Contribute to Documentation
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -696,17 +653,14 @@
 
   <h1>Interpolation</h1>
 
+<p>The <code>!!</code> ("bang bang") operator can be used to interpolate values of variables from the global environment into your code. This operator is borrowed from the R <code>rlang</code> package. At some point, we may switch to using native Julia interpolation, but for a variety of reasons that introduce some complexity with native interpolation, we plan to continue to support <code>!!</code> interpolation.</p>
+<p>To interpolate multiple variables, the <code>rlang</code> R package uses the <code>!!!</code> "triple bang" operator. However, in <code>Tidier.jl</code>, the <code>!!</code> "bang bang" operator can be used to interpolate either single or multiple values as shown in the examples below.</p>
+<p>Since the <code>!!</code> operator can only access variables in the global environment, we will set these variables in a somewhat roundabout way for the purposes of documentation. However, in interactive use, you can simply write <code>myvar = :b</code> instead of wrapping this code inside of an <code>@eval()</code> macro as is done here.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
-<span class="k">using</span><span class="w"> </span><span class="n">DataFrames</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
-<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repeat</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="o">:</span><span class="sc">&#39;e&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="o">:</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repeat</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="o">:</span><span class="sc">&#39;e&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="o">:</span><span class="mi">20</span><span class="p">);</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>10×3 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Char" style = "text-align: left;">Char</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">11</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">12</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">b</td><td style = "text-align: right;">1</td><td style = "text-align: right;">13</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "text-align: right;">14</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">15</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">c</td><td style = "text-align: right;">2</td><td style = "text-align: right;">16</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">17</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">d</td><td style = "text-align: right;">3</td><td style = "text-align: right;">18</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">e</td><td style = "text-align: right;">3</td><td style = "text-align: right;">19</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">e</td><td style = "text-align: right;">4</td><td style = "text-align: right;">20</td></tr></tbody></table></div>
-
-<p>The <code>!!</code> ("bang bang") operator can be used to interpolate values of variables from the global environment into your code.</p>
-<p>Since the <code>!!</code> operator can only access variables in the global environment, we will set these variables in a somewhat roundabout way for the purposes of documentation. However, in interactive use, you can simply write <code>myvar = :b</code> instead of wrapping it inside of an <code>@eval()</code> macro.</p>
 <p><a id='Select-one-variable-(symbol)'></a></p>
 <p><a id='Select-one-variable-(symbol)-1'></a></p>
 <h2 id="select-one-variable-symbol">Select one variable (symbol)<a class="headerlink" href="#select-one-variable-symbol" title="Permanent link">¤</a></h2>
@@ -840,7 +794,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../across/" class="md-footer__link md-footer__link--prev" aria-label="Previous: across" rel="prev">
+          <a href="../joins/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Joins" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -849,7 +803,7 @@
                 <span class="md-footer__direction">
                   Previous
                 </span>
-                across
+                Joins
               </div>
             </div>
           </a>

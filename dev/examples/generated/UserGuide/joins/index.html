@@ -13,20 +13,24 @@
       
       
       
+        <link rel="prev" href="../across/">
       
-      <link rel="icon" href="/assets/images/favicon.png">
+      
+        <link rel="next" href="../interpolation/">
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
     
     
       
-        <title>Tidier.jl</title>
+        <title>Joins - Tidier.jl</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.113286f1.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.113286f1.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -42,11 +46,11 @@
       
     
     
-      <link rel="stylesheet" href="/stylesheets/custom.css">
+      <link rel="stylesheet" href="../../../../stylesheets/custom.css">
     
-      <link rel="stylesheet" href="/assets/Documenter.css">
+      <link rel="stylesheet" href="../../../../assets/Documenter.css">
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,6 +78,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#left-join" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -84,9 +93,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/." title="Tidier.jl" class="md-header__button md-logo" aria-label="Tidier.jl" data-md-component="logo">
+    <a href="../../../.." title="Tidier.jl" class="md-header__button md-logo" aria-label="Tidier.jl" data-md-component="logo">
       
-  <img src="/assets/Tidier_jl_logo.png" alt="logo">
+  <img src="../../../../assets/Tidier_jl_logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -102,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Joins
             
           </span>
         </div>
@@ -210,9 +219,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/." title="Tidier.jl" class="md-nav__button md-logo" aria-label="Tidier.jl" data-md-component="logo">
+    <a href="../../../.." title="Tidier.jl" class="md-nav__button md-logo" aria-label="Tidier.jl" data-md-component="logo">
       
-  <img src="/assets/Tidier_jl_logo.png" alt="logo">
+  <img src="../../../../assets/Tidier_jl_logo.png" alt="logo">
 
     </a>
     Tidier.jl
@@ -243,7 +252,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         Home
       </a>
     </li>
@@ -258,7 +267,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/dataset_movies/" class="md-nav__link">
+      <a href="../dataset_movies/" class="md-nav__link">
         Movies dataset
       </a>
     </li>
@@ -273,7 +282,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/select/" class="md-nav__link">
+      <a href="../select/" class="md-nav__link">
         @select
       </a>
     </li>
@@ -288,7 +297,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/rename/" class="md-nav__link">
+      <a href="../rename/" class="md-nav__link">
         @rename
       </a>
     </li>
@@ -303,7 +312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/mutate_transmute/" class="md-nav__link">
+      <a href="../mutate_transmute/" class="md-nav__link">
         @mutate
       </a>
     </li>
@@ -318,7 +327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/summarize/" class="md-nav__link">
+      <a href="../summarize/" class="md-nav__link">
         @summarize
       </a>
     </li>
@@ -333,7 +342,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/filter/" class="md-nav__link">
+      <a href="../filter/" class="md-nav__link">
         @filter
       </a>
     </li>
@@ -348,7 +357,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/slice/" class="md-nav__link">
+      <a href="../slice/" class="md-nav__link">
         @slice
       </a>
     </li>
@@ -363,7 +372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/group_by/" class="md-nav__link">
+      <a href="../group_by/" class="md-nav__link">
         @group_by
       </a>
     </li>
@@ -378,7 +387,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/arrange/" class="md-nav__link">
+      <a href="../arrange/" class="md-nav__link">
         @arrange
       </a>
     </li>
@@ -393,7 +402,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/across/" class="md-nav__link">
+      <a href="../across/" class="md-nav__link">
         across
       </a>
     </li>
@@ -406,11 +415,69 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/joins/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Joins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Joins
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#left-join" class="md-nav__link">
+    Left join
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#right-join" class="md-nav__link">
+    Right join
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inner-join" class="md-nav__link">
+    Inner join
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-join" class="md-nav__link">
+    Full join
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -423,7 +490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/interpolation/" class="md-nav__link">
+      <a href="../interpolation/" class="md-nav__link">
         Interpolation
       </a>
     </li>
@@ -438,7 +505,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/UserGuide/autovec/" class="md-nav__link">
+      <a href="../autovec/" class="md-nav__link">
         Auto-vectorization
       </a>
     </li>
@@ -453,7 +520,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/generated/Contributors/Howto/" class="md-nav__link">
+      <a href="../../Contributors/Howto/" class="md-nav__link">
         Contribute
       </a>
     </li>
@@ -468,7 +535,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/reference/" class="md-nav__link">
+      <a href="../../../../reference/" class="md-nav__link">
         Reference
       </a>
     </li>
@@ -493,6 +560,42 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#left-join" class="md-nav__link">
+    Left join
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#right-join" class="md-nav__link">
+    Right join
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inner-join" class="md-nav__link">
+    Inner join
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-join" class="md-nav__link">
+    Full join
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -503,8 +606,62 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  <h1>Joins</h1>
+
+<p>One really nice thing about the R <code>tidyverse</code> implementation of joins is that they support natural joins. If you don't specify which columns to join on, these column names are inferred from the overlapping columns. While you can override this behavior by specifying which columns to join on, it's convenient that this is not strictly required. We have adopted a similar approach to joins in <code>Tidier.jl</code>.</p>
+<p>Here, we will <em>only</em> show exmples of natural joins. For additional ways to join, take a look at the examples in the <a href="https://kdpsingh.github.io/Tidier.jl/dev/reference/">Reference</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
+</code></pre></div>
+<p>Let's generate two data frames to join on. Here's the first one.</p>
+<div class="highlight"><pre><span></span><code><span class="n">df1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">],</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">);</span>
+</code></pre></div>
+<p>And here's the second one.</p>
+<div class="highlight"><pre><span></span><code><span class="n">df2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p">],</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">:</span><span class="mi">4</span><span class="p">);</span>
+</code></pre></div>
+<p>All the joins work similarly to R's <code>tidyverse</code> although the new <code>join_by</code> syntax for non-equijoins is not (yet) supported.</p>
+<p><a id='Left-join'></a></p>
+<p><a id='Left-join-1'></a></p>
+<h2 id="left-join">Left join<a class="headerlink" href="#left-join" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@left_join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span><span class="w"> </span><span class="n">df2</span><span class="p">)</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>2×3 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Union{Missing, Int64}" style = "text-align: left;">Int64?</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "font-style: italic; text-align: right;">missing</td></tr></tbody></table></div>
+
+<p><a id='Right-join'></a></p>
+<p><a id='Right-join-1'></a></p>
+<h2 id="right-join">Right join<a class="headerlink" href="#right-join" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@right_join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span><span class="w"> </span><span class="n">df2</span><span class="p">)</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>2×3 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Union{Missing, Int64}" style = "text-align: left;">Int64?</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">c</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
+
+<p><a id='Inner-join'></a></p>
+<p><a id='Inner-join-1'></a></p>
+<h2 id="inner-join">Inner join<a class="headerlink" href="#inner-join" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@inner_join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span><span class="w"> </span><span class="n">df2</span><span class="p">)</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>1×3 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">3</td></tr></tbody></table></div>
+
+<p><a id='Full-join'></a></p>
+<p><a id='Full-join-1'></a></p>
+<h2 id="full-join">Full join<a class="headerlink" href="#full-join" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@full_join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span><span class="w"> </span><span class="n">df2</span><span class="p">)</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>3×3 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">a</th><th style = "text-align: left;">b</th><th style = "text-align: left;">c</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Union{Missing, Int64}" style = "text-align: left;">Int64?</th><th title = "Union{Missing, Int64}" style = "text-align: left;">Int64?</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">a</td><td style = "text-align: right;">1</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">b</td><td style = "text-align: right;">2</td><td style = "font-style: italic; text-align: right;">missing</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">c</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
+
+<hr />
+<p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p>
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -520,6 +677,42 @@
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../across/" class="md-footer__link md-footer__link--prev" aria-label="Previous: across" rel="prev">
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <div class="md-ellipsis">
+                <span class="md-footer__direction">
+                  Previous
+                </span>
+                across
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../interpolation/" class="md-footer__link md-footer__link--next" aria-label="Next: Interpolation" rel="next">
+            <div class="md-footer__title">
+              <div class="md-ellipsis">
+                <span class="md-footer__direction">
+                  Next
+                </span>
+                Interpolation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
@@ -569,12 +762,12 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "/", "features": ["navigation.top", "navigation.footer", "search.highlight", "search.share", "search.suggest", "toc.follow", "header.autohide"], "search": "/assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.top", "navigation.footer", "search.highlight", "search.share", "search.suggest", "toc.follow", "header.autohide"], "search": "../../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="/assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
       
-        <script src="/javascripts/mathjax.js"></script>
+        <script src="../../../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       
