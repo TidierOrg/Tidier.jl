@@ -6,7 +6,7 @@ using Chain
 using Statistics
 using Reexport
 
-@reexport using DataFrames: DataFrame
+@reexport using DataFrames: DataFrame, describe, nrow, proprow
 @reexport using Chain
 @reexport using Statistics
 

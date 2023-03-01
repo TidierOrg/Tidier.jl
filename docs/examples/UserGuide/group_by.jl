@@ -1,3 +1,9 @@
+# Grouping and ungrouping behavior is one of the nicest parts of using R's tidyverse. Once a data frame is grouped, *all* verbs applied to that data frame respect the grouping, including but not limited to `@mutate()`, `@summarize()`, `@slice()` and `@filter`, which allows for really powerful abstractions. For example, with `@group_by()` followed by `@filter()`, you can limit the rows of a dataset to the maximum or minimum values for each group.
+
+# Exactly as in R's `tidyverse`, once a data frame is grouped, it remains grouped until either `@summarize()` is called (which "peels off" one layer of grouping) or `@ungroup()` is called, which removes all layers of grouping. Also as in R's `tidyverse`, `@group_by()` sorts the groups in ascending order. Unlike in R, there is never any question about whether a data frame is currently grouped because GroupedDataFrames print out in a *very* different form than DataFrames, making them easy to tell apart.
+
+# When using `@chain`, note that you can write either `@ungroup` or `@ungroup()`. Both are considered valid.
+
 using Tidier
 using RDatasets
 
