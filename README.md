@@ -58,8 +58,7 @@ To support R-style programming, Tidier.jl is implemented using macros.
 Tidier.jl currently supports the following top-level macros:
 
 - `@select()`
-- `@transmute()` (which is an alias for `@select()` because they
-  share the same backend implementation in DataFrames.jl)
+- `@transmute()`
 - `@rename()`
 - `@mutate()`
 - `@summarize()` and `@summarise()`
@@ -68,11 +67,11 @@ Tidier.jl currently supports the following top-level macros:
 - `@ungroup()`
 - `@slice()`
 - `@arrange()`
-- `@pull`
-- `@left_join`
-- `@right_join`
-- `@inner_join`
-- `@full_join`
+- `@pull()`
+- `@left_join()`
+- `@right_join()`
+- `@inner_join()`
+- `@full_join()`
 
 Tidier.jl also supports the following helper functions:
 

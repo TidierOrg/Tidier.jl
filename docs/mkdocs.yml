@@ -115,7 +115,6 @@ plugins:
   - mkdocs-video
 nav:
   - "Home": "index.md"
-  - "Reference" : "reference.md"
   - "Movies dataset" : "examples/generated/UserGuide/dataset_movies.md"
   - "@select" : "examples/generated/UserGuide/select.md"
   - "@rename" : "examples/generated/UserGuide/rename.md"
@@ -129,4 +128,5 @@ nav:
   - "Joins" : "examples/generated/UserGuide/joins.md"
   - "Interpolation" : "examples/generated/UserGuide/interpolation.md"
   - "Auto-vectorization" : "examples/generated/UserGuide/autovec.md"
-  - "Contribute" : "examples/generated/Contributors/howto.md"
+  - "Contribute" : "examples/generated/Contributors/Howto.md"
+  - "Reference" : "reference.md"
