@@ -91,7 +91,7 @@ function parse_across(vars::Union{Expr,Symbol}, funcs::Union{Expr,Symbol})
   src = Union{Expr,QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
 
   if vars isa Symbol
-    src = push!(src, QuoteNode(vars))
+    push!(src, QuoteNode(vars))
   elseif @capture(vars, fn_(args__)) # selection helpers
     push!(src, esc(vars))
   else
@@ -139,6 +139,48 @@ function parse_desc(tidy_expr::Union{Expr,Symbol})
   else
     return QuoteNode(tidy_expr)
   end
+end
+
+# Not exported
+function parse_join_by(tidy_expr::Union{Expr,Symbol,String})
+  tidy_expr = parse_interpolation(tidy_expr)
+  
+  src = Union{Expr,QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
+
+  if @capture(tidy_expr, expr_Symbol)
+    push!(src, QuoteNode(expr))
+  elseif @capture(tidy_expr, expr_String)
+    push!(src, QuoteNode(Symbol(expr)))
+  elseif @capture(tidy_expr, lhs_Symbol = rhs_Symbol)
+    lhs = QuoteNode(lhs)
+    rhs = QuoteNode(rhs)
+    push!(src, :($lhs => $rhs))
+  elseif @capture(tidy_expr, lhs_String = rhs_String)
+    lhs = QuoteNode(Symbol(lhs))
+    rhs = QuoteNode(Symbol(rhs))
+    push!(src, :($lhs => $rhs))
+  else
+    @capture(tidy_expr, (args__,))
+    for arg in args
+      if @capture(arg, expr_Symbol)
+        push!(src, QuoteNode(expr))
+      elseif @capture(arg, expr_String)
+        push!(src, QuoteNode(Symbol(expr)))
+      elseif @capture(arg, lhs_Symbol = rhs_Symbol)
+        lhs = QuoteNode(lhs)
+        rhs = QuoteNode(rhs)
+        push!(src, :($lhs => $rhs))
+      elseif @capture(arg, lhs_String = rhs_String)
+        lhs = QuoteNode(Symbol(lhs))
+        rhs = QuoteNode(Symbol(rhs))
+        push!(src, :($lhs => $rhs))
+      else
+        push!(src, QuoteNode(arg))
+      end
+    end
+  end
+ 
+  return :([$(src...)]) 
 end
 
 # Not exported
@@ -227,7 +269,8 @@ function parse_escape_function(rhs_expr::Union{Expr,Symbol})
 end
 
 # Not exported
-function parse_interpolation(var_expr::Union{Expr,Symbol,Number})
+# String is for parse_join_by
+function parse_interpolation(var_expr::Union{Expr,Symbol,Number,String})
   var_expr = MacroTools.postwalk(var_expr) do x
     if @capture(x, !!variable_Symbol)
       variable = Main.eval(variable)

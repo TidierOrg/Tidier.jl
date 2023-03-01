@@ -1,5 +1,4 @@
 using Tidier
-using DataFrames
 using RDatasets
 
 movies = dataset("ggplot2", "movies");

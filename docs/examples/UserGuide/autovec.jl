@@ -1,5 +1,4 @@
 using Tidier
-using DataFrames
 using RDatasets
 
 df = DataFrame(a = repeat('a':'e', inner = 2), b = [1,1,1,2,2,2,3,3,3,4], c = 11:20)

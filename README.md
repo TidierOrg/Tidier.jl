@@ -68,6 +68,11 @@ Tidier.jl currently supports the following top-level macros:
 - `@ungroup()`
 - `@slice()`
 - `@arrange()`
+- `@pull`
+- `@left_join`
+- `@right_join`
+- `@inner_join`
+- `@full_join`
 
 Tidier.jl also supports the following helper functions:
 
@@ -77,11 +82,38 @@ Tidier.jl also supports the following helper functions:
 - `across()`
 - `desc()`
 
-See the [Documentation](https://kdpsingh.github.io/Tidier.jl/dev/) to learn how to use them.
+See the [Reference](https://kdpsingh.github.io/Tidier.jl/dev/reference/) to learn how to use them.
+
+## Example
+
+```julia
+using Tidier
+using RDatasets
+
+movies = dataset("ggplot2", "movies");
+
+@chain movies begin
+    @mutate(Budget = Budget / 1_000_000)
+    @filter(Budget >= mean(skipmissing(Budget)))
+    @select(Title, Budget)
+    @slice(1:5)
+end
+```
+
+```
+5×2 DataFrame
+ Row │ Title                       Budget   
+     │ String                      Float64? 
+─────┼──────────────────────────────────────
+   1 │ 'Til There Was You              23.0
+   2 │ 10 Things I Hate About You      16.0
+   3 │ 102 Dalmatians                  85.0
+   4 │ 13 Going On 30                  37.0
+   5 │ 13th Warrior, The               85.0
+```
 
 ## What’s missing?
 
-- Joins are not yet supported
 - Pivoting is not yet implemented
 
 ## What’s new in version 0.4.0-beta-1
