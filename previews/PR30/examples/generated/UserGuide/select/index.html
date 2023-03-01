@@ -326,15 +326,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#select-the-first-5-columns-by-name-interval" class="md-nav__link">
-    Select the first 5 columns by name (interval)
+  <a href="#select-the-first-5-columns-by-name-using-a-range" class="md-nav__link">
+    Select the first 5 columns by name (using a range)
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#select-the-first-5-columns-by-number-interval" class="md-nav__link">
-    Select the first 5 columns by number (interval)
+  <a href="#select-the-first-5-columns-by-number-using-a-range" class="md-nav__link">
+    Select the first 5 columns by number (using a range)
   </a>
   
 </li>
@@ -482,7 +482,7 @@
   
     <li class="md-nav__item">
       <a href="../across/" class="md-nav__link">
-        across()
+        across
       </a>
     </li>
   
@@ -602,15 +602,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#select-the-first-5-columns-by-name-interval" class="md-nav__link">
-    Select the first 5 columns by name (interval)
+  <a href="#select-the-first-5-columns-by-name-using-a-range" class="md-nav__link">
+    Select the first 5 columns by name (using a range)
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#select-the-first-5-columns-by-number-interval" class="md-nav__link">
-    Select the first 5 columns by number (interval)
+  <a href="#select-the-first-5-columns-by-number-using-a-range" class="md-nav__link">
+    Select the first 5 columns by number (using a range)
   </a>
   
 </li>
@@ -653,6 +653,7 @@
 
   <h1>@select</h1>
 
+<p>The <code>@select()</code> macro in <code>Tidier.jl</code> supports many of the nuances of the R <code>tidyverse</code> implementation, including indexing columns individually by name or number, indexing by ranges of columns using the <code>:</code> operator between column names or numbers, and negative selection using negated column names or numbers. Selection helpers such as <code>starts_with()</code>, <code>ends_with()</code>, <code>matches()</code>, and <code>contains()</code> are also supported.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
@@ -669,18 +670,20 @@
 <div><div style = "float: left;"><span>5×5 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Length</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">$</td><td style = "text-align: right;">1971</td><td style = "text-align: right;">121</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">$1000 a Touchdown</td><td style = "text-align: right;">1939</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">$21 a Day Once a Month</td><td style = "text-align: right;">1941</td><td style = "text-align: right;">7</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">$40,000</td><td style = "text-align: right;">1996</td><td style = "text-align: right;">70</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">$50,000 Climax Show, The</td><td style = "text-align: right;">1975</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">3.4</td></tr></tbody></table></div>
 
+<p><a id='Select-the-first-5-columns-individually-by-number'></a></p>
+<p><a id='Select-the-first-5-columns-individually-by-number-1'></a></p>
 <h2 id="select-the-first-5-columns-individually-by-number">Select the first 5 columns individually by number<a class="headerlink" href="#select-the-first-5-columns-individually-by-number" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
 <span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
 <div><div style = "float: left;"><span>5×5 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Length</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">$</td><td style = "text-align: right;">1971</td><td style = "text-align: right;">121</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">$1000 a Touchdown</td><td style = "text-align: right;">1939</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">$21 a Day Once a Month</td><td style = "text-align: right;">1941</td><td style = "text-align: right;">7</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">$40,000</td><td style = "text-align: right;">1996</td><td style = "text-align: right;">70</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">$50,000 Climax Show, The</td><td style = "text-align: right;">1975</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">3.4</td></tr></tbody></table></div>
 
-<p><a id='Select-the-first-5-columns-by-name-(interval)'></a></p>
-<p><a id='Select-the-first-5-columns-by-name-(interval)-1'></a></p>
-<h2 id="select-the-first-5-columns-by-name-interval">Select the first 5 columns by name (interval)<a class="headerlink" href="#select-the-first-5-columns-by-name-interval" title="Permanent link">¤</a></h2>
+<p><a id='Select-the-first-5-columns-by-name-(using-a-range)'></a></p>
+<p><a id='Select-the-first-5-columns-by-name-(using-a-range)-1'></a></p>
+<h2 id="select-the-first-5-columns-by-name-using-a-range">Select the first 5 columns by name (using a range)<a class="headerlink" href="#select-the-first-5-columns-by-name-using-a-range" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="n">Title</span><span class="o">:</span><span class="n">Rating</span><span class="p">)</span>
 <span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
@@ -689,9 +692,9 @@
 <div><div style = "float: left;"><span>5×5 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Length</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">$</td><td style = "text-align: right;">1971</td><td style = "text-align: right;">121</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">$1000 a Touchdown</td><td style = "text-align: right;">1939</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">$21 a Day Once a Month</td><td style = "text-align: right;">1941</td><td style = "text-align: right;">7</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">$40,000</td><td style = "text-align: right;">1996</td><td style = "text-align: right;">70</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">$50,000 Climax Show, The</td><td style = "text-align: right;">1975</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">3.4</td></tr></tbody></table></div>
 
-<p><a id='Select-the-first-5-columns-by-number-(interval)'></a></p>
-<p><a id='Select-the-first-5-columns-by-number-(interval)-1'></a></p>
-<h2 id="select-the-first-5-columns-by-number-interval">Select the first 5 columns by number (interval)<a class="headerlink" href="#select-the-first-5-columns-by-number-interval" title="Permanent link">¤</a></h2>
+<p><a id='Select-the-first-5-columns-by-number-(using-a-range)'></a></p>
+<p><a id='Select-the-first-5-columns-by-number-(using-a-range)-1'></a></p>
+<h2 id="select-the-first-5-columns-by-number-using-a-range">Select the first 5 columns by number (using a range)<a class="headerlink" href="#select-the-first-5-columns-by-number-using-a-range" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
 <span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
@@ -703,6 +706,7 @@
 <p><a id='Select-all-but-the-first-5-columns-by-name'></a></p>
 <p><a id='Select-all-but-the-first-5-columns-by-name-1'></a></p>
 <h2 id="select-all-but-the-first-5-columns-by-name">Select all but the first 5 columns by name<a class="headerlink" href="#select-all-but-the-first-5-columns-by-name" title="Permanent link">¤</a></h2>
+<p>Here we will limit the results to the first 5 remaining columns and the first 5 rows for the sake of brevity.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">Title</span><span class="o">:</span><span class="n">Rating</span><span class="p">))</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
@@ -715,6 +719,7 @@
 <p><a id='Select-all-but-the-first-5-columns-by-number'></a></p>
 <p><a id='Select-all-but-the-first-5-columns-by-number-1'></a></p>
 <h2 id="select-all-but-the-first-5-columns-by-number">Select all but the first 5 columns by number<a class="headerlink" href="#select-all-but-the-first-5-columns-by-number" title="Permanent link">¤</a></h2>
+<p>We will again limit the results to the first 5 remaining columns and the first 5 rows for the sake of brevity.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">))</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
@@ -727,6 +732,7 @@
 <p><a id='Mix-and-match-selection'></a></p>
 <p><a id='Mix-and-match-selection-1'></a></p>
 <h2 id="mix-and-match-selection">Mix and match selection<a class="headerlink" href="#mix-and-match-selection" title="Permanent link">¤</a></h2>
+<p>Just like in R's <code>tidyverse</code>, you can separate multiple selections with commas and mix and match different ways of selecting columns.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Budget</span><span class="o">:</span><span class="n">Rating</span><span class="p">)</span>
 <span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>

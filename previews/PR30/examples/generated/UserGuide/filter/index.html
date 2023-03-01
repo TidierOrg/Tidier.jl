@@ -406,7 +406,7 @@
   
     <li class="md-nav__item">
       <a href="../across/" class="md-nav__link">
-        across()
+        across
       </a>
     </li>
   
@@ -520,12 +520,13 @@
 
   <h1>@filter</h1>
 
+<p>Filtering is a mechanism to indicate which rows you want to keep in a dataset based on criteria. This is also referred to as subsetting. Filtering rows is normally a bit tricky in <code>DataFrames.jl</code> because comparison operators like <code>&gt;=</code> actually need to be vectorized as <code>.&gt;=</code>, which can catch new Julia users by surprise. <code>@filter()</code> mimics R's <code>tidyverse</code> behavior by auto-vectorizing the code and then only selecting those rows that evaluate to <code>true</code>. Similar to <code>dplyr</code>, rows that evaluate to <code>missing</code> are skipped.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
 <span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;ggplot2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;movies&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>Let’s take a look at the movies whose budget was more than average.</p>
+<p>Let’s take a look at the movies whose budget was more than average. We will select only the first 5 rows for the sake of brevity.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
 <span class="w">    </span><span class="nd">@filter</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">Budget</span><span class="p">)))</span>

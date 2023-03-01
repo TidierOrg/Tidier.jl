@@ -23,7 +23,7 @@
     
     
       
-        <title>across() - Tidier.jl</title>
+        <title>across - Tidier.jl</title>
       
     
     
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              across()
+              across
             
           </span>
         </div>
@@ -410,12 +410,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          across()
+          across
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        across()
+        across
       </a>
       
         
@@ -609,14 +609,14 @@
                   
 
 
-  <h1>across()</h1>
+  <h1>across</h1>
 
+<p><code>across()</code> is a helper function that is typically used inside <code>@mutate()</code> or <code>@summarize</code> to operate on multiple columns and/or multiple functions. Notice that <code>across()</code> accepts two arguments, a set of variables and a set of functions. If providing multiple variables or functions, these should be provided as a tuple – in other words, wrapped in parentheses and separated by commas. If you want to skip missing values, you can "fuse" the summary function (such as <code>mean()</code>) with the <code>skipmissing()</code> function by using the fuction fusion operator, which you can type out in Julia by typing <code>\circ</code> and then pressing <code>[Tab]</code> such that it reads <code>mean∘skipmissing</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
 <span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;ggplot2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;movies&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p><code>across()</code> can be used with either <code>@mutate</code> or <code>@summarize</code> to operate on multiple columns and/or multiple functions.</p>
 <p><a id='One-variable,-one-function'></a></p>
 <p><a id='One-variable,-one-function-1'></a></p>
 <h2 id="one-variable-one-function">One variable, one function<a class="headerlink" href="#one-variable-one-function" title="Permanent link">¤</a></h2>
@@ -631,7 +631,6 @@
 <p><a id='One-variable,-one-anonymous-function'></a></p>
 <p><a id='One-variable,-one-anonymous-function-1'></a></p>
 <h2 id="one-variable-one-anonymous-function">One variable, one anonymous function<a class="headerlink" href="#one-variable-one-anonymous-function" title="Permanent link">¤</a></h2>
-<p>Note: compound functions are not correctly supported inside of anonymous functions. As of right now, <code>(x -&gt; mean∘skipmissing(x))</code> does not work. This is a known bug and will be fixed in a future update.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
 <span class="w">  </span><span class="nd">@summarize</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="n">Budget</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">x</span><span class="p">)))))</span>
@@ -640,6 +639,7 @@
 <div><div style = "float: left;"><span>1×1 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Budget_function</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">13.4125</td></tr></tbody></table></div>
 
+<p>Note: compound functions are not correctly supported inside of anonymous functions. As of right now, the above function works, but <code>(x -&gt; mean∘skipmissing(x))</code> does not work. This is a known bug and will be fixed in a future update.</p>
 <p><a id='Multiple-variables,-multiple-functions'></a></p>
 <p><a id='Multiple-variables,-multiple-functions-1'></a></p>
 <h2 id="multiple-variables-multiple-functions">Multiple variables, multiple functions<a class="headerlink" href="#multiple-variables-multiple-functions" title="Permanent link">¤</a></h2>

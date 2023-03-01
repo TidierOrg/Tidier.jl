@@ -394,8 +394,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#separate-multiple-selections-with-commas" class="md-nav__link">
-    Separate multiple selections with commas
+  <a href="#slicing-using-a-more-complex-unitrange-of-numbers" class="md-nav__link">
+    Slicing using a more complex UnitRange of numbers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#separate-multiple-row-selections-with-commas" class="md-nav__link">
+    Separate multiple row selections with commas
   </a>
   
 </li>
@@ -454,7 +461,7 @@
   
     <li class="md-nav__item">
       <a href="../across/" class="md-nav__link">
-        across()
+        across
       </a>
     </li>
   
@@ -567,8 +574,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#separate-multiple-selections-with-commas" class="md-nav__link">
-    Separate multiple selections with commas
+  <a href="#slicing-using-a-more-complex-unitrange-of-numbers" class="md-nav__link">
+    Slicing using a more complex UnitRange of numbers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#separate-multiple-row-selections-with-commas" class="md-nav__link">
+    Separate multiple row selections with commas
   </a>
   
 </li>
@@ -597,6 +611,8 @@
 
   <h1>@slice</h1>
 
+<p>Slicing rows is similar to filtering rows, except that slicing is performed based on row numbers rather tha filter criteria. In <code>Tidier.jl</code>, slicing works similarly to R's <code>tidyverse</code> in that both positive (which rows to keep) and negative (which rows to remove) slicing is supported. For <code>@slice()</code>, any valid <code>UnitRange</code> of integers is considered valid; this is not the case for <code>@select()</code> or <code>across()</code>.</p>
+<p>Remember: Just like every other <code>Tidier.jl</code> top-level macro, <code>@slice()</code> respects group. This means that in a grouped data frame, <code>@slice(1:2)</code> will select the first 2 rows <em>from each group</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
@@ -605,6 +621,7 @@
 <p><a id='Slicing-using-a-range-of-numbers'></a></p>
 <p><a id='Slicing-using-a-range-of-numbers-1'></a></p>
 <h2 id="slicing-using-a-range-of-numbers">Slicing using a range of numbers<a class="headerlink" href="#slicing-using-a-range-of-numbers" title="Permanent link">¤</a></h2>
+<p>This is an easy way of retrieving 5 consecutive rows.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
@@ -613,9 +630,31 @@
 <div><div style = "float: left;"><span>5×5 DataFrame</span></div><div style = "clear: both;"></div></div>
 <div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Length</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">$</td><td style = "text-align: right;">1971</td><td style = "text-align: right;">121</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">$1000 a Touchdown</td><td style = "text-align: right;">1939</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">$21 a Day Once a Month</td><td style = "text-align: right;">1941</td><td style = "text-align: right;">7</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">$40,000</td><td style = "text-align: right;">1996</td><td style = "text-align: right;">70</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">$50,000 Climax Show, The</td><td style = "text-align: right;">1975</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">3.4</td></tr></tbody></table></div>
 
-<p><a id='Separate-multiple-selections-with-commas'></a></p>
-<p><a id='Separate-multiple-selections-with-commas-1'></a></p>
-<h2 id="separate-multiple-selections-with-commas">Separate multiple selections with commas<a class="headerlink" href="#separate-multiple-selections-with-commas" title="Permanent link">¤</a></h2>
+<p><a id='Slicing-using-a-more-complex-UnitRange-of-numbers'></a></p>
+<p><a id='Slicing-using-a-more-complex-UnitRange-of-numbers-1'></a></p>
+<h2 id="slicing-using-a-more-complex-unitrange-of-numbers">Slicing using a more complex UnitRange of numbers<a class="headerlink" href="#slicing-using-a-more-complex-unitrange-of-numbers" title="Permanent link">¤</a></h2>
+<p>How would we obtain every other from 1 to 7 (counting up by 2)? Note that <code>range()</code> is similar to <code>seq()</code> in R.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">  </span><span class="nd">@slice</span><span class="p">(</span><span class="n">range</span><span class="p">(</span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">stop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">))</span>
+<span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>4×5 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Length</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">$</td><td style = "text-align: right;">1971</td><td style = "text-align: right;">121</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">$21 a Day Once a Month</td><td style = "text-align: right;">1941</td><td style = "text-align: right;">7</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">$50,000 Climax Show, The</td><td style = "text-align: right;">1975</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">3.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">$windle</td><td style = "text-align: right;">2002</td><td style = "text-align: right;">93</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">5.3</td></tr></tbody></table></div>
+
+<p>This same code can also be written using Julia's shorthand syntax for unit ranges.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">  </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="mi">7</span><span class="p">)</span>
+<span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>4×5 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Length</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">$</td><td style = "text-align: right;">1971</td><td style = "text-align: right;">121</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">$21 a Day Once a Month</td><td style = "text-align: right;">1941</td><td style = "text-align: right;">7</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">$50,000 Climax Show, The</td><td style = "text-align: right;">1975</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">3.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">$windle</td><td style = "text-align: right;">2002</td><td style = "text-align: right;">93</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">5.3</td></tr></tbody></table></div>
+
+<p><a id='Separate-multiple-row-selections-with-commas'></a></p>
+<p><a id='Separate-multiple-row-selections-with-commas-1'></a></p>
+<h2 id="separate-multiple-row-selections-with-commas">Separate multiple row selections with commas<a class="headerlink" href="#separate-multiple-row-selections-with-commas" title="Permanent link">¤</a></h2>
+<p>If you have multiple different row selections, you can separate them with commas.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
@@ -627,7 +666,7 @@
 <p><a id='Inverted-selection-using-negative-numbers'></a></p>
 <p><a id='Inverted-selection-using-negative-numbers-1'></a></p>
 <h2 id="inverted-selection-using-negative-numbers">Inverted selection using negative numbers<a class="headerlink" href="#inverted-selection-using-negative-numbers" title="Permanent link">¤</a></h2>
-<p>This line selects all rows except the first 5 rows.</p>
+<p>This line selects all rows except the first 5 rows. For the sake of brevity, we are only showing the first 5 of the remaining results.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">))</span>
 <span class="w">    </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>

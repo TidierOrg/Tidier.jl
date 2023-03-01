@@ -461,7 +461,7 @@
   
     <li class="md-nav__item">
       <a href="../across/" class="md-nav__link">
-        across()
+        across
       </a>
     </li>
   
@@ -611,6 +611,9 @@
 
   <h1>@group_by</h1>
 
+<p>Grouping and ungrouping behavior is one of the nicest parts of using R's tidyverse. Once a data frame is grouped, <em>all</em> verbs applied to that data frame respect the grouping, including but not limited to <code>@mutate()</code>, <code>@summarize()</code>, <code>@slice()</code> and <code>@filter</code>, which allows for really powerful abstractions. For example, with <code>@group_by()</code> followed by <code>@filter()</code>, you can limit the rows of a dataset to the maximum or minimum values for each group.</p>
+<p>Exactly as in R's <code>tidyverse</code>, once a data frame is grouped, it remains grouped until either <code>@summarize()</code> is called (which "peels off" one layer of grouping) or <code>@ungroup()</code> is called, which removes all layers of grouping. Also as in R's <code>tidyverse</code>, <code>@group_by()</code> sorts the groups in ascending order. Unlike in R, there is never any question about whether a data frame is currently grouped because GroupedDataFrames print out in a <em>very</em> different form than DataFrames, making them easy to tell apart.</p>
+<p>When using <code>@chain</code>, note that you can write either <code>@ungroup</code> or <code>@ungroup()</code>. Both are considered valid.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
