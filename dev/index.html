@@ -17,7 +17,7 @@
         <link rel="next" href="examples/generated/UserGuide/dataset_movies/">
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.0">
     
     
       
@@ -25,7 +25,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.113286f1.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.402914a4.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.a0c5b2b5.min.css">
@@ -89,7 +89,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="Tidier.jl" class="md-header__button md-logo" aria-label="Tidier.jl" data-md-component="logo">
       
@@ -651,7 +653,7 @@
 <p>Tidier.jl is a 100% Julia implementation of the R tidyverse mini-language in Julia. Powered by the DataFrames.jl package and Julia’s extensive meta-programming capabilities, Tidier.jl is an R user’s love letter to data analysis in Julia.</p>
 <p><code>Tidier.jl</code> has three goals, which differentiate it from other data analysis meta-packages in Julia:</p>
 <ol>
-<li><strong>Stick as closely to tidyverse syntax as possible:</strong> Whereas other  meta-packages introduce Julia-centric idioms for working with  DataFrames, this package’s goal is to reimplement parts of tidyverse  in Julia. This means that <code>Tidier.jl</code> uses <em>tidy expressions</em> as opposed  to idiomatic Julia expressions. An example of a tidy expression is  <code>a = mean(b)</code>. In Julia, <code>a</code> and <code>b</code> are variables and are thus "eagerly"  evaluated. This means that if <code>b</code> is merely referring to a column in a  data frame and <em>not</em> an object in the global namespace, then an error  will be generated because <code>b</code> was not found. In idiomatic Julia, <code>b</code>  would need to be expressed as a symbol, or <code>:b</code>. Even then,  <code>a = mean(:b)</code> would generate an error because it's not possible to  calculate the mean value of a symbol. To handle this using idiomatic  Julia, <code>DataFrames.jl</code> introduces a mini-language that relies heavily  on the creation of anonymous functions, with explicit directional  assignment using a <code>source =&gt; function =&gt; destination</code> syntax. While  this is quite elegant, it can be quite verbose. <code>Tidier.jl</code> aims to  reduce this complexity by exposing an R-like syntax, which is then  converted into valid <code>DataFrames.jl</code> code. The reason that  <em>tidy expressions</em> are considered valid by Julia in <code>Tidier.jl</code> is  because they are implemented using macros. Macros "capture" the  expressions they are given, and then they can modify those expressions  before evaluating them. For consistency, all top-level <code>dplyr</code> functions  are implemented as macros (whether or not a macro is truly needed), and  all "helper" functions (used inside of those top-level functions) are  implemented as functions or pseudo-functions (functions which only exist  through modification of the abstract syntax tree).</li>
+<li><strong>Stick as closely to tidyverse syntax as possible:</strong> Whereas other  meta-packages introduce Julia-centric idioms for working with  DataFrames, this package’s goal is to reimplement parts of tidyverse  in Julia. This means that <code>Tidier.jl</code> uses <em>tidy expressions</em> as opposed  to idiomatic Julia expressions. An example of a tidy expression is  <code>a = mean(b)</code>. In Julia, <code>a</code> and <code>b</code> are variables and are thus "eagerly"  evaluated. This means that if <code>b</code> is merely referring to a column in a  data frame and <em>not</em> an object in the global namespace, then an error  will be generated because <code>b</code> was not found. In idiomatic Julia, <code>b</code>  would need to be expressed as a symbol, or <code>:b</code>. Even then,  <code>a = mean(:b)</code> would generate an error because it's not possible to  calculate the mean value of a symbol. To handle this using idiomatic  Julia, <code>DataFrames.jl</code> introduces a mini-language that relies heavily  on the creation of anonymous functions, with explicit directional  pairs syntax using a <code>source =&gt; function =&gt; destination</code> syntax. While  this is quite elegant, it can be verbose. <code>Tidier.jl</code> aims to  reduce this complexity by exposing an R-like syntax, which is then  converted into valid <code>DataFrames.jl</code> code. The reason that  <em>tidy expressions</em> are considered valid by Julia in <code>Tidier.jl</code> is  because they are implemented using macros. Macros "capture" the  expressions they are given, and then they can modify those expressions  before evaluating them. For consistency, all top-level <code>dplyr</code> functions  are implemented as macros (whether or not a macro is truly needed), and  all "helper" functions (used inside of those top-level functions) are  implemented as functions or pseudo-functions (functions which only exist  through modification of the abstract syntax tree).</li>
 <li><strong>Make broadcasting mostly invisible:</strong> Broadcasting trips up many R  users switching to Julia because R users are used to most functions  being vectorized. <code>Tidier.jl</code> currently uses a lookup table to decide  which functions <em>not</em> to vectorize; all other functions are  automatically vectorized. Read the documentation page on "Autovectorization"  to read about how this works, and how to override the defaults. An example  of where this issue commonly causes errors is when centering a variable.  To create a new column <code>a</code> that centers the column <code>b</code>, <code>Tidier.jl</code> lets you  simply write <code>a = b - mean(b)</code> exactly as you would in R. This works because  <code>Tidier.jl</code> knows to <em>not</em> vectorize <code>mean()</code> while also recognizing that  <code>-</code> <em>should</em> be vectorized such that this expression is rewritten in  <code>DataFrames.jl</code> as <code>:b =&gt; (b -&gt; b .- mean(b)) =&gt; :a</code>. For any user-defined  function that you want to "mark" as being non-vectorized, you can prefix it  with a <code>~</code>. For example, a function <code>new_mean()</code>, if it had the same  functionality as <code>mean()</code> <em>would</em> normally get vectorized by <code>Tidier.jl</code>  unless you write it as <code>~new_mean()</code>.</li>
 <li><strong>Make scalars and tuples mostly interchangeable:</strong> In Julia, the function  <code>across(a, mean)</code> is dispatched differently than <code>across((a, b), mean)</code>.  The first argument in the first instance above is treated as a scalar,  whereas the second instance is treated as a tuple. This can be very confusing  to R users because <code>1 == c(1)</code> is <code>TRUE</code> in R, whereas in Julia <code>1 == (1,)</code>  evaluates to <code>false</code>. The design philosophy in <code>Tidier.jl</code> is that the user  should feel free to provide a scalar or a tuple as they see fit anytime  multiple values are considered valid for a given argument, such as in  <code>across()</code>, and <code>Tidier.jl</code> will figure out how to dispatch it.</li>
 </ol>
@@ -850,7 +852,7 @@
     <script id="__config" type="application/json">{"base": ".", "features": ["navigation.top", "navigation.footer", "search.highlight", "search.share", "search.suggest", "toc.follow", "header.autohide"], "search": "assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      <script src="assets/javascripts/bundle.ce72ebac.min.js"></script>
       
         <script src="javascripts/mathjax.js"></script>
       
