@@ -143,7 +143,10 @@ macro summarize(df, exprs...)
       if length(col_names) == 1
         combine($(esc(df)), $(tidy_exprs...); ungroup = true)
       else
-        groupby(combine($(esc(df)), $(tidy_exprs...); ungroup = true), col_names[1:end-1]; sort = true)
+        @chain $(esc(df)) begin
+          combine($(tidy_exprs...); ungroup = true)
+          groupby(col_names[1:end-1]; sort = true)
+        end
       end
     else
       combine($(esc(df)), $(tidy_exprs...))
@@ -191,7 +194,10 @@ macro group_by(df, exprs...)
   grouping_exprs = parse_group_by.(exprs)
 
   df_expr = quote
-    groupby(transform($(esc(df)), $(tidy_exprs...)), Cols($(grouping_exprs...)); sort = true)
+    @chain $(esc(df)) begin
+      transform($(tidy_exprs...))
+      groupby(Cols($(grouping_exprs...)); sort = true)
+    end
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -224,26 +230,34 @@ macro slice(df, exprs...)
   if all(clean_indices .> 0)
     df_expr = quote
       if $(esc(df)) isa GroupedDataFrame
-        select(subset(transform($(esc(df)), eachindex => :Tidier_row_number; ungroup = false),
-          :Tidier_row_number => x -> (in.(x, Ref($clean_indices))); ungroup = false),
-        Not(:Tidier_row_number); ungroup = false)
+        @chain $(esc(df)) begin
+          transform(eachindex => :Tidier_row_number; ungroup = false)
+          subset(:Tidier_row_number => x -> (in.(x, Ref($clean_indices))); ungroup = false)
+          select(Not(:Tidier_row_number); ungroup = false)
+        end
       else
-        select(subset(transform($(esc(df)), eachindex => :Tidier_row_number),
-          :Tidier_row_number => x -> (in.(x, Ref($clean_indices)))),
-        Not(:Tidier_row_number))
+        @chain $(esc(df)) begin
+          transform(eachindex => :Tidier_row_number)
+          subset(:Tidier_row_number => x -> (in.(x, Ref($clean_indices))))
+          select(Not(:Tidier_row_number))
+        end
       end
     end
   elseif all(clean_indices .< 0)
     clean_indices = -clean_indices
     df_expr = quote
       if $(esc(df)) isa GroupedDataFrame
-        select(subset(transform($(esc(df)), eachindex => :Tidier_row_number; ungroup = false),
-        :Tidier_row_number => x -> (.!in.(x, Ref($clean_indices))); ungroup = false),
-      Not(:Tidier_row_number); ungroup = false)
+        @chain $(esc(df)) begin
+          transform(eachindex => :Tidier_row_number; ungroup = false)
+          subset(:Tidier_row_number => x -> (.!in.(x, Ref($clean_indices))); ungroup = false)
+          select(Not(:Tidier_row_number); ungroup = false)
+        end
       else
-        select(subset(transform($(esc(df)), eachindex => :Tidier_row_number),
-          :Tidier_row_number => x -> (.!in.(x, Ref($clean_indices)))),
-        Not(:Tidier_row_number))
+        @chain $(esc(df)) begin
+          transform(eachindex => :Tidier_row_number)
+          subset(:Tidier_row_number => x -> (.!in.(x, Ref($clean_indices))))
+          select(Not(:Tidier_row_number))
+        end
       end
     end
   else
@@ -264,7 +278,12 @@ macro arrange(df, exprs...)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
       col_names = groupcols($(esc(df)))
-      groupby(sort(DataFrame($(esc(df))), [$(arrange_exprs...)]), col_names; sort = true) # Must use [] instead of Cols() here
+      
+      @chain $(esc(df)) begin
+        DataFrame # remove grouping
+        sort([$(arrange_exprs...)]) # Must use [] instead of Cols() here
+        groupby(col_names; sort = true) # regroup
+      end
     else
       sort($(esc(df)), [$(arrange_exprs...)]) # Must use [] instead of Cols() here
     end

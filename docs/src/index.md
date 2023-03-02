@@ -26,8 +26,8 @@ meta-packages in Julia:
     calculate the mean value of a symbol. To handle this using idiomatic
     Julia, `DataFrames.jl` introduces a mini-language that relies heavily
     on the creation of anonymous functions, with explicit directional
-    assignment using a `source => function => destination` syntax. While
-    this is quite elegant, it can be quite verbose. `Tidier.jl` aims to
+    pairs syntax using a `source => function => destination` syntax. While
+    this is quite elegant, it can be verbose. `Tidier.jl` aims to
     reduce this complexity by exposing an R-like syntax, which is then
     converted into valid `DataFrames.jl` code. The reason that
     *tidy expressions* are considered valid by Julia in `Tidier.jl` is
