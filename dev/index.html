@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tidierjl" class="md-skip">
+        <a href="#what-is-tidierjl" class="md-skip">
           Skip to content
         </a>
       
@@ -258,8 +258,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Home
@@ -275,8 +273,6 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
-  
-    
   
   
     <label class="md-nav__title" for="__toc">
@@ -321,8 +317,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#whats-new-in-version-040" class="md-nav__link">
-    What’s new in version 0.4.0
+  <a href="#whats-new" class="md-nav__link">
+    What’s new
   </a>
   
 </li>
@@ -577,8 +573,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -622,8 +616,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#whats-new-in-version-040" class="md-nav__link">
-    What’s new in version 0.4.0
+  <a href="#whats-new" class="md-nav__link">
+    What’s new
   </a>
   
 </li>
@@ -643,20 +637,50 @@
                   
 
 
-<p><a id='Tidier.jl'></a></p>
-<p><a id='Tidier.jl-1'></a></p>
-<h1 id="tidierjl">Tidier.jl<a class="headerlink" href="#tidierjl" title="Permanent link">¤</a></h1>
-<p><img src="assets/Tidier_jl_logo.png" width="25%"></img></p>
+  <h1>Home</h1>
+
+<p><img src="assets/Tidier_jl_logo.png" align="left" style="padding-right:10px"; width="150"></img></p>
 <p><a id='What-is-Tidier.jl?'></a></p>
 <p><a id='What-is-Tidier.jl?-1'></a></p>
 <h2 id="what-is-tidierjl">What is Tidier.jl?<a class="headerlink" href="#what-is-tidierjl" title="Permanent link">¤</a></h2>
 <p>Tidier.jl is a 100% Julia implementation of the R tidyverse mini-language in Julia. Powered by the DataFrames.jl package and Julia’s extensive meta-programming capabilities, Tidier.jl is an R user’s love letter to data analysis in Julia.</p>
 <p><code>Tidier.jl</code> has three goals, which differentiate it from other data analysis meta-packages in Julia:</p>
-<ol>
-<li><strong>Stick as closely to tidyverse syntax as possible:</strong> Whereas other  meta-packages introduce Julia-centric idioms for working with  DataFrames, this package’s goal is to reimplement parts of tidyverse  in Julia. This means that <code>Tidier.jl</code> uses <em>tidy expressions</em> as opposed  to idiomatic Julia expressions. An example of a tidy expression is  <code>a = mean(b)</code>. In Julia, <code>a</code> and <code>b</code> are variables and are thus "eagerly"  evaluated. This means that if <code>b</code> is merely referring to a column in a  data frame and <em>not</em> an object in the global namespace, then an error  will be generated because <code>b</code> was not found. In idiomatic Julia, <code>b</code>  would need to be expressed as a symbol, or <code>:b</code>. Even then,  <code>a = mean(:b)</code> would generate an error because it's not possible to  calculate the mean value of a symbol. To handle this using idiomatic  Julia, <code>DataFrames.jl</code> introduces a mini-language that relies heavily  on the creation of anonymous functions, with explicit directional  pairs syntax using a <code>source =&gt; function =&gt; destination</code> syntax. While  this is quite elegant, it can be verbose. <code>Tidier.jl</code> aims to  reduce this complexity by exposing an R-like syntax, which is then  converted into valid <code>DataFrames.jl</code> code. The reason that  <em>tidy expressions</em> are considered valid by Julia in <code>Tidier.jl</code> is  because they are implemented using macros. Macros "capture" the  expressions they are given, and then they can modify those expressions  before evaluating them. For consistency, all top-level <code>dplyr</code> functions  are implemented as macros (whether or not a macro is truly needed), and  all "helper" functions (used inside of those top-level functions) are  implemented as functions or pseudo-functions (functions which only exist  through modification of the abstract syntax tree).</li>
-<li><strong>Make broadcasting mostly invisible:</strong> Broadcasting trips up many R  users switching to Julia because R users are used to most functions  being vectorized. <code>Tidier.jl</code> currently uses a lookup table to decide  which functions <em>not</em> to vectorize; all other functions are  automatically vectorized. Read the documentation page on "Autovectorization"  to read about how this works, and how to override the defaults. An example  of where this issue commonly causes errors is when centering a variable.  To create a new column <code>a</code> that centers the column <code>b</code>, <code>Tidier.jl</code> lets you  simply write <code>a = b - mean(b)</code> exactly as you would in R. This works because  <code>Tidier.jl</code> knows to <em>not</em> vectorize <code>mean()</code> while also recognizing that  <code>-</code> <em>should</em> be vectorized such that this expression is rewritten in  <code>DataFrames.jl</code> as <code>:b =&gt; (b -&gt; b .- mean(b)) =&gt; :a</code>. For any user-defined  function that you want to "mark" as being non-vectorized, you can prefix it  with a <code>~</code>. For example, a function <code>new_mean()</code>, if it had the same  functionality as <code>mean()</code> <em>would</em> normally get vectorized by <code>Tidier.jl</code>  unless you write it as <code>~new_mean()</code>.</li>
-<li><strong>Make scalars and tuples mostly interchangeable:</strong> In Julia, the function  <code>across(a, mean)</code> is dispatched differently than <code>across((a, b), mean)</code>.  The first argument in the first instance above is treated as a scalar,  whereas the second instance is treated as a tuple. This can be very confusing  to R users because <code>1 == c(1)</code> is <code>TRUE</code> in R, whereas in Julia <code>1 == (1,)</code>  evaluates to <code>false</code>. The design philosophy in <code>Tidier.jl</code> is that the user  should feel free to provide a scalar or a tuple as they see fit anytime  multiple values are considered valid for a given argument, such as in  <code>across()</code>, and <code>Tidier.jl</code> will figure out how to dispatch it.</li>
-</ol>
+<details class="tip">
+<summary>Stick as closely to tidyverse syntax as possible.</summary>
+<p>Whereas other meta-packages introduce Julia-centric idioms for working with
+DataFrames, this package’s goal is to reimplement parts of tidyverse
+in Julia. This means that <code>Tidier.jl</code> uses <em>tidy expressions</em> as opposed
+to idiomatic Julia expressions. An example of a tidy expression is
+<code>a = mean(b)</code>. In Julia, <code>a</code> and <code>b</code> are variables and are thus "eagerly"
+evaluated. This means that if <code>b</code> is merely referring to a column in a
+data frame and <em>not</em> an object in the global namespace, then an error
+will be generated because <code>b</code> was not found. In idiomatic Julia, <code>b</code>
+would need to be expressed as a symbol, or <code>:b</code>. Even then,
+<code>a = mean(:b)</code> would generate an error because it's not possible to
+calculate the mean value of a symbol. To handle this using idiomatic
+Julia, <code>DataFrames.jl</code> introduces a mini-language that relies heavily
+on the creation of anonymous functions, with explicit directional
+pairs syntax using a <code>source =&gt; function =&gt; destination</code> syntax. While
+this is quite elegant, it can be verbose. <code>Tidier.jl</code> aims to
+reduce this complexity by exposing an R-like syntax, which is then
+converted into valid <code>DataFrames.jl</code> code. The reason that
+<em>tidy expressions</em> are considered valid by Julia in <code>Tidier.jl</code> is
+because they are implemented using macros. Macros "capture" the
+expressions they are given, and then they can modify those expressions
+before evaluating them. For consistency, all top-level <code>dplyr</code> functions
+are implemented as macros (whether or not a macro is truly needed), and
+all "helper" functions (used inside of those top-level functions) are
+implemented as functions or pseudo-functions (functions which only exist
+through modification of the abstract syntax tree).</p>
+</details>
+<details class="tip">
+<summary>Make broadcasting mostly invisible.</summary>
+<p>Broadcasting trips up many R users switching to Julia because R users are used to most functions being vectorized. <code>Tidier.jl</code> currently uses a lookup table to decide which functions <em>not</em> to vectorize; all other functions are automatically vectorized. Read the documentation page on "Autovectorization" to read about how this works, and how to override the defaults. An example of where this issue commonly causes errors is when centering a variable. To create a new column <code>a</code> that centers the column <code>b</code>, <code>Tidier.jl</code> lets you simply write <code>a = b - mean(b)</code> exactly as you would in R. This works because <code>Tidier.jl</code> knows to <em>not</em> vectorize <code>mean()</code> while also recognizing that <code>-</code> <em>should</em> be vectorized such that this expression is rewritten in <code>DataFrames.jl</code> as <code>:b =&gt; (b -&gt; b .- mean(b)) =&gt; :a</code>. For any user-defined function that you want to "mark" as being non-vectorized, you can prefix it with a <code>~</code>. For example, a function <code>new_mean()</code>, if it had the same functionality as <code>mean()</code> <em>would</em> normally get vectorized by <code>Tidier.jl</code> unless you write it as <code>~new_mean()</code>.</p>
+</details>
+<details class="tip">
+<summary>Make scalars and tuples mostly interchangeable.</summary>
+<p>In Julia, the function <code>across(a, mean)</code> is dispatched differently than <code>across((a, b), mean)</code>. The first argument in the first instance above is treated as a scalar, whereas the second instance is treated as a tuple. This can be very confusing to R users because <code>1 == c(1)</code> is <code>TRUE</code> in R, whereas in Julia <code>1 == (1,)</code> evaluates to <code>false</code>. The design philosophy in <code>Tidier.jl</code> is that the user should feel free to provide a scalar or a tuple as they see fit anytime multiple values are considered valid for a given argument, such as in <code>across()</code>, and <code>Tidier.jl</code> will figure out how to dispatch it.</p>
+</details>
 <p><a id='Installation'></a></p>
 <p><a id='Installation-1'></a></p>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">¤</a></h2>
@@ -677,6 +701,8 @@
 <h2 id="what-macros-and-functions-does-tidierjl-support">What macros and functions does Tidier.jl support?<a class="headerlink" href="#what-macros-and-functions-does-tidierjl-support" title="Permanent link">¤</a></h2>
 <p>To support R-style programming, <code>Tidier.jl</code> is implemented using macros. This is because macros are able to "capture" the code before executing it, which allows the package to support R-like "tidy expressions" that would otherwise not be considered valid Julia code.</p>
 <p>Tidier.jl currently supports the following top-level macros:</p>
+<div class="admonition example">
+<p class="admonition-title">Top-level macros:</p>
 <ul>
 <li><code>@select()</code></li>
 <li><code>@transmute()</code></li>
@@ -694,7 +720,10 @@
 <li><code>@inner_join()</code></li>
 <li><code>@full_join()</code></li>
 </ul>
+</div>
 <p>Tidier.jl also supports the following helper functions:</p>
+<div class="admonition example">
+<p class="admonition-title">Helper functions:</p>
 <ul>
 <li><code>starts_with()</code></li>
 <li><code>ends_with()</code></li>
@@ -703,6 +732,7 @@
 <li><code>across()</code></li>
 <li><code>desc()</code></li>
 </ul>
+</div>
 <p>See the <a href="https://kdpsingh.github.io/Tidier.jl/dev/reference/">Reference</a> page for a detailed guide to each of the macros and functions.</p>
 <p><a id='Example'></a></p>
 <p><a id='Example-1'></a></p>
@@ -737,27 +767,10 @@
 <li>Pivoting</li>
 <li>Tidyverse-style <code>if_else()</code> that handles missing values, and <code>case_when()</code></li>
 </ul>
-<p><a id='What’s-new-in-version-0.4.0'></a></p>
-<p><a id='What’s-new-in-version-0.4.0-1'></a></p>
-<h2 id="whats-new-in-version-040">What’s new in version 0.4.0<a class="headerlink" href="#whats-new-in-version-040" title="Permanent link">¤</a></h2>
-<ul>
-<li>Rewrote the parsing engine to remove all regular expression and string parsing</li>
-<li>Selection helpers now work within both <code>@select()</code> and <code>across()</code>.</li>
-<li><code>@group_by()</code> now supports sorts the groups (similar to <code>dplyr</code>) and supports tidy expressions, for example <code>@group_by(df, d = b + c)</code>.</li>
-<li><code>@slice()</code> now supports grouped data frames, for example, <code>@slice(gdf, 1:2)</code> will slice the first 2 rows from each group assuming that <code>gdf</code> is a grouped data frame.</li>
-<li>All functions now work correctly with both grouped and ungrouped data frames following <code>dplyr</code> behavior. In other words, all functions retain grouping for grouped data frames (e.g., <code>ungroup = false</code>), other than <code>@summarize()</code>, which "peels off" one layer of grouping in a similar fashion to <code>dplyr</code>.</li>
-<li>Added <code>@ungroup</code> to explicitly remove grouping</li>
-<li>Added <code>@pull</code> macro to extract vectors</li>
-<li>Added joins: <code>@left_join()</code>, <code>@right_join()</code>, <code>@inner_join()</code>, and <code>@full_join()</code>, which support natural joins (i.e., where no <code>by</code> argument is given) or explicit joins by providing keys.</li>
-<li>Added <code>starts_with()</code> as an alias for Julia's <code>startswith()</code>, <code>ends_with()</code> as an alias for Julia's <code>endswith()</code>, and <code>matches()</code> as an alias for Julia's <code>Regex()</code>.</li>
-<li>Enabled interpolation of global user variables using <code>!!</code> similar to R's <code>rlang</code>.</li>
-<li>Enabled a <code>~</code> tilde operator to mark functions (or operators) as unvectorized so that Tidier.jl does not "auto-vectorize" them.</li>
-<li>Disabled <code>@info</code> logging of generated <code>DataFrames.jl</code> code. This code can be shown by setting an option using the new <code>Tidier_set()</code> function.</li>
-<li>Fixed a bug where functions were evaluated inside the module, which meant that user-provided functions would not work.</li>
-<li><code>@filter()</code> now skips rows that evaluate to missing values.</li>
-<li>Re-export a handful of functions from the <code>DataFrames.jl</code> package.</li>
-<li>Added doctests to all examples in the docstrings.</li>
-</ul>
+<p><a id='What’s-new'></a></p>
+<p><a id='What’s-new-1'></a></p>
+<h2 id="whats-new">What’s new<a class="headerlink" href="#whats-new" title="Permanent link">¤</a></h2>
+<p>See <a href="https://github.com/kdpsingh/Tidier.jl/blob/main/NEWS.md">NEWS.md</a> for the latest updates.</p>
 
 
 
