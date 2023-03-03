@@ -4,7 +4,7 @@
 
 - Rewrote the parsing engine to remove all regular expression and string parsing
 - Selection helpers now work within both `@select()` and `across()`.
-- `@group_by()` now supports sorts the groups (similar to `dplyr`) and supports tidy expressions, for example `@group_by(df, d = b + c)`.
+- `@group_by()` now sorts the groups (similar to `dplyr`) and supports tidy expressions, for example `@group_by(df, d = b + c)`.
 - `@slice()` now supports grouped data frames. For example, `@slice(gdf, 1:2)` will slice the first 2 rows from each group if `gdf` is a grouped data frame.
 - All functions now work correctly with both grouped and ungrouped data frames following `dplyr` behavior. In other words, all functions retain grouping for grouped data frames (e.g., `ungroup = false`), other than `@summarize()`, which "peels off" one layer of grouping in a similar fashion to `dplyr`.
 - Added `@ungroup` to explicitly remove grouping
