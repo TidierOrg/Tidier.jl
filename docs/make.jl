@@ -14,7 +14,7 @@ makedocs(
     doctest=true,
     #format   = Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true"),
     sitename="Tidier.jl",
-    authors="Karandeep Singh et al.", # ?, git blame :D
+    authors="Karandeep Singh et al.",
     strict=[
         :doctest,
         :linkcheck,

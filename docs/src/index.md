@@ -12,7 +12,7 @@ letter to data analysis in Julia.
 meta-packages in Julia:
 
 ```@raw html
-??? info "Stick as closely to tidyverse syntax as possible"
+??? tip "Stick as closely to tidyverse syntax as possible."
     Whereas other meta-packages introduce Julia-centric idioms for working with
     DataFrames, this package’s goal is to reimplement parts of tidyverse
     in Julia. This means that `Tidier.jl` uses *tidy expressions* as opposed
@@ -41,12 +41,12 @@ meta-packages in Julia:
 ```
 
 ```@raw html
-??? tip "Make broadcasting mostly invisible"
+??? tip "Make broadcasting mostly invisible."
     Broadcasting trips up many R users switching to Julia because R users are used to most functions being vectorized. `Tidier.jl` currently uses a lookup table to decide which functions *not* to vectorize; all other functions are automatically vectorized. Read the documentation page on "Autovectorization" to read about how this works, and how to override the defaults. An example of where this issue commonly causes errors is when centering a variable. To create a new column `a` that centers the column `b`, `Tidier.jl` lets you simply write `a = b - mean(b)` exactly as you would in R. This works because `Tidier.jl` knows to *not* vectorize `mean()` while also recognizing that `-` *should* be vectorized such that this expression is rewritten in `DataFrames.jl` as `:b => (b -> b .- mean(b)) => :a`. For any user-defined function that you want to "mark" as being non-vectorized, you can prefix it with a `~`. For example, a function `new_mean()`, if it had the same functionality as `mean()` *would* normally get vectorized by `Tidier.jl` unless you write it as `~new_mean()`.
 ```
 
 ```@raw html
-??? info "Make scalars and tuples mostly interchangeable"
+??? tip "Make scalars and tuples mostly interchangeable."
     In Julia, the function `across(a, mean)` is dispatched differently than `across((a, b), mean)`. The first argument in the first instance above is treated as a scalar, whereas the second instance is treated as a tuple. This can be very confusing to R users because `1 == c(1)` is `TRUE` in R, whereas in Julia `1 == (1,)` evaluates to `false`. The design philosophy in `Tidier.jl` is that the user should feel free to provide a scalar or a tuple as they see fit anytime multiple values are considered valid for a given argument, such as in `across()`, and `Tidier.jl` will figure out how to dispatch it.
 ```
 
@@ -81,7 +81,7 @@ To support R-style programming, `Tidier.jl` is implemented using macros. This is
 Tidier.jl currently supports the following top-level macros:
 
 ```@raw html
-??? example "top-level macros"
+!!! example "Top-level macros:"
     - `@select()`
     - `@transmute()`
     - `@rename()`
@@ -101,7 +101,7 @@ Tidier.jl currently supports the following top-level macros:
 Tidier.jl also supports the following helper functions:
 
 ```@raw html
-???+ example "helper functions"
+!!! example "Helper functions:"
     - `starts_with()`
     - `ends_with()`
     - `matches()`
@@ -147,24 +147,6 @@ end
 - Pivoting
 - Tidyverse-style `if_else()` that handles missing values, and `case_when()`
 
-## What’s new in version 0.4.0
+## What’s new
 
-```@raw html
-??? danger "News"
-    - Rewrote the parsing engine to remove all regular expression and string parsing
-    - Selection helpers now work within both `@select()` and `across()`.
-    - `@group_by()` now supports sorts the groups (similar to `dplyr`) and supports tidy expressions, for example `@group_by(df, d = b + c)`.
-    - `@slice()` now supports grouped data frames, for example, `@slice(gdf, 1:2)` will slice the first 2 rows from each group assuming that `gdf` is a grouped data frame.
-    - All functions now work correctly with both grouped and ungrouped data frames following `dplyr` behavior. In other words, all functions retain grouping for grouped data frames (e.g., `ungroup = false`), other than `@summarize()`, which "peels off" one layer of grouping in a similar fashion to `dplyr`.
-    - Added `@ungroup` to explicitly remove grouping
-    - Added `@pull` macro to extract vectors
-    - Added joins: `@left_join()`, `@right_join()`, `@inner_join()`, and `@full_join()`, which support natural joins (i.e., where no `by` argument is given) or explicit joins by providing keys.
-    - Added `starts_with()` as an alias for Julia's `startswith()`, `ends_with()` as an alias for Julia's `endswith()`, and `matches()` as an alias for Julia's `Regex()`.
-    - Enabled interpolation of global user variables using `!!` similar to R's `rlang`.
-    - Enabled a `~` tilde operator to mark functions (or operators) as unvectorized so that Tidier.jl does not "auto-vectorize" them.
-    - Disabled `@info` logging of generated `DataFrames.jl` code. This code can be shown by setting an option using the new `Tidier_set()` function.
-    - Fixed a bug where functions were evaluated inside the module, which meant that user-provided functions would not work.
-    - `@filter()` now skips rows that evaluate to missing values.
-    - Re-export a handful of functions from the `DataFrames.jl` package.
-    - Added doctests to all examples in the docstrings.
-```
+See [NEWS.md](https://github.com/kdpsingh/Tidier.jl/blob/main/NEWS.md) for the latest updates.
