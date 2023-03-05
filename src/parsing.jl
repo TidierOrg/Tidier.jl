@@ -226,8 +226,32 @@ function parse_autovec(tidy_expr::Union{Expr,Symbol})
       # unvectorize it
       fn_new = Symbol(string(fn)[2:end])
       return :($fn_new($args1, $args2))
+    
+    # If user already does Ref(Set(arg2)), then vectorize and leave as-is
+    elseif @capture(x, in(arg1_, Ref(Set(arg2_))))
+      return :(in.($arg1, Ref(Set($arg2))))
+    
+    # If user already does Ref(arg2), then wrap arg2 inside of a Set().
+    # Set requires additional allocation but is much faster.
+    # See: https://bkamins.github.io/julialang/2023/02/10/in.html
+    elseif @capture(x, in(arg1_, Ref(arg2_)))
+      return :(in.($arg1, Ref(Set($arg2))))
+    
+    # If user already does Set(arg2), then wrap this inside of Ref().
+    # This is required to prevent vectorization of arg2.
+    elseif @capture(x, in(arg1_, Set(arg2_)))
+      return :(in.($arg1, Ref(Set($arg2))))
+    
+    # If user did provides bare vector or tuple for arg2, then wrap
+    # arg2 inside of a Ref(Set(arg2))
+    # This is required to prevent vectorization of arg2.
+    elseif @capture(x, in(arg1_, arg2_))
+      return :(in.($arg1, Ref(Set($arg2))))
+
     elseif @capture(x, fn_(args__))
-      if fn in [:Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+
+      # `in` should be vectorized so do not exclude it here
+      if fn in [:Ref :Set :Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
         return :($fn.($(args...)))
@@ -247,7 +271,9 @@ end
 function parse_escape_function(rhs_expr::Union{Expr,Symbol})
   rhs_expr = MacroTools.postwalk(rhs_expr) do x
     if @capture(x, fn_(args__))
-      if fn in [:Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+
+      # `in` should be vectorized in auto-vec but not escaped
+      if fn in [:in :Ref :Set :Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
         return :($(esc(fn))($(args...)))
@@ -255,7 +281,7 @@ function parse_escape_function(rhs_expr::Union{Expr,Symbol})
         return x
       end
     elseif @capture(x, fn_.(args__))
-      if fn in [:(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+      if fn in [:in :Ref :Set :Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
         return :($(esc(fn)).($(args...)))
