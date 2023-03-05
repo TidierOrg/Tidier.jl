@@ -1,5 +1,9 @@
 # Tidier.jl updates
 
+## Dev
+
+- In addition `in` being auto-vectorized as before, the second argument is automatically wrapped inside of `Ref(Set(arg2))` if not already done to ensure that it is evaluated correctly and fast. See: https://bkamins.github.io/julialang/2023/02/10/in.html.
+
 ## v0.4.0 - 2023-02-29
 
 - Rewrote the parsing engine to remove all regular expression and string parsing

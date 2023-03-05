@@ -309,6 +309,19 @@ julia> @chain df begin
    5 │ e         5     15     20             2.0
 
 julia> @chain df begin
+       @mutate(d = b in (1,3))
+       end
+5×4 DataFrame
+ Row │ a     b      c      d     
+     │ Char  Int64  Int64  Bool  
+─────┼───────────────────────────
+   1 │ a         1     11   true
+   2 │ b         2     12  false
+   3 │ c         3     13   true
+   4 │ d         4     14  false
+   5 │ e         5     15  false
+
+julia> @chain df begin
        @mutate(across((b, c), mean))
        end
 5×5 DataFrame
@@ -391,6 +404,16 @@ julia> @chain df begin
    1 │ c         3     13
    2 │ d         4     14
    3 │ e         5     15
+
+julia> @chain df begin
+       @filter(b in (1, 3))
+       end
+2×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         1     11
+   2 │ c         3     13
 ```
 """
 
