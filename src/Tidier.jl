@@ -6,7 +6,7 @@ using Chain
 using Statistics
 using Reexport
 
-@reexport using DataFrames: DataFrame, describe, nrow, proprow
+@reexport using DataFrames: DataFrame, Cols, describe, nrow, proprow
 @reexport using Chain
 @reexport using Statistics
 
@@ -63,9 +63,9 @@ macro select(df, exprs...)
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      select($(esc(df)), $(tidy_exprs...); ungroup = false)
+      select($(esc(df)), $(esc(tidy_exprs...)); ungroup = false)
     else
-      select($(esc(df)), $(tidy_exprs...))
+      select($(esc(df)), $(esc(tidy_exprs...)))
     end
   end
   if code[]
@@ -82,9 +82,9 @@ macro transmute(df, exprs...)
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      select($(esc(df)), $(tidy_exprs...); ungroup = false)
+      select($(esc(df)), $(esc(tidy_exprs...)); ungroup = false)
     else
-      select($(esc(df)), $(tidy_exprs...))
+      select($(esc(df)), $(esc(tidy_exprs...)))
     end
   end
   if code[]
@@ -101,9 +101,9 @@ macro rename(df, exprs...)
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      rename($(esc(df)), $(tidy_exprs...); ungroup = false)
+      rename($(esc(df)), $(esc(tidy_exprs...)); ungroup = false)
     else
-      rename($(esc(df)), $(tidy_exprs...))
+      rename($(esc(df)), $(esc(tidy_exprs...)))
     end
   end
   if code[]
@@ -120,9 +120,9 @@ macro mutate(df, exprs...)
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      transform($(esc(df)), $(tidy_exprs...); ungroup = false)
+      transform($(esc(df)), $(esc(tidy_exprs...)); ungroup = false)
     else
-      transform($(esc(df)), $(tidy_exprs...))
+      transform($(esc(df)), $(esc(tidy_exprs...)))
     end
   end
   if code[]
@@ -141,15 +141,15 @@ macro summarize(df, exprs...)
     if $(esc(df)) isa GroupedDataFrame
       col_names = groupcols($(esc(df)))
       if length(col_names) == 1
-        combine($(esc(df)), $(tidy_exprs...); ungroup = true)
+        combine($(esc(df)), $(esc(tidy_exprs...)); ungroup = true)
       else
         @chain $(esc(df)) begin
-          combine($(tidy_exprs...); ungroup = true)
+          combine($(esc(tidy_exprs...)); ungroup = true)
           groupby(col_names[1:end-1]; sort = true)
         end
       end
     else
-      combine($(esc(df)), $(tidy_exprs...))
+      combine($(esc(df)), $(esc(tidy_exprs...)))
     end
   end
   if code[]
@@ -173,9 +173,9 @@ macro filter(df, exprs...)
   tidy_exprs = parse_tidy.(tidy_exprs; subset=true)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      subset($(esc(df)), $(tidy_exprs...); ungroup = false)
+      subset($(esc(df)), $(esc(tidy_exprs...)); ungroup = false)
     else
-      subset($(esc(df)), $(tidy_exprs...))
+      subset($(esc(df)), $(esc(tidy_exprs...)))
     end
   end
   if code[]
@@ -195,7 +195,7 @@ macro group_by(df, exprs...)
 
   df_expr = quote
     @chain $(esc(df)) begin
-      transform($(tidy_exprs...))
+      transform($(esc(tidy_exprs...)))
       groupby(Cols($(grouping_exprs...)); sort = true)
     end
   end
@@ -232,13 +232,13 @@ macro slice(df, exprs...)
       if $(esc(df)) isa GroupedDataFrame
         @chain $(esc(df)) begin
           transform(eachindex => :Tidier_row_number; ungroup = false)
-          subset(:Tidier_row_number => x -> (in.(x, Ref($clean_indices))); ungroup = false)
+          subset(:Tidier_row_number => x -> (in.(x, Ref(Set($clean_indices)))); ungroup = false)
           select(Not(:Tidier_row_number); ungroup = false)
         end
       else
         @chain $(esc(df)) begin
           transform(eachindex => :Tidier_row_number)
-          subset(:Tidier_row_number => x -> (in.(x, Ref($clean_indices))))
+          subset(:Tidier_row_number => x -> (in.(x, Ref(Set($clean_indices)))))
           select(Not(:Tidier_row_number))
         end
       end
@@ -249,13 +249,13 @@ macro slice(df, exprs...)
       if $(esc(df)) isa GroupedDataFrame
         @chain $(esc(df)) begin
           transform(eachindex => :Tidier_row_number; ungroup = false)
-          subset(:Tidier_row_number => x -> (.!in.(x, Ref($clean_indices))); ungroup = false)
+          subset(:Tidier_row_number => x -> (.!in.(x, Ref(Set($clean_indices)))); ungroup = false)
           select(Not(:Tidier_row_number); ungroup = false)
         end
       else
         @chain $(esc(df)) begin
           transform(eachindex => :Tidier_row_number)
-          subset(:Tidier_row_number => x -> (.!in.(x, Ref($clean_indices))))
+          subset(:Tidier_row_number => x -> (.!in.(x, Ref(Set($clean_indices)))))
           select(Not(:Tidier_row_number))
         end
       end

@@ -39,7 +39,7 @@ function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, su
     if from_across || fn == :Cols # fn == :Cols is to deal with interpolated columns
       return tidy_expr
     else
-      return :(Cols($(esc(tidy_expr))))
+      return :(Cols($tidy_expr))
     end
   elseif @capture(tidy_expr, var_Symbol)
     return QuoteNode(var)
@@ -76,7 +76,7 @@ function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool=true, subset::Bool
     rhs = parse_autovec(rhs)
   end
 
-  rhs = parse_escape_function(rhs) # ensure that functions in user space are available
+  # rhs = parse_escape_function(rhs) # ensure that functions in user space are available
 
   if subset
     return :($src => ($func_left -> coalesce.($rhs, false))) # to ensure that missings are replace by false
