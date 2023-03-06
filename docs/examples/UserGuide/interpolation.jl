@@ -4,25 +4,21 @@
 
 # Since the `!!` operator can only access variables in the global environment, we will set these variables in a somewhat roundabout way for the purposes of documentation. However, in interactive use, you can simply write `myvar = :b` instead of wrapping this code inside of an `@eval()` macro as is done here.
 
+# Note: `myvar = :b`, `myvar = (:a, :b)`, and `myvar = [:a, :b]` all refer to *columns* with those names. On the other hand, `myvar = "b"`, `myvar = ("a", "b")` and `myvar = ["a", "b"]` will interpolate those *values*. See beloe for examples.
+
 using Tidier
 using RDatasets
 
-df = DataFrame(a = repeat('a':'e', inner = 2), b = [1,1,1,2,2,2,3,3,3,4], c = 11:20);
+df = DataFrame(a = string.(repeat('a':'e', inner = 2)),
+               b = [1,1,1,2,2,2,3,3,3,4],
+               c = 11:20)
 
-# ## Select one variable (symbol)
+# ## Select the column (because `myvar` contains a symbol)
 
 @eval(Main, myvar = :b)
 
 @chain df begin
   @select(!!myvar)
-end
-
-# ## Select one variable (string)
-
-@eval(Main, myvar_string = "b")
-
-@chain df begin
-  @select(!!myvar_string)
 end
 
 # ## Select multiple variables (tuple of symbols)
@@ -33,7 +29,7 @@ end
   @select(!!myvars_tuple)
 end
 
-## Select multiple variables (vector of symbols)
+# ## Select multiple variables (vector of symbols)
 
 @eval(Main, myvars_vector = [:a, :b])
 
@@ -41,12 +37,30 @@ end
   @select(!!myvars_vector)
 end
 
-## Select multiple variables (tuple of strings)
+# ## Filter rows containing the *value* of `myvar_string` (because `myvar_string` does)
+
+@eval(Main, myvar_string = "b")
+
+@chain df begin
+  @filter(a == !!myvar_string)
+end
+
+# ## Filetering rows works similarly using `in`.
+
+# Note that for `in` to work here, we have to wrap it in `[]` because otherwise, the string will be converted into a collection of characters, which are a different data type.
+
+@eval(Main, myvar_string = "b")
+
+@chain df begin
+  @filter(a in [!!myvar_string])
+end
+
+# ## You can also use this for a tuple or vector of strings.
 
 @eval(Main, myvars_string = ("a", "b"))
 
 @chain df begin
-  @select(!!myvars_string)
+  @filter(a in !!myvars_string)
 end
 
 # ## Mutate one variable

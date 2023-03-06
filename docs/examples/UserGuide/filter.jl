@@ -13,3 +13,17 @@ movies = dataset("ggplot2", "movies");
     @select(Title, Budget)
     @slice(1:5)
 end
+
+# Now let's see how to use `@filter()` with `in`. Here's an example with a tuple.
+
+@chain movies begin
+  @filter(Title in ("101 Dalmatians", "102 Dalmatians"))
+  @select(1:5)
+end
+
+# We can also use `@filter()` with `in` using a vector, denoted by a `[]`.
+
+@chain movies begin
+  @filter(Title in ["101 Dalmatians", "102 Dalmatians"])
+  @select(1:5)
+end
