@@ -1,7 +1,7 @@
 name = "Tidier"
 uuid = "f0413319-3358-4bb0-8e7c-0c83523a93bd"
 authors = ["Karandeep Singh"]
-version = "0.4.0"
+version = "0.4.1"
 
 [deps]
 Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"

@@ -6,7 +6,9 @@ using Chain
 using Statistics
 using Reexport
 
-@reexport using DataFrames: DataFrame, describe, nrow, proprow
+# Exporting `Cols` because `summarize(across(!!vars, funs))` with multiple interpolated
+# columns requires `Cols()` to be nested within `Cols()`, so `Cols` needs to be exported.
+@reexport using DataFrames: DataFrame, Cols, describe, nrow, proprow
 @reexport using Chain
 @reexport using Statistics
 

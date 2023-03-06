@@ -229,7 +229,7 @@ function parse_autovec(tidy_expr::Union{Expr,Symbol})
     
     # If user already does Ref(Set(arg2)), then vectorize and leave as-is
     elseif @capture(x, in(arg1_, Ref(Set(arg2_))))
-      return :(in.($arg1, Ref(Set($arg2))))
+        return :(in.($arg1, Ref(Set($arg2))))
     
     # If user already does Ref(arg2), then wrap arg2 inside of a Set().
     # Set requires additional allocation but is much faster.
@@ -239,7 +239,7 @@ function parse_autovec(tidy_expr::Union{Expr,Symbol})
     
     # If user already does Set(arg2), then wrap this inside of Ref().
     # This is required to prevent vectorization of arg2.
-    elseif @capture(x, in(arg1_, Set(arg2_)))
+    elseif @capture(x, in(arg1_, Set(arg2_))) 
       return :(in.($arg1, Ref(Set($arg2))))
     
     # If user did provides bare vector or tuple for arg2, then wrap
@@ -248,9 +248,29 @@ function parse_autovec(tidy_expr::Union{Expr,Symbol})
     elseif @capture(x, in(arg1_, arg2_))
       return :(in.($arg1, Ref(Set($arg2))))
 
+    # Handle ∈
+    elseif @capture(x, ∈(arg1_, Ref(Set(arg2_))))
+      return :((∈).($arg1, Ref(Set($arg2))))
+    elseif @capture(x, ∈(arg1_, Ref(arg2_)))
+      return :((∈).($arg1, Ref(Set($arg2))))
+    elseif @capture(x, ∈(arg1_, Set(arg2_)))
+      return :((∈).($arg1, Ref(Set($arg2))))
+    elseif @capture(x, ∈(arg1_, arg2_))
+      return :((∈).($arg1, Ref(Set($arg2))))
+
+  # Handle ∉
+    elseif @capture(x, ∉(arg1_, Ref(Set(arg2_))))
+      return :((∉).($arg1, Ref(Set($arg2))))
+    elseif @capture(x, ∉(arg1_, Ref(arg2_)))
+      return :((∉).($arg1, Ref(Set($arg2))))
+    elseif @capture(x, ∉(arg1_, Set(arg2_)))
+      return :((∉).($arg1, Ref(Set($arg2))))
+    elseif @capture(x, ∉(arg1_, arg2_))
+      return :((∉).($arg1, Ref(Set($arg2))))
+
     elseif @capture(x, fn_(args__))
 
-      # `in` should be vectorized so do not exclude it here
+      # `in` should be vectorized so do not add to this exclusion list
       if fn in [:Ref :Set :Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
@@ -272,8 +292,8 @@ function parse_escape_function(rhs_expr::Union{Expr,Symbol})
   rhs_expr = MacroTools.postwalk(rhs_expr) do x
     if @capture(x, fn_(args__))
 
-      # `in` should be vectorized in auto-vec but not escaped
-      if fn in [:in :Ref :Set :Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+      # `in`, `∈`, and `∉` should be vectorized in auto-vec but not escaped
+      if fn in [:in :∈ :∉ :Ref :Set :Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
         return :($(esc(fn))($(args...)))
@@ -281,7 +301,7 @@ function parse_escape_function(rhs_expr::Union{Expr,Symbol})
         return x
       end
     elseif @capture(x, fn_.(args__))
-      if fn in [:in :Ref :Set :Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+      if fn in [:in :∈ :∉ :Ref :Set :Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
         return :($(esc(fn)).($(args...)))
@@ -301,12 +321,16 @@ function parse_interpolation(var_expr::Union{Expr,Symbol,Number,String})
     if @capture(x, !!variable_Symbol)
       variable = Main.eval(variable)
       if variable isa AbstractString
-        return Symbol(variable)
+        return variable # Strings are now treated as Strings and not columns
       elseif variable isa Symbol
         return variable
       else # Tuple or Vector of columns
-        variable = QuoteNode.(variable)
-        return :(Cols($(variable...),))
+        if variable[1] isa Symbol
+          variable = QuoteNode.(variable)
+          return :(Cols($(variable...),))
+        else
+          return variable
+        end
       end
     end
     return x

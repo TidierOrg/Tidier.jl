@@ -27,6 +27,14 @@ end
     @slice(1:5)
 end
 
+# Here's an example of using `@mutate` with `in`.
+
+@chain movies begin
+  @filter(!ismissing(Budget))
+  @mutate(Nineties = Year in 1990:1999)
+  @select(Title, Year, Nineties)
+  @slice(1:5)
+end
 
 # ## Using `@transmute` to update *and* select columns.
 
