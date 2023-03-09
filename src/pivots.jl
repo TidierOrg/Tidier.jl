@@ -4,7 +4,7 @@ $docstring_pivot_wider
 macro pivot_wider(df, exprs...)
     # take the expressions and return arg => value dictionary    
     tidy_exprs = parse_interpolation.(exprs)
-    tidy_exprs = parse_args.(tidy_exprs)
+    tidy_exprs = parse_pivot_args.(tidy_exprs)
     expr_dict = Dict(x.args[2] => x.args[3] for x in tidy_exprs)
 
     df_expr = quote
