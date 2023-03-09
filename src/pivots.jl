@@ -23,12 +23,34 @@ end
 """
 $docstring_pivot_longer
 """
-macro pivot_longer(df, cols::Union{Expr, Symbol})
-    cols = parse_interpolation(cols)
-    cols = parse_tidy(cols)
+macro pivot_longer(df, exprs...)
+    tidy_exprs = parse_interpolation.(exprs)
+    tidy_exprs = parse_pivot_args.(tidy_exprs)
+    expr_dict = Dict(x.args[2] => x.args[3] for x in tidy_exprs)
 
-    df_expr = quote
-        stack(DataFrame($(esc(df))), $(cols))
+    if !haskey(expr_dict, QuoteNode(:(names_to))) && !haskey(expr_dict, QuoteNode(:(values_to)))
+        df_expr = quote
+            stack(DataFrame($(esc(df))), $(expr_dict[QuoteNode(:cols)]))
+        end
+    elseif (haskey(expr_dict, QuoteNode(:(names_to))) && haskey(expr_dict, QuoteNode(:(values_to))))
+        df_expr = quote
+            stack(DataFrame($(esc(df))), 
+                $(expr_dict[QuoteNode(:cols)]),
+                variable_name = $(expr_dict[QuoteNode(:names_to)]),
+                value_name = $(expr_dict[QuoteNode(:values_to)]))
+        end
+    elseif haskey(expr_dict, QuoteNode(:(names_to)))
+        df_expr = quote
+            stack(DataFrame($(esc(df))), 
+                $(expr_dict[QuoteNode(:cols)]),
+                variable_name = $(expr_dict[QuoteNode(:names_to)]))
+        end
+    elseif haskey(expr_dict, QuoteNode(:(values_to)))
+        df_expr = quote
+            stack(DataFrame($(esc(df))), 
+                $(expr_dict[QuoteNode(:cols)]),
+                value_name = $(expr_dict[QuoteNode(:values_to)]))
+        end
     end
 
     if code[]

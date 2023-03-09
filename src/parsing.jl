@@ -57,10 +57,14 @@ end
 
 # Not exported
 function parse_pivot_args(tidy_expr::Union{Expr,Symbol,Number})
-  @capture(tidy_expr, lhs_ = rhs_)
+  if @capture(tidy_expr, lhs_ = rhs_)
     lhs = QuoteNode(lhs)
     rhs = QuoteNode(rhs)
-    return(:($lhs => $rhs))
+    return :($lhs => $rhs)
+  else
+    tidy_expr = parse_tidy(tidy_expr)
+    return :(:cols => $(tidy_expr))
+  end
 end
 
 # Not exported
