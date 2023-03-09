@@ -887,3 +887,64 @@ julia> @full_join(df1, df2, "a" = "a")
    3 │ c       missing        4
 ```
 """
+
+const docstring_pivot_wider =
+"""
+   @pivot_wider(df, names_from, values_from)
+
+pivot_wider makes a DataFrame wider, increasing the number of columns and reducing the number of rows.
+
+# Arguments
+- `df`: A DataFrame.
+- `names_from`: Which column (or columns) to get the name of the output column from.
+- `values_from`: Which column (or columns) to get the cell values from.
+
+# Examples
+```jldoctest
+julia> test_df_long = DataFrame(id = [1, 1, 2, 2], variable = ["A", "B", "A", "B"], value = [1, 2, 3, 4]);
+
+julia> @pivot_wider(test_df_long, names_from = variable, values_from = value)
+2×3 DataFrame
+ Row │ id     A       B      
+     │ Int64  Int64?  Int64?
+─────┼───────────────────────
+   1 │     1       1       2
+   2 │     2       3       4
+```
+"""
+
+const docstring_pivot_longer =
+"""
+   @pivot_longer(df, cols)
+
+julia> pivot_longer makes a DataFrame longer, increasing the number of rows and reducing the number of columns.
+
+# Arguments
+- `df`: A DataFrame.
+- `cols`: Columns to pivot into longer format.
+
+# Examples
+```jldoctest
+julia> test_df_wide = DataFrame(id = [1, 2], A = [1, 3], B = [2, 4]);
+
+julia> @pivot_longer(test_df_wide, A:B)
+4×3 DataFrame
+ Row │ id     variable  value 
+     │ Int64  String    Int64
+─────┼────────────────────────
+   1 │     1  A             1
+   2 │     2  A             3
+   3 │     1  B             2
+   4 │     2  B             4
+
+julia> @pivot_longer(test_df_wide, -id)
+4×3 DataFrame
+ Row │ id     variable  value 
+     │ Int64  String    Int64
+─────┼────────────────────────
+   1 │     1  A             1
+   2 │     2  A             3
+   3 │     1  B             2
+   4 │     2  B             4
+```
+"""

@@ -56,6 +56,14 @@ function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, su
 end
 
 # Not exported
+function parse_args(tidy_expr::Union{Expr,Symbol,Number})
+  @capture(tidy_expr, lhs_ = rhs_)
+    lhs = QuoteNode(lhs)
+    rhs = QuoteNode(rhs)
+    return(:($lhs => $rhs))
+end
+
+# Not exported
 function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool=true, subset::Bool=false)
 
   lhs = QuoteNode(lhs)
