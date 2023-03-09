@@ -38,8 +38,6 @@ function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, su
   elseif !subset & @capture(tidy_expr, fn_(args__)) # selection helpers
     if from_across || fn == :Cols # fn == :Cols is to deal with interpolated columns
       return tidy_expr
-    elseif fn == :!
-      return parse_negation(args[1])
     else
       return :(Cols($(esc(tidy_expr))))
     end
@@ -340,6 +338,7 @@ function parse_interpolation(var_expr::Union{Expr,Symbol,Number,String})
   return var_expr
 end
 
+# Not exported
 function parse_negation(var_expr::Union{Expr,Symbol,Number})
   if @capture(var_expr, start_index_:end_index_)
     if start_index isa Symbol
@@ -354,5 +353,14 @@ function parse_negation(var_expr::Union{Expr,Symbol,Number})
   else
     var_expr = QuoteNode(var_expr)
     return :(Not($var_expr))
+  end
+end
+
+# Not exported
+function parse_select(tidy_expr::Union{Expr,Symbol,Number})
+  if @capture(tidy_expr, !(arg_))
+    return parse_negation(arg)
+  else
+    return parse_tidy(tidy_expr)
   end
 end

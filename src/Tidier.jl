@@ -62,7 +62,7 @@ $docstring_select
 """
 macro select(df, exprs...)
   tidy_exprs = parse_interpolation.(exprs)
-  tidy_exprs = parse_tidy.(tidy_exprs)
+  tidy_exprs = parse_select.(tidy_exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
       select($(esc(df)), $(tidy_exprs...); ungroup = false)
