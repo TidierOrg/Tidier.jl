@@ -44,12 +44,12 @@ macro pivot_longer(df, exprs...)
 
     # if names_to was specified, pass that argument to variable_name
     if haskey(expr_dict, QuoteNode(:names_to))
-        arg_dict[:variable_name] = eval(expr_dict[QuoteNode(:names_to)])
+        arg_dict[:variable_name] = (expr_dict[QuoteNode(:names_to)]).value
     end
 
     # if values_to was specified, pass that argument to value_name
     if haskey(expr_dict, QuoteNode(:values_to))
-        arg_dict[:value_name] = eval(expr_dict[QuoteNode(:values_to)])
+        arg_dict[:value_name] = (expr_dict[QuoteNode(:values_to)]).value
     end
 
     # splat any specified arguments in to stack()
