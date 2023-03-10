@@ -98,7 +98,7 @@ end
 
 # ## Global constants
 
-# Because global constants like `pi` exist in the `Main`` module, they can also be accessed using interpolation. For example, let's calculate the area of circles with a radius of 1 up to 5.
+# Because global constants like `pi` exist in the `Main` module, they can also be accessed using interpolation. For example, let's calculate the area of circles with a radius of 1 up to 5.
 
 df = DataFrame(radius = 1:5)
 
