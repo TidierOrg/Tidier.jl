@@ -921,12 +921,12 @@ julia> @chain df begin
        @mutate(b = if_else(a >= 3, "yes", "no", "unknown"))
        end
 5×2 DataFrame
- Row │ a        b      
-     │ Int64?   String 
-─────┼─────────────────
+ Row │ a        b       
+     │ Int64?   String  
+─────┼──────────────────
    1 │       1  no
    2 │       2  no
-   3 │ missing  maybe
+   3 │ missing  unknown
    4 │       4  yes
    5 │       5  yes
 
