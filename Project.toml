@@ -1,7 +1,7 @@
 name = "Tidier"
 uuid = "f0413319-3358-4bb0-8e7c-0c83523a93bd"
 authors = ["Karandeep Singh"]
-version = "0.4.1"
+version = "0.5.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"

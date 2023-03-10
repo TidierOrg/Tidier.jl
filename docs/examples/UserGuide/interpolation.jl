@@ -95,3 +95,25 @@ end
   @group_by(!!myvars_tuple)
   @summarize(c = mean(c))
 end
+
+# ## Global constants
+
+# Because global constants like `pi` exist in the `Main`` module, they can also be accessed using interpolation. For example, let's calculate the area of circles with a radius of 1 up to 5.
+
+df = DataFrame(radius = 1:5)
+
+# We can interpolate `pi` (from the `Main` module) to help with this.
+
+@chain df begin
+  @mutate(area = !!pi * radius^2)
+end
+
+# ## Alternative interpolation syntax
+
+# While interpolationg using `!!` is concise and handy, it's not required. You can also access user-defined globals and global constant variables using the following syntax:
+
+@chain df begin
+  @mutate(area = Main.pi * radius^2)
+end
+
+# The key lesson with interpolation is that any bare unquoted variable is assumed to refer to a column name in the DataFrame. If you are referring to any variable outside of the DataFrame, you need to either use `!!variable` or `Main.variable` syntax to refer to this variable.

@@ -177,9 +177,9 @@ macro filter(df, exprs...)
   tidy_exprs = parse_tidy.(tidy_exprs; subset=true)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      subset($(esc(df)), $(tidy_exprs...); ungroup = false)
+      subset($(esc(df)), $(tidy_exprs...); skipmissing = true, ungroup = false)
     else
-      subset($(esc(df)), $(tidy_exprs...))
+      subset($(esc(df)), $(tidy_exprs...); skipmissing = true)
     end
   end
   if code[]
