@@ -97,11 +97,15 @@ Tidier.jl currently supports the following top-level macros:
     - `@right_join()`
     - `@inner_join()`
     - `@full_join()`
+    - `@pivot_wider()`
+    - `@pivot_longer()`
 ```
 Tidier.jl also supports the following helper functions:
 
 ```@raw html
 !!! example "Helper functions:"
+    - `if_else()`
+    - `case_when()`
     - `starts_with()`
     - `ends_with()`
     - `matches()`
@@ -142,11 +146,10 @@ end
    5 │ 13th Warrior, The               85.0
 ```
 
-## What’s missing?
-
-- Pivoting
-- Tidyverse-style `if_else()` that handles missing values, and `case_when()`
-
 ## What’s new
 
 See [NEWS.md](https://github.com/kdpsingh/Tidier.jl/blob/main/NEWS.md) for the latest updates.
+
+## What's missing
+
+Is there a tidyverse feature missing that you would like to see in Tidier.jl? Please file a GitHub issue. Because Tidier.jl primarily wraps DataFrames.jl, our decision to integrate a new feature will be guided by how well-supported it is within DataFrames.jl and how likely other users are to benefit from it.

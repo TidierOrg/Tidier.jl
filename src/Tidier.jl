@@ -12,7 +12,7 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export Tidier_set, across, desc, starts_with, ends_with, matches, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @pull, @left_join, @right_join, @inner_join, @full_join
+export Tidier_set, across, desc, starts_with, ends_with, matches, if_else, case_when, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -22,6 +22,8 @@ const log = Ref{Bool}(false) # output tidylog output? (not yet implemented)
 include("docstrings.jl")
 include("parsing.jl")
 include("joins.jl")
+include("pivots.jl")
+include("conditionals.jl")
 
 # Function to set global variables
 """
@@ -175,9 +177,9 @@ macro filter(df, exprs...)
   tidy_exprs = parse_tidy.(tidy_exprs; subset=true)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      subset($(esc(df)), $(tidy_exprs...); ungroup = false)
+      subset($(esc(df)), $(tidy_exprs...); skipmissing = true, ungroup = false)
     else
-      subset($(esc(df)), $(tidy_exprs...))
+      subset($(esc(df)), $(tidy_exprs...); skipmissing = true)
     end
   end
   if code[]

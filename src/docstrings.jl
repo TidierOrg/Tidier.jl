@@ -887,3 +887,238 @@ julia> @full_join(df1, df2, "a" = "a")
    3 │ c       missing        4
 ```
 """
+
+const docstring_pivot_wider =
+"""
+   @pivot_wider(df, names_from, values_from)
+
+Reshapes the DataFrame to make it wider, increasing the number of columns and reducing the number of rows.
+
+# Arguments
+- `df`: A DataFrame.
+- `names_from`: The name of the column to get the name of the output columns from.
+- `values_from`: The name of the column to get the cell values from.
+
+# Examples
+```jldoctest
+julia> df_long = DataFrame(id = [1, 1, 2, 2],
+                           variable = ["A", "B", "A", "B"],
+                           value = [1, 2, 3, 4]);
+
+julia> @pivot_wider(df_long, names_from = variable, values_from = value)
+2×3 DataFrame
+ Row │ id     A       B      
+     │ Int64  Int64?  Int64?
+─────┼───────────────────────
+   1 │     1       1       2
+   2 │     2       3       4
+```
+"""
+
+const docstring_pivot_longer =
+"""
+   @pivot_longer(df, cols, [names_to], [values_to])
+
+Reshapes the DataFrame to make it longer, increasing the number of rows and reducing the number of columns.
+
+# Arguments
+- `df`: A DataFrame.
+- `cols`: Columns to pivot into longer format. Multiple columns can be selected but providing tuples of columns is not yet supported.
+- `names_to`: Optional, defaults to `variable`. The name of the newly created column whose values will contain the input DataFrame's column names.
+- `values_to`: Optional, defaults to `value`. The name of the newly created column containing the input DataFrame's cell values.
+
+# Examples
+```jldoctest
+julia> df_wide = DataFrame(id = [1, 2], A = [1, 3], B = [2, 4]);
+
+julia> @pivot_longer(df_wide, A:B)
+4×3 DataFrame
+ Row │ id     variable  value 
+     │ Int64  String    Int64
+─────┼────────────────────────
+   1 │     1  A             1
+   2 │     2  A             3
+   3 │     1  B             2
+   4 │     2  B             4
+
+julia> @pivot_longer(df_wide, -id)
+4×3 DataFrame
+ Row │ id     variable  value 
+     │ Int64  String    Int64
+─────┼────────────────────────
+   1 │     1  A             1
+   2 │     2  A             3
+   3 │     1  B             2
+   4 │     2  B             4
+
+julia> @pivot_longer(df_wide, A:B, names_to = letter, values_to = number)
+4×3 DataFrame
+ Row │ id     letter  number 
+     │ Int64  String  Int64
+─────┼───────────────────────
+   1 │     1  A            1
+   2 │     2  A            3
+   3 │     1  B            2
+   4 │     2  B            4
+
+julia> @pivot_longer(df_wide, A:B, names_to = letter)
+4×3 DataFrame
+ Row │ id     letter  value 
+     │ Int64  String  Int64
+─────┼──────────────────────
+   1 │     1  A           1
+   2 │     2  A           3
+   3 │     1  B           2
+   4 │     2  B           4
+
+```
+"""
+
+const docstring_if_else =
+"""
+    if_else(condition, yes, no, [miss])
+
+Return the `yes` value if the `condition` is `true` and the `no` value if the `condition` is `false`. If `miss` is specified, then the provided `miss` value is returned when the `condition` contains a `missing` value. If `miss` is not specified, then the returned value is an explicit `missing` value.
+
+# Arguments
+- `condition`: A condition that evaluates to `true`, `false`, or `missing`.
+- `yes`: Value to return if the condition is `true`.
+- `no`: Value to return if the condition is `false`.
+- `miss`: Optional. Value to return if the condition is `missing`.
+
+# Examples
+```jldoctest
+julia> df = DataFrame(a = [1, 2, missing, 4, 5]);
+
+julia> @chain df begin
+       @mutate(b = if_else(a >= 3, "yes", "no"))
+       end
+5×2 DataFrame
+ Row │ a        b       
+     │ Int64?   String? 
+─────┼──────────────────
+   1 │       1  no
+   2 │       2  no
+   3 │ missing  missing 
+   4 │       4  yes
+   5 │       5  yes
+
+julia> @chain df begin
+       @mutate(b = if_else(a >= 3, "yes", "no", "unknown"))
+       end
+5×2 DataFrame
+ Row │ a        b       
+     │ Int64?   String  
+─────┼──────────────────
+   1 │       1  no
+   2 │       2  no
+   3 │ missing  unknown
+   4 │       4  yes
+   5 │       5  yes
+
+julia> @chain df begin
+       @mutate(b = if_else(a >= 3, 3, a))
+       end
+5×2 DataFrame
+ Row │ a        b       
+     │ Int64?   Int64?  
+─────┼──────────────────
+   1 │       1        1
+   2 │       2        2
+   3 │ missing  missing 
+   4 │       4        3
+   5 │       5        3
+
+julia> @chain df begin
+       @mutate(b = if_else(a >= 3, 3, a, 0))
+       end
+5×2 DataFrame
+ Row │ a        b     
+     │ Int64?   Int64 
+─────┼────────────────
+   1 │       1      1
+   2 │       2      2
+   3 │ missing      0
+   4 │       4      3
+   5 │       5      3
+```
+"""
+
+const docstring_case_when =
+"""
+    case_when(condition => return_value)
+    case_when(condition_1 => return_value_1, condition_2 => return_value_2, ...)
+
+Return the corresponding `return_value` for the first `condition` that evaluates to `true`.
+
+The most specific condition should be listed first and most general condition should be listed last. If none of the conditions evaluate to `true`, then a `missing` value is returned. 
+
+# Arguments
+- `condition`: A condition that evaluates to `true`, `false`, or `missing`.
+- `return_value`: The value to return if the condition is `true`.
+
+# Examples
+```jldoctest
+julia> df = DataFrame(a = [1, 2, missing, 4, 5]);
+
+julia> @chain df begin
+       @mutate(b = case_when(a > 4  =>  "hi",
+                             a > 2  =>  "medium",
+                             a > 0  =>  "low"))
+       end
+5×2 DataFrame
+ Row │ a        b       
+     │ Int64?   String? 
+─────┼──────────────────
+   1 │       1  low
+   2 │       2  low
+   3 │ missing  missing 
+   4 │       4  medium
+   5 │       5  hi
+
+julia> @chain df begin
+       @mutate(b = case_when(a > 4  =>  "hi",
+                             a > 2  =>  "medium",
+                             a > 0  =>  "low",
+                             true   =>  "unknown"))
+       end
+5×2 DataFrame
+ Row │ a        b       
+     │ Int64?   String  
+─────┼──────────────────
+   1 │       1  low
+   2 │       2  low
+   3 │ missing  unknown
+   4 │       4  medium
+   5 │       5  hi
+
+julia> @chain df begin
+       @mutate(b = case_when(a >= 3  =>  3,
+                             true    =>  a))
+       end
+5×2 DataFrame
+ Row │ a        b       
+     │ Int64?   Int64?  
+─────┼──────────────────
+   1 │       1        1
+   2 │       2        2
+   3 │ missing  missing 
+   4 │       4        3
+   5 │       5        3
+
+julia> @chain df begin
+       @mutate(b = case_when(a >= 3        =>  3,
+                             ismissing(a)  =>  0,
+                             true          =>  a))
+       end
+5×2 DataFrame
+ Row │ a        b     
+     │ Int64?   Int64 
+─────┼────────────────
+   1 │       1      1
+   2 │       2      2
+   3 │ missing      0
+   4 │       4      3
+   5 │       5      3
+```
+"""
