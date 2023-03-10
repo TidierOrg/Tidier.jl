@@ -918,7 +918,7 @@ julia> @chain df begin
    5 │       5  yes
 
 julia> @chain df begin
-       @mutate(b = if_else(a >= 3, "yes", "no", "maybe"))
+       @mutate(b = if_else(a >= 3, "yes", "no", "unknown"))
        end
 5×2 DataFrame
  Row │ a        b      
