@@ -127,6 +127,7 @@ nav:
   - "across" : "examples/generated/UserGuide/across.md"
   - "Conditionals": "examples/generated/UserGuide/conditionals.md"
   - "Joins" : "examples/generated/UserGuide/joins.md"
+  - "Pivoting": "examples/generated/UserGuide/pivots.md"
   - "Interpolation" : "examples/generated/UserGuide/interpolation.md"
   - "Auto-vectorization" : "examples/generated/UserGuide/autovec.md"
   - "Contribute" : "examples/generated/Contributors/Howto.md"

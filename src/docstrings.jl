@@ -892,20 +892,20 @@ const docstring_pivot_wider =
 """
    @pivot_wider(df, names_from, values_from)
 
-pivot_wider makes a DataFrame wider, increasing the number of columns and reducing the number of rows.
+Reshapes the DataFrame to make it wider, increasing the number of columns and reducing the number of rows.
 
 # Arguments
 - `df`: A DataFrame.
-- `names_from`: Which column (or columns) to get the name of the output column from.
-- `values_from`: Which column (or columns) to get the cell values from.
+- `names_from`: The name of the column to get the name of the output columns from.
+- `values_from`: The name of the column to get the cell values from.
 
 # Examples
 ```jldoctest
-julia> test_df_long = DataFrame(id = [1, 1, 2, 2],
-                                variable = ["A", "B", "A", "B"],
-                                value = [1, 2, 3, 4]);
+julia> df_long = DataFrame(id = [1, 1, 2, 2],
+                           variable = ["A", "B", "A", "B"],
+                           value = [1, 2, 3, 4]);
 
-julia> @pivot_wider(test_df_long, names_from = variable, values_from = value)
+julia> @pivot_wider(df_long, names_from = variable, values_from = value)
 2×3 DataFrame
  Row │ id     A       B      
      │ Int64  Int64?  Int64?
@@ -919,19 +919,19 @@ const docstring_pivot_longer =
 """
    @pivot_longer(df, cols, [names_to], [values_to])
 
-julia> pivot_longer makes a DataFrame longer, increasing the number of rows and reducing the number of columns.
+Reshapes the DataFrame to make it longer, increasing the number of rows and reducing the number of columns.
 
 # Arguments
 - `df`: A DataFrame.
-- `cols`: Columns to pivot into longer format.
+- `cols`: Columns to pivot into longer format. Multiple columns can be selected but providing tuples of columns is not yet supported.
 - `names_to`: Optional, defaults to `variable`. The name of the newly created column whose values will contain the input DataFrame's column names.
 - `values_to`: Optional, defaults to `value`. The name of the newly created column containing the input DataFrame's cell values.
 
 # Examples
 ```jldoctest
-julia> test_df_wide = DataFrame(id = [1, 2], A = [1, 3], B = [2, 4]);
+julia> df_wide = DataFrame(id = [1, 2], A = [1, 3], B = [2, 4]);
 
-julia> @pivot_longer(test_df_wide, A:B)
+julia> @pivot_longer(df_wide, A:B)
 4×3 DataFrame
  Row │ id     variable  value 
      │ Int64  String    Int64
@@ -941,7 +941,7 @@ julia> @pivot_longer(test_df_wide, A:B)
    3 │     1  B             2
    4 │     2  B             4
 
-julia> @pivot_longer(test_df_wide, -id)
+julia> @pivot_longer(df_wide, -id)
 4×3 DataFrame
  Row │ id     variable  value 
      │ Int64  String    Int64
@@ -951,7 +951,7 @@ julia> @pivot_longer(test_df_wide, -id)
    3 │     1  B             2
    4 │     2  B             4
 
-julia> @pivot_longer(test_df_wide, A:B, names_to = letter, values_to = number)
+julia> @pivot_longer(df_wide, A:B, names_to = letter, values_to = number)
 4×3 DataFrame
  Row │ id     letter  number 
      │ Int64  String  Int64
@@ -961,7 +961,7 @@ julia> @pivot_longer(test_df_wide, A:B, names_to = letter, values_to = number)
    3 │     1  B            2
    4 │     2  B            4
 
-julia> @pivot_longer(test_df_wide, A:B, names_to = letter)
+julia> @pivot_longer(df_wide, A:B, names_to = letter)
 4×3 DataFrame
  Row │ id     letter  value 
      │ Int64  String  Int64
