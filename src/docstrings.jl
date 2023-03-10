@@ -901,7 +901,9 @@ pivot_wider makes a DataFrame wider, increasing the number of columns and reduci
 
 # Examples
 ```jldoctest
-julia> test_df_long = DataFrame(id = [1, 1, 2, 2], variable = ["A", "B", "A", "B"], value = [1, 2, 3, 4]);
+julia> test_df_long = DataFrame(id = [1, 1, 2, 2],
+                                variable = ["A", "B", "A", "B"],
+                                value = [1, 2, 3, 4]);
 
 julia> @pivot_wider(test_df_long, names_from = variable, values_from = value)
 2×3 DataFrame
@@ -915,13 +917,15 @@ julia> @pivot_wider(test_df_long, names_from = variable, values_from = value)
 
 const docstring_pivot_longer =
 """
-   @pivot_longer(df, cols)
+   @pivot_longer(df, cols, [names_to], [values_to])
 
 julia> pivot_longer makes a DataFrame longer, increasing the number of rows and reducing the number of columns.
 
 # Arguments
 - `df`: A DataFrame.
 - `cols`: Columns to pivot into longer format.
+- `names_to`: Optional, defaults to `variable`. The name of the newly created column whose values will contain the input DataFrame's column names.
+- `values_to`: Optional, defaults to `value`. The name of the newly created column containing the input DataFrame's cell values.
 
 # Examples
 ```jldoctest
@@ -969,6 +973,7 @@ julia> @pivot_longer(test_df_wide, A:B, names_to = letter)
 
 ```
 """
+
 const docstring_if_else =
 """
     if_else(condition, yes, no, [miss])
