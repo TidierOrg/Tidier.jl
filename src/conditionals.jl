@@ -1,3 +1,6 @@
+"""
+$docstring_if_else
+"""
 function if_else(condition::Union{Bool, Missing}, yes, no, miss)
   if ismissing(condition)
     return miss
@@ -22,15 +25,14 @@ function if_else(condition::Union{Bool, Missing}, yes, no)
   end
 end
 
-# a = 1:10
-# case_when and => get auto-vectorized
-# case_when.(true .=> "hello", true .=> "false")
-# Examples:
-# case_when.(a .>= 3 .=> "yes") # remainder are missing
-# case_when.(a .>= 3 .=> "yes", true .=> "no")
+"""
+$docstring_case_when
+"""
 function case_when(conditions...)
   for condition in conditions
-    if condition[1]
+    if ismissing(condition[1])
+      continue
+    elseif condition[1]
       return condition[2]
     end
   end
