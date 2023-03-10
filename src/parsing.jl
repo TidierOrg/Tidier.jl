@@ -56,6 +56,18 @@ function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, su
 end
 
 # Not exported
+function parse_pivot_args(tidy_expr::Union{Expr,Symbol,Number})
+  if @capture(tidy_expr, lhs_ = rhs_)
+    lhs = QuoteNode(lhs)
+    rhs = QuoteNode(rhs)
+    return :($lhs => $rhs)
+  else
+    tidy_expr = parse_tidy(tidy_expr)
+    return :(:cols => $(tidy_expr))
+  end
+end
+
+# Not exported
 function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool=true, subset::Bool=false)
 
   lhs = QuoteNode(lhs)

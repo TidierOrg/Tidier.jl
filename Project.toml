@@ -4,18 +4,20 @@ authors = ["Karandeep Singh"]
 version = "0.4.1"
 
 [deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
-julia = "1.6"
 Chain = "0.5"
 DataFrames = "1.5"
 MacroTools = "0.5"
 Reexport = "0.2, 1"
+julia = "1.6"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

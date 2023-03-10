@@ -888,6 +888,92 @@ julia> @full_join(df1, df2, "a" = "a")
 ```
 """
 
+const docstring_pivot_wider =
+"""
+   @pivot_wider(df, names_from, values_from)
+
+Reshapes the DataFrame to make it wider, increasing the number of columns and reducing the number of rows.
+
+# Arguments
+- `df`: A DataFrame.
+- `names_from`: The name of the column to get the name of the output columns from.
+- `values_from`: The name of the column to get the cell values from.
+
+# Examples
+```jldoctest
+julia> df_long = DataFrame(id = [1, 1, 2, 2],
+                           variable = ["A", "B", "A", "B"],
+                           value = [1, 2, 3, 4]);
+
+julia> @pivot_wider(df_long, names_from = variable, values_from = value)
+2×3 DataFrame
+ Row │ id     A       B      
+     │ Int64  Int64?  Int64?
+─────┼───────────────────────
+   1 │     1       1       2
+   2 │     2       3       4
+```
+"""
+
+const docstring_pivot_longer =
+"""
+   @pivot_longer(df, cols, [names_to], [values_to])
+
+Reshapes the DataFrame to make it longer, increasing the number of rows and reducing the number of columns.
+
+# Arguments
+- `df`: A DataFrame.
+- `cols`: Columns to pivot into longer format. Multiple columns can be selected but providing tuples of columns is not yet supported.
+- `names_to`: Optional, defaults to `variable`. The name of the newly created column whose values will contain the input DataFrame's column names.
+- `values_to`: Optional, defaults to `value`. The name of the newly created column containing the input DataFrame's cell values.
+
+# Examples
+```jldoctest
+julia> df_wide = DataFrame(id = [1, 2], A = [1, 3], B = [2, 4]);
+
+julia> @pivot_longer(df_wide, A:B)
+4×3 DataFrame
+ Row │ id     variable  value 
+     │ Int64  String    Int64
+─────┼────────────────────────
+   1 │     1  A             1
+   2 │     2  A             3
+   3 │     1  B             2
+   4 │     2  B             4
+
+julia> @pivot_longer(df_wide, -id)
+4×3 DataFrame
+ Row │ id     variable  value 
+     │ Int64  String    Int64
+─────┼────────────────────────
+   1 │     1  A             1
+   2 │     2  A             3
+   3 │     1  B             2
+   4 │     2  B             4
+
+julia> @pivot_longer(df_wide, A:B, names_to = letter, values_to = number)
+4×3 DataFrame
+ Row │ id     letter  number 
+     │ Int64  String  Int64
+─────┼───────────────────────
+   1 │     1  A            1
+   2 │     2  A            3
+   3 │     1  B            2
+   4 │     2  B            4
+
+julia> @pivot_longer(df_wide, A:B, names_to = letter)
+4×3 DataFrame
+ Row │ id     letter  value 
+     │ Int64  String  Int64
+─────┼──────────────────────
+   1 │     1  A           1
+   2 │     2  A           3
+   3 │     1  B           2
+   4 │     2  B           4
+
+```
+"""
+
 const docstring_if_else =
 """
     if_else(condition, yes, no, [miss])
