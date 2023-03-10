@@ -314,3 +314,15 @@ macro pull(df, column)
 end
 
 end
+
+
+using .Tidier
+using Chain
+using DataFrames
+using MacroTools
+
+df = DataFrame(a = repeat('a':'e'), b = 1:5, c = 11:15);
+
+@chain df begin
+@filter(!(b >= mean(b)))
+end
