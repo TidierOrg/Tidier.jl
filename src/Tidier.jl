@@ -12,7 +12,7 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export Tidier_set, across, desc, starts_with, ends_with, matches, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
+export Tidier_set, across, desc, starts_with, ends_with, matches, if_else, case_when, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -23,6 +23,7 @@ include("docstrings.jl")
 include("parsing.jl")
 include("joins.jl")
 include("pivots.jl")
+include("conditionals.jl")
 
 # Function to set global variables
 """
