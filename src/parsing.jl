@@ -14,8 +14,12 @@ function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, su
     if (start_index isa Symbol) | (start_index isa Number)
       start_index = QuoteNode(start_index)
       return :(Not($start_index))
-    elseif @capture(start_index, fn_(args__)) 
-      return :(Cols($(esc(tidy_expr))))
+    elseif @capture(start_index, fn_(args__))
+      if subset # make negation works within @filter
+        return parse_function(:ignore, tidy_expr; autovec, subset) 
+      else 
+        return :(Cols($(esc(tidy_expr))))
+      end
     end
   elseif @capture(tidy_expr, start_index_:end_index_)
     if start_index isa Symbol
