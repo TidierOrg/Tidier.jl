@@ -310,15 +310,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#whats-missing" class="md-nav__link">
-    What’s missing?
+  <a href="#whats-new" class="md-nav__link">
+    What’s new
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#whats-new" class="md-nav__link">
-    What’s new
+  <a href="#whats-missing" class="md-nav__link">
+    What's missing
   </a>
   
 </li>
@@ -519,6 +519,21 @@
   
   
     <li class="md-nav__item">
+      <a href="examples/generated/UserGuide/pivots/" class="md-nav__link">
+        Pivoting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="examples/generated/UserGuide/interpolation/" class="md-nav__link">
         Interpolation
       </a>
@@ -624,15 +639,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#whats-missing" class="md-nav__link">
-    What’s missing?
+  <a href="#whats-new" class="md-nav__link">
+    What’s new
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#whats-new" class="md-nav__link">
-    What’s new
+  <a href="#whats-missing" class="md-nav__link">
+    What's missing
   </a>
   
 </li>
@@ -734,12 +749,16 @@ through modification of the abstract syntax tree).</p>
 <li><code>@right_join()</code></li>
 <li><code>@inner_join()</code></li>
 <li><code>@full_join()</code></li>
+<li><code>@pivot_wider()</code></li>
+<li><code>@pivot_longer()</code></li>
 </ul>
 </div>
 <p>Tidier.jl also supports the following helper functions:</p>
 <div class="admonition example">
 <p class="admonition-title">Helper functions:</p>
 <ul>
+<li><code>if_else()</code></li>
+<li><code>case_when()</code></li>
 <li><code>starts_with()</code></li>
 <li><code>ends_with()</code></li>
 <li><code>matches()</code></li>
@@ -775,17 +794,14 @@ through modification of the abstract syntax tree).</p>
    4 │ 13 Going On 30                  37.0
    5 │ 13th Warrior, The               85.0
 </code></pre></div>
-<p><a id='What’s-missing?'></a></p>
-<p><a id='What’s-missing?-1'></a></p>
-<h2 id="whats-missing">What’s missing?<a class="headerlink" href="#whats-missing" title="Permanent link">¤</a></h2>
-<ul>
-<li>Pivoting</li>
-<li>Tidyverse-style <code>if_else()</code> that handles missing values, and <code>case_when()</code></li>
-</ul>
 <p><a id='What’s-new'></a></p>
 <p><a id='What’s-new-1'></a></p>
 <h2 id="whats-new">What’s new<a class="headerlink" href="#whats-new" title="Permanent link">¤</a></h2>
 <p>See <a href="https://github.com/kdpsingh/Tidier.jl/blob/main/NEWS.md">NEWS.md</a> for the latest updates.</p>
+<p><a id='What's-missing'></a></p>
+<p><a id='What's-missing-1'></a></p>
+<h2 id="whats-missing">What's missing<a class="headerlink" href="#whats-missing" title="Permanent link">¤</a></h2>
+<p>Is there a tidyverse feature missing that you would like to see in Tidier.jl? Please file a GitHub issue. Because Tidier.jl primarily wraps DataFrames.jl, our decision to integrate a new feature will be guided by how well-supported it is within DataFrames.jl and how likely other users are to benefit from it.</p>
 
 
 

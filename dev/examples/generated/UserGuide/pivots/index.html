@@ -13,17 +13,17 @@
       
       
       
-        <link rel="prev" href="../../../..">
+        <link rel="prev" href="../joins/">
       
       
-        <link rel="next" href="../select/">
+        <link rel="next" href="../interpolation/">
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.2">
     
     
       
-        <title>Movies dataset - Tidier.jl</title>
+        <title>Pivoting - Tidier.jl</title>
       
     
     
@@ -78,6 +78,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#pivot_wider" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -108,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Movies dataset
+              Pivoting
             
           </span>
         </div>
@@ -262,19 +267,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../dataset_movies/" class="md-nav__link">
         Movies dataset
       </a>
-      
     </li>
   
 
@@ -450,11 +447,55 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../pivots/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Pivoting
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Pivoting
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pivot_wider" class="md-nav__link">
+    @pivot_wider()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pivot_longer" class="md-nav__link">
+    @pivot_longer()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -537,6 +578,28 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pivot_wider" class="md-nav__link">
+    @pivot_wider()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pivot_longer" class="md-nav__link">
+    @pivot_longer()
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -550,28 +613,57 @@
                   
 
 
-  <h1>Movies dataset</h1>
+  <h1>Pivoting</h1>
 
-<p>To get started, we will load the <code>movies</code> dataset from the <code>RDatasets.jl</code> package.</p>
+<p>Pivoting a dataset is needed when information sitting inside of cell values needs to be converted into column names (to make the dataset wider) or vice verse (to make the dataset longer). Either action can be referred to as "reshaping" a dataset, and various frameworks refer to the actions as unstacking/stacking or spreading/gathering. In R's tidyverse, these actions are referred to as pivoting, where the two accompanying actions are <code>@pivot_wider()</code> and <code>@pivot_longer()</code>.</p>
+<p><a id='@pivot_wider()'></a></p>
+<p><a id='@pivot_wider()-1'></a></p>
+<h2 id="pivot_wider"><code>@pivot_wider()</code><a class="headerlink" href="#pivot_wider" title="Permanent link">¤</a></h2>
+<p>Pivoting a dataset to make it wider is needed when information sitting inside of cell values needs to be converted into column names. The wider format is sometimes required for the purposes of calculating correlations or running statistical tests.</p>
+<p>Let's start with a "long" DataFrame and make it wide. Why would we want to make it wide? Well, if we wanted to calculate a correlation between <code>A</code> and <code>B</code> for rows with corresponding <code>id</code> numbers, we may need to first make sure that <code>A</code> and <code>B</code> are represented in adjacent columns.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
-<span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
-<span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;ggplot2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;movies&quot;</span><span class="p">);</span>
+<span class="n">df_long</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
+<span class="w">                    </span><span class="n">variable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">],</span>
+<span class="w">                    </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">])</span>
 </code></pre></div>
-<p>To work with this dataset, we will use the <code>@chain</code> macro. This macro initiates a pipe, and every function or macro provided to it between the <code>begin</code> and <code>end</code> blocks modifies the dataframe mentioned at the beginning of the pipe. You don't have to necessarily spread a chain over multiple lines of code, but when working with data frames it's often easiest to do so. Before going futher, take a look at the <a href="https://github.com/jkrumbiegel/Chain.jl">Chain.jl GitHub page</a> to see all the cool things that are possible with this, including mid-chain side effects using <code>@aside</code> and mid-chain assignment of variables.</p>
-<p>Let's take a look at the first 5 rows of the <code>movies</code> dataset using <code>@slice()</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></div>
-<div><div style = "float: left;"><span>5×24 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Length</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th><th style = "text-align: left;">Votes</th><th style = "text-align: left;">R1</th><th style = "text-align: left;">R2</th><th style = "text-align: left;">R3</th><th style = "text-align: left;">R4</th><th style = "text-align: left;">R5</th><th style = "text-align: left;">R6</th><th style = "text-align: left;">R7</th><th style = "text-align: left;">R8</th><th style = "text-align: left;">R9</th><th style = "text-align: left;">R10</th><th style = "text-align: left;">MPAA</th><th style = "text-align: left;">Action</th><th style = "text-align: left;">Animation</th><th style = "text-align: left;">Comedy</th><th style = "text-align: left;">Drama</th><th style = "text-align: left;">Documentary</th><th style = "text-align: left;">Romance</th><th style = "text-align: left;">Short</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "CategoricalArrays.CategoricalValue{String, UInt8}" style = "text-align: left;">Cat…</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">$</td><td style = "text-align: right;">1971</td><td style = "text-align: right;">121</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.4</td><td style = "text-align: right;">348</td><td style = "text-align: right;">4.5</td><td style = "text-align: right;">4.5</td><td style = "text-align: right;">4.5</td><td style = "text-align: right;">4.5</td><td style = "text-align: right;">14.5</td><td style = "text-align: right;">24.5</td><td style = "text-align: right;">24.5</td><td style = "text-align: right;">14.5</td><td style = "text-align: right;">4.5</td><td style = "text-align: right;">4.5</td><td style = "text-align: left;"></td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">1</td><td style = "text-align: right;">1</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">$1000 a Touchdown</td><td style = "text-align: right;">1939</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.0</td><td style = "text-align: right;">20</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">14.5</td><td style = "text-align: right;">4.5</td><td style = "text-align: right;">24.5</td><td style = "text-align: right;">14.5</td><td style = "text-align: right;">14.5</td><td style = "text-align: right;">14.5</td><td style = "text-align: right;">4.5</td><td style = "text-align: right;">4.5</td><td style = "text-align: right;">14.5</td><td style = "text-align: left;"></td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">1</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">$21 a Day Once a Month</td><td style = "text-align: right;">1941</td><td style = "text-align: right;">7</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td><td style = "text-align: right;">5</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">24.5</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">44.5</td><td style = "text-align: right;">24.5</td><td style = "text-align: right;">24.5</td><td style = "text-align: left;"></td><td style = "text-align: right;">0</td><td style = "text-align: right;">1</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">$40,000</td><td style = "text-align: right;">1996</td><td style = "text-align: right;">70</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td><td style = "text-align: right;">6</td><td style = "text-align: right;">14.5</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">34.5</td><td style = "text-align: right;">45.5</td><td style = "text-align: left;"></td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">1</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">$50,000 Climax Show, The</td><td style = "text-align: right;">1975</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">3.4</td><td style = "text-align: right;">17</td><td style = "text-align: right;">24.5</td><td style = "text-align: right;">4.5</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">14.5</td><td style = "text-align: right;">14.5</td><td style = "text-align: right;">4.5</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">0.0</td><td style = "text-align: right;">24.5</td><td style = "text-align: left;"></td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td><td style = "text-align: right;">0</td></tr></tbody></table></div>
+<div><div style = "float: left;"><span>4×3 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">id</th><th style = "text-align: left;">variable</th><th style = "text-align: left;">value</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "String" style = "text-align: left;">String</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1</td><td style = "text-align: left;">A</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">1</td><td style = "text-align: left;">B</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">2</td><td style = "text-align: left;">A</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">2</td><td style = "text-align: left;">B</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
 
-<p>Let's use the <code>describe()</code> function, which is re-exported from the <code>DataFrames.jl</code> package to describe the dataset.</p>
-<div class="highlight"><pre><span></span><code><span class="n">describe</span><span class="p">(</span><span class="n">movies</span><span class="p">)</span>
+<p>To make this dataset wider, we can do the following:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pivot_wider</span><span class="p">(</span><span class="n">df_long</span><span class="p">,</span><span class="w"> </span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">variable</span><span class="p">,</span><span class="w"> </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>24×7 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">variable</th><th style = "text-align: left;">mean</th><th style = "text-align: left;">min</th><th style = "text-align: left;">median</th><th style = "text-align: left;">max</th><th style = "text-align: left;">nmissing</th><th style = "text-align: left;">eltype</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Symbol" style = "text-align: left;">Symbol</th><th title = "Union{Nothing, Float64}" style = "text-align: left;">Union…</th><th title = "Any" style = "text-align: left;">Any</th><th title = "Union{Nothing, Float64}" style = "text-align: left;">Union…</th><th title = "Any" style = "text-align: left;">Any</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Type" style = "text-align: left;">Type</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">Title</td><td style = "font-style: italic; text-align: left;"></td><td style = "text-align: left;">$</td><td style = "font-style: italic; text-align: left;"></td><td style = "text-align: left;">xXx: State of the Union</td><td style = "text-align: right;">0</td><td style = "text-align: left;">String</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">Year</td><td style = "text-align: left;">1976.13</td><td style = "text-align: left;">1893</td><td style = "text-align: left;">1983.0</td><td style = "text-align: left;">2005</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int32</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">Length</td><td style = "text-align: left;">82.3379</td><td style = "text-align: left;">1</td><td style = "text-align: left;">90.0</td><td style = "text-align: left;">5220</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int32</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">Budget</td><td style = "text-align: left;">1.34125e7</td><td style = "text-align: left;">0</td><td style = "text-align: left;">3.0e6</td><td style = "text-align: left;">200000000</td><td style = "text-align: right;">53573</td><td style = "text-align: left;">Union{Missing, Int32}</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">Rating</td><td style = "text-align: left;">5.93285</td><td style = "text-align: left;">1.0</td><td style = "text-align: left;">6.1</td><td style = "text-align: left;">10.0</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">Votes</td><td style = "text-align: left;">632.13</td><td style = "text-align: left;">5</td><td style = "text-align: left;">30.0</td><td style = "text-align: left;">157608</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int32</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">R1</td><td style = "text-align: left;">7.01438</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">4.5</td><td style = "text-align: left;">100.0</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">8</td><td style = "text-align: left;">R2</td><td style = "text-align: left;">4.02238</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">4.5</td><td style = "text-align: left;">84.5</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">9</td><td style = "text-align: left;">R3</td><td style = "text-align: left;">4.72116</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">4.5</td><td style = "text-align: left;">84.5</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">10</td><td style = "text-align: left;">R4</td><td style = "text-align: left;">6.37485</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">4.5</td><td style = "text-align: left;">100.0</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">11</td><td style = "text-align: left;">R5</td><td style = "text-align: left;">9.79669</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">4.5</td><td style = "text-align: left;">100.0</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">12</td><td style = "text-align: left;">R6</td><td style = "text-align: left;">13.0392</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">14.5</td><td style = "text-align: left;">84.5</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">13</td><td style = "text-align: left;">R7</td><td style = "text-align: left;">15.5481</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">14.5</td><td style = "text-align: left;">100.0</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">14</td><td style = "text-align: left;">R8</td><td style = "text-align: left;">13.876</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">14.5</td><td style = "text-align: left;">100.0</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">15</td><td style = "text-align: left;">R9</td><td style = "text-align: left;">8.95421</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">4.5</td><td style = "text-align: left;">100.0</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">16</td><td style = "text-align: left;">R10</td><td style = "text-align: left;">16.854</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">14.5</td><td style = "text-align: left;">100.0</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">17</td><td style = "text-align: left;">MPAA</td><td style = "font-style: italic; text-align: left;"></td><td style = "text-align: left;"></td><td style = "font-style: italic; text-align: left;"></td><td style = "text-align: left;">R</td><td style = "text-align: right;">0</td><td style = "text-align: left;">CategoricalValue{String, UInt8}</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">18</td><td style = "text-align: left;">Action</td><td style = "text-align: left;">0.0797442</td><td style = "text-align: left;">0</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">1</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int32</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">19</td><td style = "text-align: left;">Animation</td><td style = "text-align: left;">0.0627679</td><td style = "text-align: left;">0</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">1</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int32</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">20</td><td style = "text-align: left;">Comedy</td><td style = "text-align: left;">0.293784</td><td style = "text-align: left;">0</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">1</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int32</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">21</td><td style = "text-align: left;">Drama</td><td style = "text-align: left;">0.371011</td><td style = "text-align: left;">0</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">1</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int32</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">22</td><td style = "text-align: left;">Documentary</td><td style = "text-align: left;">0.0590597</td><td style = "text-align: left;">0</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">1</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int32</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">23</td><td style = "text-align: left;">Romance</td><td style = "text-align: left;">0.0806967</td><td style = "text-align: left;">0</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">1</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int32</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">24</td><td style = "text-align: left;">Short</td><td style = "text-align: left;">0.160883</td><td style = "text-align: left;">0</td><td style = "text-align: left;">0.0</td><td style = "text-align: left;">1</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int32</td></tr></tbody></table></div>
+<div><div style = "float: left;"><span>2×3 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">id</th><th style = "text-align: left;">A</th><th style = "text-align: left;">B</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Union{Missing, Int64}" style = "text-align: left;">Int64?</th><th title = "Union{Missing, Int64}" style = "text-align: left;">Int64?</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1</td><td style = "text-align: right;">1</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">2</td><td style = "text-align: right;">3</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
+
+<p>In <code>@pivot_wider()</code>, both the <code>names_from</code> and <code>values_from</code> arguments are required.</p>
+<p><a id='@pivot_longer()'></a></p>
+<p><a id='@pivot_longer()-1'></a></p>
+<h2 id="pivot_longer"><code>@pivot_longer()</code><a class="headerlink" href="#pivot_longer" title="Permanent link">¤</a></h2>
+<p>For calculating summary statistics (e.g., mean) by groups, or for plotting purposes, DataFrames often need to be converted to their longer form. For this, we can use <code>@pivot_longer</code>. First, let's start with a "wide" DataFrame.</p>
+<div class="highlight"><pre><span></span><code><span class="n">df_wide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">],</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">])</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>2×3 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">id</th><th style = "text-align: left;">A</th><th style = "text-align: left;">B</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1</td><td style = "text-align: right;">1</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">2</td><td style = "text-align: right;">3</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
+
+<p>Now, let's transform this wide dataset into the longer form. Unlike <code>@pivot_wider()</code>, where providing the <code>names_from</code> and <code>values_from</code> arguments is required, the only item that's required in <code>@pivot_wider()</code> is a set of columns to pivot. The <code>names_to</code> and <code>values_to</code> arguments are optional, and if not provided, they will default to "variable" and "value", respectively.</p>
+<p>We can recreate the original long dataset by doing the following. Multiple columns must be provided using selection syntax or a selection helper. Tuples containing multiple columns are not yet supported.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pivot_longer</span><span class="p">(</span><span class="n">df_wide</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="o">:</span><span class="n">B</span><span class="p">)</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>4×3 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">id</th><th style = "text-align: left;">variable</th><th style = "text-align: left;">value</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "String" style = "text-align: left;">String</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1</td><td style = "text-align: left;">A</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">2</td><td style = "text-align: left;">A</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">1</td><td style = "text-align: left;">B</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">2</td><td style = "text-align: left;">B</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
+
+<p>Here is another way of providing the same result using a different type of selection syntax.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pivot_longer</span><span class="p">(</span><span class="n">df_wide</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>4×3 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">id</th><th style = "text-align: left;">variable</th><th style = "text-align: left;">value</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "String" style = "text-align: left;">String</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1</td><td style = "text-align: left;">A</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">2</td><td style = "text-align: left;">A</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">1</td><td style = "text-align: left;">B</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">2</td><td style = "text-align: left;">B</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
+
+<p>In this example, we set the <code>names_to</code> and <code>values_to</code> arguments. Either argument can be left out and will revert to the default value. The <code>names_to</code> and <code>values_to</code> arguments must be bare unquoted variable names. Strings containing variable names are not yet supported.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pivot_longer</span><span class="p">(</span><span class="n">df_wide</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="o">:</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">letter</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+<div><div style = "float: left;"><span>4×3 DataFrame</span></div><div style = "clear: both;"></div></div>
+<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">id</th><th style = "text-align: left;">letter</th><th style = "text-align: left;">number</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "String" style = "text-align: left;">String</th><th title = "Int64" style = "text-align: left;">Int64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1</td><td style = "text-align: left;">A</td><td style = "text-align: right;">1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">2</td><td style = "text-align: left;">A</td><td style = "text-align: right;">3</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">1</td><td style = "text-align: left;">B</td><td style = "text-align: right;">2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">2</td><td style = "text-align: left;">B</td><td style = "text-align: right;">4</td></tr></tbody></table></div>
 
 <hr />
 <p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p>
@@ -601,7 +693,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home" rel="prev">
+          <a href="../joins/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Joins" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -610,20 +702,20 @@
                 <span class="md-footer__direction">
                   Previous
                 </span>
-                Home
+                Joins
               </div>
             </div>
           </a>
         
         
           
-          <a href="../select/" class="md-footer__link md-footer__link--next" aria-label="Next: @select" rel="next">
+          <a href="../interpolation/" class="md-footer__link md-footer__link--next" aria-label="Next: Interpolation" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                @select
+                Interpolation
               </div>
             </div>
             <div class="md-footer__button md-icon">
