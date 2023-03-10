@@ -1,5 +1,11 @@
 # Tidier.jl updates
 
+## Dev
+
+- Added `if_else()` and `case_when()`
+- Added `@pivot_wider()` and `@pivot_wider()`
+- For developers: doctests can now be run locally using `runtests.jl`
+
 ## v0.4.1 - 2023-03-05
 
 - In addition `in` being auto-vectorized as before, the second argument is automatically wrapped inside of `Ref(Set(arg2))` if not already done to ensure that it is evaluated correctly and fast. See: https://bkamins.github.io/julialang/2023/02/10/in.html for details. This same behavior is also implemented for `∈` and `∉`.
