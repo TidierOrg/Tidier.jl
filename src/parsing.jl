@@ -2,7 +2,7 @@
 function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, subset::Bool=false, from_across::Bool=false) # Can be symbol or expression
   if @capture(tidy_expr, across(vars_, funcs_))
     return parse_across(vars, funcs)
-  elseif @capture(tidy_expr, -(start_index_:end_index_))
+  elseif @capture(tidy_expr, -(start_index_:end_index_) | !(start_index_:end_index_))
     if start_index isa Symbol
       start_index = QuoteNode(start_index)
     end
@@ -10,11 +10,13 @@ function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, su
       end_index = QuoteNode(end_index)
     end
     return :(Not(Between($start_index, $end_index)))
-  elseif @capture(tidy_expr, -start_index_)
-    if start_index isa Symbol
+  elseif @capture(tidy_expr, -start_index_ | !start_index_)
+    if (start_index isa Symbol) | (start_index isa Number)
       start_index = QuoteNode(start_index)
+      return :(Not($start_index))
+    elseif @capture(start_index, fn_(args__)) 
+      return :(Cols($(esc(tidy_expr))))
     end
-    return :(Not($start_index))
   elseif @capture(tidy_expr, start_index_:end_index_)
     if start_index isa Symbol
       start_index = QuoteNode(start_index)
@@ -105,14 +107,22 @@ function parse_across(vars::Union{Expr,Symbol}, funcs::Union{Expr,Symbol})
   if vars isa Symbol
     push!(src, QuoteNode(vars))
   elseif @capture(vars, fn_(args__)) # selection helpers
-    push!(src, esc(vars))
+    if fn == :!
+      push!(src, parse_tidy(vars))
+    else
+      push!(src, esc(vars))
+    end
   else
     @capture(vars, (args__,))
     for arg in args
       if arg isa Symbol
         push!(src, QuoteNode(arg))
       elseif @capture(arg, fn_(args__)) # selection helpers
-        push!(src, esc(arg))
+        if fn == :!
+          push!(src, parse_tidy(arg)) 
+        else
+          push!(src, esc(arg))
+        end
       else
         push!(src, parse_tidy(arg))
       end
@@ -348,31 +358,4 @@ function parse_interpolation(var_expr::Union{Expr,Symbol,Number,String})
     return x
   end
   return var_expr
-end
-
-# Not exported
-function parse_negation(var_expr::Union{Expr,Symbol,Number})
-  if @capture(var_expr, start_index_:end_index_)
-    if start_index isa Symbol
-      start_index = QuoteNode(start_index)
-    end
-    if end_index isa Symbol
-      end_index = QuoteNode(end_index)
-    end
-    return :(Not(Between($start_index, $end_index)))
-  elseif @capture(var_expr, fn_(vars_))
-    return :(Not(Cols($(esc(var_expr)))))
-  else
-    var_expr = QuoteNode(var_expr)
-    return :(Not($var_expr))
-  end
-end
-
-# Not exported
-function parse_select(tidy_expr::Union{Expr,Symbol,Number})
-  if @capture(tidy_expr, !(arg_))
-    return parse_negation(arg)
-  else
-    return parse_tidy(tidy_expr)
-  end
 end
