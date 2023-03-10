@@ -91,7 +91,7 @@ function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool=true, subset::Bool
   rhs = parse_escape_function(rhs) # ensure that functions in user space are available
 
   if subset
-    return :($src => ($func_left -> coalesce.($rhs, false))) # to ensure that missings are replace by false
+    return :($src => ($func_left -> $rhs)) # to ensure that missings are replace by false
   else
     return :($src => ($func_left -> $rhs) => $lhs)
   end

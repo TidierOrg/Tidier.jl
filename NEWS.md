@@ -1,10 +1,12 @@
 # Tidier.jl updates
 
-## Dev
+## v0.5.0 - 2023-03-10
 
-- Added `if_else()` and `case_when()`
-- Added `@pivot_wider()` and `@pivot_wider()`
-- For developers: doctests can now be run locally using `runtests.jl`
+- Added `@pivot_wider()` and `@pivot_wider()`.
+- Added `if_else()` and `case_when()`.
+- Updated documentation to include `Main.variable` example as an alternative syntax for interpolation.
+- Simplified internal use of `subset()` by using keyword argument of `skipmissing = true` instead of using `coalesce(..., false)`.
+- For developers: doctests can now be run locally using `runtests.jl`.
 
 ## v0.4.1 - 2023-03-05
 
