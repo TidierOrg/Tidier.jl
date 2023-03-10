@@ -12,7 +12,7 @@ macro pivot_wider(df, exprs...)
     arg_dict = Dict{Symbol, Any}()
 
     if haskey(expr_dict, QuoteNode(:values_fill))
-        arg_dict[:fill] = String(eval(expr_dict[QuoteNode(:values_fill)]))
+        arg_dict[:fill] = eval(expr_dict[QuoteNode(:values_fill)])
     end
 
     df_expr = quote
