@@ -57,7 +57,7 @@ Pkg.add(url="https://github.com/kdpsingh/Tidier.jl")
 or
 
 ```julia
-] add https://github.com/kdpsingh/Tidier.jl
+] add Tidier
 ```
 
 The `]` character starts the Julia [package manager](https://docs.julialang.org/en/v1/stdlib/Pkg/). Hit backspace key to return to the Julia prompt.
