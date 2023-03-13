@@ -2,27 +2,22 @@
 function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, subset::Bool=false, from_across::Bool=false) # Can be symbol or expression
   if @capture(tidy_expr, across(vars_, funcs_))
     return parse_across(vars, funcs)
-  elseif @capture(tidy_expr, -(start_index_:end_index_))
-    if start_index isa Symbol
-      start_index = QuoteNode(start_index)
+  elseif @capture(tidy_expr, -(startindex_:endindex_) | !(startindex_:endindex_))
+    if startindex isa Symbol
+      startindex = QuoteNode(startindex)
     end
-    if end_index isa Symbol
-      end_index = QuoteNode(end_index)
+    if endindex isa Symbol
+      endindex = QuoteNode(endindex)
     end
-    return :(Not(Between($start_index, $end_index)))
-  elseif @capture(tidy_expr, -start_index_)
-    if start_index isa Symbol
-      start_index = QuoteNode(start_index)
+    return :(Not(Between($startindex, $endindex)))
+  elseif @capture(tidy_expr, startindex_:endindex_)
+    if startindex isa Symbol
+      startindex = QuoteNode(startindex)
     end
-    return :(Not($start_index))
-  elseif @capture(tidy_expr, start_index_:end_index_)
-    if start_index isa Symbol
-      start_index = QuoteNode(start_index)
+    if endindex isa Symbol
+      endindex = QuoteNode(endindex)
     end
-    if end_index isa Symbol
-      end_index = QuoteNode(end_index)
-    end
-    return :(Between($start_index, $end_index))
+    return :(Between($startindex, $endindex))
   elseif @capture(tidy_expr, (lhs_ = fn_(args__)) | (lhs_ = fn_.(args__)))
     if length(args) == 0
       lhs = QuoteNode(lhs)
@@ -35,16 +30,33 @@ function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, su
     lhs = QuoteNode(lhs)
     rhs = QuoteNode(rhs)
     return :($rhs => $lhs)
+  elseif @capture(tidy_expr, -var_Symbol)
+    var = QuoteNode(var)
+    return :(Not($var))
+  elseif @capture(tidy_expr, !var_Symbol)
+    var = QuoteNode(var)
+    return :(Not($var))
+  elseif @capture(tidy_expr, var_Symbol)
+    return QuoteNode(var)
+  elseif @capture(tidy_expr, var_Number)
+    if var > 0
+      return var
+    elseif var < 0
+      var = -var
+      return :(Not($var))
+    else
+      throw("Numeric selections cannot be zero.")
+    end
+  elseif @capture(tidy_expr, !var_Number)
+    return :(Not($var))
+  elseif !subset & @capture(tidy_expr, -fn_(args__)) # negated selection helpers
+    return :(Cols(!($(esc(fn))($(args...))))) # change the `-` to a `!` and return
   elseif !subset & @capture(tidy_expr, fn_(args__)) # selection helpers
     if from_across || fn == :Cols # fn == :Cols is to deal with interpolated columns
       return tidy_expr
     else
       return :(Cols($(esc(tidy_expr))))
     end
-  elseif @capture(tidy_expr, var_Symbol)
-    return QuoteNode(var)
-    # elseif @capture(tidy_expr, df_expr)
-    #  return df_expr
   elseif subset
     return parse_function(:ignore, tidy_expr; autovec, subset)
   else
@@ -98,25 +110,17 @@ function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool=true, subset::Bool
 end
 
 # Not exported
+# Note: `parse_across` currently does not support the use of numbers for selecting columns
 function parse_across(vars::Union{Expr,Symbol}, funcs::Union{Expr,Symbol})
 
   src = Union{Expr,QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
 
-  if vars isa Symbol
-    push!(src, QuoteNode(vars))
-  elseif @capture(vars, fn_(args__)) # selection helpers
-    push!(src, esc(vars))
-  else
-    @capture(vars, (args__,))
+  if @capture(vars, (args__,))
     for arg in args
-      if arg isa Symbol
-        push!(src, QuoteNode(arg))
-      elseif @capture(arg, fn_(args__)) # selection helpers
-        push!(src, esc(arg))
-      else
         push!(src, parse_tidy(arg))
-      end
     end
+  else
+      push!(src, parse_tidy(vars)) 
   end
 
   func_array = Union{Expr,Symbol}[] # expression containing functions
