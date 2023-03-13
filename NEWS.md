@@ -1,5 +1,10 @@
 # Tidier.jl updates
 
+## Dev
+
+- Added support for negative selection helper functions (e.g., `-contains("a")`)
+- Added support for negative selection using `!` (e.g., `!a`, `!(a:b)`, `!contains("a")`)
+
 ## v0.5.0 - 2023-03-10
 
 - Added `@pivot_wider()` and `@pivot_wider()`.
