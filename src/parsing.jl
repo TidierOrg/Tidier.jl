@@ -40,7 +40,7 @@ function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, su
     return QuoteNode(var)
   elseif @capture(tidy_expr, var_Number)
     if var > 0
-      return :(Not($var))
+      return var
     elseif var < 0
       var = -var
       return :(Not($var))
