@@ -43,6 +43,14 @@ end
     @slice(1:5)
 end
 
+# We can also use `!` for inverted selection instead of `-`.
+
+@chain movies begin
+  @select(!(Title:Rating))
+  @select(1:5)
+  @slice(1:5)
+end
+
 # ## Select all but the first 5 columns by number
 
 # We will again limit the results to the first 5 remaining columns and the first 5 rows for the sake of brevity.
