@@ -110,6 +110,7 @@ function parse_function(lhs::Symbol, rhs::Expr; autovec::Bool=true, subset::Bool
 end
 
 # Not exported
+# Note: `parse_across` currently does not support the use of numbers for selecting columns
 function parse_across(vars::Union{Expr,Symbol}, funcs::Union{Expr,Symbol})
 
   src = Union{Expr,QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
@@ -117,7 +118,7 @@ function parse_across(vars::Union{Expr,Symbol}, funcs::Union{Expr,Symbol})
   if vars isa Symbol
     push!(src, QuoteNode(vars))
   elseif @capture(vars, fn_(args__)) # selection helpers
-    if fn == :!
+    if fn == :! || fn == :-
       push!(src, parse_tidy(vars))
     else
       push!(src, esc(vars))
