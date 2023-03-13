@@ -179,6 +179,19 @@ julia> @chain df begin
    5 │    15
 
 julia> @chain df begin
+       @select(!(a:b))
+       end
+5×1 DataFrame
+ Row │ c     
+     │ Int64 
+─────┼───────
+   1 │    11
+   2 │    12
+   3 │    13
+   4 │    14
+   5 │    15
+
+julia> @chain df begin
        @select(contains("b"), starts_with("c"))
        end
 5×2 DataFrame
@@ -205,6 +218,19 @@ julia> @chain df begin
    5 │    15
 
 julia> @chain df begin
+       @select(!(1:2))
+       end
+5×1 DataFrame
+ Row │ c     
+     │ Int64 
+─────┼───────
+   1 │    11
+   2 │    12
+   3 │    13
+   4 │    14
+   5 │    15
+
+julia> @chain df begin
        @select(-c)
        end
 5×2 DataFrame
@@ -216,6 +242,32 @@ julia> @chain df begin
    3 │ c         3
    4 │ d         4
    5 │ e         5
+
+julia> @chain df begin
+       @select(-contains("a"))
+       end
+5×2 DataFrame
+ Row │ b      c     
+     │ Int64  Int64 
+─────┼──────────────
+   1 │     1     11
+   2 │     2     12
+   3 │     3     13
+   4 │     4     14
+   5 │     5     15
+   
+julia> @chain df begin
+       @select(!contains("a"))
+       end
+5×2 DataFrame
+ Row │ b      c     
+     │ Int64  Int64 
+─────┼──────────────
+   1 │     1     11
+   2 │     2     12
+   3 │     3     13
+   4 │     4     14
+   5 │     5     15
 ```
 """
 
