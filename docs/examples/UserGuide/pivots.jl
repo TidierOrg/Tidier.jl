@@ -16,7 +16,9 @@ df_long = DataFrame(id = [1, 1, 2, 2],
 
 @pivot_wider(df_long, names_from = variable, values_from = value)
 
-# In `@pivot_wider()`, both the `names_from` and `values_from` arguments are required.
+# In `@pivot_wider()`, both the `names_from` and `values_from` arguments are required. `@pivot_wider()` also supports string values for the `names_from` and `values_from` arguments.
+
+@pivot_wider(df_long, names_from = "variable", values_from = "value")
 
 # ## `@pivot_longer()`
 
@@ -34,6 +36,12 @@ df_wide = DataFrame(id = [1, 2], A = [1, 3], B = [2, 4])
 
 @pivot_longer(df_wide, -id)
 
-# In this example, we set the `names_to` and `values_to` arguments. Either argument can be left out and will revert to the default value. The `names_to` and `values_to` arguments must be bare unquoted variable names. Strings containing variable names are not yet supported.
+# In this example, we set the `names_to` and `values_to` arguments. Either argument can be left out and will revert to the default value. The `names_to` and `values_to` arguments can be provided as strings or as bare unquoted variable names.
+
+# Here is an example with `names_to` and `values_to` containing strings:
+
+@pivot_longer(df_wide, A:B, names_to = "letter", values_to = "number")
+
+# And here is an example with `names_to` and `values_to` containing bare unquoted variables:
 
 @pivot_longer(df_wide, A:B, names_to = letter, values_to = number)

@@ -4,6 +4,8 @@
 
 - Added support for negative selection helper functions (e.g., `-contains("a")`)
 - Added support for negative selection using `!` (e.g., `!a`, `!(a:b)`, `!contains("a")`)
+- In `@pivot_longer()`, the `names_to` and `values_to` arguments now also support strings (in addition to bare unquoted names).
+- In `@pivot_wider()`, the `names_from` and `values_from` arguments now also support strings (in addition to bare unquoted names).
 
 ## v0.5.0 - 2023-03-10
 
@@ -15,7 +17,7 @@
 
 ## v0.4.1 - 2023-03-05
 
-- In addition `in` being auto-vectorized as before, the second argument is automatically wrapped inside of `Ref(Set(arg2))` if not already done to ensure that it is evaluated correctly and fast. See: https://bkamins.github.io/julialang/2023/02/10/in.html for details. This same behavior is also implemented for `∈` and `∉`.
+- In addition to `in` being auto-vectorized as before, the second argument is automatically wrapped inside of `Ref(Set(arg2))` if not already done to ensure that it is evaluated correctly and fast. See: https://bkamins.github.io/julialang/2023/02/10/in.html for details. This same behavior is also implemented for `∈` and `∉`.
 - Added documentation and docstrings for new `in` behavior with `@filter()` and `@mutate()`.
 - Improved interpolation to support values and not just column names. Note: there is a change of behavior now for strings, which are treated as values and not as column names. Updated examples in the documentation webpage for interpolation.
 - Bug fix: Re-exported `Cols()` because this is required for interpolated columns inside of `across()`. Previously, this was passing tests because `using RDatasets` was exporting `Cols()`.
