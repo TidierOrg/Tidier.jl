@@ -385,6 +385,24 @@ julia> @chain df begin
    3 │ c         3     13      3.0     13.0
    4 │ d         4     14      3.0     13.0
    5 │ e         5     15      3.0     13.0
+
+julia> @chain df begin
+       @summarize(across(contains("b"), mean))
+       end
+1×1 DataFrame
+ Row │ b_mean  
+     │ Float64 
+─────┼─────────
+   1 │     3.0
+
+julia> @chain df begin
+       @summarize(across(-contains("a"), mean))
+       end
+1×2 DataFrame
+ Row │ b_mean   c_mean  
+     │ Float64  Float64 
+─────┼──────────────────
+   1 │     3.0     13.0
 ```
 """
 

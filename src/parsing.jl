@@ -115,29 +115,12 @@ function parse_across(vars::Union{Expr,Symbol}, funcs::Union{Expr,Symbol})
 
   src = Union{Expr,QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
 
-  if vars isa Symbol
-    push!(src, QuoteNode(vars))
-  elseif @capture(vars, fn_(args__)) # selection helpers
-    if fn == :! || fn == :-
-      push!(src, parse_tidy(vars))
-    else
-      push!(src, esc(vars))
+  if @capture(vars, (args__,))
+    for arg in args
+        push!(src, parse_tidy(arg))
     end
   else
-    @capture(vars, (args__,))
-    for arg in args
-      if arg isa Symbol
-        push!(src, QuoteNode(arg))
-      elseif @capture(arg, fn_(args__)) # selection helpers
-        if fn == :!
-          push!(src, parse_tidy(arg)) 
-        else
-          push!(src, esc(arg))
-        end
-      else
-        push!(src, parse_tidy(arg))
-      end
-    end
+      push!(src, parse_tidy(vars)) 
   end
 
   func_array = Union{Expr,Symbol}[] # expression containing functions
