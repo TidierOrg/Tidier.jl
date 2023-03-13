@@ -18,7 +18,7 @@ const docstring_across =
 """
     across(variable[s], function[s])
 
-Apply functions to multiple variables. If specifiying multiple variables or functions, surround them with a parentheses so that they are recognized as a tuple.
+Apply functions to multiple variables. If specifying multiple variables or functions, surround them with a parentheses so that they are recognized as a tuple.
 
 This function should only be called inside of `@mutate()`, `@summarize`, or `@summarise`.
 

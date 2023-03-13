@@ -17,7 +17,7 @@
 # follow the next steps:
 
 # !!! warning "build docs locally"
-#     Install the following dependecies in your system via pip, i.e.
+#     Install the following dependencies in your system via pip, i.e.
 #     - `pip install mkdocs pygments python-markdown-math`
 #     - `pip install mkdocs-material pymdown-extensions mkdocstrings`
 #     - `pip mknotebooks pytkdocs_tweaks mkdocs_include_exclude_files jinja2 mkdocs-video`
