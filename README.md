@@ -47,20 +47,20 @@ using Pkg
 Pkg.add("Tidier")
 ```
 
-For the newest version:
-
-```julia
-using Pkg
-Pkg.add(url="https://github.com/kdpsingh/Tidier.jl")
-```
-
 or
 
 ```julia
 ] add Tidier
 ```
 
-The `]` character starts the Julia [package manager](https://docs.julialang.org/en/v1/stdlib/Pkg/). Hit backspace key to return to the Julia prompt.
+The `]` character starts the Julia [package manager](https://docs.julialang.org/en/v1/stdlib/Pkg/). Press the backspace key to return to the Julia prompt.
+
+For the newest version:
+
+```julia
+using Pkg
+Pkg.add(url="https://github.com/kdpsingh/Tidier.jl")
+```
 
 ## What functions does Tidier.jl support?
 
