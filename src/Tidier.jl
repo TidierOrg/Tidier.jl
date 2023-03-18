@@ -12,7 +12,7 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
+export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -523,6 +523,67 @@ macro arrange(df, exprs...)
       end
     else
       sort($(esc(df)), [$(arrange_exprs...)]) # Must use [] instead of Cols() here
+    end
+  end
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
+  return df_expr
+end
+
+"""
+$docstring_distinct
+"""
+macro distinct(df, exprs...)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
+  tidy_exprs = parse_tidy.(tidy_exprs)
+  df_expr = quote
+    if $(esc(df)) isa GroupedDataFrame
+      col_names = groupcols($(esc(df)))
+      @chain $(esc(df)) begin
+        DataFrame # remove grouping because `unique()` does not work on GroupDataFrames
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number)
+          else
+            _
+          end    
+        end
+        unique($(tidy_exprs...))
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+        groupby(col_names; sort = true) # regroup
+      end
+    else
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number)
+          else
+            _
+          end
+        end
+        unique($(tidy_exprs...))
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+      end
     end
   end
   if code[]

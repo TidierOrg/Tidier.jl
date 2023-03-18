@@ -124,6 +124,7 @@ nav:
   - "@slice" : "examples/generated/UserGuide/slice.md"
   - "@group_by" : "examples/generated/UserGuide/group_by.md"
   - "@arrange" : "examples/generated/UserGuide/arrange.md"
+  - "@distinct" : "examples/generated/UserGuide/distinct.md"
   - "across" : "examples/generated/UserGuide/across.md"
   - "Conditionals": "examples/generated/UserGuide/conditionals.md"
   - "Joins" : "examples/generated/UserGuide/joins.md"

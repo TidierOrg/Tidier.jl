@@ -686,6 +686,57 @@ julia> @chain df begin
 ```
 """
 
+const docstring_distinct =
+"""
+    distinct(df, exprs...)
+
+Return distinct rows of a DataFrame.
+
+If no columns or expressions are provided, then unique rows across all columns are returned. Otherwise, unique rows are determined based on the columns or expressions provided, and then all columns are returned.
+
+# Arguments
+- `df`: A DataFrame.
+- `exprs...`: One or more unquoted variable names separated by commas. Variable names 
+         can also be used as their positions in the data, like `x:y`, to select 
+         a range of variables.
+
+# Examples
+```jldoctest
+julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20);
+  
+julia> @chain df begin
+       @distinct()
+       end
+10×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         1     11
+   2 │ a         2     12
+   3 │ b         3     13
+   4 │ b         4     14
+   5 │ c         5     15
+   6 │ c         6     16
+   7 │ d         7     17
+   8 │ d         8     18
+   9 │ e         9     19
+  10 │ e        10     20
+
+julia> @chain df begin
+       @distinct(a)
+       end
+5×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         1     11
+   2 │ b         3     13
+   3 │ c         5     15
+   4 │ d         7     17
+   5 │ e         9     19
+```
+"""
+
 const docstring_pull =
 """
     @pull(df, column)
