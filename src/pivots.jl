@@ -3,7 +3,13 @@ $docstring_pivot_wider
 """
 macro pivot_wider(df, exprs...)
     # take the expressions and return arg => value dictionary    
-    tidy_exprs = parse_interpolation.(exprs)
+    interpolated_exprs = parse_interpolation.(exprs)
+
+    tidy_exprs = [i[1] for i in interpolated_exprs]
+    # commented out because not needed here
+    # any_found_n = any([i[2] for i in interpolated_exprs])
+    # any_found_row_number = any([i[3] for i in interpolated_exprs])
+
     tidy_exprs = parse_pivot_args.(tidy_exprs)
     expr_dict = Dict(x.args[2] => x.args[3] for x in tidy_exprs)
 
@@ -34,7 +40,13 @@ $docstring_pivot_longer
 """
 macro pivot_longer(df, exprs...)
     # take the expressions and return arg => value dictionary 
-    tidy_exprs = parse_interpolation.(exprs)
+    interpolated_exprs = parse_interpolation.(exprs)
+
+    tidy_exprs = [i[1] for i in interpolated_exprs]
+    # commented out because not needed here
+    # any_found_n = any([i[2] for i in interpolated_exprs])
+    # any_found_row_number = any([i[3] for i in interpolated_exprs])
+
     tidy_exprs = parse_pivot_args.(tidy_exprs)
     expr_dict = Dict(x.args[2] => x.args[3] for x in tidy_exprs)
 

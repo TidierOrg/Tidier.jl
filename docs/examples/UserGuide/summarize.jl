@@ -12,10 +12,12 @@ using RDatasets
 
 movies = dataset("ggplot2", "movies");
 
-# ## Using `@summarize()` to count the number of movies in the dataset.
+# ## Using `@summarize()` with `n()` to count the number of movies in the dataset.
+
+# Within the context of `@summarize()` only, `n()` is converted to DataFrames.jl's `nrow()` function.
 
 @chain movies begin
-    @summarize(n = nrow())
+    @summarize(n = n())
 end
 
 # ## Using `@summarize()` to calculate average budget of movies in the dataset.
@@ -34,7 +36,7 @@ end
 
 @chain movies begin
   @group_by(Year)
-  @summarise(n = nrow())
+  @summarise(n = n())
   @arrange(desc(Year))
   @slice(1:5)
 end

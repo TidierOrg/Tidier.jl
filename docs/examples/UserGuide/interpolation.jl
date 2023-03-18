@@ -7,7 +7,6 @@
 # Note: `myvar = :b`, `myvar = (:a, :b)`, and `myvar = [:a, :b]` all refer to *columns* with those names. On the other hand, `myvar = "b"`, `myvar = ("a", "b")` and `myvar = ["a", "b"]` will interpolate those *values*. See beloe for examples.
 
 using Tidier
-using RDatasets
 
 df = DataFrame(a = string.(repeat('a':'e', inner = 2)),
                b = [1,1,1,2,2,2,3,3,3,4],
