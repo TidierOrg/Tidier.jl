@@ -307,7 +307,8 @@ macro summarize(df, exprs...)
           end  
         end
         @chain _ begin
-          if length(groupcols($(esc(df)))) == 1
+          local col_names = groupcols($(esc(df)))
+          if length(col_names) == 1
             @chain _ begin
               combine(_, $(tidy_exprs...); ungroup = true)
               select(_, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
@@ -514,7 +515,7 @@ macro arrange(df, exprs...)
   arrange_exprs = parse_desc.(exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      col_names = groupcols($(esc(df)))
+      local col_names = groupcols($(esc(df)))
       
       @chain $(esc(df)) begin
         DataFrame # remove grouping
@@ -544,7 +545,7 @@ macro distinct(df, exprs...)
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      col_names = groupcols($(esc(df)))
+      local col_names = groupcols($(esc(df)))
       @chain $(esc(df)) begin
         DataFrame # remove grouping because `unique()` does not work on GroupDataFrames
         @chain _ begin
