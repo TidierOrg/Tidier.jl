@@ -291,6 +291,7 @@ macro summarize(df, exprs...)
   tidy_exprs = parse_tidy.(tidy_exprs; autovec=false)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
+      local col_names = groupcols($(esc(df)))
       @chain $(esc(df)) begin
         @chain _ begin
           if $any_found_n
@@ -307,7 +308,6 @@ macro summarize(df, exprs...)
           end  
         end
         @chain _ begin
-          local col_names = groupcols($(esc(df)))
           if length(col_names) == 1
             @chain _ begin
               combine(_, $(tidy_exprs...); ungroup = true)
