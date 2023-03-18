@@ -2,10 +2,13 @@
 
 ## Dev
 
+- Added support for `n()` and `row_number()`
 - Added support for negative selection helper functions (e.g., `-contains("a")`)
 - Added support for negative selection using `!` (e.g., `!a`, `!(a:b)`, `!contains("a")`)
 - In `@pivot_longer()`, the `names_to` and `values_to` arguments now also support strings (in addition to bare unquoted names).
 - In `@pivot_wider()`, the `names_from` and `values_from` arguments now also support strings (in addition to bare unquoted names).
+- Bug fix: `@mutate(a = 1)` or any scalar previously errored because the `1` was being wrapped inside a `QuoteNode`. Now, 1 is correctly broadcasted.
+- Bug fix: `@slice(df, 1,2,1)` previously only returned rows 1 then 2 (and not 1 again). `@slice(df, 1,2,1)` now returns row 1, 2, and 1 again.
 
 ## v0.5.0 - 2023-03-10
 

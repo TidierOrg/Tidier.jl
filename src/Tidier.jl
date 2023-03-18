@@ -486,21 +486,16 @@ macro slice(df, exprs...)
       append!(clean_indices, collect(index))
     end
   end
-  clean_indices = unique(clean_indices)
 
   if all(clean_indices .> 0)
     df_expr = quote
       if $(esc(df)) isa GroupedDataFrame
-        @chain $(esc(df)) begin
-          transform(eachindex => :Tidier_row_number; ungroup = false)
-          subset(:Tidier_row_number => x -> (in.(x, Ref($clean_indices))); ungroup = false)
-          select(Not(:Tidier_row_number); ungroup = false)
+        combine($(esc(df)); ungroup = false) do sdf
+          sdf[$clean_indices, :]
         end
       else
-        @chain $(esc(df)) begin
-          transform(eachindex => :Tidier_row_number)
-          subset(:Tidier_row_number => x -> (in.(x, Ref($clean_indices))))
-          select(Not(:Tidier_row_number))
+        combine($(esc(df))) do sdf
+          sdf[$clean_indices, :]
         end
       end
     end
@@ -508,16 +503,12 @@ macro slice(df, exprs...)
     clean_indices = -clean_indices
     df_expr = quote
       if $(esc(df)) isa GroupedDataFrame
-        @chain $(esc(df)) begin
-          transform(eachindex => :Tidier_row_number; ungroup = false)
-          subset(:Tidier_row_number => x -> (.!in.(x, Ref($clean_indices))); ungroup = false)
-          select(Not(:Tidier_row_number); ungroup = false)
+        combine($(esc(df)); ungroup = true) do sdf
+          sdf[Not($clean_indices), :]
         end
       else
-        @chain $(esc(df)) begin
-          transform(eachindex => :Tidier_row_number)
-          subset(:Tidier_row_number => x -> (.!in.(x, Ref($clean_indices))))
-          select(Not(:Tidier_row_number))
+        combine($(esc(df))) do sdf
+          sdf[Not($clean_indices), :]
         end
       end
     end
