@@ -57,6 +57,12 @@ The `]` character starts the Julia [package manager](https://docs.julialang.org/
 
 For the newest version:
 
+```
+] add Tidier#main
+```
+
+or
+
 ```julia
 using Pkg
 Pkg.add(url="https://github.com/kdpsingh/Tidier.jl")
