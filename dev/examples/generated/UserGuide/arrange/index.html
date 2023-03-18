@@ -16,7 +16,7 @@
         <link rel="prev" href="../group_by/">
       
       
-        <link rel="next" href="../across/">
+        <link rel="next" href="../distinct/">
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
@@ -448,6 +448,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../distinct/" class="md-nav__link">
+        @distinct
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../across/" class="md-nav__link">
         across
       </a>
@@ -615,15 +630,15 @@
 
   <h1>@arrange</h1>
 
-<p>Arranging is the way to sort a data frame. <code>@arrange()</code> can take multiple arguments. Arguments refer to columns that are sorted in ascending order by default. If you want to sort in descending order, make sure to wrap the column name in <code>desc()</code> as shown below.</p>
+<div><p>Arranging is the way to sort a data frame. <code>@arrange()</code> can take multiple arguments. Arguments refer to columns that are sorted in ascending order by default. If you want to sort in descending order, make sure to wrap the column name in <code>desc()</code> as shown below.</p>
 <p><code>DataFrames.jl</code> does not currently support the <code>sort()</code> function on grouped data frames. In order to make this work in <code>Tidier.jl</code>, if you apply <code>@arrange()</code> to a GroupedDataFrame, <code>@arrange()</code> will temporarily ungroup the data, perform the <code>sort()</code>, and then re-group by the original grouping variables.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
-<span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;ggplot2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;movies&quot;</span><span class="p">);</span>
+<span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">"ggplot2"</span><span class="p">,</span><span class="w"> </span><span class="s">"movies"</span><span class="p">);</span>
 </code></pre></div>
-<p><a id='Sort-both-variables-in-ascending-order'></a></p>
-<p><a id='Sort-both-variables-in-ascending-order-1'></a></p>
+<p><a id="Sort-both-variables-in-ascending-order"></a></p>
+<p><a id="Sort-both-variables-in-ascending-order-1"></a></p>
 <h2 id="sort-both-variables-in-ascending-order">Sort both variables in ascending order<a class="headerlink" href="#sort-both-variables-in-ascending-order" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@arrange</span><span class="p">(</span><span class="n">Year</span><span class="p">,</span><span class="w"> </span><span class="n">Rating</span><span class="p">)</span>
@@ -631,11 +646,11 @@
 <span class="w">  </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>5×5 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Length</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">Blacksmith Scene</td><td style = "text-align: right;">1893</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">7.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">Hadj Cheriff</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">4.1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">Glenroy Bros., No. 2</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">4.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">Leonard-Cushing Fight</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">4.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">Sioux Ghost Dance</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">4.4</td></tr></tbody></table></div>
+<div><div style="float: left;"><span>5×5 DataFrame</span></div><div style="clear: both;"></div></div>
+<div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">Title</th><th style="text-align: left;">Year</th><th style="text-align: left;">Length</th><th style="text-align: left;">Budget</th><th style="text-align: left;">Rating</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int32" style="text-align: left;">Int32</th><th title="Int32" style="text-align: left;">Int32</th><th title="Union{Missing, Int32}" style="text-align: left;">Int32?</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">Blacksmith Scene</td><td style="text-align: right;">1893</td><td style="text-align: right;">1</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">7.0</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">Hadj Cheriff</td><td style="text-align: right;">1894</td><td style="text-align: right;">1</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">4.1</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">Glenroy Bros., No. 2</td><td style="text-align: right;">1894</td><td style="text-align: right;">1</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">4.2</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">Leonard-Cushing Fight</td><td style="text-align: right;">1894</td><td style="text-align: right;">1</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">4.4</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">Sioux Ghost Dance</td><td style="text-align: right;">1894</td><td style="text-align: right;">1</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">4.4</td></tr></tbody></table></div>
 
-<p><a id='Sort-in-a-mix-of-ascending-and-descending-order'></a></p>
-<p><a id='Sort-in-a-mix-of-ascending-and-descending-order-1'></a></p>
+<p><a id="Sort-in-a-mix-of-ascending-and-descending-order"></a></p>
+<p><a id="Sort-in-a-mix-of-ascending-and-descending-order-1"></a></p>
 <h2 id="sort-in-a-mix-of-ascending-and-descending-order">Sort in a mix of ascending and descending order<a class="headerlink" href="#sort-in-a-mix-of-ascending-and-descending-order" title="Permanent link">¤</a></h2>
 <p>To sort in descending order, make sure to wrap the variable inside of <code>desc()</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
@@ -644,11 +659,11 @@
 <span class="w">  </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>5×5 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">Title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Length</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">Blacksmith Scene</td><td style = "text-align: right;">1893</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">7.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">Luis Martinetti, Contortionist</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.1</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">Caicedo (with Pole)</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">5.8</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">Glenroy Brothers (Comic Boxing)</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">5.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">Buffalo Dance</td><td style = "text-align: right;">1894</td><td style = "text-align: right;">1</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">5.0</td></tr></tbody></table></div>
+<div><div style="float: left;"><span>5×5 DataFrame</span></div><div style="clear: both;"></div></div>
+<div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">Title</th><th style="text-align: left;">Year</th><th style="text-align: left;">Length</th><th style="text-align: left;">Budget</th><th style="text-align: left;">Rating</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int32" style="text-align: left;">Int32</th><th title="Int32" style="text-align: left;">Int32</th><th title="Union{Missing, Int32}" style="text-align: left;">Int32?</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">Blacksmith Scene</td><td style="text-align: right;">1893</td><td style="text-align: right;">1</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">7.0</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">Luis Martinetti, Contortionist</td><td style="text-align: right;">1894</td><td style="text-align: right;">1</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">6.1</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">Caicedo (with Pole)</td><td style="text-align: right;">1894</td><td style="text-align: right;">1</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">5.8</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">Glenroy Brothers (Comic Boxing)</td><td style="text-align: right;">1894</td><td style="text-align: right;">1</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">5.4</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">Buffalo Dance</td><td style="text-align: right;">1894</td><td style="text-align: right;">1</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">5.0</td></tr></tbody></table></div>
 
-<hr />
-<p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p>
+<hr>
+<p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></div>
 
 
 
@@ -691,13 +706,13 @@
         
         
           
-          <a href="../across/" class="md-footer__link md-footer__link--next" aria-label="Next: across" rel="next">
+          <a href="../distinct/" class="md-footer__link md-footer__link--next" aria-label="Next: @distinct" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                across
+                @distinct
               </div>
             </div>
             <div class="md-footer__button md-icon">

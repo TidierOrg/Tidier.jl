@@ -448,6 +448,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../distinct/" class="md-nav__link">
+        @distinct
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../across/" class="md-nav__link">
         across
       </a>
@@ -615,14 +630,14 @@
 
   <h1>@rename</h1>
 
-<p>Renaming colummns follows the same syntax as in R's <code>tidyverse</code>, where the "tidy expression" is <code>new_name = old_name</code>. While the main function to rename columns is <code>@rename()</code>, you can also use <code>@select()</code> if you additionally plan to select only the renamed columns.</p>
+<div><p>Renaming colummns follows the same syntax as in R's <code>tidyverse</code>, where the "tidy expression" is <code>new_name = old_name</code>. While the main function to rename columns is <code>@rename()</code>, you can also use <code>@select()</code> if you additionally plan to select only the renamed columns.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
-<span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;ggplot2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;movies&quot;</span><span class="p">);</span>
+<span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">"ggplot2"</span><span class="p">,</span><span class="w"> </span><span class="s">"movies"</span><span class="p">);</span>
 </code></pre></div>
-<p><a id='Rename-using-@rename()'></a></p>
-<p><a id='Rename-using-@rename()-1'></a></p>
+<p><a id="Rename-using-@rename()"></a></p>
+<p><a id="Rename-using-@rename()-1"></a></p>
 <h2 id="rename-using-rename">Rename using <code>@rename()</code><a class="headerlink" href="#rename-using-rename" title="Permanent link">¤</a></h2>
 <p>If you only want to rename the columns without selecting them, then this is where <code>@rename()</code> comes in handy. For the sake of brevity, we are selecting the first 5 columns and rows after performing the <code>@rename()</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
@@ -631,11 +646,11 @@
 <span class="w">    </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>5×5 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">title</th><th style = "text-align: left;">Year</th><th style = "text-align: left;">Minutes</th><th style = "text-align: left;">Budget</th><th style = "text-align: left;">Rating</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Int32" style = "text-align: left;">Int32</th><th title = "Union{Missing, Int32}" style = "text-align: left;">Int32?</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">$</td><td style = "text-align: right;">1971</td><td style = "text-align: right;">121</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.4</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">$1000 a Touchdown</td><td style = "text-align: right;">1939</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">6.0</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">$21 a Day Once a Month</td><td style = "text-align: right;">1941</td><td style = "text-align: right;">7</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">$40,000</td><td style = "text-align: right;">1996</td><td style = "text-align: right;">70</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">8.2</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">$50,000 Climax Show, The</td><td style = "text-align: right;">1975</td><td style = "text-align: right;">71</td><td style = "font-style: italic; text-align: right;">missing</td><td style = "text-align: right;">3.4</td></tr></tbody></table></div>
+<div><div style="float: left;"><span>5×5 DataFrame</span></div><div style="clear: both;"></div></div>
+<div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">title</th><th style="text-align: left;">Year</th><th style="text-align: left;">Minutes</th><th style="text-align: left;">Budget</th><th style="text-align: left;">Rating</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int32" style="text-align: left;">Int32</th><th title="Int32" style="text-align: left;">Int32</th><th title="Union{Missing, Int32}" style="text-align: left;">Int32?</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">$</td><td style="text-align: right;">1971</td><td style="text-align: right;">121</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">6.4</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">$1000 a Touchdown</td><td style="text-align: right;">1939</td><td style="text-align: right;">71</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">6.0</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">$21 a Day Once a Month</td><td style="text-align: right;">1941</td><td style="text-align: right;">7</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">8.2</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">$40,000</td><td style="text-align: right;">1996</td><td style="text-align: right;">70</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">8.2</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">$50,000 Climax Show, The</td><td style="text-align: right;">1975</td><td style="text-align: right;">71</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">3.4</td></tr></tbody></table></div>
 
-<p><a id='Rename-using-@select()'></a></p>
-<p><a id='Rename-using-@select()-1'></a></p>
+<p><a id="Rename-using-@select()"></a></p>
+<p><a id="Rename-using-@select()-1"></a></p>
 <h2 id="rename-using-select">Rename using <code>@select()</code><a class="headerlink" href="#rename-using-select" title="Permanent link">¤</a></h2>
 <p>If you plan to only select those columns that you would like to rename, then you can use <code>@select()</code> to <em>both</em> rename and select the columns of interest.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
@@ -643,11 +658,11 @@
 <span class="w">  </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
-<div><div style = "float: left;"><span>5×2 DataFrame</span></div><div style = "clear: both;"></div></div>
-<div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "header"><th class = "rowNumber" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">title</th><th style = "text-align: left;">Minutes</th></tr><tr class = "subheader headerLastRow"><th class = "rowNumber" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "Int32" style = "text-align: left;">Int32</th></tr></thead><tbody><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">$</td><td style = "text-align: right;">121</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">$1000 a Touchdown</td><td style = "text-align: right;">71</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">$21 a Day Once a Month</td><td style = "text-align: right;">7</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">$40,000</td><td style = "text-align: right;">70</td></tr><tr><td class = "rowNumber" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">$50,000 Climax Show, The</td><td style = "text-align: right;">71</td></tr></tbody></table></div>
+<div><div style="float: left;"><span>5×2 DataFrame</span></div><div style="clear: both;"></div></div>
+<div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">title</th><th style="text-align: left;">Minutes</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int32" style="text-align: left;">Int32</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">$</td><td style="text-align: right;">121</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">$1000 a Touchdown</td><td style="text-align: right;">71</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">$21 a Day Once a Month</td><td style="text-align: right;">7</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">$40,000</td><td style="text-align: right;">70</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">$50,000 Climax Show, The</td><td style="text-align: right;">71</td></tr></tbody></table></div>
 
-<hr />
-<p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p>
+<hr>
+<p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></div>
 
 
 

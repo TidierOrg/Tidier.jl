@@ -474,6 +474,21 @@
   
   
     <li class="md-nav__item">
+      <a href="examples/generated/UserGuide/distinct/" class="md-nav__link">
+        @distinct
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="examples/generated/UserGuide/across/" class="md-nav__link">
         across
       </a>
@@ -669,9 +684,9 @@
 
   <h1>Home</h1>
 
-<p><img src="assets/Tidier_jl_logo.png" align="left" style="padding-right:10px"; width="150"></img></p>
-<p><a id='What-is-Tidier.jl?'></a></p>
-<p><a id='What-is-Tidier.jl?-1'></a></p>
+<div><p><img src="assets/Tidier_jl_logo.png" align="left" style="padding-right:10px" width="150"></p>
+<p><a id="What-is-Tidier.jl?"></a></p>
+<p><a id="What-is-Tidier.jl?-1"></a></p>
 <h2 id="what-is-tidierjl">What is Tidier.jl?<a class="headerlink" href="#what-is-tidierjl" title="Permanent link">¤</a></h2>
 <p>Tidier.jl is a 100% Julia implementation of the R tidyverse mini-language in Julia. Powered by the DataFrames.jl package and Julia’s extensive meta-programming capabilities, Tidier.jl is an R user’s love letter to data analysis in Julia.</p>
 <p><code>Tidier.jl</code> has three goals, which differentiate it from other data analysis meta-packages in Julia:</p>
@@ -711,12 +726,12 @@ through modification of the abstract syntax tree).</p>
 <summary>Make scalars and tuples mostly interchangeable.</summary>
 <p>In Julia, the function <code>across(a, mean)</code> is dispatched differently than <code>across((a, b), mean)</code>. The first argument in the first instance above is treated as a scalar, whereas the second instance is treated as a tuple. This can be very confusing to R users because <code>1 == c(1)</code> is <code>TRUE</code> in R, whereas in Julia <code>1 == (1,)</code> evaluates to <code>false</code>. The design philosophy in <code>Tidier.jl</code> is that the user should feel free to provide a scalar or a tuple as they see fit anytime multiple values are considered valid for a given argument, such as in <code>across()</code>, and <code>Tidier.jl</code> will figure out how to dispatch it.</p>
 </details>
-<p><a id='Installation'></a></p>
-<p><a id='Installation-1'></a></p>
+<p><a id="Installation"></a></p>
+<p><a id="Installation-1"></a></p>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">¤</a></h2>
 <p>For the stable version:</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
-<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Tidier&quot;</span><span class="p">)</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">"Tidier"</span><span class="p">)</span>
 </code></pre></div>
 <p>or</p>
 <div class="highlight"><pre><span></span><code>] add Tidier
@@ -724,10 +739,10 @@ through modification of the abstract syntax tree).</p>
 <p>The <code>]</code> character starts the Julia <a href="https://docs.julialang.org/en/v1/stdlib/Pkg/">package manager</a>. Press the backspace key to return to the Julia prompt.</p>
 <p>For the newest version:</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
-<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s">&quot;https://github.com/kdpsingh/Tidier.jl&quot;</span><span class="p">)</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s">"https://github.com/kdpsingh/Tidier.jl"</span><span class="p">)</span>
 </code></pre></div>
-<p><a id='What-macros-and-functions-does-Tidier.jl-support?'></a></p>
-<p><a id='What-macros-and-functions-does-Tidier.jl-support?-1'></a></p>
+<p><a id="What-macros-and-functions-does-Tidier.jl-support?"></a></p>
+<p><a id="What-macros-and-functions-does-Tidier.jl-support?-1"></a></p>
 <h2 id="what-macros-and-functions-does-tidierjl-support">What macros and functions does Tidier.jl support?<a class="headerlink" href="#what-macros-and-functions-does-tidierjl-support" title="Permanent link">¤</a></h2>
 <p>To support R-style programming, <code>Tidier.jl</code> is implemented using macros. This is because macros are able to "capture" the code before executing it, which allows the package to support R-like "tidy expressions" that would otherwise not be considered valid Julia code.</p>
 <p>Tidier.jl currently supports the following top-level macros:</p>
@@ -744,6 +759,7 @@ through modification of the abstract syntax tree).</p>
 <li><code>@ungroup()</code></li>
 <li><code>@slice()</code></li>
 <li><code>@arrange()</code></li>
+<li><code>@distinct()</code></li>
 <li><code>@pull()</code></li>
 <li><code>@left_join()</code></li>
 <li><code>@right_join()</code></li>
@@ -757,25 +773,27 @@ through modification of the abstract syntax tree).</p>
 <div class="admonition example">
 <p class="admonition-title">Helper functions:</p>
 <ul>
+<li><code>across()</code></li>
+<li><code>desc()</code></li>
 <li><code>if_else()</code></li>
 <li><code>case_when()</code></li>
+<li><code>n()</code></li>
+<li><code>row_number()</code></li>
 <li><code>starts_with()</code></li>
 <li><code>ends_with()</code></li>
 <li><code>matches()</code></li>
 <li><code>contains()</code></li>
-<li><code>across()</code></li>
-<li><code>desc()</code></li>
 </ul>
 </div>
 <p>See the <a href="https://kdpsingh.github.io/Tidier.jl/dev/reference/">Reference</a> page for a detailed guide to each of the macros and functions.</p>
-<p><a id='Example'></a></p>
-<p><a id='Example-1'></a></p>
+<p><a id="Example"></a></p>
+<p><a id="Example-1"></a></p>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">¤</a></h2>
 <p>Let's select the first five movies in our dataset whose budget exceeds the mean budget. Unlike in R, where we pass an <code>na.rm = TRUE</code> argument to remove missing values, in Julia we wrap the variable with a <code>skipmissing()</code> to remove the missing values before the <code>mean()</code> is calculated.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
-<span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;ggplot2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;movies&quot;</span><span class="p">);</span>
+<span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">"ggplot2"</span><span class="p">,</span><span class="w"> </span><span class="s">"movies"</span><span class="p">);</span>
 
 <span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">    </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
@@ -788,20 +806,20 @@ through modification of the abstract syntax tree).</p>
  Row │ Title                       Budget   
      │ String                      Float64? 
 ─────┼──────────────────────────────────────
-   1 │ &#39;Til There Was You              23.0
+   1 │ 'Til There Was You              23.0
    2 │ 10 Things I Hate About You      16.0
    3 │ 102 Dalmatians                  85.0
    4 │ 13 Going On 30                  37.0
    5 │ 13th Warrior, The               85.0
 </code></pre></div>
-<p><a id='What’s-new'></a></p>
-<p><a id='What’s-new-1'></a></p>
+<p><a id="What’s-new"></a></p>
+<p><a id="What’s-new-1"></a></p>
 <h2 id="whats-new">What’s new<a class="headerlink" href="#whats-new" title="Permanent link">¤</a></h2>
 <p>See <a href="https://github.com/kdpsingh/Tidier.jl/blob/main/NEWS.md">NEWS.md</a> for the latest updates.</p>
-<p><a id='What's-missing'></a></p>
-<p><a id='What's-missing-1'></a></p>
+<p><a id="What" s-missing></a></p>
+<p><a id="What" s-missing-1></a></p>
 <h2 id="whats-missing">What's missing<a class="headerlink" href="#whats-missing" title="Permanent link">¤</a></h2>
-<p>Is there a tidyverse feature missing that you would like to see in Tidier.jl? Please file a GitHub issue. Because Tidier.jl primarily wraps DataFrames.jl, our decision to integrate a new feature will be guided by how well-supported it is within DataFrames.jl and how likely other users are to benefit from it.</p>
+<p>Is there a tidyverse feature missing that you would like to see in Tidier.jl? Please file a GitHub issue. Because Tidier.jl primarily wraps DataFrames.jl, our decision to integrate a new feature will be guided by how well-supported it is within DataFrames.jl and how likely other users are to benefit from it.</p></div>
 
 
 
