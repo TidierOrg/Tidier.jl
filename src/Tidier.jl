@@ -12,7 +12,7 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export Tidier_set, across, desc, starts_with, ends_with, matches, if_else, case_when, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
+export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -24,6 +24,7 @@ include("parsing.jl")
 include("joins.jl")
 include("pivots.jl")
 include("conditionals.jl")
+include("pseudofunctions.jl")
 
 # Function to set global variables
 """
@@ -44,20 +45,6 @@ end
 starts_with(args...) = startswith(args...)
 ends_with(args...) = endswith(args...)
 matches(pattern, flags...) = Regex(pattern, flags...)
-
-"""
-$docstring_across
-"""
-function across(args...)
-  throw("This function should only be called inside of @mutate(), @summarize, or @summarise.")
-end
-
-"""
-$docstring_desc
-"""
-function desc(args...)
-  throw("This function should only be called inside of @arrange().")
-end
 
 """
 $docstring_select

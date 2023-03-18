@@ -27,12 +27,26 @@ end
     @slice(1:5)
 end
 
+# ## Using `@mutate()` with `in`
+
 # Here's an example of using `@mutate` with `in`.
 
 @chain movies begin
   @filter(!ismissing(Budget))
   @mutate(Nineties = Year in 1990:1999)
   @select(Title, Year, Nineties)
+  @slice(1:5)
+end
+
+# ## Using `@mutate` with `n()` and `row_number()`
+
+# Here's an example of using `@mutate` with both `n()` and `row_number()`. Within the context of `mutate()`, `n()` and `row_number()` are created into temporarily columns, which means that they can be used inside of expressions.
+
+@chain movies begin
+  @mutate(Row_Num = row_number(),
+          Total_Rows = n())
+  @filter(!ismissing(Budget))
+  @select(Title, Year, Row_Num, Total_Rows)
   @slice(1:5)
 end
 
