@@ -150,7 +150,7 @@ end
 
 # Not exported
 function parse_desc(tidy_expr::Union{Expr,Symbol})
-  tidy_expr = parse_interpolation(tidy_expr)
+  tidy_expr, found_n, found_row_number = parse_interpolation(tidy_expr)
   if @capture(tidy_expr, Cols(args__)) # from parse_interpolation
     return :(Cols($(args...),))
   elseif @capture(tidy_expr, desc(var_))
@@ -163,7 +163,7 @@ end
 
 # Not exported
 function parse_join_by(tidy_expr::Union{Expr,Symbol,String})
-  tidy_expr = parse_interpolation(tidy_expr)
+  tidy_expr, found_n, found_row_number = parse_interpolation(tidy_expr)
   
   src = Union{Expr,QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
 
@@ -205,7 +205,7 @@ end
 
 # Not exported
 function parse_group_by(tidy_expr::Union{Expr,Symbol})
-  tidy_expr, any_found_n, any_found_row_number = parse_interpolation(tidy_expr)
+  tidy_expr, found_n, found_row_number = parse_interpolation(tidy_expr)
 
   if @capture(tidy_expr, Cols(args__)) # from parse_interpolation
     return :(Cols($(args...),))
