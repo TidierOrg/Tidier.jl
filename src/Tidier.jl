@@ -63,14 +63,38 @@ end
 $docstring_select
 """
 macro select(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
-    if $(esc(df)) isa GroupedDataFrame
-      select($(esc(df)), $(tidy_exprs...); ungroup = false)
+    # make a copy
+    local temp_df = copy($(esc(df)))
+    if temp_df isa GroupedDataFrame
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n; ungroup = false)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number; ungroup = false)
+      end
+      select!(temp_df, $(tidy_exprs...); ungroup = false)
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")); ungroup = false)
     else
-      select($(esc(df)), $(tidy_exprs...))
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number)
+      end
+      select!(temp_df, $(tidy_exprs...))
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
     end
+    $(esc(df)) = copy(temp_df)
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -82,14 +106,38 @@ end
 $docstring_transmute
 """
 macro transmute(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
-    if $(esc(df)) isa GroupedDataFrame
-      select($(esc(df)), $(tidy_exprs...); ungroup = false)
+    # make a copy
+    local temp_df = copy($(esc(df)))
+    if temp_df isa GroupedDataFrame
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n; ungroup = false)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number; ungroup = false)
+      end
+      select!(temp_df, $(tidy_exprs...); ungroup = false)
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")); ungroup = false)
     else
-      select($(esc(df)), $(tidy_exprs...))
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number)
+      end
+      select!(temp_df, $(tidy_exprs...))
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
     end
+    $(esc(df)) = copy(temp_df)
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -101,14 +149,38 @@ end
 $docstring_rename
 """
 macro rename(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
-    if $(esc(df)) isa GroupedDataFrame
-      rename($(esc(df)), $(tidy_exprs...); ungroup = false)
+    # make a copy
+    local temp_df = copy($(esc(df)))
+    if temp_df isa GroupedDataFrame
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n; ungroup = false)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number; ungroup = false)
+      end
+      rename!(temp_df, $(tidy_exprs...); ungroup = false)
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")); ungroup = false)
     else
-      rename($(esc(df)), $(tidy_exprs...))
+       # add the columns if needed
+       if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number)
+      end
+      rename!(temp_df, $(tidy_exprs...))
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
     end
+    $(esc(df)) = copy(temp_df)
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -120,14 +192,38 @@ end
 $docstring_mutate
 """
 macro mutate(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
-    if $(esc(df)) isa GroupedDataFrame
-      transform($(esc(df)), $(tidy_exprs...); ungroup = false)
+    # make a copy
+    local temp_df = copy($(esc(df)))
+    if temp_df isa GroupedDataFrame
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n; ungroup = false)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number; ungroup = false)
+      end
+      transform!(temp_df, $(tidy_exprs...); ungroup = false)
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")); ungroup = false)
     else
-      transform($(esc(df)), $(tidy_exprs...))
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number)
+      end
+      transform!(temp_df, $(tidy_exprs...))
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
     end
+    $(esc(df)) = copy(temp_df)
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -139,22 +235,48 @@ end
 $docstring_summarize
 """
 macro summarize(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs; summarize = true)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs; autovec=false)
   df_expr = quote
-    if $(esc(df)) isa GroupedDataFrame
-      col_names = groupcols($(esc(df)))
+    # make a copy
+    local temp_df = copy($(esc(df)))
+    if temp_df isa GroupedDataFrame
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n; ungroup = false)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number; ungroup = false)
+      end
+
+      col_names = groupcols(temp_df)
       if length(col_names) == 1
-        combine($(esc(df)), $(tidy_exprs...); ungroup = true)
+        temp_df = combine(temp_df, $(tidy_exprs...); ungroup = true)
+        select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
       else
-        @chain $(esc(df)) begin
+        temp_df = @chain temp_df begin
           combine($(tidy_exprs...); ungroup = true)
+          select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
           groupby(col_names[1:end-1]; sort = true)
         end
       end
     else
-      combine($(esc(df)), $(tidy_exprs...))
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number)
+      end
+      temp_df = combine(temp_df, $(tidy_exprs...))
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
     end
+    $(esc(df)) = copy(temp_df)
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -173,14 +295,38 @@ end
 $docstring_filter
 """
 macro filter(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs; subset=true)
   df_expr = quote
-    if $(esc(df)) isa GroupedDataFrame
-      subset($(esc(df)), $(tidy_exprs...); skipmissing = true, ungroup = false)
+    # make a copy
+    local temp_df = copy($(esc(df)))
+    if temp_df isa GroupedDataFrame
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n; ungroup = false)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number; ungroup = false)
+      end
+      subset!(temp_df, $(tidy_exprs...); skipmissing = true, ungroup = false)
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")); ungroup = false)
     else
-      subset($(esc(df)), $(tidy_exprs...); skipmissing = true)
+      # add the columns if needed
+      if $any_found_n
+        transform!(temp_df, nrow => :Tidier_n)
+      end
+      if $any_found_row_number
+        transform!(temp_df, eachindex => :Tidier_row_number)
+      end
+      subset!(temp_df, $(tidy_exprs...); skipmissing = true)
+      select!(temp_df, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
     end
+    $(esc(df)) = copy(temp_df)
   end
   if code[]
     @info MacroTools.prettify(df_expr)
@@ -192,16 +338,34 @@ end
 $docstring_group_by
 """
 macro group_by(df, exprs...)
-  # Group
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs)
   grouping_exprs = parse_group_by.(exprs)
 
   df_expr = quote
-    @chain $(esc(df)) begin
+    # make a copy
+    local temp_df = copy($(esc(df)))
+
+    # add the columns if needed
+    if $any_found_n
+      transform!(temp_df, nrow => :Tidier_n)
+    end
+    if $any_found_row_number
+      transform!(temp_df, eachindex => :Tidier_row_number)
+    end
+
+    temp_df = @chain temp_df begin
       transform($(tidy_exprs...))
+      select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
       groupby(Cols($(grouping_exprs...)); sort = true)
     end
+
+    $(esc(df)) = copy(temp_df)
   end
   if code[]
     @info MacroTools.prettify(df_expr)
