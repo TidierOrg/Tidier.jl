@@ -44,7 +44,7 @@ end
   @filter(a == !!myvar_string)
 end
 
-# ## Filetering rows works similarly using `in`.
+# ## Filtering rows works similarly using `in`.
 
 # Note that for `in` to work here, we have to wrap it in `[]` because otherwise, the string will be converted into a collection of characters, which are a different data type.
 
@@ -109,7 +109,7 @@ end
 
 # ## Alternative interpolation syntax
 
-# While interpolationg using `!!` is concise and handy, it's not required. You can also access user-defined globals and global constant variables using the following syntax:
+# While interpolation using `!!` is concise and handy, it's not required. You can also access user-defined globals and global constant variables using the following syntax:
 
 @chain df begin
   @mutate(area = Main.pi * radius^2)
