@@ -477,45 +477,43 @@ end
 $docstring_slice
 """
 macro slice(df, exprs...)
-  original_indices = [eval.(exprs)...]
-  clean_indices = Int64[]
-  for index in original_indices
-    if index isa Number
-      push!(clean_indices, index)
-    else
-      append!(clean_indices, collect(index))
+  df_expr = quote
+    local interpolated_indices = parse_slice_n.($exprs, nrow($(esc(df))))
+    local original_indices = [eval.(interpolated_indices)...]
+    local clean_indices = Int64[]
+    for index in original_indices
+      if index isa Number
+        push!(clean_indices, index)
+      else
+        append!(clean_indices, collect(index))
+      end
     end
-  end
-
-  if all(clean_indices .> 0)
-    df_expr = quote
+    
+    if all(clean_indices .> 0)
       if $(esc(df)) isa GroupedDataFrame
         combine($(esc(df)); ungroup = false) do sdf
-          sdf[$clean_indices, :]
+          sdf[clean_indices, :]
         end
       else
         combine($(esc(df))) do sdf
-          sdf[$clean_indices, :]
+          sdf[clean_indices, :]
         end
       end
-    end
-  elseif all(clean_indices .< 0)
-    clean_indices = -clean_indices
-    df_expr = quote
+    elseif all(clean_indices .< 0)
+      clean_indices = -clean_indices
       if $(esc(df)) isa GroupedDataFrame
         combine($(esc(df)); ungroup = true) do sdf
-          sdf[Not($clean_indices), :]
+          sdf[Not(clean_indices), :]
         end
       else
         combine($(esc(df))) do sdf
-          sdf[Not($clean_indices), :]
+          sdf[Not(clean_indices), :]
         end
       end
+    else
+      throw("@slice() indices must either be all positive or all negative.")
     end
-  else
-    throw("@slice() indices must either be all positive or all negative.")
   end
-
   if code[]
     @info MacroTools.prettify(df_expr)
   end

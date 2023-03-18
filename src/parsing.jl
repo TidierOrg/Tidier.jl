@@ -375,3 +375,18 @@ function parse_interpolation(var_expr::Union{Expr,Symbol,Number,String}; summari
   end
   return var_expr, found_n, found_row_number
 end
+
+# Simply to convert n() to a number
+function parse_slice_n(var_expr::Union{Expr,Symbol,Number,String}, n::Integer)
+  var_expr = MacroTools.postwalk(var_expr) do x
+    if @capture(x, fn_())
+      if fn == :n
+        return n
+      else
+        return :($fn())
+      end
+    end
+    return x
+  end
+  return var_expr
+end
