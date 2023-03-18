@@ -478,7 +478,7 @@ $docstring_slice
 """
 macro slice(df, exprs...)
   df_expr = quote
-    local interpolated_indices = parse_slice_n.($exprs, nrow($(esc(df))))
+    local interpolated_indices = parse_slice_n.($exprs, nrow(DataFrame($(esc(df)))))
     local original_indices = [eval.(interpolated_indices)...]
     local clean_indices = Int64[]
     for index in original_indices
