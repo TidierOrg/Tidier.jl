@@ -78,6 +78,7 @@ Tidier.jl currently supports the following top-level macros:
 - `@ungroup()`
 - `@slice()`
 - `@arrange()`
+- `@distinct()`
 - `@pull()`
 - `@left_join()`
 - `@right_join()`
@@ -88,14 +89,16 @@ Tidier.jl currently supports the following top-level macros:
 
 Tidier.jl also supports the following helper functions:
 
+- `across()`
+- `desc()`
 - `if_else()`
 - `case_when()`
+- `n()`
+- `row_number()`
 - `starts_with()`
 - `ends_with()`
 - `matches()`
 - `contains()`
-- `across()`
-- `desc()`
 
 See the documentation [Home](https://kdpsingh.github.io/Tidier.jl/dev/) page for a guide on how to get started, or the [Reference](https://kdpsingh.github.io/Tidier.jl/dev/reference/) page for a detailed guide to each of the macros and functions.
 

@@ -20,7 +20,7 @@ const docstring_across =
 
 Apply functions to multiple variables. If specifiying multiple variables or functions, surround them with a parentheses so that they are recognized as a tuple.
 
-This function should only be called inside of `@mutate()`, `@summarize`, or `@summarise`.
+This function should only be called inside of Tidier.jl macros.
 
 # Arguments
 - `variable[s]`: An unquoted variable, or if multiple, an unquoted tuple of variables.
@@ -686,6 +686,57 @@ julia> @chain df begin
 ```
 """
 
+const docstring_distinct =
+"""
+    distinct(df, exprs...)
+
+Return distinct rows of a DataFrame.
+
+If no columns or expressions are provided, then unique rows across all columns are returned. Otherwise, unique rows are determined based on the columns or expressions provided, and then all columns are returned.
+
+# Arguments
+- `df`: A DataFrame.
+- `exprs...`: One or more unquoted variable names separated by commas. Variable names 
+         can also be used as their positions in the data, like `x:y`, to select 
+         a range of variables.
+
+# Examples
+```jldoctest
+julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20);
+  
+julia> @chain df begin
+       @distinct()
+       end
+10×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         1     11
+   2 │ a         2     12
+   3 │ b         3     13
+   4 │ b         4     14
+   5 │ c         5     15
+   6 │ c         6     16
+   7 │ d         7     17
+   8 │ d         8     18
+   9 │ e         9     19
+  10 │ e        10     20
+
+julia> @chain df begin
+       @distinct(a)
+       end
+5×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ a         1     11
+   2 │ b         3     13
+   3 │ c         5     15
+   4 │ d         7     17
+   5 │ e         9     19
+```
+"""
+
 const docstring_pull =
 """
     @pull(df, column)
@@ -1220,5 +1271,107 @@ julia> @chain df begin
    3 │ missing      0
    4 │       4      3
    5 │       5      3
+```
+"""
+
+const docstring_n =
+"""
+    n()
+
+Return the number of rows in the DataFrame or in the group if used in the context of a GroupedDataFrame.
+
+# Arguments
+- None
+
+# Examples
+```jldoctest
+julia> df = DataFrame(a = repeat('a':'e', inner = 2), b = 1:10, c = 11:20);
+
+julia> @chain df begin
+       @summarize(n = n())
+       end
+1×1 DataFrame
+ Row │ n     
+     │ Int64 
+─────┼───────
+   1 │    10
+
+julia> @chain df begin
+       @group_by(a)
+       @summarize(n = n())
+       end
+5×2 DataFrame
+ Row │ a     n     
+     │ Char  Int64 
+─────┼─────────────
+   1 │ a         2
+   2 │ b         2
+   3 │ c         2
+   4 │ d         2
+   5 │ e         2
+```
+"""
+
+const docstring_row_number =
+"""
+    row_number()
+
+Return each row's number in a DataFrame or in the group if used in the context of a GroupedDataFrame.
+
+# Arguments
+- None
+
+# Examples
+```jldoctest
+julia> df = DataFrame(a = repeat('a':'e', inner = 2));
+
+julia> @chain df begin
+       @mutate(row_num = row_number())
+       end
+10×2 DataFrame
+ Row │ a     row_num 
+     │ Char  Int64   
+─────┼───────────────
+   1 │ a           1
+   2 │ a           2
+   3 │ b           3
+   4 │ b           4
+   5 │ c           5
+   6 │ c           6
+   7 │ d           7
+   8 │ d           8
+   9 │ e           9
+  10 │ e          10
+
+julia> @chain df begin
+       @mutate(row_num = row_number() + 1)
+       end
+10×2 DataFrame
+ Row │ a     row_num 
+     │ Char  Int64   
+─────┼───────────────
+   1 │ a           2
+   2 │ a           3
+   3 │ b           4
+   4 │ b           5
+   5 │ c           6
+   6 │ c           7
+   7 │ d           8
+   8 │ d           9
+   9 │ e          10
+  10 │ e          11
+
+julia> @chain df begin
+       @filter(row_number() <= 5)
+       end
+5×1 DataFrame
+ Row │ a    
+     │ Char 
+─────┼──────
+   1 │ a
+   2 │ a
+   3 │ b
+   4 │ b
+   5 │ c
 ```
 """

@@ -12,7 +12,7 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export Tidier_set, across, desc, starts_with, ends_with, matches, if_else, case_when, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
+export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -24,6 +24,7 @@ include("parsing.jl")
 include("joins.jl")
 include("pivots.jl")
 include("conditionals.jl")
+include("pseudofunctions.jl")
 
 # Function to set global variables
 """
@@ -46,30 +47,55 @@ ends_with(args...) = endswith(args...)
 matches(pattern, flags...) = Regex(pattern, flags...)
 
 """
-$docstring_across
-"""
-function across(args...)
-  throw("This function should only be called inside of @mutate(), @summarize, or @summarise.")
-end
-
-"""
-$docstring_desc
-"""
-function desc(args...)
-  throw("This function should only be called inside of @arrange().")
-end
-
-"""
 $docstring_select
 """
 macro select(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      select($(esc(df)), $(tidy_exprs...); ungroup = false)
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n; ungroup = false)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number; ungroup = false)
+          else
+            _
+          end    
+        end
+        select($(tidy_exprs...); ungroup = false)
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")); ungroup = false)
+      end
     else
-      select($(esc(df)), $(tidy_exprs...))
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number)
+          else
+            _
+          end
+        end
+        select($(tidy_exprs...))
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+      end
     end
   end
   if code[]
@@ -82,13 +108,52 @@ end
 $docstring_transmute
 """
 macro transmute(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      select($(esc(df)), $(tidy_exprs...); ungroup = false)
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n; ungroup = false)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number; ungroup = false)
+          else
+            _
+          end    
+        end
+        select($(tidy_exprs...); ungroup = false)
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")); ungroup = false)
+      end
     else
-      select($(esc(df)), $(tidy_exprs...))
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number)
+          else
+            _
+          end
+        end
+        select($(tidy_exprs...))
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+      end
     end
   end
   if code[]
@@ -101,13 +166,52 @@ end
 $docstring_rename
 """
 macro rename(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      rename($(esc(df)), $(tidy_exprs...); ungroup = false)
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n; ungroup = false)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number; ungroup = false)
+          else
+            _
+          end    
+        end
+        rename($(tidy_exprs...); ungroup = false)
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")); ungroup = false)
+      end
     else
-      rename($(esc(df)), $(tidy_exprs...))
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number)
+          else
+            _
+          end
+        end
+        rename($(tidy_exprs...))
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+      end
     end
   end
   if code[]
@@ -120,13 +224,52 @@ end
 $docstring_mutate
 """
 macro mutate(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      transform($(esc(df)), $(tidy_exprs...); ungroup = false)
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n; ungroup = false)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number; ungroup = false)
+          else
+            _
+          end    
+        end
+        transform($(tidy_exprs...); ungroup = false)
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")); ungroup = false)
+      end
     else
-      transform($(esc(df)), $(tidy_exprs...))
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number)
+          else
+            _
+          end
+        end
+        transform($(tidy_exprs...))
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+      end
     end
   end
   if code[]
@@ -139,21 +282,65 @@ end
 $docstring_summarize
 """
 macro summarize(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs; summarize = true)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs; autovec=false)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      col_names = groupcols($(esc(df)))
-      if length(col_names) == 1
-        combine($(esc(df)), $(tidy_exprs...); ungroup = true)
-      else
-        @chain $(esc(df)) begin
-          combine($(tidy_exprs...); ungroup = true)
-          groupby(col_names[1:end-1]; sort = true)
+      local col_names = groupcols($(esc(df)))
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n; ungroup = false)
+          else
+            _
+          end  
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number; ungroup = false)
+          else
+            _
+          end  
+        end
+        @chain _ begin
+          if length(col_names) == 1
+            @chain _ begin
+              combine(_, $(tidy_exprs...); ungroup = true)
+              select(_, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+            end
+          else
+            @chain _ begin
+              combine(_, $(tidy_exprs...); ungroup = true)
+              select(_, Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+              groupby(_, col_names[1:end-1]; sort = true)
+            end
+          end
         end
       end
     else
-      combine($(esc(df)), $(tidy_exprs...))
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n; ungroup = false)
+          else
+            _
+          end  
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number; ungroup = false)
+          else
+            _
+          end  
+        end
+        combine($(tidy_exprs...))
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+      end
     end
   end
   if code[]
@@ -173,13 +360,52 @@ end
 $docstring_filter
 """
 macro filter(df, exprs...)
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs; subset=true)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      subset($(esc(df)), $(tidy_exprs...); skipmissing = true, ungroup = false)
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n; ungroup = false)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number; ungroup = false)
+          else
+            _
+          end    
+        end
+        subset($(tidy_exprs...); skipmissing = true, ungroup = false)
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")); ungroup = false)
+      end
     else
-      subset($(esc(df)), $(tidy_exprs...); skipmissing = true)
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number)
+          else
+            _
+          end
+        end
+        subset($(tidy_exprs...); skipmissing = true)
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+      end
     end
   end
   if code[]
@@ -192,14 +418,33 @@ end
 $docstring_group_by
 """
 macro group_by(df, exprs...)
-  # Group
-  tidy_exprs = parse_interpolation.(exprs)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
   tidy_exprs = parse_tidy.(tidy_exprs)
   grouping_exprs = parse_group_by.(exprs)
 
   df_expr = quote
     @chain $(esc(df)) begin
+      @chain _ begin
+        if $any_found_n
+          transform(_, nrow => :Tidier_n)
+        else
+          _
+        end
+      end
+      @chain _ begin
+        if $any_found_row_number
+          transform(_, eachindex => :Tidier_row_number)
+        else
+          _
+        end
+      end
       transform($(tidy_exprs...))
+      select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
       groupby(Cols($(grouping_exprs...)); sort = true)
     end
   end
@@ -220,54 +465,43 @@ end
 $docstring_slice
 """
 macro slice(df, exprs...)
-  original_indices = [eval.(exprs)...]
-  clean_indices = Int64[]
-  for index in original_indices
-    if index isa Number
-      push!(clean_indices, index)
+  df_expr = quote
+    local interpolated_indices = parse_slice_n.($exprs, nrow(DataFrame($(esc(df)))))
+    local original_indices = [eval.(interpolated_indices)...]
+    local clean_indices = Int64[]
+    for index in original_indices
+      if index isa Number
+        push!(clean_indices, index)
+      else
+        append!(clean_indices, collect(index))
+      end
+    end
+    
+    if all(clean_indices .> 0)
+      if $(esc(df)) isa GroupedDataFrame
+        combine($(esc(df)); ungroup = false) do sdf
+          sdf[clean_indices, :]
+        end
+      else
+        combine($(esc(df))) do sdf
+          sdf[clean_indices, :]
+        end
+      end
+    elseif all(clean_indices .< 0)
+      clean_indices = -clean_indices
+      if $(esc(df)) isa GroupedDataFrame
+        combine($(esc(df)); ungroup = true) do sdf
+          sdf[Not(clean_indices), :]
+        end
+      else
+        combine($(esc(df))) do sdf
+          sdf[Not(clean_indices), :]
+        end
+      end
     else
-      append!(clean_indices, collect(index))
+      throw("@slice() indices must either be all positive or all negative.")
     end
   end
-  clean_indices = unique(clean_indices)
-
-  if all(clean_indices .> 0)
-    df_expr = quote
-      if $(esc(df)) isa GroupedDataFrame
-        @chain $(esc(df)) begin
-          transform(eachindex => :Tidier_row_number; ungroup = false)
-          subset(:Tidier_row_number => x -> (in.(x, Ref($clean_indices))); ungroup = false)
-          select(Not(:Tidier_row_number); ungroup = false)
-        end
-      else
-        @chain $(esc(df)) begin
-          transform(eachindex => :Tidier_row_number)
-          subset(:Tidier_row_number => x -> (in.(x, Ref($clean_indices))))
-          select(Not(:Tidier_row_number))
-        end
-      end
-    end
-  elseif all(clean_indices .< 0)
-    clean_indices = -clean_indices
-    df_expr = quote
-      if $(esc(df)) isa GroupedDataFrame
-        @chain $(esc(df)) begin
-          transform(eachindex => :Tidier_row_number; ungroup = false)
-          subset(:Tidier_row_number => x -> (.!in.(x, Ref($clean_indices))); ungroup = false)
-          select(Not(:Tidier_row_number); ungroup = false)
-        end
-      else
-        @chain $(esc(df)) begin
-          transform(eachindex => :Tidier_row_number)
-          subset(:Tidier_row_number => x -> (.!in.(x, Ref($clean_indices))))
-          select(Not(:Tidier_row_number))
-        end
-      end
-    end
-  else
-    throw("@slice() indices must either be all positive or all negative.")
-  end
-
   if code[]
     @info MacroTools.prettify(df_expr)
   end
@@ -281,7 +515,7 @@ macro arrange(df, exprs...)
   arrange_exprs = parse_desc.(exprs)
   df_expr = quote
     if $(esc(df)) isa GroupedDataFrame
-      col_names = groupcols($(esc(df)))
+      local col_names = groupcols($(esc(df)))
       
       @chain $(esc(df)) begin
         DataFrame # remove grouping
@@ -299,10 +533,71 @@ macro arrange(df, exprs...)
 end
 
 """
+$docstring_distinct
+"""
+macro distinct(df, exprs...)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+  any_found_n = any([i[2] for i in interpolated_exprs])
+  any_found_row_number = any([i[3] for i in interpolated_exprs])
+
+  tidy_exprs = parse_tidy.(tidy_exprs)
+  df_expr = quote
+    if $(esc(df)) isa GroupedDataFrame
+      local col_names = groupcols($(esc(df)))
+      @chain $(esc(df)) begin
+        DataFrame # remove grouping because `unique()` does not work on GroupDataFrames
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number)
+          else
+            _
+          end    
+        end
+        unique($(tidy_exprs...))
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+        groupby(col_names; sort = true) # regroup
+      end
+    else
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $any_found_n
+            transform(_, nrow => :Tidier_n)
+          else
+            _
+          end
+        end
+        @chain _ begin
+          if $any_found_row_number
+            transform(_, eachindex => :Tidier_row_number)
+          else
+            _
+          end
+        end
+        unique($(tidy_exprs...))
+        select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
+      end
+    end
+  end
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
+  return df_expr
+end
+
+"""
 $docstring_pull
 """
 macro pull(df, column)
-  column = parse_interpolation(column)
+  column, found_n, found_row_number = parse_interpolation(column)
   column = parse_tidy(column)
   vec_expr = quote
     $(esc(df))[:, $column]

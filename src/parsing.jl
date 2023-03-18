@@ -27,9 +27,13 @@ function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, su
       return parse_function(lhs, rhs; autovec, subset)
     end
   elseif @capture(tidy_expr, lhs_ = rhs_)
-    lhs = QuoteNode(lhs)
-    rhs = QuoteNode(rhs)
-    return :($rhs => $lhs)
+    if rhs isa Symbol
+      lhs = QuoteNode(lhs)
+      rhs = QuoteNode(rhs)
+      return :($rhs => $lhs)
+    else # handles @mutate(b = 10)
+      return parse_function(lhs, :(identity($rhs)); autovec, subset)
+    end
   elseif @capture(tidy_expr, -var_Symbol)
     var = QuoteNode(var)
     return :(Not($var))
@@ -146,7 +150,7 @@ end
 
 # Not exported
 function parse_desc(tidy_expr::Union{Expr,Symbol})
-  tidy_expr = parse_interpolation(tidy_expr)
+  tidy_expr, found_n, found_row_number = parse_interpolation(tidy_expr)
   if @capture(tidy_expr, Cols(args__)) # from parse_interpolation
     return :(Cols($(args...),))
   elseif @capture(tidy_expr, desc(var_))
@@ -159,7 +163,7 @@ end
 
 # Not exported
 function parse_join_by(tidy_expr::Union{Expr,Symbol,String})
-  tidy_expr = parse_interpolation(tidy_expr)
+  tidy_expr, found_n, found_row_number = parse_interpolation(tidy_expr)
   
   src = Union{Expr,QuoteNode}[] # type can be either a QuoteNode or a expression containing a selection helper function
 
@@ -201,7 +205,8 @@ end
 
 # Not exported
 function parse_group_by(tidy_expr::Union{Expr,Symbol})
-  tidy_expr = parse_interpolation(tidy_expr)
+  tidy_expr, found_n, found_row_number = parse_interpolation(tidy_expr)
+
   if @capture(tidy_expr, Cols(args__)) # from parse_interpolation
     return :(Cols($(args...),))
   elseif @capture(tidy_expr, lhs_ = rhs_)
@@ -287,7 +292,7 @@ function parse_autovec(tidy_expr::Union{Expr,Symbol})
     elseif @capture(x, fn_(args__))
 
       # `in` should be vectorized so do not add to this exclusion list
-      if fn in [:Ref :Set :Cols :(:) :∘ :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+      if fn in [:Ref :Set :Cols :(:) :∘ :repeat :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
         return :($fn.($(args...)))
@@ -332,7 +337,10 @@ end
 
 # Not exported
 # String is for parse_join_by
-function parse_interpolation(var_expr::Union{Expr,Symbol,Number,String})
+function parse_interpolation(var_expr::Union{Expr,Symbol,Number,String}; summarize::Bool = false)
+  found_n = false
+  found_row_number = false
+
   var_expr = MacroTools.postwalk(var_expr) do x
     if @capture(x, !!variable_Symbol)
       variable = Main.eval(variable)
@@ -347,6 +355,35 @@ function parse_interpolation(var_expr::Union{Expr,Symbol,Number,String})
         else
           return variable
         end
+      end
+    elseif @capture(x, fn_())
+      if fn == :n
+        if summarize
+          return :(nrow())
+        else
+          found_n = true
+          return :Tidier_n
+        end
+      elseif fn == :row_number
+        found_row_number = true
+        return :Tidier_row_number
+      else
+        return :($fn())
+      end
+    end
+    return x
+  end
+  return var_expr, found_n, found_row_number
+end
+
+# Simply to convert n() to a number
+function parse_slice_n(var_expr::Union{Expr,Symbol,Number,String}, n::Integer)
+  var_expr = MacroTools.postwalk(var_expr) do x
+    if @capture(x, fn_())
+      if fn == :n
+        return n
+      else
+        return :($fn())
       end
     end
     return x
