@@ -537,8 +537,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#filetering-rows-works-similarly-using-in" class="md-nav__link">
-    Filetering rows works similarly using in.
+  <a href="#filtering-rows-works-similarly-using-in" class="md-nav__link">
+    Filtering rows works similarly using in.
   </a>
   
 </li>
@@ -698,8 +698,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#filetering-rows-works-similarly-using-in" class="md-nav__link">
-    Filetering rows works similarly using in.
+  <a href="#filtering-rows-works-similarly-using-in" class="md-nav__link">
+    Filtering rows works similarly using in.
   </a>
   
 </li>
@@ -831,9 +831,9 @@
 <div><div style="float: left;"><span>2×3 DataFrame</span></div><div style="clear: both;"></div></div>
 <div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">a</th><th style="text-align: left;">b</th><th style="text-align: left;">c</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int64" style="text-align: left;">Int64</th><th title="Int64" style="text-align: left;">Int64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">b</td><td style="text-align: right;">1</td><td style="text-align: right;">13</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">b</td><td style="text-align: right;">2</td><td style="text-align: right;">14</td></tr></tbody></table></div>
 
-<p><a id="Filetering-rows-works-similarly-using-in."></a></p>
-<p><a id="Filetering-rows-works-similarly-using-in.-1"></a></p>
-<h2 id="filetering-rows-works-similarly-using-in">Filetering rows works similarly using <code>in</code>.<a class="headerlink" href="#filetering-rows-works-similarly-using-in" title="Permanent link">¤</a></h2>
+<p><a id="Filtering-rows-works-similarly-using-in."></a></p>
+<p><a id="Filtering-rows-works-similarly-using-in.-1"></a></p>
+<h2 id="filtering-rows-works-similarly-using-in">Filtering rows works similarly using <code>in</code>.<a class="headerlink" href="#filtering-rows-works-similarly-using-in" title="Permanent link">¤</a></h2>
 <p>Note that for <code>in</code> to work here, we have to wrap it in <code>[]</code> because otherwise, the string will be converted into a collection of characters, which are a different data type.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">myvar_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"b"</span><span class="p">)</span>
 
@@ -929,7 +929,7 @@
 <p><a id="Alternative-interpolation-syntax"></a></p>
 <p><a id="Alternative-interpolation-syntax-1"></a></p>
 <h2 id="alternative-interpolation-syntax">Alternative interpolation syntax<a class="headerlink" href="#alternative-interpolation-syntax" title="Permanent link">¤</a></h2>
-<p>While interpolationg using <code>!!</code> is concise and handy, it's not required. You can also access user-defined globals and global constant variables using the following syntax:</p>
+<p>While interpolation using <code>!!</code> is concise and handy, it's not required. You can also access user-defined globals and global constant variables using the following syntax:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Main</span><span class="o">.</span><span class="nb">pi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">radius</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
 <span class="k">end</span>
