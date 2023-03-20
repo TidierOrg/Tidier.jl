@@ -356,6 +356,10 @@ function parse_interpolation(var_expr::Union{Expr,Symbol,Number,String}; summari
           return variable
         end
       end
+    elseif hasproperty(x, :head) && x.head == :macrocall &&
+           hasproperty(x.args[1], :mod) && hasproperty(x.args[1], :name) &&
+           x.args[1].mod == Core && x.args[1].name == Symbol("@cmd")
+      return Symbol(x.args[3])
     elseif @capture(x, fn_())
       if fn == :n
         if summarize
