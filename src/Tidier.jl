@@ -12,7 +12,10 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
+export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, 
+      @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, 
+      @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer, 
+      @bind_rows, @bind_cols
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -608,4 +611,58 @@ macro pull(df, column)
   return vec_expr
 end
 
+macro bind_rows(df, exprs...)
+  tidy_exprs = parse_bind_args.(exprs)
+  locate_id = findfirst(i -> i[2], tidy_exprs)
+  if locate_id isa Nothing
+    df_vec = [i[1] for i in tidy_exprs]
+    id_expr = nothing
+  else
+    df_vec = deleteat!([tidy_exprs...], locate_id)
+    df_vec = [i[1] for i in df_vec]
+    id_expr = tidy_exprs[locate_id][1]
+  end
+  
+  df_expr = quote
+    vcat( DataFrame($(esc(df))), $(df_vec...), cols = :union, source = $id_expr)
+  end
+  return df_expr
 end
+
+macro bind_cols(df, exprs...)
+  tidy_exprs = parse_bind_args.(exprs)
+  df_vec = [i[1] for i in tidy_exprs]
+  
+  df_expr = quote
+    hcat( DataFrame($(esc(df))), $(df_vec...), makeunique = true)
+  end
+  return df_expr
+end
+
+end
+
+using .Tidier
+df1 = DataFrame(A=1:3, B=1:3);
+df2 = DataFrame(A=4:6, B=4:6);
+df3 = DataFrame(A=7:9, C=7:9);
+
+@chain df1 begin
+  @bind_rows(df2, df3)
+end
+
+@chain df1 begin
+  @bind_rows(df2, df3, id = :id)
+end
+
+@chain df1 begin
+  @bind_rows(df2, df3, id = "id")
+end
+
+@chain df1 begin
+  @bind_rows(df2, df3, id = :source => 'a':'c')
+end
+
+@chain df1 begin
+  @bind_cols(df2, df3)
+end
+
