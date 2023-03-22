@@ -611,6 +611,9 @@ macro pull(df, column)
   return vec_expr
 end
 
+"""
+$docstring_bind_rows
+"""
 macro bind_rows(df, exprs...)
   tidy_exprs = parse_bind_args.(exprs)
   locate_id = findfirst(i -> i[2], tidy_exprs)
@@ -629,6 +632,9 @@ macro bind_rows(df, exprs...)
   return df_expr
 end
 
+"""
+$docstring_bind_cols
+"""
 macro bind_cols(df, exprs...)
   tidy_exprs = parse_bind_args.(exprs)
   df_vec = [i[1] for i in tidy_exprs]
@@ -639,30 +645,5 @@ macro bind_cols(df, exprs...)
   return df_expr
 end
 
-end
-
-using .Tidier
-df1 = DataFrame(A=1:3, B=1:3);
-df2 = DataFrame(A=4:6, B=4:6);
-df3 = DataFrame(A=7:9, C=7:9);
-
-@chain df1 begin
-  @bind_rows(df2, df3)
-end
-
-@chain df1 begin
-  @bind_rows(df2, df3, id = :id)
-end
-
-@chain df1 begin
-  @bind_rows(df2, df3, id = "id")
-end
-
-@chain df1 begin
-  @bind_rows(df2, df3, id = :source => 'a':'c')
-end
-
-@chain df1 begin
-  @bind_cols(df2, df3)
 end
 
