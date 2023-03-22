@@ -292,7 +292,7 @@ function parse_autovec(tidy_expr::Union{Expr,Symbol})
     elseif @capture(x, fn_(args__))
 
       # `in` should be vectorized so do not add to this exclusion list
-      if fn in [:Ref :Set :Cols :(:) :∘ :repeat :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing :startswith :contains :endswith]
+      if fn in [:Ref :Set :Cols :(:) :∘ :repeat :across :desc :mean :std :var :median :first :last :minimum :maximum :sum :length :skipmissing :quantile :passmissing]
         return x
       elseif contains(string(fn), r"[^\W0-9]\w*$") # valid variable name
         return :($fn.($(args...)))
@@ -356,6 +356,10 @@ function parse_interpolation(var_expr::Union{Expr,Symbol,Number,String}; summari
           return variable
         end
       end
+    # `hello` in Julia is converted to Core.@cmd("hello")
+    # Since MacroTools is unable to match this pattern, we can directly
+    # evaluate the expression to see if it matches. If it does, the 3rd argument
+    # contains the string containing the values inside the backticks.
     elseif hasproperty(x, :head) && x.head == :macrocall &&
            hasproperty(x.args[1], :mod) && hasproperty(x.args[1], :name) &&
            x.args[1].mod == Core && x.args[1].name == Symbol("@cmd")
