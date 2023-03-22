@@ -1,5 +1,9 @@
 # Tidier.jl updates
 
+## Dev
+- Add support for backticks to select columns containing spaces.
+- Bug fix: removed selection helpers (`startswith`, `contains`, and `endswith` from the do-not-vectorize list).
+
 ## v0.6.0 - 2023-03-18
 
 - Added `@distinct()`. It behaves slightly differently from dplyr when provided arguments in that it returns all columns, not just the selected ones.
