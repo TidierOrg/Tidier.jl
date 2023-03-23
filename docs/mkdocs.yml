@@ -128,6 +128,7 @@ nav:
   - "across" : "examples/generated/UserGuide/across.md"
   - "Conditionals": "examples/generated/UserGuide/conditionals.md"
   - "Joins" : "examples/generated/UserGuide/joins.md"
+  - "Binds" : "examples/generated/UserGuide/binds.md" 
   - "Pivoting": "examples/generated/UserGuide/pivots.md"
   - "Column names": "examples/generated/UserGuide/column_names.md"
   - "Interpolation" : "examples/generated/UserGuide/interpolation.md"
