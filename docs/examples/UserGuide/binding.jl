@@ -4,11 +4,11 @@
 
 using Tidier
 
-df1 = DataFrame(a=1:3, b=1:3);
+df1 = DataFrame(; a=1:3, b=1:3);
 
-df2 = DataFrame(a=4:6, b=4:6);
+df2 = DataFrame(; a=4:6, b=4:6);
 
-df3 = DataFrame(a=7:9, c=7:9);
+df3 = DataFrame(; a=7:9, c=7:9);
 
 # ## `@bind_rows()`
 

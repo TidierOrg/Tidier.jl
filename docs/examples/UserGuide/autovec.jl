@@ -5,7 +5,7 @@
 using Tidier
 using RDatasets
 
-df = DataFrame(a = repeat('a':'e', inner = 2), b = [1,1,1,2,2,2,3,3,3,4], c = 11:20)
+df = DataFrame(; a=repeat('a':'e'; inner=2), b=[1, 1, 1, 2, 2, 2, 3, 3, 3, 4], c=11:20)
 
 # For example, let's define a function `new_mean()` that calculates a mean.
 

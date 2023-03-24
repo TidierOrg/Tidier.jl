@@ -42,5 +42,3 @@
 
 # This should ouput `http://127.0.0.1:8000`, copy/paste this into your
 # browser and you are all set.
-
-

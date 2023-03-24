@@ -25,9 +25,10 @@ end
 # The median budget in this dataset is $3 million, and the mean budget is $13 million! Making movies must be way more lucrative than making Julia packages.
 
 @chain movies begin
-  @mutate(Budget = Budget / 1_000_000)
-  @summarize(median_budget = median(skipmissing(Budget)),
-             mean_budget = mean(skipmissing(Budget)))
+    @mutate(Budget = Budget / 1_000_000)
+    @summarize(
+        median_budget = median(skipmissing(Budget)), mean_budget = mean(skipmissing(Budget))
+    )
 end
 
 # ## Combining `@group_by()` with `@summarise()`
@@ -35,10 +36,10 @@ end
 # How many movies came out in each of the last 5 years?
 
 @chain movies begin
-  @group_by(Year)
-  @summarise(n = n())
-  @arrange(desc(Year))
-  @slice(1:5)
+    @group_by(Year)
+    @summarise(n = n())
+    @arrange(desc(Year))
+    @slice(1:5)
 end
 
 # Notice that there was no need to explicitly `@ungroup()` the dataset after summarizing here. The `@summarise()` function removed one layer of grouping. Since this dataset was only grouped by one variable (`Year`), it was no longer grouped after the `@summarise` was performed.

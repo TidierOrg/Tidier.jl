@@ -6,11 +6,11 @@ using Tidier
 
 # Let's generate two data frames to join on. Here's the first one.
 
-df1 = DataFrame(a = ["a", "b"], b = 1:2);
+df1 = DataFrame(; a=["a", "b"], b=1:2);
 
 # And here's the second one.
 
-df2 = DataFrame(a = ["a", "c"], c = 3:4);
+df2 = DataFrame(; a=["a", "c"], c=3:4);
 
 # All the joins work similarly to R's `tidyverse` although the new `join_by` syntax for non-equijoins is not (yet) supported.
 

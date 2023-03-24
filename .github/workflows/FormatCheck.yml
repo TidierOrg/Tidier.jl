@@ -1,0 +1,34 @@
+name: Format Check
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'release-'
+    tags: '*'
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: julia-actions/setup-julia@latest
+        with:
+          version: 1
+      - uses: actions/checkout@v1
+      - name: Install JuliaFormatter
+        run: |
+          using Pkg                 # Load package manager
+          Pkg.add("JuliaFormatter") # Install JuliaFormatter
+        shell: julia --color=yes {0}
+      - name: Format code
+        run: |
+          using JuliaFormatter      # Load JuliaFormatter
+          format("."; verbose=true) # Format all .jl files 
+        shell: julia --color=yes {0}
+      - name: Suggest formatting changes
+        uses: reviewdog/action-suggester@v1
+        if: github.event_name == 'pull_request'
+        with:
+          tool_name: JuliaFormatter
+          fail_on_error: true

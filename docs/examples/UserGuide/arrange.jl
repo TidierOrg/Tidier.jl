@@ -10,9 +10,9 @@ movies = dataset("ggplot2", "movies");
 # ## Sort both variables in ascending order
 
 @chain movies begin
-  @arrange(Year, Rating)
-  @select(1:5)
-  @slice(1:5)
+    @arrange(Year, Rating)
+    @select(1:5)
+    @slice(1:5)
 end
 
 # ## Sort in a mix of ascending and descending order
@@ -20,7 +20,7 @@ end
 # To sort in descending order, make sure to wrap the variable inside of `desc()`.
 
 @chain movies begin
-  @arrange(Year, desc(Rating))
-  @select(1:5)
-  @slice(1:5)
+    @arrange(Year, desc(Rating))
+    @select(1:5)
+    @slice(1:5)
 end

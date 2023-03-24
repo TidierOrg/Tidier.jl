@@ -8,9 +8,7 @@
 
 using Tidier
 
-df_long = DataFrame(id = [1, 1, 2, 2],
-                    variable = ["A", "B", "A", "B"],
-                    value = [1, 2, 3, 4])
+df_long = DataFrame(; id=[1, 1, 2, 2], variable=["A", "B", "A", "B"], value=[1, 2, 3, 4])
 
 # To make this dataset wider, we can do the following:
 
@@ -24,7 +22,7 @@ df_long = DataFrame(id = [1, 1, 2, 2],
 
 # For calculating summary statistics (e.g., mean) by groups, or for plotting purposes, DataFrames often need to be converted to their longer form. For this, we can use `@pivot_longer`. First, let's start with a "wide" DataFrame.
 
-df_wide = DataFrame(id = [1, 2], A = [1, 3], B = [2, 4])
+df_wide = DataFrame(; id=[1, 2], A=[1, 3], B=[2, 4])
 
 # Now, let's transform this wide dataset into the longer form. Unlike `@pivot_wider()`, where providing the `names_from` and `values_from` arguments is required, the only item that's required in `@pivot_wider()` is a set of columns to pivot. The `names_to` and `values_to` arguments are optional, and if not provided, they will default to "variable" and "value", respectively.
 

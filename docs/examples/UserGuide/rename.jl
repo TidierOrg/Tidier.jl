@@ -20,6 +20,6 @@ end
 # If you plan to only select those columns that you would like to rename, then you can use `@select()` to *both* rename and select the columns of interest.
 
 @chain movies begin
-  @select(title = Title, Minutes = Length)
-  @slice(1:5)
+    @select(title = Title, Minutes = Length)
+    @slice(1:5)
 end

@@ -15,24 +15,26 @@ macro pivot_wider(df, exprs...)
 
     # we need to define a dictionary 
     # to hold arguments in the format expected by unstack()
-    arg_dict = Dict{Symbol, Any}()
+    arg_dict = Dict{Symbol,Any}()
 
     if haskey(expr_dict, QuoteNode(:values_fill))
         arg_dict[:fill] = eval(expr_dict[QuoteNode(:values_fill)])
     end
 
     df_expr = quote
-        unstack(DataFrame($(esc(df))), 
+        unstack(
+            DataFrame($(esc(df))),
             $(expr_dict[QuoteNode(:names_from)]),
             $(expr_dict[QuoteNode(:values_from)]);
-            $(arg_dict)...)
+            $(arg_dict)...,
+        )
     end
 
     if code[]
         @info MacroTools.prettify(df_expr)
     end
 
-    return(df_expr)
+    return (df_expr)
 end
 
 """
@@ -52,7 +54,7 @@ macro pivot_longer(df, exprs...)
 
     # we need to define a dictionary 
     # to hold arguments in the format expected by stack()
-    arg_dict = Dict{Symbol, Any}()
+    arg_dict = Dict{Symbol,Any}()
 
     # if names_to was specified, pass that argument to variable_name
     if haskey(expr_dict, QuoteNode(:names_to))
@@ -72,7 +74,6 @@ macro pivot_longer(df, exprs...)
     if code[]
         @info MacroTools.prettify(df_expr)
     end
-    
+
     return df_expr
 end
-

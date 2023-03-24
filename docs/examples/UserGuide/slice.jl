@@ -4,9 +4,9 @@
 
 using Tidier
 
-df = DataFrame(row_num = 1:10,
-               a = string.(repeat('a':'e', inner = 2)),
-               b = [1,1,1,2,2,2,3,3,3,4])
+df = DataFrame(;
+    row_num=1:10, a=string.(repeat('a':'e'; inner=2)), b=[1, 1, 1, 2, 2, 2, 3, 3, 3, 4]
+)
 
 # ## Slicing using a range of numbers
 
@@ -21,15 +21,14 @@ end
 # How would we obtain every other from 1 to 7 (counting up by 2)? Note that `range()` is similar to `seq()` in R.
 
 @chain df begin
-  @slice(range(start = 1, step = 2, stop = 7))
+    @slice(range(start=1, step=2, stop=7))
 end
 
 # This same code can also be written using Julia's shorthand syntax for unit ranges.
 
 @chain df begin
-  @slice(1:2:7)
+    @slice(1:2:7)
 end
-
 
 # ## Separate multiple row selections with commas
 
@@ -44,13 +43,13 @@ end
 # Select the last 2 rows.
 
 @chain df begin
-  @slice(n()-1, n())
+    @slice(n() - 1, n())
 end
 
 # You can even use `n()` inside of UnitRanges, just like in R. Notice that the order of operations is slightly different in Julia as compared to R, so you don't have to wrap the `n()-1` expression inside of parentheses.
 
 @chain df begin
-  @slice(n()-1:n())
+    @slice((n() - 1):n())
 end
 
 # ## Inverted selection using negative numbers

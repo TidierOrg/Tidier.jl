@@ -46,9 +46,9 @@ end
 # We can also use `!` for inverted selection instead of `-`.
 
 @chain movies begin
-  @select(!(Title:Rating))
-  @select(1:5)
-  @slice(1:5)
+    @select(!(Title:Rating))
+    @select(1:5)
+    @slice(1:5)
 end
 
 # ## Select all but the first 5 columns by number

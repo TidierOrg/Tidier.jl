@@ -23,20 +23,24 @@ end
 
 @chain movies begin
     @group_by(Year)
-    @summarize(Mean_Yearly_Rating = mean(skipmissing(Rating)),
-        Median_Yearly_Rating = median(skipmissing(Rating)))
+    @summarize(
+        Mean_Yearly_Rating = mean(skipmissing(Rating)),
+        Median_Yearly_Rating = median(skipmissing(Rating))
+    )
     @slice(1:5)
 end
 
 # ## Grouping by multiple columns
 
 @chain movies begin
-  @group_by(Year, Comedy)
-  @summarize(Mean_Yearly_Rating = mean(skipmissing(Rating)),
-      Median_Yearly_Rating = median(skipmissing(Rating)))
-  @ungroup # Need to ungroup to peel off grouping by Year
-  @arrange(desc(Year), Comedy)
-  @slice(1:5)
+    @group_by(Year, Comedy)
+    @summarize(
+        Mean_Yearly_Rating = mean(skipmissing(Rating)),
+        Median_Yearly_Rating = median(skipmissing(Rating))
+    )
+    @ungroup # Need to ungroup to peel off grouping by Year
+    @arrange(desc(Year), Comedy)
+    @slice(1:5)
 end
 
 # ## Combining @group_by() with @filter()
