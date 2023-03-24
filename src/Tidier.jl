@@ -4,6 +4,7 @@ using DataFrames
 using MacroTools
 using Chain
 using Statistics
+using Cleaner
 using Reexport
 
 # Exporting `Cols` because `summarize(across(!!vars, funs))` with multiple interpolated
@@ -15,7 +16,7 @@ using Reexport
 export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, 
       @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, 
       @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer, 
-      @bind_rows, @bind_cols
+      @bind_rows, @bind_cols, @clean_names
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -27,6 +28,7 @@ include("parsing.jl")
 include("joins.jl")
 include("binding.jl")
 include("pivots.jl")
+include("clean_names.jl")
 include("conditionals.jl")
 include("pseudofunctions.jl")
 
