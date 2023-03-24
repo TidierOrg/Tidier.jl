@@ -398,3 +398,18 @@ function parse_slice_n(var_expr::Union{Expr,Symbol,Number,String}, n::Integer)
   end
   return var_expr
 end
+
+# Not export
+# parse DataFrame and Expr
+function parse_bind_args(tidy_expr::Union{Expr,Symbol})
+  found_id = false
+  if @capture(tidy_expr, lhs_ = rhs_)
+    if lhs != :id
+      throw("$(String(lhs)) is not implemented")
+    else
+      found_id = true
+      return rhs, found_id
+    end
+  end
+  return esc(tidy_expr), found_id
+end

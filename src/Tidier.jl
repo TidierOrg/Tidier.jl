@@ -12,7 +12,10 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer
+export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, 
+      @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, 
+      @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer, 
+      @bind_rows, @bind_cols
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -22,6 +25,7 @@ const log = Ref{Bool}(false) # output tidylog output? (not yet implemented)
 include("docstrings.jl")
 include("parsing.jl")
 include("joins.jl")
+include("binding.jl")
 include("pivots.jl")
 include("conditionals.jl")
 include("pseudofunctions.jl")
