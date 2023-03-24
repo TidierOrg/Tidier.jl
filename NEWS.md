@@ -1,7 +1,9 @@
 # Tidier.jl updates
 
 ## Dev
-- Add support for backticks to select columns containing spaces.
+
+- Added `@bind_rows()` and `@bind_cols()`
+- Added support for backticks to select columns containing spaces.
 - Bug fix: removed selection helpers (`startswith`, `contains`, and `endswith` from the do-not-vectorize list).
 
 ## v0.6.0 - 2023-03-18

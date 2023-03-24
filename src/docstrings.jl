@@ -1390,17 +1390,17 @@ Columns present in at least one of the provided DataFrames are kept. Columns not
 
 # Examples
 ```jldoctest bind_rows
-julia> df1 = DataFrame(A=1:3, B=1:3);
+julia> df1 = DataFrame(a=1:3, b=1:3);
 
-julia> df2 = DataFrame(A=4:6, B=4:6);
+julia> df2 = DataFrame(a=4:6, b=4:6);
 
-julia> df3 = DataFrame(A=7:9, C=7:9);
+julia> df3 = DataFrame(a=7:9, c=7:9);
 
 julia> @chain df1 begin
        @bind_rows(df2)
        end
 6×2 DataFrame
- Row │ A      B     
+ Row │ a      b     
      │ Int64  Int64 
 ─────┼──────────────
    1 │     1      1
@@ -1417,7 +1417,7 @@ julia> @chain df1 begin
        @bind_rows(df2, df3)
        end
 9×3 DataFrame
- Row │ A      B        C       
+ Row │ a      b        c       
      │ Int64  Int64?   Int64?  
 ─────┼─────────────────────────
    1 │     1        1  missing 
@@ -1434,7 +1434,7 @@ julia> @chain df1 begin
        @bind_rows(df2, df3, id = "id")
        end
 9×4 DataFrame
- Row │ A      B        C        id    
+ Row │ a      b        c        id    
      │ Int64  Int64?   Int64?   Int64 
 ─────┼────────────────────────────────
    1 │     1        1  missing      1
@@ -1460,17 +1460,17 @@ Binding many DataFrames into one by column.
 
 # Examples
 ```jldoctest 
-julia> df1 = DataFrame(A=1:3, B=1:3);
+julia> df1 = DataFrame(a=1:3, b=1:3);
 
-julia> df2 = DataFrame(A=4:6, B=4:6);
+julia> df2 = DataFrame(a=4:6, b=4:6);
 
-julia> df3 = DataFrame(A=7:9, C=7:9);
+julia> df3 = DataFrame(a=7:9, c=7:9);
 
 julia> @chain df1 begin
        @bind_cols(df2, df3)
        end
 3×6 DataFrame
- Row │ A      B      A_1    B_1    A_2    C     
+ Row │ a      b      a_1    b_1    a_2    c     
      │ Int64  Int64  Int64  Int64  Int64  Int64 
 ─────┼──────────────────────────────────────────
    1 │     1      1      4      4      7      7
