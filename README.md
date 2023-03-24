@@ -1,6 +1,10 @@
 # Tidier.jl
-[![Latest Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://kdpsingh.github.io/Tidier.jl/dev/) [![Stable Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://kdpsingh.github.io/Tidier.jl/stable/) [![Build
-Status](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/kdpsingh/Tidier.jl/blob/main/LICENSE)
+[![Docs: Stable](https://img.shields.io/badge/Docs-Stable-blue.svg)](https://kdpsingh.github.io/Tidier.jl/stable)
+[![Docs: Dev](https://img.shields.io/badge/Docs-Dev-lightblue.svg)](https://kdpsingh.github.io/Tidier.jl/dev)
+[![Build Status](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/Tidier&label=Downloads)](https://pkgs.genieframework.com?packages=Tidier)
 
 <img src="/docs/src/assets/Tidier_jl_logo.png" align="right" style="padding-left:10px;" width="150"/>
 
