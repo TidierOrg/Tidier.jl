@@ -108,6 +108,7 @@ Tidier.jl currently supports the following top-level macros:
     - `@bind_cols()`
     - `@pivot_wider()`
     - `@pivot_longer()`
+    - `@clean_names()` (as in R's `janitor::clean_names()` function)
 ```
 Tidier.jl also supports the following helper functions:
 

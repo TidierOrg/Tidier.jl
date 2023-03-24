@@ -1378,14 +1378,14 @@ julia> @chain df begin
 
 const docstring_bind_rows =
 """
-    @bind_rows(dfs, id)
+    @bind_rows(dfs..., id)
 
-Binding many DataFrames into one by row. 
+Bind many DataFrames into one by row. 
 
-Columns present in at least one of the provided DataFrames are kept. Columns not present in some DataFrames are filled with missing where necessary.
+Columns present in at least one of the provided DataFrames are kept. Columns not present in some DataFrames are filled with missing values where necessary.
 
 # Arguments
-- `dfs`: DataFrames to combine.
+- `dfs...`: DataFrames to combine.
 - `id`: string DataFrame identifier. When id is supplied, a new column of numeric identifiers is created to link each row to its original DataFrame.
 
 # Examples
@@ -1410,7 +1410,7 @@ julia> @chain df1 begin
    5 │     5      5
    6 │     6      6
 ```
-When colunms not presented in some DataFrames, missing will be filled.
+When columns are not present in some DataFrames, they are filled with missing values.
 
 ```jldoctest bind_rows
 julia> @chain df1 begin
@@ -1451,12 +1451,12 @@ julia> @chain df1 begin
 
 const docstring_bind_cols =
 """
-    @bind_cols(dfs)
+    @bind_cols(dfs...)
 
-Binding many DataFrames into one by column. 
+Bind many DataFrames into one by column. 
 
 # Arguments
-- `dfs`: DataFrames to combine.
+- `dfs...`: DataFrames to combine.
 
 # Examples
 ```jldoctest 
@@ -1476,5 +1476,58 @@ julia> @chain df1 begin
    1 │     1      1      4      4      7      7
    2 │     2      2      5      5      8      8
    3 │     3      3      6      6      9      9
+```         
+"""
+
+##
+
+const docstring_clean_names =
+"""
+    @clean_names(df, [case])
+
+Clean column names using Cleaner.jl.
+
+# Arguments
+- `df`: DataFrame or GroupedDataFrame.
+- `case`: Optional string argument taking the value of either "snake_case" or "camelCase". Defaults to "snake_case".
+
+# Examples
+```jldoctest 
+julia> df = DataFrame(var" A bad column name " = 1:5)
+5×1 DataFrame
+ Row │  A bad column name  
+     │ Int64               
+─────┼─────────────────────
+   1 │                   1
+   2 │                   2
+   3 │                   3
+   4 │                   4
+   5 │                   5
+
+julia> @chain df begin
+       @clean_names
+       end
+5×1 DataFrame
+ Row │ a_bad_column_name 
+     │ Int64             
+─────┼───────────────────
+   1 │                 1
+   2 │                 2
+   3 │                 3
+   4 │                 4
+   5 │                 5
+  
+julia> @chain df begin
+       @clean_names(case = "camelCase")
+       end
+5×1 DataFrame
+ Row │ aBadColumnName 
+     │ Int64          
+─────┼────────────────
+   1 │              1
+   2 │              2
+   3 │              3
+   4 │              4
+   5 │              5
 ```         
 """

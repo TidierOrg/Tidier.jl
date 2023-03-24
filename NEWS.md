@@ -3,6 +3,7 @@
 ## Dev
 
 - Added `@bind_rows()` and `@bind_cols()`
+- Added `@clean_names()` to mimic R's `janitor::clean_names()` by wrapping the Cleaner.jl package
 - Added support for backticks to select columns containing spaces.
 - Bug fix: removed selection helpers (`startswith`, `contains`, and `endswith` from the do-not-vectorize list).
 

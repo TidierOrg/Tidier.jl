@@ -11,6 +11,8 @@ df = DataFrame(var"my name" = ["Ada", "Twist"],
 
 # This notation *also* works inside of Tidier.jl.
 
+# ## `var"column name"` notation
+
 # If we want to figure out the age for the people in our dataset a decade from today, we could use this same `var"column name"` notation inside of `@mutate`.
 
 @chain df begin
@@ -19,6 +21,8 @@ end
 
 # However, typing out the `var"column name"` can become cumbersome. Tidier.jl also supports another shorthand notation to refer to column names containing spaces or other special characters: backticks.
 
+# ## Backtick notation
+
 # This same code could be written more concisely like this:
 
 @chain df begin
@@ -26,3 +30,17 @@ end
 end
 
 # Backticks are an R convention. While they are not specific to tidyverse, they are a convenient way to refer to column names that otherwise would not parse correctly as a single entity. Backticks are supported in *all* Tidier.jl functions where column names may be referenced.
+
+# ## Cleaning up column names
+
+# Another option is to clean up the column names so that you do not have spaces to begin with. In R, this is usually accomplished using the `janitor` package. In Julia, the Cleaner.jl package provides this functionality, which we have wrapped inside of Tidier.jl.
+
+@chain df begin
+  @clean_names
+end
+
+# Although the default value for the `case` argument is "snake_case", you can also set this to "camelCase".
+
+@chain df begin
+  @clean_names(case = "camelCase")
+end
