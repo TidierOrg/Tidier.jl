@@ -90,6 +90,8 @@ Tidier.jl currently supports the following top-level macros:
 - `@right_join()`
 - `@inner_join()`
 - `@full_join()`
+- `@bind_rows()`
+- `@bind_cols()`
 - `@pivot_wider()`
 - `@pivot_longer()`
 
