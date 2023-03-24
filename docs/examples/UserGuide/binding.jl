@@ -18,7 +18,7 @@ df3 = DataFrame(a=7:9, c=7:9);
 
 @bind_rows(df1, df3)
 
-# There is an optional `id` argument to add an identifier for combined data frames. Note that both `@bind_rows` and `@bind_rows` accept multiple (i.e., more than 2) data frames, as in the example below.
+# There is an optional `id` argument to add an identifier for combined data frames. Note that both `@bind_rows` and `@bind_cols` accept multiple (i.e., more than 2) data frames, as in the example below.
 
 @bind_rows(df1, df2, df3, id = "id")
 
