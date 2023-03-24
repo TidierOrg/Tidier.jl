@@ -1,8 +1,9 @@
 # Tidier.jl
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/kdpsingh/Tidier.jl/blob/main/LICENSE)
-[![Docs: Stable](https://img.shields.io/badge/Docs-Stable-blue.svg)](https://kdpsingh.github.io/Tidier.jl/stable)
 [![Docs: Dev](https://img.shields.io/badge/Docs-Dev-lightblue.svg)](https://kdpsingh.github.io/Tidier.jl/dev)
+[![Docs: Stable](https://img.shields.io/badge/Docs-Stable-blue.svg)](https://kdpsingh.github.io/Tidier.jl/stable)
+[![Code Style: Blue](https://img.shields.io/badge/Code%20Style-Blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 [![Build Status](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/Tidier&label=Downloads)](https://pkgs.genieframework.com?packages=Tidier)
 
