@@ -14,31 +14,31 @@ new_mean(exprs...) = mean(exprs...)
 # If we try to use `new_mean()` inside of `@mutate()`, it will give us the wrong result. This is because `new_mean()` is vectorized, which results in the mean being calculated element-wise, which is almost never what we actually want.
 
 @chain df begin
-    @mutate(d = c - new_mean(c))
+  @mutate(d = c - new_mean(c))
 end
 
 # To prevent `new_mean()` from being vectorized, we need to prefix it with a `~` like this:
 
 @chain df begin
-    @mutate(d = c - ~new_mean(c))
+  @mutate(d = c - ~new_mean(c))
 end
 
 # This gives us the correct answer. Notice that adding a `~` is not needed with `mean()` because `mean()` is already included on our look-up table of functions not requiring vectorization.
 
 @chain df begin
-    @mutate(d = c - mean(c))
+  @mutate(d = c - mean(c))
 end
 
 # If you're not sure if a function is vectorized and want to prevent it from being vectorized, you can always prefix it with a ~ to prevent vectorization. Even though `mean()` is not vectorized anyway, prefixing it with a ~ will not cause any harm.
 
 @chain df begin
-    @mutate(d = c - ~mean(c))
+  @mutate(d = c - ~mean(c))
 end
 
 # If for some crazy reason, you *did* want to vectorize `mean()`, you are always allowed to vectorize it, and Tidier.jl won't un-vectorize it.
 
 @chain df begin
-    @mutate(d = c - mean.(c))
+  @mutate(d = c - mean.(c))
 end
 
 # Note: `~` also works with operators, so if you want to *not* vectorize an operator, you can prefix it with `~`, for example, `a ~* b` will perform a matrix multiplication rather than element-wise multiplication. Remember that this is only needed outside of `@summarize()` because `@summarize()` never performs auto-vectorization.

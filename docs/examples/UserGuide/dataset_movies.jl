@@ -10,7 +10,7 @@ movies = dataset("ggplot2", "movies");
 # Let's take a look at the first 5 rows of the `movies` dataset using `@slice()`.
 
 @chain movies begin
-    @slice(1:5)
+  @slice(1:5)
 end
 
 # Let's use the `describe()` function, which is re-exported from the `DataFrames.jl` package to describe the dataset.

@@ -9,7 +9,7 @@
 using Tidier
 
 df = DataFrame(;
-    a=string.(repeat('a':'e'; inner=2)), b=[1, 1, 1, 2, 2, 2, 3, 3, 3, 4], c=11:20
+  a=string.(repeat('a':'e'; inner=2)), b=[1, 1, 1, 2, 2, 2, 3, 3, 3, 4], c=11:20
 )
 
 # ## Select the column (because `myvar` contains a symbol)
@@ -17,7 +17,7 @@ df = DataFrame(;
 @eval(Main, myvar = :b)
 
 @chain df begin
-    @select(!!myvar)
+  @select(!!myvar)
 end
 
 # ## Select multiple variables (tuple of symbols)
@@ -25,7 +25,7 @@ end
 @eval(Main, myvars_tuple = (:a, :b))
 
 @chain df begin
-    @select(!!myvars_tuple)
+  @select(!!myvars_tuple)
 end
 
 # ## Select multiple variables (vector of symbols)
@@ -33,7 +33,7 @@ end
 @eval(Main, myvars_vector = [:a, :b])
 
 @chain df begin
-    @select(!!myvars_vector)
+  @select(!!myvars_vector)
 end
 
 # ## Filter rows containing the *value* of `myvar_string` (because `myvar_string` does)
@@ -41,7 +41,7 @@ end
 @eval(Main, myvar_string = "b")
 
 @chain df begin
-    @filter(a == !!myvar_string)
+  @filter(a == !!myvar_string)
 end
 
 # ## Filtering rows works similarly using `in`.
@@ -51,7 +51,7 @@ end
 @eval(Main, myvar_string = "b")
 
 @chain df begin
-    @filter(a in [!!myvar_string])
+  @filter(a in [!!myvar_string])
 end
 
 # ## You can also use this for a tuple or vector of strings.
@@ -59,7 +59,7 @@ end
 @eval(Main, myvars_string = ("a", "b"))
 
 @chain df begin
-    @filter(a in !!myvars_string)
+  @filter(a in !!myvars_string)
 end
 
 # ## Mutate one variable
@@ -67,7 +67,7 @@ end
 @eval(Main, myvar = :b)
 
 @chain df begin
-    @mutate(!!myvar = !!myvar + 1)
+  @mutate(!!myvar = !!myvar + 1)
 end
 
 # ## Summarize across one variable
@@ -75,7 +75,7 @@ end
 @eval(Main, myvar = :b)
 
 @chain df begin
-    @summarize(across(!!myvar, mean))
+  @summarize(across(!!myvar, mean))
 end
 
 # ## Summarize across multiple variables
@@ -83,7 +83,7 @@ end
 @eval(Main, myvars_tuple = (:b, :c))
 
 @chain df begin
-    @summarize(across(!!myvars_tuple, (mean, minimum, maximum)))
+  @summarize(across(!!myvars_tuple, (mean, minimum, maximum)))
 end
 
 # ## Group by multiple interpolated variables
@@ -91,8 +91,8 @@ end
 @eval(Main, myvars_tuple = (:a, :b))
 
 @chain df begin
-    @group_by(!!myvars_tuple)
-    @summarize(c = mean(c))
+  @group_by(!!myvars_tuple)
+  @summarize(c = mean(c))
 end
 
 # ## Global constants
@@ -104,7 +104,7 @@ df = DataFrame(; radius=1:5)
 # We can interpolate `pi` (from the `Main` module) to help with this.
 
 @chain df begin
-    @mutate(area = !!pi * radius^2)
+  @mutate(area = !!pi * radius^2)
 end
 
 # ## Alternative interpolation syntax
@@ -112,7 +112,7 @@ end
 # While interpolation using `!!` is concise and handy, it's not required. You can also access user-defined globals and global constant variables using the following syntax:
 
 @chain df begin
-    @mutate(area = Main.pi * radius^2)
+  @mutate(area = Main.pi * radius^2)
 end
 
 # The key lesson with interpolation is that any bare unquoted variable is assumed to refer to a column name in the DataFrame. If you are referring to any variable outside of the DataFrame, you need to either use `!!variable` or `Main.variable` syntax to refer to this variable.

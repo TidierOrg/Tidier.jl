@@ -9,7 +9,7 @@ df = DataFrame(; a=1:10, b=repeat('a':'e'; inner=2))
 # Since there are no duplicate rows, this will return all rows.
 
 @chain df begin
-    @distinct()
+  @distinct()
 end
 
 # ## Select distinct values based on column `b`
@@ -17,7 +17,7 @@ end
 # Notice that the first matching row for column `a` is returned for every distinct value of column `b`. This is slightly different behavior than R's tidyverse, which would have returned only column `b`.
 
 @chain df begin
-    @distinct(b)
+  @distinct(b)
 end
 
 # In Tidier.jl, `@distinct()` works with grouped data frames. If grouped, `@distinct()` will ignore the grouping when determining distinct values but will return the data frame in grouped form based on the original groupings.
