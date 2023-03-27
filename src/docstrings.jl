@@ -1479,8 +1479,6 @@ julia> @chain df1 begin
 ```         
 """
 
-##
-
 const docstring_clean_names =
 """
     @clean_names(df, [case])
@@ -1530,4 +1528,246 @@ julia> @chain df begin
    4 │              4
    5 │              5
 ```         
+"""
+
+const docstring_ntile =
+"""
+    ntile(x, n::Integer)
+
+Break the input vector into `n` equal-sized buckets.
+
+`ntile()`` is a sort of very rough rank, which breaks the input vector into n buckets. If `length(x)` is not an integer multiple of `n`, the size of the buckets will differ by up to one, with larger buckets coming first.
+
+Unlike other ranking functions, `ntile()` ignores ties: it will create evenly sized buckets even if the same value of `x` ends up in different buckets.
+
+# Arguments
+- `x`: A vector to rank. By default, the smallest values will get the smallest ranks. Missing values will be given rank `missing`.
+- `n`: Number of groups to bucket into. 
+
+# Examples
+```jldoctest 
+julia> x = [5,1,3,2,2, missing]
+6-element Vector{Union{Missing, Int64}}:
+ 5
+ 1
+ 3
+ 2
+ 2
+  missing
+
+julia> ntile(x, 2)
+6-element Vector{Union{Missing, Int64}}:
+ 2
+ 1
+ 2
+ 1
+ 1
+  missing
+
+julia> ntile(x, 4)
+6-element Vector{Union{Missing, Int64}}:
+ 4
+ 1
+ 3
+ 1
+ 2
+  missing
+
+julia> ntile(1:8, 3)
+8-element Vector{Int64}:
+ 1
+ 1
+ 1
+ 2
+ 2
+ 2
+ 3
+ 3
+
+julia> df = DataFrame(a = 1:8);
+
+julia> @chain df begin
+       @mutate(buckets = ntile(a, 3))
+       end
+11×3 DataFrame
+ Row │ a      b       buckets 
+     │ Int64  String  Int64   
+─────┼────────────────────────
+   1 │     1  a             1
+   2 │     1  a             1
+   3 │     2  a             1
+   4 │     2  a             1
+   5 │     3  b             2
+   6 │     3  b             2
+   7 │     4  b             2
+   8 │     4  c             2
+   9 │     5  c             3
+  10 │     5  c             3
+  11 │     6  d             3
+
+```         
+"""
+
+const docstring_count =
+"""
+    @count(df, exprs..., [wt], [sort])
+
+Count the unique values of one or more variables, with an optional weighting.
+
+`@chain df @count(a, b)` is roughly equivalent to `@chain df @group_by(a, b) @summarize(n = n())`. Supply `wt`` to perform weighted counts, switching the summary from `n = n()` to `n = sum(wt)`. Note that if grouping columns are provided, the result will be an ungrouped data frame, which is slightly different behavior than R's `tidyverse`.
+
+# Arguments
+- `df`: A DataFrame or GroupedDataFrame.
+- `exprs...`: Column names, separated by commas.
+- `wt`: Optional parameter. Used to calcualate a sum over the provided `wt` variable instead of counting the rows.
+- `sort`: Defaults to `false`. Whether the result should be sorted from highest to lowest `n`.
+
+# Examples
+```jldoctest 
+julia> df = DataFrame(a = vcat(repeat(["a"], inner = 3),
+                           repeat(["b"], inner = 3),
+                           repeat(["c"], inner = 1),
+                           missing),
+                      b = 1:8)
+8×2 DataFrame
+ Row │ a        b     
+     │ String?  Int64 
+─────┼────────────────
+   1 │ a            1
+   2 │ a            2
+   3 │ a            3
+   4 │ b            4
+   5 │ b            5
+   6 │ b            6
+   7 │ c            7
+   8 │ missing      8
+
+julia> @chain df begin
+       @count()
+       end
+1×1 DataFrame
+ Row │ n     
+     │ Int64 
+─────┼───────
+   1 │     8
+
+julia> @chain df begin
+       @count(a)
+       end
+4×2 DataFrame
+ Row │ a        n     
+     │ String?  Int64 
+─────┼────────────────
+   1 │ a            3
+   2 │ b            3
+   3 │ c            1
+   4 │ missing      1
+
+julia> @chain df begin
+       @count(a, wt = b)
+       end
+4×2 DataFrame
+ Row │ a        n     
+     │ String?  Int64 
+─────┼────────────────
+   1 │ a            6
+   2 │ b           15
+   3 │ c            7
+   4 │ missing      8
+
+julia> @chain df begin
+       @count(a, wt = b, sort = true)
+       end
+4×2 DataFrame
+ Row │ a        n     
+     │ String?  Int64 
+─────┼────────────────
+   1 │ b           15
+   2 │ missing      8
+   3 │ c            7
+   4 │ a            6       
+```
+"""
+
+const docstring_tally =
+"""
+    @tally(df, [wt], [sort])
+
+Tally the unique values of one or more variables, with an optional weighting.
+
+`@tally()` is a low-level helper macro for `@count()` that assumes that any grouping has already been performed. `@chain @tally()` is roughly equivalent to `@chain df @summarize(n = n())`. Supply `wt` to perform weighted counts, switching the summary from `n = n()` to `n = sum(wt)`.
+
+# Arguments
+- `df`: A DataFrame or GroupedDataFrame.
+- `wt`: Optional parameter. Used to calcualate a sum over the provided `wt` variable instead of counting the rows.
+- `sort`: Defaults to `false`. Whether the result should be sorted from highest to lowest `n`.
+
+# Examples
+```jldoctest 
+julia> df = DataFrame(a = vcat(repeat(["a"], inner = 3),
+                           repeat(["b"], inner = 3),
+                           repeat(["c"], inner = 1),
+                           missing),
+                      b = 1:8)
+8×2 DataFrame
+ Row │ a        b     
+     │ String?  Int64 
+─────┼────────────────
+   1 │ a            1
+   2 │ a            2
+   3 │ a            3
+   4 │ b            4
+   5 │ b            5
+   6 │ b            6
+   7 │ c            7
+   8 │ missing      8
+
+julia> @chain df begin
+       tally()
+       end
+1×1 DataFrame
+ Row │ n     
+     │ Int64 
+─────┼───────
+   1 │     8
+
+julia> @chain df begin
+       @group_by(a)
+       @tally()
+       end
+4×2 DataFrame
+ Row │ a        n     
+     │ String?  Int64 
+─────┼────────────────
+   1 │ a            3
+   2 │ b            3
+   3 │ c            1
+   4 │ missing      1
+
+julia> @chain df begin
+       @group_by(a)
+       @tally(wt = b)
+       end
+4×2 DataFrame
+ Row │ a        n     
+     │ String?  Int64 
+─────┼────────────────
+   1 │ a            6
+   2 │ b           15
+   3 │ c            7
+   4 │ missing      8
+
+julia> @chain df begin
+       @group_by(a)
+       @tally(wt = b, sort = true)
+       end
+4×2 DataFrame
+ Row │ a        n     
+     │ String?  Int64 
+─────┼────────────────
+   1 │ b           15
+   2 │ missing      8
+   3 │ c            7
+   4 │ a            6       
+```
 """

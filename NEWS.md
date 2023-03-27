@@ -1,10 +1,12 @@
 # Tidier.jl updates
 
-## Dev
+## v0.7.0 - 2023-03-27
 
+- Added `@count()` and `@tally()`
 - Added `@bind_rows()` and `@bind_cols()`
 - Added `@clean_names()` to mimic R's `janitor::clean_names()` by wrapping the Cleaner.jl package
 - Added support for backticks to select columns containing spaces.
+- Added support for `ntile()`, which is on the do-not-vectorize list because it takes in a vector and returns a vector.
 - Bug fix: removed selection helpers (`startswith`, `contains`, and `endswith` from the do-not-vectorize list).
 
 ## v0.6.0 - 2023-03-18

@@ -46,18 +46,19 @@ meta-packages in Julia:
 
 For the stable version:
 
-```julia
-using Pkg
-Pkg.add("Tidier")
-```
-
-or
-
 ```
 ] add Tidier
 ```
 
 The `]` character starts the Julia [package manager](https://docs.julialang.org/en/v1/stdlib/Pkg/). Press the backspace key to return to the Julia prompt.
+
+or
+
+
+```julia
+using Pkg
+Pkg.add("Tidier")
+```
 
 For the newest version:
 
@@ -78,26 +79,17 @@ To support R-style programming, Tidier.jl is implemented using macros.
 
 Tidier.jl currently supports the following top-level macros:
 
-- `@select()`
-- `@transmute()`
-- `@rename()`
-- `@mutate()`
+- `@select()`, `@rename()`, and `@distinct()`
+- `@mutate()` and `@transmute()` 
 - `@summarize()` and `@summarise()`
-- `@filter()`
-- `@group_by()`
-- `@ungroup()`
-- `@slice()`
+- `@filter()` and `@slice()`
+- `@group_by()` and `@ungroup()`
 - `@arrange()`
-- `@distinct()`
 - `@pull()`
-- `@left_join()`
-- `@right_join()`
-- `@inner_join()`
-- `@full_join()`
-- `@bind_rows()`
-- `@bind_cols()`
-- `@pivot_wider()`
-- `@pivot_longer()`
+- `@count()` and `@tally()`
+- `@left_join()`, `@right_join()`, `@inner_join()`, and `@full_join()`
+- `@bind_rows()` and `@bind_cols()`
+- `@pivot_wider()` and `@pivot_longer()`
 - `@clean_names()` (as in R's `janitor::clean_names()` function)
 
 Tidier.jl also supports the following helper functions:
@@ -108,6 +100,7 @@ Tidier.jl also supports the following helper functions:
 - `case_when()`
 - `n()`
 - `row_number()`
+- `ntile()`
 - `starts_with()`
 - `ends_with()`
 - `matches()`
