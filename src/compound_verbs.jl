@@ -2,6 +2,9 @@
 # This includes verbs like `@count()` and `@tally`. For compound verbs, any relevant parsing
 # functions should be bundled after the macro instead of being placed in parsing.jl.
 
+"""
+$docstring_tally
+"""
 macro tally(df, exprs...)
   wt, sort = parse_tally_args(exprs...)
 
@@ -44,7 +47,9 @@ function parse_tally_args(tidy_exprs::Union{Expr,Symbol}...)
   return wt, sort 
 end
 
-
+"""
+$docstring_count
+"""
 macro count(df, exprs...)
   col_names, wt, sort = parse_count_args(exprs...)
 

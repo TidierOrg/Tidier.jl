@@ -108,15 +108,10 @@ Tidier.jl also supports the following helper functions:
 !!! example "Helper functions:"
     - `across()`
     - `desc()`
-    - `if_else()`
-    - `case_when()`
-    - `n()`
-    - `row_number()`
+    - `if_else()` and `case_when()`
+    - `n()` and `row_number()`
     - `ntile()`
-    - `starts_with()`
-    - `ends_with()`
-    - `matches()`
-    - `contains()`
+    - `starts_with()`, `ends_with()`, `matches()`, and `contains()`
 ```
 
 See the [Reference](https://kdpsingh.github.io/Tidier.jl/dev/reference/) page for a detailed guide to each of the macros and functions.
