@@ -13,10 +13,10 @@ using Reexport
 @reexport using Chain
 @reexport using Statistics
 
-export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, 
+export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, ntile, 
       @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, 
       @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer, 
-      @bind_rows, @bind_cols, @clean_names
+      @bind_rows, @bind_cols, @clean_names, @count, @tally
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -28,9 +28,12 @@ include("parsing.jl")
 include("joins.jl")
 include("binding.jl")
 include("pivots.jl")
+include("compound_verbs.jl")
 include("clean_names.jl")
 include("conditionals.jl")
 include("pseudofunctions.jl")
+include("helperfunctions.jl")
+include("ntile.jl")
 
 # Function to set global variables
 """
@@ -45,12 +48,6 @@ function Tidier_set(option::AbstractString, value::Bool)
     throw("That is not a valid option.")
   end
 end
-
-# Need to expand with docs
-# These are just aliases
-starts_with(args...) = startswith(args...)
-ends_with(args...) = endswith(args...)
-matches(pattern, flags...) = Regex(pattern, flags...)
 
 """
 $docstring_select
