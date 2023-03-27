@@ -760,13 +760,13 @@ through modification of the abstract syntax tree).</p>
 <p><a id="Installation-1"></a></p>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">¤</a></h2>
 <p>For the stable version:</p>
-<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
-<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">"Tidier"</span><span class="p">)</span>
-</code></pre></div>
-<p>or</p>
 <div class="highlight"><pre><span></span><code>] add Tidier
 </code></pre></div>
 <p>The <code>]</code> character starts the Julia <a href="https://docs.julialang.org/en/v1/stdlib/Pkg/">package manager</a>. Press the backspace key to return to the Julia prompt.</p>
+<p>or</p>
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">"Tidier"</span><span class="p">)</span>
+</code></pre></div>
 <p>For the newest version:</p>
 <div class="highlight"><pre><span></span><code>] add Tidier#main
 </code></pre></div>
@@ -782,26 +782,17 @@ through modification of the abstract syntax tree).</p>
 <div class="admonition example">
 <p class="admonition-title">Top-level macros:</p>
 <ul>
-<li><code>@select()</code></li>
-<li><code>@transmute()</code></li>
-<li><code>@rename()</code></li>
-<li><code>@mutate()</code></li>
+<li><code>@select()</code>, <code>@rename()</code>, and <code>@distinct()</code></li>
+<li><code>@mutate()</code> and <code>@transmute()</code> </li>
 <li><code>@summarize()</code> and <code>@summarise()</code></li>
-<li><code>@filter()</code></li>
-<li><code>@group_by()</code></li>
-<li><code>@ungroup()</code></li>
-<li><code>@slice()</code></li>
+<li><code>@filter()</code> and <code>@slice()</code></li>
+<li><code>@group_by()</code> and <code>@ungroup()</code></li>
 <li><code>@arrange()</code></li>
-<li><code>@distinct()</code></li>
 <li><code>@pull()</code></li>
-<li><code>@left_join()</code></li>
-<li><code>@right_join()</code></li>
-<li><code>@inner_join()</code></li>
-<li><code>@full_join()</code></li>
-<li><code>@bind_rows()</code></li>
-<li><code>@bind_cols()</code></li>
-<li><code>@pivot_wider()</code></li>
-<li><code>@pivot_longer()</code></li>
+<li><code>@count()</code> and <code>@tally()</code></li>
+<li><code>@left_join()</code>, <code>@right_join()</code>, <code>@inner_join()</code>, and <code>@full_join()</code></li>
+<li><code>@bind_rows()</code> and <code>@bind_cols()</code></li>
+<li><code>@pivot_wider()</code> and <code>@pivot_longer()</code></li>
 <li><code>@clean_names()</code> (as in R's <code>janitor::clean_names()</code> function)</li>
 </ul>
 </div>
@@ -815,6 +806,7 @@ through modification of the abstract syntax tree).</p>
 <li><code>case_when()</code></li>
 <li><code>n()</code></li>
 <li><code>row_number()</code></li>
+<li><code>ntile()</code></li>
 <li><code>starts_with()</code></li>
 <li><code>ends_with()</code></li>
 <li><code>matches()</code></li>
