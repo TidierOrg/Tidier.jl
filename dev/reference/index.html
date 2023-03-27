@@ -682,10 +682,12 @@
 <li><a href="./#Tidier.desc-Tuple"><code>Tidier.desc</code></a></li>
 <li><a href="./#Tidier.if_else-Tuple%7BUnion%7BMissing,%20Bool%7D,%20Any,%20Any,%20Any%7D"><code>Tidier.if_else</code></a></li>
 <li><a href="./#Tidier.n-Tuple%7B%7D"><code>Tidier.n</code></a></li>
+<li><a href="./#Tidier.ntile-Tuple%7BAny,%20Integer%7D"><code>Tidier.ntile</code></a></li>
 <li><a href="./#Tidier.row_number-Tuple%7B%7D"><code>Tidier.row_number</code></a></li>
 <li><a href="./#Tidier.@arrange-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@arrange</code></a></li>
 <li><a href="./#Tidier.@bind_cols-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@bind_cols</code></a></li>
 <li><a href="./#Tidier.@bind_rows-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@bind_rows</code></a></li>
+<li><a href="./#Tidier.@count-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@count</code></a></li>
 <li><a href="./#Tidier.@distinct-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@distinct</code></a></li>
 <li><a href="./#Tidier.@filter-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@filter</code></a></li>
 <li><a href="./#Tidier.@full_join-Tuple%7BAny,%20Any,%20Any%7D"><code>Tidier.@full_join</code></a></li>
@@ -702,6 +704,7 @@
 <li><a href="./#Tidier.@slice-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@slice</code></a></li>
 <li><a href="./#Tidier.@summarise-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@summarise</code></a></li>
 <li><a href="./#Tidier.@summarize-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@summarize</code></a></li>
+<li><a href="./#Tidier.@tally-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@tally</code></a></li>
 <li><a href="./#Tidier.@transmute-Tuple%7BAny,%20Vararg%7BAny%7D%7D"><code>Tidier.@transmute</code></a></li>
 <li><a href="./#Tidier.@ungroup-Tuple%7BAny%7D"><code>Tidier.@ungroup</code></a></li>
 </ul>
@@ -722,7 +725,7 @@
 <li><code>option</code>: "code"</li>
 <li><code>value</code>: <code>true</code> or <code>false</code></li>
 </ul>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L39-L51" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L39-L51" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.across-Tuple" href="#Tidier.across-Tuple">#</a>
 <strong><code>Tidier.across</code></strong> — <em>Method</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">across</span><span class="p">(</span><span class="n">variable</span><span class="p">[</span><span class="n">s</span><span class="p">],</span><span class="w"> </span><span class="k">function</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
@@ -781,7 +784,7 @@
 <span class="go">   4 │ d         4     14          1         11          5         15</span>
 <span class="go">   5 │ e         5     15          1         11          5         15</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/pseudofunctions.jl#L1-L61" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/pseudofunctions.jl#L1-L61" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.case_when-Tuple" href="#Tidier.case_when-Tuple">#</a>
 <strong><code>Tidier.case_when</code></strong> — <em>Method</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">case_when</span><span class="p">(</span><span class="n">condition</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">return_value</span><span class="p">)</span>
@@ -857,7 +860,7 @@
 <span class="go">   4 │       4      3</span>
 <span class="go">   5 │       5      3</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/conditionals.jl#L28-L104" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/conditionals.jl#L28-L104" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.desc-Tuple" href="#Tidier.desc-Tuple">#</a>
 <strong><code>Tidier.desc</code></strong> — <em>Method</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">desc</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
@@ -888,7 +891,7 @@
 <span class="go">   9 │ e        10     20</span>
 <span class="go">  10 │ e         9     19</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/pseudofunctions.jl#L8-L38" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/pseudofunctions.jl#L8-L38" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.if_else-Tuple{Union{Missing, Bool}, Any, Any, Any}" href="#Tidier.if_else-Tuple%7BUnion%7BMissing,%20Bool%7D,%20Any,%20Any,%20Any%7D">#</a>
 <strong><code>Tidier.if_else</code></strong> — <em>Method</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">if_else</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="n">yes</span><span class="p">,</span><span class="w"> </span><span class="n">no</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">miss</span><span class="p">])</span>
@@ -956,7 +959,7 @@
 <span class="go">   4 │       4      3</span>
 <span class="go">   5 │       5      3</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/conditionals.jl#L1-L68" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/conditionals.jl#L1-L68" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.n-Tuple{}" href="#Tidier.n-Tuple%7B%7D">#</a>
 <strong><code>Tidier.n</code></strong> — <em>Method</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">n</span><span class="p">()</span>
@@ -992,7 +995,77 @@
 <span class="go">   4 │ d         2</span>
 <span class="go">   5 │ e         2</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/pseudofunctions.jl#L15-L50" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/pseudofunctions.jl#L15-L50" class="documenter-source">source</a><br></p>
+<p><a id="Tidier.ntile-Tuple{Any, Integer}" href="#Tidier.ntile-Tuple%7BAny,%20Integer%7D">#</a>
+<strong><code>Tidier.ntile</code></strong> — <em>Method</em>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ntile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">::</span><span class="kt">Integer</span><span class="p">)</span>
+</code></pre></div>
+<p>Break the input vector into <code>n</code> equal-sized buckets.</p>
+<p><code>ntile()``is a sort of very rough rank, which breaks the input vector into n buckets. If</code>length(x)<code>is not an integer multiple of</code>n`, the size of the buckets will differ by up to one, with larger buckets coming first.</p>
+<p>Unlike other ranking functions, <code>ntile()</code> ignores ties: it will create evenly sized buckets even if the same value of <code>x</code> ends up in different buckets.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>x</code>: A vector to rank. By default, the smallest values will get the smallest ranks. Missing values will be given rank <code>missing</code>.</li>
+<li><code>n</code>: Number of groups to bucket into.</li>
+</ul>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nb">missing</span><span class="p">]</span>
+<span class="go">6-element Vector{Union{Missing, Int64}}:</span>
+<span class="go"> 5</span>
+<span class="go"> 1</span>
+<span class="go"> 3</span>
+<span class="go"> 2</span>
+<span class="go"> 2</span>
+<span class="go">  missing</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="n">ntile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="go">6-element Vector{Union{Missing, Int64}}:</span>
+<span class="go"> 2</span>
+<span class="go"> 1</span>
+<span class="go"> 2</span>
+<span class="go"> 1</span>
+<span class="go"> 1</span>
+<span class="go">  missing</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="n">ntile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+<span class="go">6-element Vector{Union{Missing, Int64}}:</span>
+<span class="go"> 4</span>
+<span class="go"> 1</span>
+<span class="go"> 3</span>
+<span class="go"> 1</span>
+<span class="go"> 2</span>
+<span class="go">  missing</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="n">ntile</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="go">8-element Vector{Int64}:</span>
+<span class="go"> 1</span>
+<span class="go"> 1</span>
+<span class="go"> 1</span>
+<span class="go"> 2</span>
+<span class="go"> 2</span>
+<span class="go"> 2</span>
+<span class="go"> 3</span>
+<span class="go"> 3</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">8</span><span class="p">);</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">       </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">buckets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ntile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span>
+<span class="w">       </span><span class="k">end</span>
+<span class="go">8×2 DataFrame</span>
+<span class="go"> Row │ a      buckets </span>
+<span class="go">     │ Int64  Int64   </span>
+<span class="go">─────┼────────────────</span>
+<span class="go">   1 │     1        1</span>
+<span class="go">   2 │     2        1</span>
+<span class="go">   3 │     3        1</span>
+<span class="go">   4 │     4        2</span>
+<span class="go">   5 │     5        2</span>
+<span class="go">   6 │     6        2</span>
+<span class="go">   7 │     7        3</span>
+<span class="go">   8 │     8        3</span>
+</code></pre></div>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/ntile.jl#L10-L81" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.row_number-Tuple{}" href="#Tidier.row_number-Tuple%7B%7D">#</a>
 <strong><code>Tidier.row_number</code></strong> — <em>Method</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">row_number</span><span class="p">()</span>
@@ -1054,7 +1127,7 @@
 <span class="go">   4 │ b</span>
 <span class="go">   5 │ c</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/pseudofunctions.jl#L22-L83" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/pseudofunctions.jl#L22-L83" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@arrange-Tuple{Any, Vararg{Any}}" href="#Tidier.@arrange-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@arrange</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@arrange</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1104,7 +1177,7 @@
 <span class="go">   9 │ e        10     20</span>
 <span class="go">  10 │ e         9     19</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L514-L563" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L514-L563" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@bind_cols-Tuple{Any, Vararg{Any}}" href="#Tidier.@bind_cols-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@bind_cols</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@bind_cols</span><span class="p">(</span><span class="n">dfs</span><span class="o">...</span><span class="p">)</span>
@@ -1132,7 +1205,7 @@
 <span class="go">   2 │     2      2      5      5      8      8</span>
 <span class="go">   3 │     3      3      6      6      9      9</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/binding.jl#L22-L49" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/binding.jl#L22-L49" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@bind_rows-Tuple{Any, Vararg{Any}}" href="#Tidier.@bind_rows-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@bind_rows</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@bind_rows</span><span class="p">(</span><span class="n">dfs</span><span class="o">...</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
@@ -1200,7 +1273,85 @@
 <span class="go">   8 │     8  missing        8      3</span>
 <span class="go">   9 │     9  missing        9      3</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/binding.jl#L1-L71" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/binding.jl#L1-L71" class="documenter-source">source</a><br></p>
+<p><a id="Tidier.@count-Tuple{Any, Vararg{Any}}" href="#Tidier.@count-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
+<strong><code>Tidier.@count</code></strong> — <em>Macro</em>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@count</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">wt</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">sort</span><span class="p">])</span>
+</code></pre></div>
+<p>Count the unique values of one or more variables, with an optional weighting.</p>
+<p><code>@chain df @count(a, b)</code> is roughly equivalent to <code>@chain df @group_by(a, b) @summarize(n = n())</code>. Supply <code>wt``to perform weighted counts, switching the summary from</code>n = n()<code>to</code>n = sum(wt)<code>. Note that if grouping columns are provided, the result will be an ungrouped data frame, which is slightly different behavior than R's</code>tidyverse`.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>df</code>: A DataFrame or GroupedDataFrame.</li>
+<li><code>exprs...</code>: Column names, separated by commas.</li>
+<li><code>wt</code>: Optional parameter. Used to calcualate a sum over the provided <code>wt</code> variable instead of counting the rows.</li>
+<li><code>sort</code>: Defaults to <code>false</code>. Whether the result should be sorted from highest to lowest <code>n</code>.</li>
+</ul>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vcat</span><span class="p">(</span><span class="n">repeat</span><span class="p">([</span><span class="s">"a"</span><span class="p">],</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">repeat</span><span class="p">([</span><span class="s">"b"</span><span class="p">],</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">repeat</span><span class="p">([</span><span class="s">"c"</span><span class="p">],</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+<span class="w">                           </span><span class="nb">missing</span><span class="p">),</span>
+<span class="w">                      </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">8×2 DataFrame</span>
+<span class="go"> Row │ a        b     </span>
+<span class="go">     │ String?  Int64 </span>
+<span class="go">─────┼────────────────</span>
+<span class="go">   1 │ a            1</span>
+<span class="go">   2 │ a            2</span>
+<span class="go">   3 │ a            3</span>
+<span class="go">   4 │ b            4</span>
+<span class="go">   5 │ b            5</span>
+<span class="go">   6 │ b            6</span>
+<span class="go">   7 │ c            7</span>
+<span class="go">   8 │ missing      8</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">       </span><span class="nd">@count</span><span class="p">()</span>
+<span class="w">       </span><span class="k">end</span>
+<span class="go">1×1 DataFrame</span>
+<span class="go"> Row │ n     </span>
+<span class="go">     │ Int64 </span>
+<span class="go">─────┼───────</span>
+<span class="go">   1 │     8</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">       </span><span class="nd">@count</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="w">       </span><span class="k">end</span>
+<span class="go">4×2 DataFrame</span>
+<span class="go"> Row │ a        n     </span>
+<span class="go">     │ String?  Int64 </span>
+<span class="go">─────┼────────────────</span>
+<span class="go">   1 │ a            3</span>
+<span class="go">   2 │ b            3</span>
+<span class="go">   3 │ c            1</span>
+<span class="go">   4 │ missing      1</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">       </span><span class="nd">@count</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="w">       </span><span class="k">end</span>
+<span class="go">4×2 DataFrame</span>
+<span class="go"> Row │ a        n     </span>
+<span class="go">     │ String?  Int64 </span>
+<span class="go">─────┼────────────────</span>
+<span class="go">   1 │ a            6</span>
+<span class="go">   2 │ b           15</span>
+<span class="go">   3 │ c            7</span>
+<span class="go">   4 │ missing      8</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">       </span><span class="nd">@count</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span>
+<span class="w">       </span><span class="k">end</span>
+<span class="go">4×2 DataFrame</span>
+<span class="go"> Row │ a        n     </span>
+<span class="go">     │ String?  Int64 </span>
+<span class="go">─────┼────────────────</span>
+<span class="go">   1 │ b           15</span>
+<span class="go">   2 │ missing      8</span>
+<span class="go">   3 │ c            7</span>
+<span class="go">   4 │ a            6       </span>
+</code></pre></div>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/compound_verbs.jl#L50-L128" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@distinct-Tuple{Any, Vararg{Any}}" href="#Tidier.@distinct-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@distinct</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">distinct</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1246,7 +1397,7 @@
 <span class="go">   4 │ d         7     17</span>
 <span class="go">   5 │ e         9     19</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L538-L586" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L538-L586" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@filter-Tuple{Any, Vararg{Any}}" href="#Tidier.@filter-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@filter</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@filter</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1281,7 +1432,7 @@
 <span class="go">   1 │ a         1     11</span>
 <span class="go">   2 │ c         3     13</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L362-L396" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L362-L396" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@full_join-Tuple{Any, Any, Any}" href="#Tidier.@full_join-Tuple%7BAny,%20Any,%20Any%7D">#</a>
 <strong><code>Tidier.@full_join</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@full_join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span><span class="w"> </span><span class="n">df2</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">by</span><span class="p">])</span>
@@ -1343,7 +1494,7 @@
 <span class="go">   2 │ b             2  missing </span>
 <span class="go">   3 │ c       missing        4</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/joins.jl#L82-L143" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/joins.jl#L82-L143" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@group_by-Tuple{Any, Vararg{Any}}" href="#Tidier.@group_by-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@group_by</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@group_by</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1385,7 +1536,7 @@
 <span class="go">   4 │ D         4.0</span>
 <span class="go">   5 │ E         5.0</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L420-L462" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L420-L462" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@inner_join-Tuple{Any, Any, Any}" href="#Tidier.@inner_join-Tuple%7BAny,%20Any,%20Any%7D">#</a>
 <strong><code>Tidier.@inner_join</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@inner_join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span><span class="w"> </span><span class="n">df2</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">by</span><span class="p">])</span>
@@ -1437,7 +1588,7 @@
 <span class="go">─────┼──────────────────────</span>
 <span class="go">   1 │ a           1      3</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/joins.jl#L55-L106" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/joins.jl#L55-L106" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@left_join-Tuple{Any, Any, Any}" href="#Tidier.@left_join-Tuple%7BAny,%20Any,%20Any%7D">#</a>
 <strong><code>Tidier.@left_join</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@left_join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span><span class="w"> </span><span class="n">df2</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">by</span><span class="p">])</span>
@@ -1494,7 +1645,7 @@
 <span class="go">   1 │ a           1        3</span>
 <span class="go">   2 │ b           2  missing</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/joins.jl#L1-L57" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/joins.jl#L1-L57" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@mutate-Tuple{Any, Vararg{Any}}" href="#Tidier.@mutate-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@mutate</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@mutate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1565,7 +1716,7 @@
 <span class="go">─────┼──────────────────</span>
 <span class="go">   1 │     3.0     13.0</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L226-L298" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L226-L298" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@pivot_longer-Tuple{Any, Vararg{Any}}" href="#Tidier.@pivot_longer-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@pivot_longer</code></strong> — <em>Macro</em>.</p>
 <p>@pivot<em>longer(df, cols, [names</em>to], [values_to])</p>
@@ -1630,7 +1781,7 @@
 <span class="go">   3 │     1  B           2</span>
 <span class="go">   4 │     2  B           4</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/pivots.jl#L38-L104" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/pivots.jl#L38-L104" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@pivot_wider-Tuple{Any, Vararg{Any}}" href="#Tidier.@pivot_wider-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@pivot_wider</code></strong> — <em>Macro</em>.</p>
 <p>@pivot<em>wider(df, names</em>from, values_from)</p>
@@ -1674,7 +1825,7 @@
 <span class="go">   1 │     1      1      2</span>
 <span class="go">   2 │     2      0      4</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/pivots.jl#L1-L45" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/pivots.jl#L1-L45" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@pull-Tuple{Any, Any}" href="#Tidier.@pull-Tuple%7BAny,%20Any%7D">#</a>
 <strong><code>Tidier.@pull</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@pull</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">)</span>
@@ -1708,7 +1859,7 @@
 <span class="go"> 4</span>
 <span class="go"> 5</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L599-L632" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L599-L632" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@rename-Tuple{Any, Vararg{Any}}" href="#Tidier.@rename-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@rename</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@rename</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1735,7 +1886,7 @@
 <span class="go">   4 │ d         4     14</span>
 <span class="go">   5 │ e         5     15</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L168-L195" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L168-L195" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@right_join-Tuple{Any, Any, Any}" href="#Tidier.@right_join-Tuple%7BAny,%20Any,%20Any%7D">#</a>
 <strong><code>Tidier.@right_join</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@right_join</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span><span class="w"> </span><span class="n">df2</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">by</span><span class="p">])</span>
@@ -1792,7 +1943,7 @@
 <span class="go">   1 │ a             1      3</span>
 <span class="go">   2 │ c       missing      4</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/joins.jl#L28-L84" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/joins.jl#L28-L84" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@select-Tuple{Any, Vararg{Any}}" href="#Tidier.@select-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@select</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@select</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -1949,7 +2100,7 @@
 <span class="go">   4 │     4     14</span>
 <span class="go">   5 │     5     15</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L52-L210" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L52-L210" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@slice-Tuple{Any, Vararg{Any}}" href="#Tidier.@slice-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@slice</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@slice</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -2002,7 +2153,7 @@
 <span class="go">   4 │ d         4     14</span>
 <span class="go">   5 │ e         5     15</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L467-L519" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L467-L519" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@summarise-Tuple{Any, Vararg{Any}}" href="#Tidier.@summarise-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@summarise</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@summarize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -2044,7 +2195,7 @@
 <span class="go">─────┼────────────────────────────────────────────</span>
 <span class="go">   1 │         1         11          5         15</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L355-L396" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L355-L396" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@summarize-Tuple{Any, Vararg{Any}}" href="#Tidier.@summarize-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@summarize</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@summarize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -2086,7 +2237,87 @@
 <span class="go">─────┼────────────────────────────────────────────</span>
 <span class="go">   1 │         1         11          5         15</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L284-L325" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L284-L325" class="documenter-source">source</a><br></p>
+<p><a id="Tidier.@tally-Tuple{Any, Vararg{Any}}" href="#Tidier.@tally-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
+<strong><code>Tidier.@tally</code></strong> — <em>Macro</em>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@tally</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">wt</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">sort</span><span class="p">])</span>
+</code></pre></div>
+<p>Tally the unique values of one or more variables, with an optional weighting.</p>
+<p><code>@tally()</code> is a low-level helper macro for <code>@count()</code> that assumes that any grouping has already been performed. <code>@chain @tally()</code> is roughly equivalent to <code>@chain df @summarize(n = n())</code>. Supply <code>wt</code> to perform weighted counts, switching the summary from <code>n = n()</code> to <code>n = sum(wt)</code>.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>df</code>: A DataFrame or GroupedDataFrame.</li>
+<li><code>wt</code>: Optional parameter. Used to calcualate a sum over the provided <code>wt</code> variable instead of counting the rows.</li>
+<li><code>sort</code>: Defaults to <code>false</code>. Whether the result should be sorted from highest to lowest <code>n</code>.</li>
+</ul>
+<p><strong>Examples</strong></p>
+<div class="highlight"><pre><span></span><code><span class="gp">julia&gt;</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataFrame</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vcat</span><span class="p">(</span><span class="n">repeat</span><span class="p">([</span><span class="s">"a"</span><span class="p">],</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">repeat</span><span class="p">([</span><span class="s">"b"</span><span class="p">],</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">repeat</span><span class="p">([</span><span class="s">"c"</span><span class="p">],</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+<span class="w">                           </span><span class="nb">missing</span><span class="p">),</span>
+<span class="w">                      </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">8×2 DataFrame</span>
+<span class="go"> Row │ a        b     </span>
+<span class="go">     │ String?  Int64 </span>
+<span class="go">─────┼────────────────</span>
+<span class="go">   1 │ a            1</span>
+<span class="go">   2 │ a            2</span>
+<span class="go">   3 │ a            3</span>
+<span class="go">   4 │ b            4</span>
+<span class="go">   5 │ b            5</span>
+<span class="go">   6 │ b            6</span>
+<span class="go">   7 │ c            7</span>
+<span class="go">   8 │ missing      8</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">       </span><span class="nd">@tally</span><span class="p">()</span>
+<span class="w">       </span><span class="k">end</span>
+<span class="go">1×1 DataFrame</span>
+<span class="go"> Row │ n     </span>
+<span class="go">     │ Int64 </span>
+<span class="go">─────┼───────</span>
+<span class="go">   1 │     8</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">       </span><span class="nd">@group_by</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="w">       </span><span class="nd">@tally</span><span class="p">()</span>
+<span class="w">       </span><span class="k">end</span>
+<span class="go">4×2 DataFrame</span>
+<span class="go"> Row │ a        n     </span>
+<span class="go">     │ String?  Int64 </span>
+<span class="go">─────┼────────────────</span>
+<span class="go">   1 │ a            3</span>
+<span class="go">   2 │ b            3</span>
+<span class="go">   3 │ c            1</span>
+<span class="go">   4 │ missing      1</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">       </span><span class="nd">@group_by</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="w">       </span><span class="nd">@tally</span><span class="p">(</span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="w">       </span><span class="k">end</span>
+<span class="go">4×2 DataFrame</span>
+<span class="go"> Row │ a        n     </span>
+<span class="go">     │ String?  Int64 </span>
+<span class="go">─────┼────────────────</span>
+<span class="go">   1 │ a            6</span>
+<span class="go">   2 │ b           15</span>
+<span class="go">   3 │ c            7</span>
+<span class="go">   4 │ missing      8</span>
+
+<span class="gp">julia&gt;</span><span class="w"> </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">       </span><span class="nd">@group_by</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="w">       </span><span class="nd">@tally</span><span class="p">(</span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span>
+<span class="w">       </span><span class="k">end</span>
+<span class="go">4×2 DataFrame</span>
+<span class="go"> Row │ a        n     </span>
+<span class="go">     │ String?  Int64 </span>
+<span class="go">─────┼────────────────</span>
+<span class="go">   1 │ b           15</span>
+<span class="go">   2 │ missing      8</span>
+<span class="go">   3 │ c            7</span>
+<span class="go">   4 │ a            6       </span>
+</code></pre></div>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/compound_verbs.jl#L5-L85" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@transmute-Tuple{Any, Vararg{Any}}" href="#Tidier.@transmute-Tuple%7BAny,%20Vararg%7BAny%7D%7D">#</a>
 <strong><code>Tidier.@transmute</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@transmute</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">exprs</span><span class="o">...</span><span class="p">)</span>
@@ -2113,7 +2344,7 @@
 <span class="go">   4 │    18</span>
 <span class="go">   5 │    20</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L110-L137" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L110-L137" class="documenter-source">source</a><br></p>
 <p><a id="Tidier.@ungroup-Tuple{Any}" href="#Tidier.@ungroup-Tuple%7BAny%7D">#</a>
 <strong><code>Tidier.@ungroup</code></strong> — <em>Macro</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ungroup</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -2157,7 +2388,7 @@
 <span class="go">   4 │ d         4     14</span>
 <span class="go">   5 │ e         5     15</span>
 </code></pre></div>
-<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/4b37356b133434366b34f8c652470b32309f3744/src/Tidier.jl#L460-L504" class="documenter-source">source</a><br></p>
+<p><a target="_blank" href="https://github.com/kdpsingh/Tidier.jl/blob/f0c39e9b4b8a893e465367722de380b98b6ab983/src/Tidier.jl#L460-L504" class="documenter-source">source</a><br></p>
 <p><a id="Reference-Internal-functions"></a></p>
 <p><a id="Reference-Internal-functions-1"></a></p>
 <h2 id="reference-internal-functions">Reference - Internal functions<a class="headerlink" href="#reference-internal-functions" title="Permanent link">¤</a></h2></div>
