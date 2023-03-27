@@ -1589,22 +1589,18 @@ julia> df = DataFrame(a = 1:8);
 julia> @chain df begin
        @mutate(buckets = ntile(a, 3))
        end
-11×3 DataFrame
- Row │ a      b       buckets 
-     │ Int64  String  Int64   
-─────┼────────────────────────
-   1 │     1  a             1
-   2 │     1  a             1
-   3 │     2  a             1
-   4 │     2  a             1
-   5 │     3  b             2
-   6 │     3  b             2
-   7 │     4  b             2
-   8 │     4  c             2
-   9 │     5  c             3
-  10 │     5  c             3
-  11 │     6  d             3
-
+8×2 DataFrame
+ Row │ a      buckets 
+     │ Int64  Int64   
+─────┼────────────────
+   1 │     1        1
+   2 │     2        1
+   3 │     3        1
+   4 │     4        2
+   5 │     5        2
+   6 │     6        2
+   7 │     7        3
+   8 │     8        3
 ```         
 """
 
@@ -1723,7 +1719,7 @@ julia> df = DataFrame(a = vcat(repeat(["a"], inner = 3),
    8 │ missing      8
 
 julia> @chain df begin
-       tally()
+       @tally()
        end
 1×1 DataFrame
  Row │ n     
