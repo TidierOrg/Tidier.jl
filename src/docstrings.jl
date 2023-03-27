@@ -1536,7 +1536,7 @@ const docstring_ntile =
 
 Break the input vector into `n` equal-sized buckets.
 
-`ntile()`` is a sort of very rough rank, which breaks the input vector into n buckets. If `length(x)` is not an integer multiple of `n`, the size of the buckets will differ by up to one, with larger buckets coming first.
+`ntile()` is a rough rank that breaks the input vector into `n` buckets. If `length(x)` is not an integer multiple of `n`, the size of the buckets will differ by up to one, with larger buckets coming first.
 
 Unlike other ranking functions, `ntile()` ignores ties: it will create evenly sized buckets even if the same value of `x` ends up in different buckets.
 
@@ -1610,7 +1610,7 @@ const docstring_count =
 
 Count the unique values of one or more variables, with an optional weighting.
 
-`@chain df @count(a, b)` is roughly equivalent to `@chain df @group_by(a, b) @summarize(n = n())`. Supply `wt`` to perform weighted counts, switching the summary from `n = n()` to `n = sum(wt)`. Note that if grouping columns are provided, the result will be an ungrouped data frame, which is slightly different behavior than R's `tidyverse`.
+`@chain df @count(a, b)` is roughly equivalent to `@chain df @group_by(a, b) @summarize(n = n())`. Supply `wt` to perform weighted counts, switching the summary from `n = n()` to `n = sum(wt)`. Note that if grouping columns are provided, the result will be an ungrouped data frame, which is slightly different behavior than R's `tidyverse`.
 
 # Arguments
 - `df`: A DataFrame or GroupedDataFrame.
