@@ -4,7 +4,7 @@
 
 # Since the `!!` operator can only access variables in the global environment, we will set these variables in a somewhat roundabout way for the purposes of documentation. However, in interactive use, you can simply write `myvar = :b` instead of wrapping this code inside of an `@eval()` macro as is done here.
 
-# Note: `myvar = :b`, `myvar = (:a, :b)`, and `myvar = [:a, :b]` all refer to *columns* with those names. On the other hand, `myvar = "b"`, `myvar = ("a", "b")` and `myvar = ["a", "b"]` will interpolate those *values*. See beloe for examples.
+# Note: `myvar = :b`, `myvar = (:a, :b)`, and `myvar = [:a, :b]` all refer to *columns* with those names. On the other hand, `myvar = "b"`, `myvar = ("a", "b")` and `myvar = ["a", "b"]` will interpolate those *values*. See below for examples.
 
 using Tidier
 
