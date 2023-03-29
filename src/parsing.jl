@@ -405,11 +405,31 @@ function parse_bind_args(tidy_expr::Union{Expr,Symbol})
   found_id = false
   if @capture(tidy_expr, lhs_ = rhs_)
     if lhs != :id
-      throw("$(String(lhs)) is not implemented")
+      throw("$(String(lhs)) argument is not supported")
     else
       found_id = true
       return rhs, found_id
     end
   end
   return esc(tidy_expr), found_id
+end
+
+# Not export
+function parse_relocate_args(tidy_expr::Union{Expr,Symbol}...)
+  col_names = Union{Expr,Symbol}[]
+  after = nothing
+  before = nothing
+
+  for expr in tidy_exprs
+    if @capture(expr, after = rhs_)
+      after = rhs
+    elseif @capture(expr, before = rhs_)
+      before = rhs
+    elseif @capture(count_expr, lhs_ = rhs_)
+      throw("$(String(lhs)) argument is not supported")
+    else
+      push!(col_names, expr)
+    end
+  end
+  return col_names, before, after
 end

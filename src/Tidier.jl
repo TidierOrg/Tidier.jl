@@ -16,7 +16,7 @@ using Reexport
 export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, ntile, 
       @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, 
       @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer, 
-      @bind_rows, @bind_cols, @clean_names, @count, @tally
+      @bind_rows, @bind_cols, @clean_names, @count, @tally, @glimpse
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -611,4 +611,24 @@ macro pull(df, column)
   return vec_expr
 end
 
+macro glimpse(df)
+  df_expr = quote
+    local des_df = describe($(esc(df)), :eltype, :mean, :min, :median, :max, :nmissing; cols=:)
+    show(des_df, allrows=true)
+  end
+  if code[]
+    @info MacroTools.prettify(df_expr)
+  end
+  return df_expr
 end
+
+macro relocate(df, exprs...)
+end
+
+end
+
+using .Tidier
+
+df1 = DataFrame(a=1:3, b=1:3, c=4:6, d=4:6, e=7:9, f=["7", "8","9"]);
+
+@glimpse(df1)
