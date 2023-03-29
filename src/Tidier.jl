@@ -16,7 +16,7 @@ using Reexport
 export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, ntile, 
       @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, 
       @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer, 
-      @bind_rows, @bind_cols, @clean_names, @count, @tally, @glimpse
+      @bind_rows, @bind_cols, @clean_names, @count, @tally, @glimpse, @relocate
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -623,12 +623,74 @@ macro glimpse(df)
 end
 
 macro relocate(df, exprs...)
+  interpolated_exprs = parse_interpolation.(exprs)
+  relocate_exprs = [i[1] for i in interpolated_exprs]
+  col_names, before, after = parse_relocate_args(relocate_exprs...)
+
+  col_names = parse_tidy.(col_names)
+  if !(before isa Nothing)
+    before_expr = parse_tidy(before)
+    df_expr = quote
+      relocate($(esc(df)), $(col_names...), before=$before_expr)
+    end
+  elseif !(after isa Nothing)
+    after_expr = parse_tidy(after)
+    df_expr = quote
+      relocate($(esc(df)), $(col_names...), after=$after_expr)
+    end
+  elseif after isa Nothing && before isa Nothing
+    df_expr = quote
+      relocate($(esc(df)), $(col_names...))
+    end
+  end
+  return df_expr
+end
+
+function relocate(df, cols...; before=nothing, after=nothing)
+  println(cols)
+  println(before)
+  cols_names = reduce(vcat, names.(Ref(df), cols))
+  cols_idx = columnindex.(Ref(df), cols_names)
+  if !(before isa Nothing)
+    before_names = reduce(vcat, names.(Ref(df), (before,)))
+    before_idx = columnindex.(Ref(df), before_names)  
+    if df isa GroupedDataFrame
+      return select(df, setdiff(1:minimum(before_idx)-1, cols_idx), cols_idx, before_idx, :; ungroup = false)
+    else
+      return select(df, setdiff(1:minimum(before_idx)-1, cols_idx), cols_idx, before_idx, :)
+    end
+  elseif !(after isa Nothing)
+    after_names = reduce(vcat, names.(Ref(df), (after,)))
+    after_idx = columnindex.(Ref(df), after_names)
+    if df isa GroupedDataFrame
+      return select(df, setdiff(1:maximum(after_idx), cols_idx), after_idx, cols_idx, :; ungroup = false)
+    else
+      return select(df, setdiff(1:maximum(after_idx), cols_idx), after_idx, cols_idx, :)
+    end
+  elseif after isa Nothing && before isa Nothing
+    if df isa GroupedDataFrame 
+      return select(df, cols_idx, :; ungroup = false)
+    else
+      return select(df, cols_idx, :)
+    end
+  end
 end
 
 end
 
-using .Tidier
+using DataFrames
+using MacroTools
 
-df1 = DataFrame(a=1:3, b=1:3, c=4:6, d=4:6, e=7:9, f=["7", "8","9"]);
+df1 = DataFrame(a=1:3, b=1:3, c=4:6, d=4:6, e=7:9, f1=["7", "8","9"], f2=7:9);
 
 @glimpse(df1)
+
+@relocate(df1, d)
+@relocate(df1, d, f)
+@relocate(df1, f1, before =a)
+@relocate(df1, f, before =(b,c))
+@relocate(df1, contains("f"), after = a:c)
+@relocate(df1, f1, before =contains("b"))
+
+a = names.(Ref(df1), (:d, :f))
+columnindex.(Ref(df1), [a...])

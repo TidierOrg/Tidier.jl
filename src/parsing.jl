@@ -415,17 +415,19 @@ function parse_bind_args(tidy_expr::Union{Expr,Symbol})
 end
 
 # Not export
-function parse_relocate_args(tidy_expr::Union{Expr,Symbol}...)
+function parse_relocate_args(tidy_exprs::Union{Expr,Symbol}...)
   col_names = Union{Expr,Symbol}[]
   after = nothing
   before = nothing
 
   for expr in tidy_exprs
-    if @capture(expr, after = rhs_)
+    if @capture(expr, after = rhs_) && @capture(expr, before = rhs_)
+      throw("before and after cannot be specified at the same time")s
+    elseif @capture(expr, after = rhs_) 
       after = rhs
     elseif @capture(expr, before = rhs_)
       before = rhs
-    elseif @capture(count_expr, lhs_ = rhs_)
+    elseif @capture(expr, lhs_ = rhs_)
       throw("$(String(lhs)) argument is not supported")
     else
       push!(col_names, expr)
