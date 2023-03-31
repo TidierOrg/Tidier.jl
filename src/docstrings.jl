@@ -1615,7 +1615,7 @@ Count the unique values of one or more variables, with an optional weighting.
 # Arguments
 - `df`: A DataFrame or GroupedDataFrame.
 - `exprs...`: Column names, separated by commas.
-- `wt`: Optional parameter. Used to calcualate a sum over the provided `wt` variable instead of counting the rows.
+- `wt`: Optional parameter. Used to calculate a sum over the provided `wt` variable instead of counting the rows.
 - `sort`: Defaults to `false`. Whether the result should be sorted from highest to lowest `n`.
 
 # Examples
@@ -1695,7 +1695,7 @@ Tally the unique values of one or more variables, with an optional weighting.
 
 # Arguments
 - `df`: A DataFrame or GroupedDataFrame.
-- `wt`: Optional parameter. Used to calcualate a sum over the provided `wt` variable instead of counting the rows.
+- `wt`: Optional parameter. Used to calculate a sum over the provided `wt` variable instead of counting the rows.
 - `sort`: Defaults to `false`. Whether the result should be sorted from highest to lowest `n`.
 
 # Examples
