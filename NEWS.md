@@ -1,5 +1,10 @@
 # Tidier.jl updates
 
+## v0.7.1 - 2023-04-01
+- Added `@drop_na()` with optional column selection parameter
+- Re-exported `lead()` and `lag()` from ShiftedArrays.jl and added both to the do-not-vectorize list
+- Bug fix: Fixed `ntile()` condition for when all elements are missing
+
 ## v0.7.0 - 2023-03-27
 
 - Added `@count()` and `@tally()`
