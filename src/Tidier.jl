@@ -612,6 +612,9 @@ macro pull(df, column)
   return vec_expr
 end
 
+"""
+$docstring_drop_na
+"""
 macro drop_na(df, exprs...)
   interpolated_exprs = parse_interpolation.(exprs)
 
