@@ -19,7 +19,7 @@ function ntile(x, n::Integer)
   end
 
   if x_length == 0
-    return repeat(missing, length(x)) # need to fix
+    return repeat([missing], length(x))
   else
     n_larger = x_length % n
     n_smaller = n - n_larger
