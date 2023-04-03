@@ -18,6 +18,7 @@ export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches,
       @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, 
       @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer, 
       @bind_rows, @bind_cols, @clean_names, @count, @tally, @drop_na
+      as_float, as_integer, as_string
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -35,6 +36,7 @@ include("conditionals.jl")
 include("pseudofunctions.jl")
 include("helperfunctions.jl")
 include("ntile.jl")
+include("type_conversions.jl")
 
 # Function to set global variables
 """
