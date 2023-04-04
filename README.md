@@ -90,6 +90,7 @@ Tidier.jl currently supports the following top-level macros:
 - `@left_join()`, `@right_join()`, `@inner_join()`, and `@full_join()`
 - `@bind_rows()` and `@bind_cols()`
 - `@pivot_wider()` and `@pivot_longer()`
+- `@drop_na()`
 - `@clean_names()` (as in R's `janitor::clean_names()` function)
 
 Tidier.jl also supports the following helper functions:
@@ -99,6 +100,7 @@ Tidier.jl also supports the following helper functions:
 - `if_else()` and `case_when()`
 - `n()` and `row_number()`
 - `ntile()`
+- `lag()` and `lead()`
 - `starts_with()`, `ends_with()`, `matches()`, and `contains()`
 
 See the documentation [Home](https://kdpsingh.github.io/Tidier.jl/dev/) page for a guide on how to get started, or the [Reference](https://kdpsingh.github.io/Tidier.jl/dev/reference/) page for a detailed guide to each of the macros and functions.

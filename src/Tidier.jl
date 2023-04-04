@@ -7,16 +7,17 @@ using Statistics
 using Cleaner
 using Reexport
 
-# Exporting `Cols` because `summarize(across(!!vars, funs))` with multiple interpolated
+# Exporting `Cols` because `summarize(!!vars, funs))` with multiple interpolated
 # columns requires `Cols()` to be nested within `Cols()`, so `Cols` needs to be exported.
 @reexport using DataFrames: DataFrame, Cols, describe, nrow, proprow
 @reexport using Chain
 @reexport using Statistics
+@reexport using ShiftedArrays: lag, lead
 
 export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, ntile, 
       @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, 
       @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer, 
-      @bind_rows, @bind_cols, @clean_names, @count, @tally, @glimpse, @relocate
+      @bind_rows, @bind_cols, @clean_names, @count, @tally, @drop_na, @glimpse, @relocate
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -622,6 +623,43 @@ macro glimpse(df)
   return df_expr
 end
 
+"""
+$docstring_drop_na
+"""
+macro drop_na(df, exprs...)
+  interpolated_exprs = parse_interpolation.(exprs)
+
+  tidy_exprs = [i[1] for i in interpolated_exprs]
+
+  tidy_exprs = parse_tidy.(tidy_exprs)
+  num_exprs = length(exprs)
+  df_expr = quote
+    if $(esc(df)) isa GroupedDataFrame
+      local col_names = groupcols($(esc(df)))
+      @chain $(esc(df)) begin
+        DataFrame # remove grouping because `dropmissing()` does not work on GroupDataFrames
+        @chain _ begin
+          if $num_exprs == 0
+            dropmissing(_)
+          else
+            dropmissing(_, Cols($(tidy_exprs...)))
+          end
+        end
+        groupby(col_names; sort = true) # regroup
+      end
+    else
+      @chain $(esc(df)) begin
+        @chain _ begin
+          if $num_exprs == 0
+            dropmissing(_)
+          else
+            dropmissing(_, Cols($(tidy_exprs...)))
+          end
+        end
+      end
+    end
+
+
 macro relocate(df, exprs...)
   interpolated_exprs = parse_interpolation.(exprs)
   relocate_exprs = [i[1] for i in interpolated_exprs]
@@ -694,3 +732,6 @@ df1 = DataFrame(a=1:3, b=1:3, c=4:6, d=4:6, e=7:9, f1=["7", "8","9"], f2=7:9);
 
 a = names.(Ref(df1), (:d, :f))
 columnindex.(Ref(df1), [a...])
+
+
+
