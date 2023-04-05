@@ -1,11 +1,11 @@
 # ## Contribute to Documentation
 # Contributing with examples can be done by first creating a new file example
-# [here](https://github.com/TidierOrg/Tidier.jl/tree/main/docs/examples/UserGuide)
+# [here](https://tidierorg.github.io/Tidier.jl/tree/main/docs/examples/UserGuide)
 
 # !!! info
 #     - `your_new_file.jl` at `docs/examples/UserGuide/`
 
-# Once this is done you need to add a new entry [here](https://github.com/TidierOrg/Tidier.jl/blob/main/docs/mkdocs.yml)
+# Once this is done you need to add a new entry [here](https://tidierorg.github.io/Tidier.jl/blob/main/docs/mkdocs.yml)
 # at the bottom and the appropriate level.
 
 # !!! info

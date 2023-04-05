@@ -116,7 +116,7 @@ Tidier.jl also supports the following helper functions:
     - `starts_with()`, `ends_with()`, `matches()`, and `contains()`
 ```
 
-See the [Reference](https://github.com/TidierOrg/Tidier.jl/dev/reference/) page for a detailed guide to each of the macros and functions.
+See the [Reference](https://tidierorg.github.io/Tidier.jl/dev/reference/) page for a detailed guide to each of the macros and functions.
 
 ## Example
 
