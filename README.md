@@ -1,9 +1,9 @@
 # Tidier.jl
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/kdpsingh/Tidier.jl/blob/main/LICENSE)
-[![Docs: Dev](https://img.shields.io/badge/Docs-Dev-lightblue.svg)](https://kdpsingh.github.io/Tidier.jl/dev)
-[![Docs: Stable](https://img.shields.io/badge/Docs-Stable-blue.svg)](https://kdpsingh.github.io/Tidier.jl/stable)
-[![Build Status](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/kdpsingh/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/TidierOrg/Tidier.jl/blob/main/LICENSE)
+[![Docs: Dev](https://img.shields.io/badge/Docs-Dev-lightblue.svg)](https://github.com/TidierOrg/Tidier.jl/dev)
+[![Docs: Stable](https://img.shields.io/badge/Docs-Stable-blue.svg)](https://github.com/TidierOrg/Tidier.jl/stable)
+[![Build Status](https://github.com/TidierOrg/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/TidierOrg/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/Tidier&label=Downloads)](https://pkgs.genieframework.com?packages=Tidier)
 
 <img src="/docs/src/assets/Tidier_jl_logo.png" align="right" style="padding-left:10px;" width="150"/>
@@ -70,7 +70,7 @@ or
 
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/kdpsingh/Tidier.jl")
+Pkg.add(url="https://github.com/TidierOrg/Tidier.jl")
 ```
 
 ## What functions does Tidier.jl support?
@@ -103,7 +103,7 @@ Tidier.jl also supports the following helper functions:
 - `lag()` and `lead()`
 - `starts_with()`, `ends_with()`, `matches()`, and `contains()`
 
-See the documentation [Home](https://kdpsingh.github.io/Tidier.jl/dev/) page for a guide on how to get started, or the [Reference](https://kdpsingh.github.io/Tidier.jl/dev/reference/) page for a detailed guide to each of the macros and functions.
+See the documentation [Home](https://github.com/TidierOrg/Tidier.jl/dev/) page for a guide on how to get started, or the [Reference](https://github.com/TidierOrg/Tidier.jl/dev/reference/) page for a detailed guide to each of the macros and functions.
 
 ## Example
 
@@ -137,7 +137,7 @@ end
 
 ## What’s new
 
-See [NEWS.md](https://github.com/kdpsingh/Tidier.jl/blob/main/NEWS.md) for the latest updates.
+See [NEWS.md](https://github.com/TidierOrg/Tidier.jl/blob/main/NEWS.md) for the latest updates.
 
 ## What's missing
 
