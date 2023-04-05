@@ -1,5 +1,8 @@
 # Tidier.jl updates
 
+## v0.7.2 - 2023-04-05
+- Moved repo to TidierOrg
+
 ## v0.7.1 - 2023-04-01
 - Added `@drop_na()` with optional column selection parameter
 - Re-exported `lead()` and `lag()` from ShiftedArrays.jl and added both to the do-not-vectorize list
