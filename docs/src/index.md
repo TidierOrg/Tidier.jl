@@ -78,7 +78,7 @@ or
 
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/kdpsingh/Tidier.jl")
+Pkg.add(url="https://github.com/TidierOrg/Tidier.jl")
 ```
 
 ## What macros and functions does Tidier.jl support?
@@ -116,7 +116,7 @@ Tidier.jl also supports the following helper functions:
     - `starts_with()`, `ends_with()`, `matches()`, and `contains()`
 ```
 
-See the [Reference](https://kdpsingh.github.io/Tidier.jl/dev/reference/) page for a detailed guide to each of the macros and functions.
+See the [Reference](https://tidierorg.github.io/Tidier.jl/dev/reference/) page for a detailed guide to each of the macros and functions.
 
 ## Example
 
@@ -150,7 +150,7 @@ end
 
 ## What’s new
 
-See [NEWS.md](https://github.com/kdpsingh/Tidier.jl/blob/main/NEWS.md) for the latest updates.
+See [NEWS.md](https://github.com/TidierOrg/Tidier.jl/blob/main/NEWS.md) for the latest updates.
 
 ## What's missing
 
