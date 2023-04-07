@@ -1848,7 +1848,7 @@ julia> df = DataFrame(
                a=1:3, 
                b=1:3, 
                f_string=["7", "8","9"]
-            );
+            )
 3×3 DataFrame
  Row │ a      b      f_string 
      │ Int64  Int64  String   
