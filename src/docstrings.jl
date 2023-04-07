@@ -1830,3 +1830,38 @@ julia> @chain df @drop_na(starts_with("a"))
    3 │     4        4
 ```
 """
+
+const docstring_glimpse =
+"""
+    @glimpse(df)
+
+Similar to `glimpse()` in `tidyverse`, `@glimpse` macro is like a transposed version of `print()`: : columns run down the page, and data runs across. This makes it possible to see every column in a data frame.
+
+Currently, `@glimpse` does not support invisible return. Therefore, `@glimpse` cannot be used within a pipeline.
+
+# Arguments
+- `df`: A DataFrame or GroupedDataFrame.
+
+# Examples
+```jldoctest 
+julia> df = DataFrame(
+               a=1:3, 
+               b=1:3, 
+               f_string=["7", "8","9"]
+            );
+3×3 DataFrame
+ Row │ a      b      f_string 
+     │ Int64  Int64  String   
+─────┼────────────────────────
+   1 │     1      1  7
+   2 │     2      2  8
+   3 │     3      3  9
+
+julia> @chain df @glimpse
+Rows: 3
+Columns: 3
+\$ a               Int64           1, 2, 3
+\$ b               Int64           1, 2, 3
+\$ f_string        String          7, 8, 9
+```
+"""

@@ -655,6 +655,9 @@ macro drop_na(df, exprs...)
   return df_expr
 end
 
+"""
+$docstring_glimpse
+"""
 macro glimpse(df)
   df_expr = quote
     @printf("Rows: %i\n", nrow($(esc(df))))
