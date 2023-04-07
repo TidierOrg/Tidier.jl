@@ -6,6 +6,7 @@ using Chain
 using Statistics
 using Cleaner
 using Reexport
+using Printf
 
 # Exporting `Cols` because `summarize(!!vars, funs))` with multiple interpolated
 # columns requires `Cols()` to be nested within `Cols()`, so `Cols` needs to be exported.
@@ -17,7 +18,7 @@ using Reexport
 export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, ntile, 
       @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, 
       @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer, 
-      @bind_rows, @bind_cols, @clean_names, @count, @tally, @drop_na
+      @bind_rows, @bind_cols, @clean_names, @count, @tally, @drop_na, @glimpse
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -651,6 +652,17 @@ macro drop_na(df, exprs...)
   if code[]
     @info MacroTools.prettify(df_expr)
   end
+  return df_expr
+end
+
+macro glimpse(df)
+  df_expr = quote
+    @printf("Rows: %i\n", nrow($(esc(df))))
+    @printf("Columns: %i\n", ncol($(esc(df))))
+    for (name, col) in pairs(eachcol($(esc(df))))
+      @printf("\$ %-15s %-15s %s\n", name, eltype(col), join(col, ", "))
+    end
+  end 
   return df_expr
 end
 
