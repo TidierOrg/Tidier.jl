@@ -17,7 +17,7 @@ using Reexport
 export Tidier_set, across, desc, n, row_number, starts_with, ends_with, matches, if_else, case_when, ntile, 
       @select, @transmute, @rename, @mutate, @summarize, @summarise, @filter, @group_by, @ungroup, @slice, 
       @arrange, @distinct, @pull, @left_join, @right_join, @inner_join, @full_join, @pivot_wider, @pivot_longer, 
-      @bind_rows, @bind_cols, @clean_names, @count, @tally, @drop_na
+      @bind_rows, @bind_cols, @clean_names, @count, @tally, @drop_na, @glimpse
 
 # Package global variables
 const code = Ref{Bool}(false) # output DataFrames.jl code?
@@ -651,6 +651,30 @@ macro drop_na(df, exprs...)
   if code[]
     @info MacroTools.prettify(df_expr)
   end
+  return df_expr
+end
+
+"""
+$docstring_glimpse
+"""
+macro glimpse(df, width = 80)
+  df_expr = quote
+    # DataFrame() needed to handle grouped data frames
+    println("Rows: ", nrow(DataFrame($(esc(df)))))
+    println("Columns: ", ncol(DataFrame($(esc(df)))))
+
+    if $(esc(df)) isa GroupedDataFrame
+      println("Groups: ", join(string.(groupcols($(esc(df)))), ", "), " [", length(keys($(esc(df)))), "]")
+    end
+
+    for (name, col) in pairs(eachcol(DataFrame($(esc(df)))))
+      rpad("." * string(name), 15) *
+      rpad(eltype(col), 15) *
+      join(col, ", ") |>
+      x -> first(x, $width) |> # show the first $width number of characters
+      println
+    end
+  end 
   return df_expr
 end
 

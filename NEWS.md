@@ -1,5 +1,8 @@
 # Tidier.jl updates
 
+## v0.7.3 - 2023-04-10
+- Added `@glimpse()`
+
 ## v0.7.2 - 2023-04-05
 - Moved repo to TidierOrg
 
