@@ -6,7 +6,6 @@ using Chain
 using Statistics
 using Cleaner
 using Reexport
-using Printf
 
 # Exporting `Cols` because `summarize(!!vars, funs))` with multiple interpolated
 # columns requires `Cols()` to be nested within `Cols()`, so `Cols` needs to be exported.
@@ -658,12 +657,22 @@ end
 """
 $docstring_glimpse
 """
-macro glimpse(df)
+macro glimpse(df, width = 80)
   df_expr = quote
-    @printf("Rows: %i\n", nrow($(esc(df))))
-    @printf("Columns: %i\n", ncol($(esc(df))))
-    for (name, col) in pairs(eachcol($(esc(df))))
-      @printf("\$ %-15s %-15s %s\n", name, eltype(col), join(col, ", "))
+    # DataFrame() needed to handle grouped data frames
+    println("Rows: ", nrow(DataFrame($(esc(df)))))
+    println("Columns: ", ncol(DataFrame($(esc(df)))))
+
+    if $(esc(df)) isa GroupedDataFrame
+      println("Groups: ", join(string.(groupcols($(esc(df)))), ", "), " [", length(keys($(esc(df)))), "]")
+    end
+
+    for (name, col) in pairs(eachcol(DataFrame($(esc(df)))))
+      rpad("." * string(name), 15) *
+      rpad(eltype(col), 15) *
+      join(col, ", ") |>
+      x -> first(x, $width) |> # show the first $width number of characters
+      println
     end
   end 
   return df_expr

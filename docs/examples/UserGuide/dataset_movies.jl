@@ -13,6 +13,6 @@ movies = dataset("ggplot2", "movies");
     @slice(1:5)
 end
 
-# Let's use the `describe()` function, which is re-exported from the `DataFrames.jl` package to describe the dataset.
+# Let's use `@glimpse()` to preview the dataset.
 
-describe(movies)
+@glimpse(movies)
