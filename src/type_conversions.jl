@@ -1,36 +1,47 @@
-
-function as_float(value)::Union{AbstractFloat, Missing}
+"""
+$docstring_as_float
+"""
+function as_float(value)
     try
-        convert(AbstractFloat, value)
+        passmissing(convert)(Float64, value)
     catch
-        missing
+        missing # if parsing failure
     end
 end
 
-function as_float(value::String)::Union{Float64, Missing}
+function as_float(value::AbstractString)
     try
-        parse(Float64, value)
+        passmissing(parse)(Float64, value)
     catch
-        missing
+        missing # if parsing failure
     end
 end
 
-function as_integer(value)::Union{Integer, Missing}
+"""
+$docstring_as_integer
+"""
+function as_integer(value)
     try
-        convert(Integer, value)
+        passmissing(floor)(value) |>      
+        x -> passmissing(convert)(Int64, x)
     catch
-        missing
+        missing # if parsing failure
     end
 end
 
-function as_integer(value::String)::Union{Int64, Missing}
+function as_integer(value::AbstractString)
     try
-        parse(Int64, value)
+        passmissing(parse)(Float64, value) |>
+        x -> passmissing(floor)(x) |>      
+        x -> passmissing(convert)(Int64, x)
     catch
-        missing
+        missing # if parsing failure
     end
 end
 
-function as_string(value)::String
-    string(value)
+"""
+$docstring_as_string
+"""
+function as_string(value)
+  passmissing(string)(value)
 end
