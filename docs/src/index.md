@@ -115,6 +115,7 @@ Tidier.jl also supports the following helper functions:
     - `ntile()`
     - `lag()` and `lead()`
     - `starts_with()`, `ends_with()`, `matches()`, and `contains()`
+    - `as_float()`, `as_integer()`, and `as_string()`
 ```
 
 See the [Reference](https://tidierorg.github.io/Tidier.jl/dev/reference/) page for a detailed guide to each of the macros and functions.
