@@ -1,5 +1,8 @@
 # Tidier.jl updates
 
+## v0.7.4 - 2023-04-11
+- Added `as_float()`, `as_integer()`, and `as_string()`
+
 ## v0.7.3 - 2023-04-10
 - Added `@glimpse()`
 
