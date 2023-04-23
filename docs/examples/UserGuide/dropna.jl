@@ -88,6 +88,8 @@ iris = dataset("datasets", "iris")
 
 ## Julia provides support for representing missing values where there is no value available for a variable for an observation. 
 ## Julia represents missing values using the missing object which behaves like NA in R in most scenarios.
+# You can read about missing values by visiting [official Julia website](https://docs.julialang.org/en/v1/manual/missing/).
+
 
 ## Let's add some missing values to the iris data set. We first use allowmissing to allow missing values and assing a missing value.
 
