@@ -4,15 +4,15 @@
 
 # `@drop_na()` tutorial topics
 
-- Arguments
-- Basic Usage
-- Examples
-    - Adding additional columns 
-    - Using `drop_na` with other macros
-- Advanced Examples 
-    - Missing Values in Julia
-    - Using `drop_na` with RDataSets
-- Additional Help
+##- Arguments
+##- Basic Usage
+##- Examples
+##    - Adding additional columns 
+##    - Using `drop_na` with other macros
+##- Advanced Examples 
+##    - Missing Values in Julia
+##    - Using `drop_na` with RDataSets
+## - Additional Help
 
 # Arguments
 ## df: A DataFrame or GroupedDataFrame.
