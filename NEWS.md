@@ -1,5 +1,9 @@
 # Tidier.jl updates
 
+## v0.7.5 - 2023-04-30
+- Fixed bug to ensure that `&&` and `||` are auto-vectorized
+- Added docstrings and examples to show different ways of filtering by multiple "and" conditions, including `&&`, `&`, and separating multiple expressions with commas.
+
 ## v0.7.4 - 2023-04-11
 - Added `as_float()`, `as_integer()`, and `as_string()`
 
