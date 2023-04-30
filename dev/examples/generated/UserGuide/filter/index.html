@@ -78,6 +78,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#lets-take-a-look-at-the-movies-whose-budget-was-more-than-average-we-will-select-only-the-first-5-rows-for-the-sake-of-brevity" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -352,9 +357,93 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          @filter
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         @filter
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lets-take-a-look-at-the-movies-whose-budget-was-more-than-average-we-will-select-only-the-first-5-rows-for-the-sake-of-brevity" class="md-nav__link">
+    Let’s take a look at the movies whose budget was more than average. We will select only the first 5 rows for the sake of brevity.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-search-for-movies-that-have-at-least-200-votes-and-a-rating-of-greater-than-or-equal-to-8-there-are-3-ways-you-can-specify-an-and-condition-inside-of-tidierjl" class="md-nav__link">
+    Let's search for movies that have at least 200 votes and a rating of greater than or equal to 8. There are 3 ways you can specify an "and" condition inside of Tidier.jl.
+  </a>
+  
+    <nav class="md-nav" aria-label="Let's search for movies that have at least 200 votes and a rating of greater than or equal to 8. There are 3 ways you can specify an "and" condition inside of Tidier.jl.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-first-option-is-to-use-the-short-circuiting-operator-as-shown-below-this-is-the-preferred-approach-because-the-second-expression-is-only-evaluated-per-element-if-the-first-one-is-true" class="md-nav__link">
+    The first option is to use the short-circuiting &amp;&amp; operator as shown below. This is the preferred approach because the second expression is only evaluated (per element) if the first one is true.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-second-option-is-to-use-the-bitwise-operator-note-that-there-is-a-key-difference-in-syntax-between-and-because-the-operator-takes-a-higher-operator-precendence-than-you-have-to-wrap-the-comparison-expressions-inside-of-parentheses-to-ensure-that-the-overall-expression-is-evaluated-correctly" class="md-nav__link">
+    The second option is to use the bitwise &amp; operator. Note that there is a key difference in syntax between &amp; and &amp;&amp;. Because the &amp; operator takes a higher operator precendence than &gt;=, you have to wrap the comparison expressions inside of parentheses to ensure that the overall expression is evaluated correctly.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-third-option-for-and-conditions-only-is-to-separate-the-expressions-with-commas-this-is-similar-to-the-behavior-of-filter-in-tidyverse" class="md-nav__link">
+    The third option for "and" conditions only is to separate the expressions with commas. This is similar to the behavior of filter() in tidyverse.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#now-lets-see-how-to-use-filter-with-in-heres-an-example-with-a-tuple" class="md-nav__link">
+    Now let's see how to use @filter() with in. Here's an example with a tuple.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#we-can-also-use-filter-with-in-using-a-vector-denoted-by-a" class="md-nav__link">
+    We can also use @filter() with in using a vector, denoted by a [].
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#finally-we-can-combine-filter-with-row_number-to-retrieve-the-first-5-rows-which-can-be-used-to-mimic-the-functionality-provided-by-slice" class="md-nav__link">
+    Finally, we can combine @filter with row_number() to retrieve the first 5 rows, which can be used to mimic the functionality provided by @slice.
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -588,6 +677,76 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lets-take-a-look-at-the-movies-whose-budget-was-more-than-average-we-will-select-only-the-first-5-rows-for-the-sake-of-brevity" class="md-nav__link">
+    Let’s take a look at the movies whose budget was more than average. We will select only the first 5 rows for the sake of brevity.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lets-search-for-movies-that-have-at-least-200-votes-and-a-rating-of-greater-than-or-equal-to-8-there-are-3-ways-you-can-specify-an-and-condition-inside-of-tidierjl" class="md-nav__link">
+    Let's search for movies that have at least 200 votes and a rating of greater than or equal to 8. There are 3 ways you can specify an "and" condition inside of Tidier.jl.
+  </a>
+  
+    <nav class="md-nav" aria-label="Let's search for movies that have at least 200 votes and a rating of greater than or equal to 8. There are 3 ways you can specify an "and" condition inside of Tidier.jl.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-first-option-is-to-use-the-short-circuiting-operator-as-shown-below-this-is-the-preferred-approach-because-the-second-expression-is-only-evaluated-per-element-if-the-first-one-is-true" class="md-nav__link">
+    The first option is to use the short-circuiting &amp;&amp; operator as shown below. This is the preferred approach because the second expression is only evaluated (per element) if the first one is true.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-second-option-is-to-use-the-bitwise-operator-note-that-there-is-a-key-difference-in-syntax-between-and-because-the-operator-takes-a-higher-operator-precendence-than-you-have-to-wrap-the-comparison-expressions-inside-of-parentheses-to-ensure-that-the-overall-expression-is-evaluated-correctly" class="md-nav__link">
+    The second option is to use the bitwise &amp; operator. Note that there is a key difference in syntax between &amp; and &amp;&amp;. Because the &amp; operator takes a higher operator precendence than &gt;=, you have to wrap the comparison expressions inside of parentheses to ensure that the overall expression is evaluated correctly.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-third-option-for-and-conditions-only-is-to-separate-the-expressions-with-commas-this-is-similar-to-the-behavior-of-filter-in-tidyverse" class="md-nav__link">
+    The third option for "and" conditions only is to separate the expressions with commas. This is similar to the behavior of filter() in tidyverse.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#now-lets-see-how-to-use-filter-with-in-heres-an-example-with-a-tuple" class="md-nav__link">
+    Now let's see how to use @filter() with in. Here's an example with a tuple.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#we-can-also-use-filter-with-in-using-a-vector-denoted-by-a" class="md-nav__link">
+    We can also use @filter() with in using a vector, denoted by a [].
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#finally-we-can-combine-filter-with-row_number-to-retrieve-the-first-5-rows-which-can-be-used-to-mimic-the-functionality-provided-by-slice" class="md-nav__link">
+    Finally, we can combine @filter with row_number() to retrieve the first 5 rows, which can be used to mimic the functionality provided by @slice.
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -609,7 +768,9 @@
 
 <span class="n">movies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">(</span><span class="s">"ggplot2"</span><span class="p">,</span><span class="w"> </span><span class="s">"movies"</span><span class="p">);</span>
 </code></pre></div>
-<p>Let’s take a look at the movies whose budget was more than average. We will select only the first 5 rows for the sake of brevity.</p>
+<p><a id="Let’s-take-a-look-at-the-movies-whose-budget-was-more-than-average.-We-will-select-only-the-first-5-rows-for-the-sake-of-brevity."></a></p>
+<p><a id="Let’s-take-a-look-at-the-movies-whose-budget-was-more-than-average.-We-will-select-only-the-first-5-rows-for-the-sake-of-brevity.-1"></a></p>
+<h2 id="lets-take-a-look-at-the-movies-whose-budget-was-more-than-average-we-will-select-only-the-first-5-rows-for-the-sake-of-brevity">Let’s take a look at the movies whose budget was more than average. We will select only the first 5 rows for the sake of brevity.<a class="headerlink" href="#lets-take-a-look-at-the-movies-whose-budget-was-more-than-average-we-will-select-only-the-first-5-rows-for-the-sake-of-brevity" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@mutate</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
 <span class="w">  </span><span class="nd">@filter</span><span class="p">(</span><span class="n">Budget</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">Budget</span><span class="p">)))</span>
@@ -620,26 +781,37 @@
 <div><div style="float: left;"><span>5×2 DataFrame</span></div><div style="clear: both;"></div></div>
 <div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">Title</th><th style="text-align: left;">Budget</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Union{Missing, Float64}" style="text-align: left;">Float64?</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">'Til There Was You</td><td style="text-align: right;">23.0</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">10 Things I Hate About You</td><td style="text-align: right;">16.0</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">102 Dalmatians</td><td style="text-align: right;">85.0</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">13 Going On 30</td><td style="text-align: right;">37.0</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">13th Warrior, The</td><td style="text-align: right;">85.0</td></tr></tbody></table></div>
 
-<p>Let's search for movies that have at least 200 votes and a rating of greater than or equal to 8. There are 3 ways you can specify an "and" condition inside of <code>Tidier.jl</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="c"># The first option is to use the short-circuiting `&amp;&amp;` operator as shown below. This is the preferred approach because the second expression is only evaluated (per element) if the first one is true.</span>
-
-<span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
+<p><a id="Let" s-search-for-movies-that-have-at-least-200-votes-and-a-rating-of-greater-than-or-equal-to-8.-there-a re-3-ways-you-can-specify-an-></a></p>
+<p><a id="Let" s-search-for-movies-that-have-at-least-200-votes-and-a-rating-of-greater-than-or-equal-to-8.-there-a re-3-ways-you-can-specify-an-></a></p>
+<h2 id="lets-search-for-movies-that-have-at-least-200-votes-and-a-rating-of-greater-than-or-equal-to-8-there-are-3-ways-you-can-specify-an-and-condition-inside-of-tidierjl">Let's search for movies that have at least 200 votes and a rating of greater than or equal to 8. There are 3 ways you can specify an "and" condition inside of <code>Tidier.jl</code>.<a class="headerlink" href="#lets-search-for-movies-that-have-at-least-200-votes-and-a-rating-of-greater-than-or-equal-to-8-there-are-3-ways-you-can-specify-an-and-condition-inside-of-tidierjl" title="Permanent link">¤</a></h2>
+<p><a id="The-first-option-is-to-use-the-short-circuiting-and-and-operator-as-shown-below.-This-is-the-preferred-approach-because-the-second-expression-is-only-evaluated-(per-element)-if-the-first-one-is-true."></a></p>
+<p><a id="The-first-option-is-to-use-the-short-circuiting-and-and-operator-as-shown-below.-This-is-the-preferred-approach-because-the-second-expression-is-only-evaluated-(per-element)-if-the-first-one-is-true.-1"></a></p>
+<h3 id="the-first-option-is-to-use-the-short-circuiting-operator-as-shown-below-this-is-the-preferred-approach-because-the-second-expression-is-only-evaluated-per-element-if-the-first-one-is-true">The first option is to use the short-circuiting <code>&amp;&amp;</code> operator as shown below. This is the preferred approach because the second expression is only evaluated (per element) if the first one is true.<a class="headerlink" href="#the-first-option-is-to-use-the-short-circuiting-operator-as-shown-below-this-is-the-preferred-approach-because-the-second-expression-is-only-evaluated-per-element-if-the-first-one-is-true" title="Permanent link">¤</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@filter</span><span class="p">(</span><span class="n">Votes</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">200</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">Rating</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
 <span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="n">Title</span><span class="p">,</span><span class="w"> </span><span class="n">Votes</span><span class="p">,</span><span class="w"> </span><span class="n">Rating</span><span class="p">)</span>
 <span class="w">  </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">end</span>
+</code></pre></div>
+<div><div style="float: left;"><span>5×3 DataFrame</span></div><div style="clear: both;"></div></div>
+<div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">Title</th><th style="text-align: left;">Votes</th><th style="text-align: left;">Rating</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int32" style="text-align: left;">Int32</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">12 Angry Men</td><td style="text-align: right;">29278</td><td style="text-align: right;">8.7</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">12 stulev</td><td style="text-align: right;">252</td><td style="text-align: right;">8.9</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">2001: A Space Odyssey</td><td style="text-align: right;">64982</td><td style="text-align: right;">8.3</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">21 Grams</td><td style="text-align: right;">21857</td><td style="text-align: right;">8.0</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">39 Steps, The</td><td style="text-align: right;">7931</td><td style="text-align: right;">8.0</td></tr></tbody></table></div>
 
-<span class="c"># The second option is to use the bitwise `&amp;` operator. However, there is a key difference in syntax. Because the `&amp;` operator takes a higher operator precendence than `&gt;=`, you have to wrap the `&gt;=` expressions inside of parentheses to ensure that the expression is evaluated correctly.</span>
-
-<span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
+<p><a id="The-second-option-is-to-use-the-bitwise-and-operator.-Note-that-there-is-a-key-difference-in-syntax-between-and-and-and-and-.-Because-the-and-operator-takes-a-higher-operator-precendence-than-,-you-have-to-wrap-the-comparison-expressions-inside-of-parentheses-to-ensure-that-the-overall-expression-is-evaluated-correctly."></a></p>
+<p><a id="The-second-option-is-to-use-the-bitwise-and-operator.-Note-that-there-is-a-key-difference-in-syntax-between-and-and-and-and-.-Because-the-and-operator-takes-a-higher-operator-precendence-than-,-you-have-to-wrap-the-comparison-expressions-inside-of-parentheses-to-ensure-that-the-overall-expression-is-evaluated-correctly.-1"></a></p>
+<h3 id="the-second-option-is-to-use-the-bitwise-operator-note-that-there-is-a-key-difference-in-syntax-between-and-because-the-operator-takes-a-higher-operator-precendence-than-you-have-to-wrap-the-comparison-expressions-inside-of-parentheses-to-ensure-that-the-overall-expression-is-evaluated-correctly">The second option is to use the bitwise <code>&amp;</code> operator. Note that there is a key difference in syntax between <code>&amp;</code> and <code>&amp;&amp;</code>. Because the <code>&amp;</code> operator takes a higher operator precendence than <code>&gt;=</code>, you have to wrap the comparison expressions inside of parentheses to ensure that the overall expression is evaluated correctly.<a class="headerlink" href="#the-second-option-is-to-use-the-bitwise-operator-note-that-there-is-a-key-difference-in-syntax-between-and-because-the-operator-takes-a-higher-operator-precendence-than-you-have-to-wrap-the-comparison-expressions-inside-of-parentheses-to-ensure-that-the-overall-expression-is-evaluated-correctly" title="Permanent link">¤</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@filter</span><span class="p">((</span><span class="n">Votes</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">Rating</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">8</span><span class="p">))</span>
 <span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="n">Title</span><span class="p">,</span><span class="w"> </span><span class="n">Votes</span><span class="p">,</span><span class="w"> </span><span class="n">Rating</span><span class="p">)</span>
 <span class="w">  </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">end</span>
+</code></pre></div>
+<div><div style="float: left;"><span>5×3 DataFrame</span></div><div style="clear: both;"></div></div>
+<div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">Title</th><th style="text-align: left;">Votes</th><th style="text-align: left;">Rating</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int32" style="text-align: left;">Int32</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">12 Angry Men</td><td style="text-align: right;">29278</td><td style="text-align: right;">8.7</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">12 stulev</td><td style="text-align: right;">252</td><td style="text-align: right;">8.9</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">2001: A Space Odyssey</td><td style="text-align: right;">64982</td><td style="text-align: right;">8.3</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">21 Grams</td><td style="text-align: right;">21857</td><td style="text-align: right;">8.0</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">39 Steps, The</td><td style="text-align: right;">7931</td><td style="text-align: right;">8.0</td></tr></tbody></table></div>
 
-<span class="c"># Finally, for "and" conditions only, you can separate the expressions with commas, similar to the behavior of `filter()` in `tidyverse`.</span>
-
-<span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
+<p><a id='The-third-option-for-"and"-conditions-only-is-to-separate-the-expressions-with-commas.-This-is-similar-to-the-behavior-of-filter()-in-tidyverse.'></a></p>
+<p><a id='The-third-option-for-"and"-conditions-only-is-to-separate-the-expressions-with-commas.-This-is-similar-to-the-behavior-of-filter()-in-tidyverse.-1'></a></p>
+<h3 id="the-third-option-for-and-conditions-only-is-to-separate-the-expressions-with-commas-this-is-similar-to-the-behavior-of-filter-in-tidyverse">The third option for "and" conditions only is to separate the expressions with commas. This is similar to the behavior of <code>filter()</code> in <code>tidyverse</code>.<a class="headerlink" href="#the-third-option-for-and-conditions-only-is-to-separate-the-expressions-with-commas-this-is-similar-to-the-behavior-of-filter-in-tidyverse" title="Permanent link">¤</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@filter</span><span class="p">(</span><span class="n">Votes</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="n">Rating</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
 <span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="n">Title</span><span class="p">,</span><span class="w"> </span><span class="n">Votes</span><span class="p">,</span><span class="w"> </span><span class="n">Rating</span><span class="p">)</span>
 <span class="w">  </span><span class="nd">@slice</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
@@ -648,7 +820,9 @@
 <div><div style="float: left;"><span>5×3 DataFrame</span></div><div style="clear: both;"></div></div>
 <div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">Title</th><th style="text-align: left;">Votes</th><th style="text-align: left;">Rating</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int32" style="text-align: left;">Int32</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">12 Angry Men</td><td style="text-align: right;">29278</td><td style="text-align: right;">8.7</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">12 stulev</td><td style="text-align: right;">252</td><td style="text-align: right;">8.9</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">2001: A Space Odyssey</td><td style="text-align: right;">64982</td><td style="text-align: right;">8.3</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">21 Grams</td><td style="text-align: right;">21857</td><td style="text-align: right;">8.0</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">39 Steps, The</td><td style="text-align: right;">7931</td><td style="text-align: right;">8.0</td></tr></tbody></table></div>
 
-<p>Now let's see how to use <code>@filter()</code> with <code>in</code>. Here's an example with a tuple.</p>
+<p><a id="Now-let" s-see-how-to-use-></a></p>
+<p><a id="Now-let" s-see-how-to-use-></a></p>
+<h2 id="now-lets-see-how-to-use-filter-with-in-heres-an-example-with-a-tuple">Now let's see how to use <code>@filter()</code> with <code>in</code>. Here's an example with a tuple.<a class="headerlink" href="#now-lets-see-how-to-use-filter-with-in-heres-an-example-with-a-tuple" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@filter</span><span class="p">(</span><span class="n">Title</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">(</span><span class="s">"101 Dalmatians"</span><span class="p">,</span>
 <span class="w">                    </span><span class="s">"102 Dalmatians"</span><span class="p">))</span>
@@ -658,7 +832,9 @@
 <div><div style="float: left;"><span>2×5 DataFrame</span></div><div style="clear: both;"></div></div>
 <div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">Title</th><th style="text-align: left;">Year</th><th style="text-align: left;">Length</th><th style="text-align: left;">Budget</th><th style="text-align: left;">Rating</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int32" style="text-align: left;">Int32</th><th title="Int32" style="text-align: left;">Int32</th><th title="Union{Missing, Int32}" style="text-align: left;">Int32?</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">101 Dalmatians</td><td style="text-align: right;">1996</td><td style="text-align: right;">103</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">5.5</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">102 Dalmatians</td><td style="text-align: right;">2000</td><td style="text-align: right;">100</td><td style="text-align: right;">85000000</td><td style="text-align: right;">4.7</td></tr></tbody></table></div>
 
-<p>We can also use <code>@filter()</code> with <code>in</code> using a vector, denoted by a <code>[]</code>.</p>
+<p><a id="We-can-also-use-@filter()-with-in-using-a-vector,-denoted-by-a-[]."></a></p>
+<p><a id="We-can-also-use-@filter()-with-in-using-a-vector,-denoted-by-a-[].-1"></a></p>
+<h2 id="we-can-also-use-filter-with-in-using-a-vector-denoted-by-a">We can also use <code>@filter()</code> with <code>in</code> using a vector, denoted by a <code>[]</code>.<a class="headerlink" href="#we-can-also-use-filter-with-in-using-a-vector-denoted-by-a" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@filter</span><span class="p">(</span><span class="n">Title</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">[</span><span class="s">"101 Dalmatians"</span><span class="p">,</span>
 <span class="w">                    </span><span class="s">"102 Dalmatians"</span><span class="p">])</span>
@@ -668,7 +844,9 @@
 <div><div style="float: left;"><span>2×5 DataFrame</span></div><div style="clear: both;"></div></div>
 <div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">Title</th><th style="text-align: left;">Year</th><th style="text-align: left;">Length</th><th style="text-align: left;">Budget</th><th style="text-align: left;">Rating</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int32" style="text-align: left;">Int32</th><th title="Int32" style="text-align: left;">Int32</th><th title="Union{Missing, Int32}" style="text-align: left;">Int32?</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">101 Dalmatians</td><td style="text-align: right;">1996</td><td style="text-align: right;">103</td><td style="font-style: italic; text-align: right;">missing</td><td style="text-align: right;">5.5</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">102 Dalmatians</td><td style="text-align: right;">2000</td><td style="text-align: right;">100</td><td style="text-align: right;">85000000</td><td style="text-align: right;">4.7</td></tr></tbody></table></div>
 
-<p>Finally, we can combine <code>@filter</code> with <code>row_number()</code> to retrieve the first 5 rows, which can be used to mimic the functionality provided by <code>@slice</code>.</p>
+<p><a id="Finally,-we-can-combine-@filter-with-row_number()-to-retrieve-the-first-5-rows,-which-can-be-used-to-mimic-the-functionality-provided-by-@slice."></a></p>
+<p><a id="Finally,-we-can-combine-@filter-with-row_number()-to-retrieve-the-first-5-rows,-which-can-be-used-to-mimic-the-functionality-provided-by-@slice.-1"></a></p>
+<h2 id="finally-we-can-combine-filter-with-row_number-to-retrieve-the-first-5-rows-which-can-be-used-to-mimic-the-functionality-provided-by-slice">Finally, we can combine <code>@filter</code> with <code>row_number()</code> to retrieve the first 5 rows, which can be used to mimic the functionality provided by <code>@slice</code>.<a class="headerlink" href="#finally-we-can-combine-filter-with-row_number-to-retrieve-the-first-5-rows-which-can-be-used-to-mimic-the-functionality-provided-by-slice" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nd">@chain</span><span class="w"> </span><span class="n">movies</span><span class="w"> </span><span class="k">begin</span>
 <span class="w">  </span><span class="nd">@filter</span><span class="p">(</span><span class="n">row_number</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
 <span class="w">  </span><span class="nd">@select</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
