@@ -302,6 +302,9 @@ function parse_autovec(tidy_expr::Union{Expr,Symbol})
         fn_new = Symbol("." * string(fn))
         return :($fn_new($(args...)))
       end
+    elseif hasproperty(x, :head) && (x.head == :&& || x.head == :||)
+      x.head = Symbol("." * string(x.head))
+      return x
     end
     return x
   end
