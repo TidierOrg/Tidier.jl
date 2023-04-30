@@ -476,6 +476,16 @@ julia> @chain df begin
    3 │ e         5     15
 
 julia> @chain df begin
+       @filter(b >= 3 && c >= 14)
+       end
+2×3 DataFrame
+ Row │ a     b      c     
+     │ Char  Int64  Int64 
+─────┼────────────────────
+   1 │ d         4     14
+   2 │ e         5     15
+
+julia> @chain df begin
        @filter(b in (1, 3))
        end
 2×3 DataFrame
