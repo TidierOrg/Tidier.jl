@@ -567,7 +567,13 @@ macro distinct(df, exprs...)
             _
           end    
         end
-        unique($(tidy_exprs...))
+        @chain _ begin
+          if length([$tidy_exprs...]) == 0
+            unique(_)
+          else
+            unique(_, Cols($(tidy_exprs...)))
+          end
+        end
         select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
         groupby(col_names; sort = true) # regroup
       end
@@ -587,7 +593,13 @@ macro distinct(df, exprs...)
             _
           end
         end
-        unique($(tidy_exprs...))
+        @chain _ begin
+          if length([$tidy_exprs...]) == 0
+            unique(_)
+          else
+            unique(_, Cols($(tidy_exprs...)))
+          end
+        end
         select(Cols(Not(r"^(Tidier_n|Tidier_row_number)$")))
       end
     end
