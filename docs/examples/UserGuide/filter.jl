@@ -24,7 +24,7 @@ end
   @slice(1:5)
 end
 
-# ### The second option is to use the bitwise `&` operator. Note that there is a key difference in syntax between `&` and `&&`. Because the `&` operator takes a higher operator precendence than `>=`, you have to wrap the comparison expressions inside of parentheses to ensure that the overall expression is evaluated correctly.
+# ### The second option is to use the bitwise `&` operator. Note that there is a key difference in syntax between `&` and `&&`. Because the `&` operator takes a higher operator precedence than `>=`, you have to wrap the comparison expressions inside of parentheses to ensure that the overall expression is evaluated correctly.
 
 @chain movies begin
   @filter((Votes >= 200) & (Rating >= 8))
