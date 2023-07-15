@@ -77,7 +77,11 @@ function parse_pivot_arg(tidy_expr::Union{Expr,Symbol,Number})
     lhs = QuoteNode(lhs)
     rhs = QuoteNode(rhs)
     return :($lhs => $rhs)
-
+  elseif @capture(tidy_expr, lhs_ = rhs_String)
+      lhs = QuoteNode(lhs)
+      rhs = QuoteNode(rhs)
+      return :($lhs => $rhs)
+      
   # Need to avoid QuoteNode-ing rhs when rhs is an expression.
   # You can't use !! interpolation inside of for-loops because
   # macros are expanded at parse-time, so you instead need to do
