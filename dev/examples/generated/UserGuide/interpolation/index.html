@@ -19,7 +19,7 @@
         <link rel="next" href="../autovec/">
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
     
     
       
@@ -628,6 +628,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#theres-one-other-situation-when-interpolation-may-not-work-correctly-inside-a-for-loop" class="md-nav__link">
+    There's one other situation when !! interpolation may not work correctly: inside a for loop.
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -785,6 +792,13 @@
         <li class="md-nav__item">
   <a href="#alternative-interpolation-syntax" class="md-nav__link">
     Alternative interpolation syntax
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#theres-one-other-situation-when-interpolation-may-not-work-correctly-inside-a-for-loop" class="md-nav__link">
+    There's one other situation when !! interpolation may not work correctly: inside a for loop.
   </a>
   
 </li>
@@ -974,6 +988,22 @@
 <div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">radius</th><th style="text-align: left;">area</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Int64" style="text-align: left;">Int64</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: right;">1</td><td style="text-align: right;">3.14159</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: right;">2</td><td style="text-align: right;">12.5664</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: right;">3</td><td style="text-align: right;">28.2743</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: right;">4</td><td style="text-align: right;">50.2655</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: right;">5</td><td style="text-align: right;">78.5398</td></tr></tbody></table></div>
 
 <p>The key lesson with interpolation is that any bare unquoted variable is assumed to refer to a column name in the DataFrame. If you are referring to any variable outside of the DataFrame, you need to either use <code>!!variable</code> or <code>Main.variable</code> syntax to refer to this variable.</p>
+<p><a id="There" s-one-other-situation-when-></a></p>
+<p><a id="There" s-one-other-situation-when-></a></p>
+<h2 id="theres-one-other-situation-when-interpolation-may-not-work-correctly-inside-a-for-loop">There's one other situation when <code>!!</code> interpolation may not work correctly: inside a <code>for</code> loop.<a class="headerlink" href="#theres-one-other-situation-when-interpolation-may-not-work-correctly-inside-a-for-loop" title="Permanent link">¤</a></h2>
+<p>This is only a problem if the variable being interpolated using <code>!!</code> is the iterator. Because macros as expanded during <em>parsing</em> of the code (before it is compiled), the expanded code contains the last value of the global variable <em>before</em> the loop is run and does not update with each iteration of the loop.</p>
+<p>To get around this, we can use <code>@eval(Main, variable)</code> inside our code, where <code>variable</code> refers to the iterator. Let's show a simple example of this where we print out each column one at a time using a <code>for</code> loop.</p>
+<p>We first need to initialize the global variable using <code>global_col = Symbol()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">global_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Symbol</span><span class="p">()</span>
+<span class="k">for</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">]</span>
+<span class="w">    </span><span class="k">global</span><span class="w"> </span><span class="n">global_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col</span>
+<span class="w">    </span><span class="nd">@chain</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">        </span><span class="nd">@select</span><span class="p">(</span><span class="nd">@eval</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="w"> </span><span class="n">global_col</span><span class="p">))</span>
+<span class="w">        </span><span class="n">println</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>The reason this works is because the <code>@eval()</code> macro inside <code>@select()</code> is not evaluated right away (unlike <code>!!</code>) but rather is evaluated at a later stage and thus is updated with each iteration. Instead of using the <code>@eval()</code> macro, we could instead have instead written <code>Main.eval(:global_col)</code>, which is functionally the same.</p>
 <hr>
 <p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></div>
 
@@ -1082,16 +1112,22 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.top", "navigation.footer", "search.highlight", "search.share", "search.suggest", "toc.follow", "header.autohide"], "search": "../../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.top", "navigation.footer", "search.highlight", "search.share", "search.suggest", "toc.follow", "header.autohide"], "search": "../../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
-        <script src="../../../../javascripts/mathjax.js"></script>
+        
+          <script src="../../../../javascripts/mathjax.js"></script>
+        
       
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        
       
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+          <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
       
     
   </body>
