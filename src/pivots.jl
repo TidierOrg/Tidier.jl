@@ -10,7 +10,7 @@ macro pivot_wider(df, exprs...)
     # any_found_n = any([i[2] for i in interpolated_exprs])
     # any_found_row_number = any([i[3] for i in interpolated_exprs])
 
-    tidy_exprs = parse_pivot_args.(tidy_exprs)
+    tidy_exprs = parse_pivot_arg.(tidy_exprs)
     expr_dict = Dict(x.args[2] => x.args[3] for x in tidy_exprs)
 
     # we need to define a dictionary 
@@ -47,7 +47,7 @@ macro pivot_longer(df, exprs...)
     # any_found_n = any([i[2] for i in interpolated_exprs])
     # any_found_row_number = any([i[3] for i in interpolated_exprs])
 
-    tidy_exprs = parse_pivot_args.(tidy_exprs)
+    tidy_exprs = parse_pivot_arg.(tidy_exprs)
     expr_dict = Dict(x.args[2] => x.args[3] for x in tidy_exprs)
 
     # we need to define a dictionary 

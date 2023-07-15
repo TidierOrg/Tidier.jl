@@ -72,11 +72,22 @@ function parse_tidy(tidy_expr::Union{Expr,Symbol,Number}; autovec::Bool=true, su
 end
 
 # Not exported
-function parse_pivot_args(tidy_expr::Union{Expr,Symbol,Number})
-  if @capture(tidy_expr, lhs_ = rhs_)
+function parse_pivot_arg(tidy_expr::Union{Expr,Symbol,Number})
+  if @capture(tidy_expr, lhs_ = rhs_Symbol)
     lhs = QuoteNode(lhs)
     rhs = QuoteNode(rhs)
     return :($lhs => $rhs)
+
+  # Need to avoid QuoteNode-ing rhs when rhs is an expression.
+  # You can't use !! interpolation inside of for-loops because
+  # macros are expanded at parse-time, so you instead need to do
+  # Main.eval(:globalvar) or @eval(Main, globalvar) where globalvar
+  # is assigned to equal the iterator instead of using !!globalvar,
+  # which gets expanded before the for-loop is run.
+  elseif @capture(tidy_expr, lhs_ = rhs_)
+    lhs = QuoteNode(lhs)
+    return :($lhs => $rhs)
+
   else
     tidy_expr = parse_tidy(tidy_expr)
     return :(:cols => $(tidy_expr))
