@@ -125,15 +125,15 @@ end
 
 # We first need to initialize the global variable using `global_col = Symbol()`.
 
-```julia
-global_col = Symbol()
-for col in [:a, :b, :c]
-    global global_col = col
-    @chain df begin
-        @select(@eval(Main, global_col))
-        println
-    end
-end
-```
+# ```julia
+# global_col = Symbol()
+# for col in [:a, :b, :c]
+#     global global_col = col
+#     @chain df begin
+#         @select(@eval(Main, global_col))
+#         println
+#     end
+# end
+# ```
 
 # The reason this works is because the `@eval()` macro inside `@select()` is not evaluated right away (unlike `!!`) but rather is evaluated at a later stage and thus is updated with each iteration. Instead of using the `@eval()` macro, we could instead have instead written `Main.eval(:global_col)`, which is functionally the same.
