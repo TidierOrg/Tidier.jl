@@ -123,9 +123,10 @@ end
 
 # To get around this, we can use `@eval(Main, variable)` inside our code, where `variable` refers to the iterator. Let's show a simple example of this where we print out each column one at a time using a `for` loop.
 
-# We first need to initialize the global variable using `global_col = Symbol()`. For the purposes of this documentation page, we will initialize the global variable using `@eval()` because code run on this documentation page doesn't save variables to the Main global environment by default.
+# We first need to initialize the global variable using `global_col = Symbol()`.
 
-@eval(Main, global_col = Symbol())
+```julia
+global_col = Symbol()
 for col in [:a, :b, :c]
     global global_col = col
     @chain df begin
@@ -133,5 +134,6 @@ for col in [:a, :b, :c]
         println
     end
 end
+```
 
 # The reason this works is because the `@eval()` macro inside `@select()` is not evaluated right away (unlike `!!`) but rather is evaluated at a later stage and thus is updated with each iteration. Instead of using the `@eval()` macro, we could instead have instead written `Main.eval(:global_col)`, which is functionally the same.
