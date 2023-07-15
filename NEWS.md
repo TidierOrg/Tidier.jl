@@ -1,5 +1,10 @@
 # Tidier.jl updates
 
+## v0.7.7 - 2023-07-15
+- Added documentation on how to interpolate variables inside of `for` loops. Note: `!!` interpolation doesn't work inside of `for` loops because macros are expanded during parsing and not at runtime.
+- Fixed bug in `parse_pivot_arg()` to enable interpolation inside of pivoting functions when used inside a `for` loop.
+- Added `cumsum()`, `cumprod()`, and `accumulate()` to the do-not-vectorize list.
+
 ## v0.7.6 - 2023-05-04
 - Fixed bug to allow multiple columns in `@distinct()` separated by commas or using selection helpers.
 
