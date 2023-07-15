@@ -116,3 +116,22 @@ end
 end
 
 # The key lesson with interpolation is that any bare unquoted variable is assumed to refer to a column name in the DataFrame. If you are referring to any variable outside of the DataFrame, you need to either use `!!variable` or `Main.variable` syntax to refer to this variable.
+
+# ## There's one other situation when `!!` interpolation may not work correctly: inside a `for` loop.
+
+# This is only a problem if the variable being interpolated using `!!` is the iterator. Because macros as expanded during *parsing* of the code (before it is compiled), the expanded code contains the last value of the global variable *before* the loop is run and does not update with each iteration of the loop.
+
+# To get around this, we can use `@eval(Main, variable)` inside our code, where `variable` refers to the iterator. Let's show a simple example of this where we print out each column one at a time using a `for` loop.
+
+# We first need to initialize the global variable using `global_col = Symbol()`. For the purposes of this documentation page, we will initialize the global variable using `@eval()` because code run on this documentation page doesn't save variables to the Main global environment by default.
+
+@eval(Main, global_col = Symbol())
+for col in [:a, :b, :c]
+    global global_col = col
+    @chain df begin
+        @select(@eval(Main, global_col))
+        println
+    end
+end
+
+# The reason this works is because the `@eval()` macro inside `@select()` is not evaluated right away (unlike `!!`) but rather is evaluated at a later stage and thus is updated with each iteration. Instead of using the `@eval()` macro, we could instead have instead written `Main.eval(:global_col)`, which is functionally the same.
