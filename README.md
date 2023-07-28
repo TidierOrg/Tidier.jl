@@ -1,8 +1,7 @@
 # Tidier.jl
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/TidierOrg/Tidier.jl/blob/main/LICENSE)
-[![Docs: Dev](https://img.shields.io/badge/Docs-Dev-lightblue.svg)](https://tidierorg.github.io/Tidier.jl/dev)
-[![Docs: Stable](https://img.shields.io/badge/Docs-Stable-blue.svg)](https://tidierorg.github.io/Tidier.jl/stable)
+[![Docs: Latest](https://img.shields.io/badge/Docs-Stable-blue.svg)](https://tidierorg.github.io/Tidier.jl/dev)
 [![Build Status](https://github.com/TidierOrg/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/TidierOrg/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/Tidier&label=Downloads)](https://pkgs.genieframework.com?packages=Tidier)
 
