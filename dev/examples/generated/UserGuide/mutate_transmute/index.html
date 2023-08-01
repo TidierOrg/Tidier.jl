@@ -708,7 +708,7 @@
 
   <h1>@mutate</h1>
 
-<div><p>The primary purpose of <code>@mutate()</code> is to either create a new column or to update an existing column <em>without</em> changing the number of rows in the dataset. If you only plan to select the mutated columns, then you can use <code>@transmute()</code> instead of <code>@mutate(). However, in</code>Tidier.jl<code>,</code>@select()<code>can also be used to create and select new columns (unlike R's</code>tidyverse<code>), which means that</code>@transmute()<code>is a redundant function in that it has the same functionality as</code>@select()<code>.</code>@transmute<code>is included in</code>Tidier.jl` for convenience but is not strictly required.</p>
+<div><p>The primary purpose of <code>@mutate()</code> is to either create a new column or to update an existing column <em>without</em> changing the number of rows in the dataset. If you only plan to select the mutated columns, then you can use <code>@transmute()</code> instead of <code>@mutate()</code>. However, in <code>Tidier.jl</code>, <code>@select()</code> can also be used to create and select new columns (unlike R's <code>tidyverse</code>), which means that <code>@transmute()</code> is a redundant function in that it has the same functionality as <code>@select()</code>. <code>@transmute</code> is included in <code>Tidier.jl</code> for convenience but is not strictly required.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">Tidier</span>
 <span class="k">using</span><span class="w"> </span><span class="n">RDatasets</span>
 
