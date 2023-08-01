@@ -1,4 +1,4 @@
-# The primary purpose of `@mutate()` is to either create a new column or to update an existing column *without* changing the number of rows in the dataset. If you only plan to select the mutated columns, then you can use `@transmute()` instead of `@mutate(). However, in `Tidier.jl`, `@select()` can also be used to create and select new columns (unlike R's `tidyverse`), which means that `@transmute()` is a redundant function in that it has the same functionality as `@select()`. `@transmute` is included in `Tidier.jl` for convenience but is not strictly required.
+# The primary purpose of `@mutate()` is to either create a new column or to update an existing column *without* changing the number of rows in the dataset. If you only plan to select the mutated columns, then you can use `@transmute()` instead of `@mutate()`. However, in `Tidier.jl`, `@select()` can also be used to create and select new columns (unlike R's `tidyverse`), which means that `@transmute()` is a redundant function in that it has the same functionality as `@select()`. `@transmute` is included in `Tidier.jl` for convenience but is not strictly required.
 
 using Tidier
 using RDatasets
