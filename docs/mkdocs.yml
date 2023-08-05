@@ -2,8 +2,9 @@ theme:
   name: material
   logo: assets/Tidier_jl_logo.png
   features:
+    - content.code.copy
     # - announce.dismiss
-    #- content.code.annotate
+    - content.code.annotate
     # - content.tabs.link
     #- content.tooltips
     # - header.autohide
