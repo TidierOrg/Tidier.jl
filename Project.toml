@@ -1,24 +1,24 @@
 name = "Tidier"
 uuid = "f0413319-3358-4bb0-8e7c-0c83523a93bd"
 authors = ["Karandeep Singh"]
-version = "0.7.7"
+version = "1.0.0"
 
 [deps]
-Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
-Cleaner = "caabdcdb-0ab6-47cf-9f62-08858e44f38f"
-DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
-ShiftedArrays = "1277b4bf-5013-50f5-be3d-901d8477a67a"
-Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+TidierCats = "79ddc9fe-4dbf-4a56-a832-df41fb326d23"
+TidierData = "fe2206b3-d496-4ee9-a338-6a095c4ece80"
+TidierDates = "20186a3f-b5d3-468e-823e-77aae96fe2d8"
+TidierPlots = "337ecbd1-5042-4e2a-ae6f-ca776f97570a"
+TidierStrings = "248e6834-d0f8-40ef-8fbb-8e711d883e9c"
 
 [compat]
-Chain = "0.5"
-Cleaner = "0.5.0"
-DataFrames = "1.5"
-MacroTools = "0.5"
 Reexport = "0.2, 1"
-ShiftedArrays = "2.0.0"
+TidierData = ">=0.9.2"
+TidierPlots = ">=0.1.0"
+TidierCats = ">=0.1.1"
+TidierDates = ">=0.1.0"
+TidierStrings = ">=0.1.0"
+
 julia = "1.6"
 
 [extras]

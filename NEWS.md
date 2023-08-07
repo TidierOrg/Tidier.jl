@@ -1,5 +1,8 @@
 # Tidier.jl updates
 
+## v1.0.0 - 2023-08-07
+- Convert Tidier.jl to a meta-package that only re-exports other Tidier packages
+
 ## v0.7.7 - 2023-07-15
 - Added documentation on how to interpolate variables inside of `for` loops. Note: `!!` interpolation doesn't work inside of `for` loops because macros are expanded during parsing and not at runtime.
 - Fixed bug in `parse_pivot_arg()` to enable interpolation inside of pivoting functions when used inside a `for` loop.
