@@ -21,7 +21,7 @@ jobs:
       - uses: julia-actions/setup-julia@v1
       - uses: julia-actions/cache@v1
         with:
-          cache-registries: "true"
+          cache-registries: "false"
       - name: Install documentation dependencies
         run: julia --project=docs -e 'using Pkg; pkg"dev ."; Pkg.instantiate()'
       - name: Build and deploy
