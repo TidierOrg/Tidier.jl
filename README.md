@@ -13,7 +13,7 @@ Tidier.jl is a 100% Julia implementation of the R tidyverse meta-package. Simila
 
 <br><br>
 
-<a href="https://tidierorg.github.io/TidierData.jl/latest/"><img src="https://raw.githubusercontent.com/TidierOrg/TidierData.jl/b3b8886eac075264fe1a6c44894fd8af123ce933/docs/src/assets/Tidier_jl_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+<a href="https://tidierorg.github.io/TidierData.jl/latest/"><img src="https://raw.githubusercontent.com/TidierOrg/TidierData.jl/main/docs/src/assets/Tidier_jl_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
 
 ## <a href="https://tidierorg.github.io/TidierData.jl/latest/">TidierData.jl</a>
 
