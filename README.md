@@ -17,7 +17,7 @@ Tidier.jl is a 100% Julia implementation of the R tidyverse meta-package. Simila
 
 ## <a href="https://tidierorg.github.io/TidierData.jl/latest/">TidierData.jl</a>
 
-TidierData.jl is package dedicated to data transformation and reshaping, powered by DataFrames.jl, ShiftedArrays.jl, and Cleaner.jl. It focuses on functionality within the dplyr, tidyr, and janitor R packages.
+TidierData.jl is a package dedicated to data transformation and reshaping, powered by DataFrames.jl, ShiftedArrays.jl, and Cleaner.jl. It focuses on functionality within the dplyr, tidyr, and janitor R packages.
 
 <br><br>
 
