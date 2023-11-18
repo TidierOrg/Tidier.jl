@@ -1,5 +1,9 @@
 # Tidier.jl updates
 
+## v1.1.0 - 2023-11-18
+- Update versions of base packages
+- Add TidierVest.jl
+
 ## v1.0.0 - 2023-08-07
 - Convert Tidier.jl to a meta-package that only re-exports other Tidier packages
 
