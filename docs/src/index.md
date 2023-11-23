@@ -1,16 +1,20 @@
-<a href="https://tidierorg.github.io/Tidier.jl/dev/"><img src="https://raw.githubusercontent.com/TidierOrg/Tidier.jl/main/docs/src/assets/Tidier\_jl\_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+<a href="https://github.com/TidierOrg/Tidier.jl"><img src="https://raw.githubusercontent.com/TidierOrg/Tidier.jl/main/docs/src/assets/Tidier\_jl\_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
 
-## <a href="https://tidierorg.github.io/Tidier.jl/dev/">Tidier.jl</a>
+## <a href="https://github.com/TidierOrg/Tidier.jl">Tidier.jl</a>
 
 Tidier.jl is a 100% Julia implementation of the R tidyverse meta-package. Similar to the R tidyverse, Tidier.jl re-exports several other packages, each focusing on a specific set of functionalities.
 
+[[GitHub]](https://github.com/TidierOrg/Tidier.jl) | [[Documentation]](https://tidierorg.github.io/Tidier.jl/dev/)
+
 <br><br>
 
-<a href="https://tidierorg.github.io/TidierData.jl/latest/"><img src="https://raw.githubusercontent.com/TidierOrg/TidierData.jl/main/docs/src/assets/Tidier\_jl\_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+<a href="https://github.com/TidierOrg/TidierData.jl"><img src="https://raw.githubusercontent.com/TidierOrg/TidierData.jl/main/docs/src/assets/Tidier\_jl\_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
 
-## <a href="https://tidierorg.github.io/TidierData.jl/latest/">TidierData.jl</a>
+## <a href="https://github.com/TidierOrg/TidierData.jl">TidierData.jl</a>
 
 TidierData.jl is a package dedicated to data transformation and reshaping, powered by DataFrames.jl, ShiftedArrays.jl, and Cleaner.jl. It focuses on functionality within the dplyr, tidyr, and janitor R packages.
+
+[[GitHub]](https://github.com/TidierOrg/TidierData.jl) | [[Documentation]](https://tidierorg.github.io/TidierData.jl/latest/)
 
 <br><br>
 
@@ -20,13 +24,17 @@ TidierData.jl is a package dedicated to data transformation and reshaping, power
 
 TidierPlots.jl is a package dedicated to plotting, powered by AlgebraOfGraphics.jl. It focuses on functionality within the ggplot2 R package.
 
+[[GitHub]](https://github.com/TidierOrg/TidierPlots.jl) | [[Documentation]](https://tidierorg.github.io/TidierPlots.jl/latest/)
+
 <br><br>
 
-<a href="https://tidierorg.github.io/TidierCats.jl/dev/"><img src="https://raw.githubusercontent.com/TidierOrg/TidierCats.jl/main/docs/src/assets/TidierCats\_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+<a href="https://github.com/TidierOrg/TidierCats.jl"><img src="https://raw.githubusercontent.com/TidierOrg/TidierCats.jl/main/docs/src/assets/TidierCats\_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
 
-## <a href="https://tidierorg.github.io/TidierCats.jl/dev/">TidierCats.jl</a>
+## <a href="https://github.com/TidierOrg/TidierCats.jl">TidierCats.jl</a>
 
 TidierCats.jl is a package dedicated to handling categorical variables, powered by CategoricalArrays.jl. It focuses on functionality within the forcats R package.
+
+[[GitHub]](https://github.com/TidierOrg/TidierCats.jl) | [[Documentation]](https://tidierorg.github.io/TidierCats.jl/dev/)
 
 <br><br>
 
@@ -36,13 +44,27 @@ TidierCats.jl is a package dedicated to handling categorical variables, powered 
 
 TidierDates.jl is a package dedicated to handling dates and times. It focuses on functionality within the lubridate R package.
 
+[[GitHub]](https://github.com/TidierOrg/TidierCats.jl)
+
 <br><br>
 
-<a href="https://tidierorg.github.io/TidierStrings.jl/dev/"><img src="https://raw.githubusercontent.com/TidierOrg/TidierStrings.jl/main/docs/src/assets/TidierStrings\_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+<a href="https://github.com/TidierOrg/TidierStrings.jl"><img src="https://raw.githubusercontent.com/TidierOrg/TidierStrings.jl/main/docs/src/assets/TidierStrings\_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
 
-## <a href="https://tidierorg.github.io/TidierStrings.jl/dev/">TidierStrings.jl</a>
+## <a href="https://github.com/TidierOrg/TidierStrings.jl">TidierStrings.jl</a>
 
 TidierStrings.jl is a package dedicated to handling strings. It focuses on functionality within the stringr R package.
+
+[[GitHub]](https://github.com/TidierOrg/TidierStrings.jl) | [[Documentation]](https://tidierorg.github.io/TidierStrings.jl/dev/)
+
+<br><br>
+
+<a href="https://github.com/TidierOrg/TidierVest.jl"><img src="https://raw.githubusercontent.com/TidierOrg/TidierVest.jl/main/docs/src/assets/TidierVest\_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+
+## <a href="https://github.com/TidierOrg/TidierVest.jl">TidierVest.jl</a>
+
+TidierVest.jl is a package dedicated to scraping and tidying website data. It focuses on functionality within the rvest R package.
+
+[[GitHub]](https://github.com/TidierOrg/TidierVest.jl)
 
 <br><br>
 
