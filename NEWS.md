@@ -1,5 +1,9 @@
 # Tidier.jl updates
 
+## v1.2.0 - 2023-11-28
+- Add and re-export TidierText.jl
+- Bugfix: Re-export TidierVest.jl (forgot to do this in 1.1.0)
+
 ## v1.1.0 - 2023-11-18
 - Update versions of base packages
 - Add TidierVest.jl

@@ -7,5 +7,7 @@ using Reexport
 @reexport using TidierCats
 @reexport using TidierDates
 @reexport using TidierStrings
+@reexport using TidierText
+@reexport using TidierVest
 
 end
