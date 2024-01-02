@@ -90,6 +90,7 @@ This dataset comes with the Ecdat R package and and is titled OFP. [You can read
 ```julia
 julia> using Tidier, RDatasets
 julia> ofp = dataset("Ecdat", "OFP")
+
 4406×19 DataFrame
   Row │ OFP    OFNP   OPP    OPNP   EMR    Hosp   NumChro ⋯
       │ Int32  Int32  Int32  Int32  Int32  Int32  Int32   ⋯
@@ -129,6 +130,7 @@ We can use `@glimpse()` to find out the columns, data types, and peek at the fir
 
 ```julia
 julia> @glimpse(ofp)
+
 Rows: 4406
 Columns: 19
 .OFP           Int32          5, 1, 13, 16, 3, 17, 9, 3, 1, 0, 0, 44, 2, 1, 19, 
@@ -161,6 +163,7 @@ To avoid having to keep track of capitalization, data analysts often prefer colu
 ```julia
 julia> ofp = @clean_names(ofp)
 julia> @glimpse(ofp)
+
 Rows: 4406
 Columns: 19
 .ofp           Int32          5, 1, 13, 16, 3, 17, 9, 3, 1, 0, 0, 44, 2, 1, 19, 
@@ -192,6 +195,7 @@ Because age is measured in decades according to the [dataset documentation](http
 
 ```julia
 julia> @chain ofp @group_by(region) @summarize(mean_age = mean(age * 10))
+
 4×2 DataFrame
  Row │ region   mean_age 
      │ Cat…     Float64  
@@ -214,6 +218,7 @@ An alternate way of calling `@chain` using the parentheses syntax is as follows.
 
 ```julia
 julia> @chain(ofp, @group_by(region), @summarize(mean_age = mean(age * 10)))
+
 4×2 DataFrame
  Row │ region   mean_age 
      │ Cat…     Float64  
@@ -231,6 +236,7 @@ julia> @chain ofp begin
            @group_by(region)
            @summarize(mean_age = mean(age * 10))
        end
+
 4×2 DataFrame
  Row │ region   mean_age 
      │ Cat…     Float64  
@@ -248,6 +254,7 @@ julia> @chain ofp begin
            # @group_by(region)
            @summarize(mean_age = mean(age * 10))
        end
+
 1×1 DataFrame
  Row │ mean_age 
      │ Float64  
@@ -289,6 +296,10 @@ While Julia has very mature backends, we hope that Tidier.jl demonstrates the va
 Tidier comes with batteries included. If you are using Tidier, you generally won't have to load in other packages for basic data analysis. Tidier is meant for interactive use. You can start your code with `using Tidier` and expect to have what you need at your fingertips.
 
 If you are a package developer, then you definitely should consider depending on one of the smaller packages that make up Tidier.jl rather than Tidier itself. For example, if you want to use the categorical variable functions from Tidier, then you should use rely on only TidierCats.jl as a dependency.
+
+### Should I update Tidier.jl or the underlying packages (e.g., TidierPlots.jl) individually?
+
+Either approach is okay. For most users, we recommend updating Tidier.jl directly, as this will update the underlying packages up to their latest minor versions (but not necessarily up to their latest patch release). However, if you need access to the latest functionality in the underlying packages, you should feel free to update them directly. We will keep Tidier.jl future-proof to underlying package updates, so this shouldn't cause any problems with Tidier.jl.
 
 ### Where can I learn more about the underlying packages that make up Tidier.jl?
 
