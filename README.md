@@ -324,7 +324,7 @@ TidierData.jl is a package dedicated to data transformation and reshaping, power
 
 ## <a href="https://tidierorg.github.io/TidierPlots.jl/latest/">TidierPlots.jl</a>
 
-TidierPlots.jl is a package dedicated to plotting, powered by AlgebraOfGraphics.jl. It focuses on functionality within the ggplot2 R package.
+TidierPlots.jl is a package dedicated to plotting, powered by Makie.jl. It focuses on functionality within the ggplot2 R package.
 
 [[GitHub]](https://github.com/TidierOrg/TidierPlots.jl) | [[Documentation]](https://tidierorg.github.io/TidierPlots.jl/latest/)
 
