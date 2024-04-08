@@ -38,6 +38,9 @@ makedocs(;
 
 deploydocs(;
     repo = "https://github.com/TidierOrg/Tidier.jl",
+    target="build", # this is where Vitepress stores its output
+    branch = "gh-pages",
+    devbranch = "main",
     push_preview = true,
 )
 
