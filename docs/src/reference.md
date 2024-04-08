@@ -3,11 +3,6 @@ DocTestSetup= quote
 using Tidier
 end
 ```
-## Index
-```@index
-Modules = [Tidier]
-Private = false
-```
 
 ## Reference - Exported functions
 ```@autodocs
