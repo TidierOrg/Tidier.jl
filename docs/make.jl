@@ -21,7 +21,7 @@ pgs = [
 ]
 
 fmt  = DocumenterVitepress.MarkdownVitepress(
-    repo = "https://github.com/camilogarciabotero/Tidier.jl",
+    repo = "https://github.com/TidierOrg/Tidier.jl",
     devurl = "dev",
     # deploy_url = "yourgithubusername.github.io/Tidier.jl.jl",
 )
@@ -29,7 +29,7 @@ fmt  = DocumenterVitepress.MarkdownVitepress(
 makedocs(;
     modules = [Tidier],
     authors = "Karandeep Singh et al.",
-    repo = "https://github.com/camilogarciabotero/Tidier.jl",
+    repo = "https://github.com/TidierOrg/Tidier.jl",
     sitename = "Tidier.jl",
     format = fmt,
     pages= pgs,
@@ -37,7 +37,7 @@ makedocs(;
 )
 
 deploydocs(;
-    repo = "https://github.com/camilogarciabotero/Tidier.jl",
+    repo = "https://github.com/TidierOrg/Tidier.jl",
     push_preview = true,
 )
 
