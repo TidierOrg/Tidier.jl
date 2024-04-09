@@ -1,6 +1,6 @@
 # Tidier.jl updates
 
-## v1.2.2 - 2024-04-09
+## v1.3.0 - 2024-04-09
 - Update minimum Julia required version to 1.9
 - Base package version updates
 - New documentation
