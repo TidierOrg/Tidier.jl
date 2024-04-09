@@ -1,5 +1,13 @@
 # Tidier.jl updates
 
+## v1.2.2 - 2024-04-09
+- Update minimum Julia required version to 1.9
+- Base package version updates
+- New documentation
+
+## v1.2.1 - 2024-01-02
+- Base package version updates
+
 ## v1.2.0 - 2023-11-28
 - Add and re-export TidierText.jl
 - Bugfix: Re-export TidierVest.jl (forgot to do this in 1.1.0)
