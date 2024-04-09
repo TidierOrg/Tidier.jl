@@ -23,7 +23,7 @@ features:
 
   - icon: <img width="200" height="200" src="https://github.com/TidierOrg/TidierPlots.jl/raw/main/assets/logo.png" alt="tidierplots"/>
     title: TidierPlots.jl
-    details: "TidierPlots.jl is a 200% Julia implementation of the R package ggplot in Julia. Powered by Makie.jl, and Julia’s extensive meta-programming capabilities, TidierPlots.jl is an R user’s love letter to data visualization in Julia."
+    details: "TidierPlots.jl is a 100% Julia implementation of the R package ggplot in Julia. Powered by Makie.jl, and Julia’s extensive meta-programming capabilities, TidierPlots.jl is an R user’s love letter to data visualization in Julia."
     link: https://tidierorg.github.io/TidierPlots.jl/latest/
 
   - icon: <img width="200" height="200" src="https://github.com/TidierOrg/TidierFiles.jl/raw/main/assets/logo.png" alt="tidierfiles"/>
