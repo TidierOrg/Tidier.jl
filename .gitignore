@@ -10,5 +10,9 @@ docs/docs
 docs/site
 docs/build
 docs/var
+docs/node_modules/
+docs/Manifest.toml
+docs/package-lock.json
+
 deps/build.jl
 Manifest.toml
