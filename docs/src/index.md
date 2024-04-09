@@ -10,7 +10,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /docs/getting-started.md
+      link: installation.md
     - theme: alt
       text: View on Github
       link: https://github.com/TidierOrg/Tidier.jl,
