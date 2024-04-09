@@ -12,8 +12,8 @@ hero:
       text: Get Started
       link: installation.md
     - theme: alt
-      text: View on Github
-      link: https://github.com/TidierOrg/Tidier.jl,
+      text: View on GitHub
+      link: https://github.com/TidierOrg/Tidier.jl
 features:
 
   - icon: <img width="200" height="200" src="https://github.com/TidierOrg/TidierData.jl/raw/main/docs/src/assets/Tidier_jl_logo.png" alt="tidierdata"/>
