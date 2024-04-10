@@ -18,7 +18,7 @@ pgs = [
         "A Simple Data Analysis" => "simple-analysis.md",
         "From Data to Plots" => "simple-plotting.md"
         ],
-    "API Reference" => "reference.md",
+    # "API Reference" => "reference.md",
     "Changelog" => "news.md",
     "FAQ" => "faq.md",
     # "Contributing" => "contributing.md",
