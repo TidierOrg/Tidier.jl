@@ -13,8 +13,12 @@ DocMeta.setdocmeta!(Tidier,
 
 pgs = [
     "Home" => "index.md",
-    "Get Started" => ["Installation" => "installation.md", "A Simple Data Analysis" => "simple-analysis.md"],
-    "API Reference" => "reference.md",
+    "Get Started" => [
+        "Installation" => "installation.md", 
+        "A Simple Data Analysis" => "simple-analysis.md",
+        "From Data to Plots" => "simple-plotting.md"
+        ],
+    # "API Reference" => "reference.md",
     "Changelog" => "news.md",
     "FAQ" => "faq.md",
     # "Contributing" => "contributing.md",
