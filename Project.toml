@@ -16,7 +16,7 @@ TidierVest = "969b988e-7aed-4820-b60d-bdec252047c4"
 [compat]
 Reexport = "0.2, 1"
 TidierData = "0.15, 1"
-TidierPlots = "0.6, 1"
+TidierPlots = "0.7, 1"
 TidierCats = "0.1, 1"
 TidierDates = "0.2, 1"
 TidierStrings = "0.2, 1"
