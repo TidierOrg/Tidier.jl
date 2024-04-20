@@ -330,6 +330,26 @@ TidierPlots.jl is a package dedicated to plotting, powered by Makie.jl. It focus
 
 <br><br>
 
+<a href="https://tidierorg.github.io/TidierDB.jl/latest/"><img src="https://github.com/TidierOrg/TidierDB.jl/raw/main/assets/logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+
+## <a href="https://tidierorg.github.io/TidierDB.jl/latest/">TidierDB.jl</a>
+
+TidierDB.jl is a package dedicated to data transformation on databases using syntax similar to TidierData. It focuses on functionality within the dbplyr R package.
+
+[[GitHub]](https://github.com/TidierOrg/TidierDB.jl) | [[Documentation]](https://tidierorg.github.io/TidierDB.jl/latest/)
+
+<br><br>
+
+<a href="https://tidierorg.github.io/TidierFiles.jl/latest/"><img src="https://github.com/TidierOrg/TidierFiles.jl/raw/main/assets/logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+
+## <a href="https://tidierorg.github.io/TidierFiles.jl/latest/">TidierFiles.jl</a>
+
+TidierFiles.jl is a package dedicated to reading and writing tabular data. It focuses on functionality within the readr, haven, readxl, and writexl R packages.
+
+[[GitHub]](https://github.com/TidierOrg/TidierFiles.jl) | [[Documentation]](https://tidierorg.github.io/TidierFiles.jl/latest/)
+
+<br><br>
+
 <a href="https://tidierorg.github.io/TidierCats.jl/dev/"><img src="https://raw.githubusercontent.com/TidierOrg/TidierCats.jl/main/docs/src/assets/TidierCats_logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
 
 ## <a href="https://tidierorg.github.io/TidierCats.jl/dev/">TidierCats.jl</a>

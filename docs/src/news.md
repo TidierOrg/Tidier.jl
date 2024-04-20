@@ -1,5 +1,9 @@
 # Tidier.jl updates
 
+## v1.4.0 - 2024-04-19
+- Add and re-export TidierDB.jl as DB
+- Add and re-export TidierFiles.jl
+
 ## v1.3.0 - 2024-04-09
 - Update minimum Julia required version to 1.9
 - Base package version updates
