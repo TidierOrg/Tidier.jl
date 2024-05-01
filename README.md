@@ -402,7 +402,7 @@ TidierVest.jl is a package dedicated to scraping and tidying website data. It fo
 
 ## What’s new in the Tidier.jl meta-package?
 
-See [NEWS.md](https://github.com/TidierOrg/Tidier.jl/blob/main/NEWS.md) for the latest updates.
+See [News](https://tidierorg.github.io/Tidier.jl/dev/news) for the latest updates.
 
 ## What's missing
 
