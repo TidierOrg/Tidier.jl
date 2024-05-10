@@ -26,12 +26,12 @@ features:
     details: "TidierPlots.jl is a 100% Julia implementation of the R package ggplot in Julia. Powered by Makie.jl, and Julia’s extensive meta-programming capabilities, TidierPlots.jl is an R user’s love letter to data visualization in Julia."
     link: https://tidierorg.github.io/TidierPlots.jl/latest/
 
-  - icon: <img width="200" height="200" src="https://github.com/TidierOrg/TidierDB.jl/raw/main/assets/logo.png" alt="tidierdb"/>
+  - icon: <img width="200" height="200" src="https://github.com/TidierOrg/TidierDB.jl/raw/main/docs/src/assets/logo.png" alt="tidierdb"/>
     title: TidierDB.jl
     details: "TidierDB.jl is a 100% Julia implementation of the R package dbplyr in Julia and similar to Python's ibis package. Its main goal is to bring the syntax of Tidier.jl to multiple SQL backends, making it possible to analyze data directly on databases without needing to copy the entire database into memory."
     link: https://tidierorg.github.io/TidierDB.jl/latest/
 
-  - icon: <img width="200" height="200" src="https://github.com/TidierOrg/TidierFiles.jl/raw/main/assets/logo.png" alt="tidierfiles"/>
+  - icon: <img width="200" height="200" src="https://github.com/TidierOrg/TidierFiles.jl/raw/main/docs/src/assets/logo.png" alt="tidierfiles"/>
     title: TidierFiles.jl
     details: "TidierFiles.jl leverages the CSV.jl, XLSX.jl, and ReadStatTables.jl packages to reimplement the R haven and readr packages."
     link: https://tidierorg.github.io/TidierFiles.jl/latest/
