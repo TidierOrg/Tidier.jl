@@ -330,7 +330,7 @@ TidierPlots.jl is a package dedicated to plotting, powered by Makie.jl. It focus
 
 <br><br>
 
-<a href="https://tidierorg.github.io/TidierDB.jl/latest/"><img src="https://github.com/TidierOrg/TidierDB.jl/raw/main/assets/logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+<a href="https://tidierorg.github.io/TidierDB.jl/latest/"><img src="https://github.com/TidierOrg/TidierDB.jl/raw/main/docs/src/assets/logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
 
 ## <a href="https://tidierorg.github.io/TidierDB.jl/latest/">TidierDB.jl</a>
 
@@ -340,7 +340,7 @@ TidierDB.jl is a package dedicated to data transformation on databases using syn
 
 <br><br>
 
-<a href="https://tidierorg.github.io/TidierFiles.jl/latest/"><img src="https://github.com/TidierOrg/TidierFiles.jl/raw/main/assets/logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+<a href="https://tidierorg.github.io/TidierFiles.jl/latest/"><img src="https://github.com/TidierOrg/TidierFiles.jl/raw/main/docs/src/assets/logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
 
 ## <a href="https://tidierorg.github.io/TidierFiles.jl/latest/">TidierFiles.jl</a>
 
