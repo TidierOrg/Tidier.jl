@@ -33,7 +33,7 @@ fmt  = DocumenterVitepress.MarkdownVitepress(
 makedocs(;
     modules = [Tidier],
     authors = "Karandeep Singh et al.",
-    repo = "https://github.com/TidierOrg/Tidier.jl",
+    repo = "github.com/TidierOrg/Tidier.jl",
     sitename = "Tidier.jl",
     format = fmt,
     pages= pgs,
@@ -41,7 +41,7 @@ makedocs(;
 )
 
 deploydocs(;
-    repo = "https://github.com/TidierOrg/Tidier.jl",
+    repo = "github.com/TidierOrg/Tidier.jl",
     target="build", # this is where Vitepress stores its output
     branch = "gh-pages",
     devbranch = "main",
