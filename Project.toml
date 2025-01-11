@@ -1,7 +1,7 @@
 name = "Tidier"
 uuid = "f0413319-3358-4bb0-8e7c-0c83523a93bd"
 authors = ["Karandeep Singh"]
-version = "1.4.1"
+version = "1.5.0"
 
 [deps]
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
@@ -17,14 +17,14 @@ TidierVest = "969b988e-7aed-4820-b60d-bdec252047c4"
 
 [compat]
 Reexport = "0.2, 1"
-TidierCats = "0.1, 1"
+TidierCats = "0.2, 1"
 TidierData = "0.16, 1"
-TidierDates = "0.2, 1"
+TidierDates = "0.3, 1"
 TidierDB = "0.6, 1"
 TidierFiles = "0.2, 1"
 TidierPlots = "0.9, 1"
-TidierStrings = "0.2, 1"
-TidierText = "0.1, 1"
+TidierStrings = "0.3, 1"
+TidierText = "0.2, 1"
 TidierVest = "0.4, 1"
 julia = "1.10"
 
