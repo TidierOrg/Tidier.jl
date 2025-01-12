@@ -1,7 +1,7 @@
 name = "Tidier"
 uuid = "f0413319-3358-4bb0-8e7c-0c83523a93bd"
 authors = ["Karandeep Singh"]
-version = "1.5.0"
+version = "1.5.1"
 
 [deps]
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
