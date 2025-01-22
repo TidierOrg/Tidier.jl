@@ -70,6 +70,7 @@ When you type this command, multiple things happen behind the scenes. First, the
 
 - TidierData
 - TidierPlots
+- TidierDB
 - TidierCats
 - TidierDates
 - TidierStrings
