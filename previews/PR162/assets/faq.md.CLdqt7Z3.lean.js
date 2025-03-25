@@ -1,0 +1,1 @@
+import{_ as a,c as t,o as i,ai as s}from"./chunks/framework.C_dgYP_U.js";const p=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"faq.md","filePath":"faq.md","lastUpdated":null}'),o={name:"faq.md"};function r(n,e,l,d,h,u){return i(),t("div",null,e[0]||(e[0]=[s("",19)]))}const y=a(o,[["render",r]]);export{p as __pageData,y as default};
