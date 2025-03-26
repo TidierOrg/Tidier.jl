@@ -31,6 +31,9 @@ end
 
 # export functions and macros in TidierData but not in TidierDB
 for fun_or_macro in setdiff(names(TidierDB), names(TidierData))
+    if fun_or_macro == :DuckDBException # not implemented so generates an error if included
+        continue
+    end
     @eval @reexport using TidierDB: $fun_or_macro
 end
 
