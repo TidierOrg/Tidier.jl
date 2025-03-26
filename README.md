@@ -76,6 +76,7 @@ When you type this command, multiple things happen behind the scenes. First, the
 - TidierStrings
 - TidierText
 - TidierVest
+- TidierIteration
 
 Don't worry if you don't know what each of these packages does yet. We will cover them in package-specific documentation pages, which can be accessed below. For now, all you need to know is that these smaller packages are actually the ones doing all the work when you use Tidier.
 
@@ -398,6 +399,16 @@ TidierText.jl is a package dedicated to handling and tidying text data. It focus
 TidierVest.jl is a package dedicated to scraping and tidying website data. It focuses on functionality within the rvest R package.
 
 [[GitHub]](https://github.com/TidierOrg/TidierVest.jl)
+
+<br><br>
+
+<a href="https://github.com/TidierOrg/TidierIteration.jl"><img src="https://raw.githubusercontent.com/TidierOrg/TidierIteration.jl/main/docs/assets/logo.png" align="left" style="padding-right:10px;" width="150"></img></a>
+
+## <a href="https://github.com/TidierOrg/TidierIteration.jl">TidierIteration.jl</a>
+
+TidierIteration.jl is a package focused on iterating over Julia collections. It focuses on functionality within the purrr R package.
+
+[[GitHub]](https://github.com/TidierOrg/TidierIteration.jl)
 
 <br><br>
 
