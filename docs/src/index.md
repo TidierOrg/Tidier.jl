@@ -56,9 +56,15 @@ features:
     details: "TidierText.jl is a 100% Julia implementation of the R tidytext package. The purpose of the package is to make it easy analyze text data using DataFrames."
     link: https://github.com/TidierOrg/TidierText.jl
 
-  - icon: <img width="200" height="200" src="https://github.com/TidierOrg/TidierVest.jl/raw/main/docs/src/assets/TidierVest_logo.png" alt="tidierstrings"/>
+  - icon: <img width="200" height="200" src="https://github.com/TidierOrg/TidierVest.jl/raw/main/docs/src/assets/TidierVest_logo.png" alt="tidiervest"/>
     title: TidierVest.jl
-    details: "This library combines HTTP, Gumbo and Cascadia for a more simple way to scrape data"
+    details: "TidierVest.jl is a package dedicated to scraping and tidying website data. It focuses on functionality within the rvest R package."
     link: https://github.com/TidierOrg/TidierVest.jl
+
+
+  - icon: <img width="200" height="200" src="https://raw.githubusercontent.com/TidierOrg/TidierIteration.jl/main/docs/assets/logo.png" alt="tidieriteration"/>
+    title: TidierIteration.jl
+    details: "TidierIteration.jl is a package focused on iterating over Julia collections. It focuses on functionality within the purrr R package."
+    link: https://github.com/TidierOrg/TidierIteration.jl
 ---
 ```

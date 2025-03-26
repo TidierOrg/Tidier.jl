@@ -8,7 +8,7 @@ Once you've installed Tidier.jl, you can load it by typing:
 using Tidier
 ```
 
-When you type this command, multiple things happen behind the scenes. First, the following packages are loaded and re-exported, which is to say that all of the exported macros and functions from these packages become available, TidierData, TidierPlots, TidierCats, TidierDates, TidierStrings, TidierText, TidierVest
+When you type this command, multiple things happen behind the scenes. First, the following packages are loaded and re-exported, which is to say that all of the exported macros and functions from these packages become available, TidierData, TidierPlots, TidierDB, TidierCats, TidierDates, TidierStrings, TidierText, TidierVest, and TidierIteration.
 
 Don't worry if you don't know what each of these packages does yet. We will cover them in package-specific documentation pages, which can be accessed below. For now, all you need to know is that these smaller packages are actually the ones doing all the work when you use Tidier.
 
