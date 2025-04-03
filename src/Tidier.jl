@@ -57,7 +57,11 @@ end
 for func in [Symbol(mac[2:end]) for mac in macros_one_table] # remove the "@" from the macro name
     global fn = func 
     @eval begin
-        @doc fn == :summarise ? "" : """
+        @doc fn == :summarise ? """
+        $($(Expr(:., :TidierData, QuoteNode(Symbol("docstring_" * string("summarize"))))))
+
+        $($(Expr(:., :TidierDB, QuoteNode(Symbol("docstring_" * string("summarize"))))))
+        """ : """
         $($(Expr(:., :TidierData, QuoteNode(Symbol("docstring_" * string(fn))))))
 
         $($(Expr(:., :TidierDB, QuoteNode(Symbol("docstring_" * string(fn))))))
