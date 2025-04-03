@@ -107,7 +107,7 @@ for func in [Symbol(mac[2:end]) for mac in macros_two_table] # remove the "@" fr
                     ),
                     LineNumberNode(0, Symbol("")),
                     esc(df_or_db1),
-                    esc(df_or_db2),
+                    esc(esc(df_or_db2)),
                     args...)
                 )
             else
