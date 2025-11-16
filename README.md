@@ -68,14 +68,14 @@ using Tidier
 
 When you type this command, multiple things happen behind the scenes. First, the following packages are loaded and re-exported, which is to say that all of the exported macros and functions from these packages become available:
 
-- TidierData
-- TidierPlots
-- TidierDB
-- TidierCats
-- TidierDates
-- TidierStrings
+- [TidierData](https://tidierorg.github.io/TidierData.jl/latest/)
+- [TidierPlots](https://tidierorg.github.io/TidierPlots.jl/latest/)
+- [TidierDB](https://tidierorg.github.io/TidierDB.jl/latest/)
+- [TidierCats](https://tidierorg.github.io/TidierCats.jl/dev/)
+- [TidierDates](https://tidierorg.github.io/TidierDates.jl/dev/)
+- [TidierStrings](https://tidierorg.github.io/TidierStrings.jl/dev/)
 - TidierText
-- TidierVest
+- [TidierVest](https://tidierorg.github.io/TidierVest.jl/dev/)
 - TidierIteration
 
 Don't worry if you don't know what each of these packages does yet. We will cover them in package-specific documentation pages, which can be accessed below. For now, all you need to know is that these smaller packages are actually the ones doing all the work when you use Tidier.
