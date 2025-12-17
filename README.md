@@ -1,7 +1,7 @@
 # Tidier.jl
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/TidierOrg/Tidier.jl/blob/main/LICENSE)
-[![Docs: Latest](https://img.shields.io/badge/Docs-Latest-blue.svg)](https://tidierorg.github.io/Tidier.jl/dev)
+[![Docs: Latest](https://img.shields.io/badge/Docs-Latest-blue.svg)](https://tidierorg.github.io/Tidier.jl/)
 [![Build Status](https://github.com/TidierOrg/Tidier.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/TidierOrg/Tidier.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Downloads](https://img.shields.io/badge/dynamic/json?url=http%3A%2F%2Fjuliapkgstats.com%2Fapi%2Fv1%2Fmonthly_downloads%2FTidier&query=total_requests&suffix=%2Fmonth&label=Downloads)](https://juliapkgstats.com/pkg/Tidier)
 
@@ -11,7 +11,7 @@
 
 Tidier.jl is a data analysis package inspired by R's tidyverse and crafted specifically for Julia. Tidier.jl is a meta-package in that its functionality comes from a series of smaller packages. Installing and using Tidier.jl brings the combined functionality of each of these packages to your fingertips.
 
-[[GitHub]](https://github.com/TidierOrg/Tidier.jl) | [[Documentation]](https://tidierorg.github.io/Tidier.jl/dev/)
+[[GitHub]](https://github.com/TidierOrg/Tidier.jl) | [[Documentation]](https://tidierorg.github.io/Tidier.jl/)
 
 ## Installing Tidier.jl
 
