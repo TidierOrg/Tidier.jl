@@ -1950,6 +1950,22 @@ julia> @pivot_wider(df_long_missing, names_from = variable, values_from = value,
 ─────┼─────────────────────
    1 │     1      1      2
    2 │     2      0      4
+
+julia> df_mult = DataFrame(
+                  paddockId = [0, 0, 1, 1, 2, 2],
+                  color = repeat([:red, :blue], 3),
+                  count = repeat([3, 4], 3),
+                  weight = [0.2, 0.3, 0.2, 0.3, 0.2, 0.2],
+              );
+
+julia> @pivot_wider(df_mult, names_from = color, values_from = count:weight)
+3×5 DataFrame
+ Row │ paddockId  red_count  blue_count  red_weight  blue_weight 
+     │ Int64      Int64?     Int64?      Float64?    Float64?    
+─────┼───────────────────────────────────────────────────────────
+   1 │         0          3           4         0.2          0.3
+   2 │         1          3           4         0.2          0.3
+   3 │         2          3           4         0.2          0.2
 ```
 
 
@@ -3977,14 +3993,14 @@ julia> df2 = DataFrame(x = 1:4, y = [[], [1, 2, 3], [4, 5], Int[]])
 julia> @unnest_longer(df2, y, keep_empty = true)
 7×2 DataFrame
  Row │ x      y       
-     │ Int64  Any     
+     │ Int64  Int64?  
 ─────┼────────────────
    1 │     1  missing 
-   2 │     2  1
-   3 │     2  2
-   4 │     2  3
-   5 │     3  4
-   6 │     3  5
+   2 │     2        1
+   3 │     2        2
+   4 │     2        3
+   5 │     3        4
+   6 │     3        5
    7 │     4  missing 
 ```
 
@@ -4085,7 +4101,7 @@ julia> df = DataFrame(name = ["Zaki", "Farida"], attributes = [
                Dict("age" => 25, "city" => "New York"),
                Dict("age" => 30, "city" => "Los Angeles")]);
 
-julia> @unnest_wider(df, attributes)
+julia> @chain df @unnest_wider(attributes) @relocate(name, attributes_city, attributes_age)
 2×3 DataFrame
  Row │ name    attributes_city  attributes_age 
      │ String  String           Int64          
@@ -4112,7 +4128,7 @@ julia> @unnest_wider(df2, b:c, names_sep = "")
 
 julia> a1=Dict("a"=>1, "b"=>Dict("c"=>1, "d"=>2)); a2=Dict("a"=>1, "b"=>Dict("c"=>1)); a=[a1;a2]; df=DataFrame(a);
 
-julia> @unnest_wider(df, b)
+julia> @chain df @unnest_wider(b) @relocate(a, b_c, b_d)
 2×3 DataFrame
  Row │ a      b_c    b_d     
      │ Int64  Int64  Int64?  
@@ -4122,7 +4138,7 @@ julia> @unnest_wider(df, b)
 
 julia> a0=Dict("a"=>0, "b"=>0);  a1=Dict("a"=>1, "b"=>Dict("c"=>1, "d"=>2)); a2=Dict("a"=>2, "b"=>Dict("c"=>2)); a3=Dict("a"=>3, "b"=>Dict("c"=>3)); a=[a0;a1;a2;a3]; df3=DataFrame(a);
 
-julia> @unnest_wider(df3, b)
+julia> @chain df3 @unnest_wider(b) @relocate(a, b_c, b_d)
 4×3 DataFrame
  Row │ a      b_c      b_d     
      │ Int64  Int64?   Int64?  
