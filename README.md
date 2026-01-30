@@ -15,6 +15,9 @@ Tidier.jl is a data analysis package inspired by R's tidyverse and crafted speci
 
 ## Installing Tidier.jl
 
+> [!WARNING]
+> For Windows users: Due to a [temporary issue](https://github.com/TidierOrg/Tidier.jl/issues/154) in one of the dependencies, installing Tidier.jl currently fails on Windows platforms. It is recommended that you install the [underlying packages](#where-can-i-learn-more-about-the-underlying-packages-that-make-up-tidierjl) you need directly instead.
+
 There are 2 ways to install Tidier.jl: using the package console, or using Julia code when you're using the Julia console. You might also see the console referred to as the "REPL," which stands for Read-Evaluate-Print Loop. The REPL is where you can interactively run code and view the output.
 
 Julia's REPL is particularly cool because it provides a built-in package REPL and shell REPL, which allow you to take actions on managing packages (in the case of the package REPL) or run shell commands (in the shell REPL) without ever leaving the Julia REPL.
